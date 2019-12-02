@@ -38,13 +38,17 @@
               </div><!--col-->
           </div><!--row-->
           <hr>
+		  
+		  <form action="{{ url('/admin/getPostdata') }}" method="post" >
+		  @csrf
           <div class="row">            
               
-              <div class="col-sm-4">
+              <div class="col-sm-6">
                 <div class="col-sm-12">
                   <div class="form-group " style="display: flex;">
+				  
                     <!-- <label for="exampleInputEmail1">Email address</label> -->
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Search">
+                    <input type="email" name="search" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Search">
                     <button type="submit" class="btn btn-primary">Search</button>
                     <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                   </div>
@@ -54,37 +58,143 @@
                     <div class="form-group">
                       <label for="exampleFormControlSelect1">All</label>
                       <select multiple class="form-control" id="exampleFormControlSelect1">
-                        <option>1</option>
+                        <option value="">DONORS</option>
+						<option value="">INDIVIDUAL</option>
+						<option value="">ORGANIZATION</option>
+						<option value="">LIBRARY</option>
+						<option value="">LIBRARY GROUP</option>
                       </select>
                     </div>
+					
+					<div class="input-group">
+							<input id="date" type="date" class="form-control" name="calender" placeholder="Date Created From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>						
+						</div><br>
+						<div class="input-group">
+							<input id="date" type="date" class="form-control" name="calender" placeholder="Date Modified From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+						</div>
+					
+					<div style="margin-top:10px;" class="row">
+						<div class="col-sm-6">
+						  <div class="form-group">
+						  <select  class="form-control" id="exampleFormControlSelect1">
+							<option>1</option>
+						  </select>
+						  </div>
+						</div>
+						<div class="col-sm-6">
+							  <div class="form-group">
+							   <select  class="form-control" id="exampleFormControlSelect1">
+								<option>1</option>
+							  </select>
+							</div>
+						</div>
+					
+					</div>
+					
+					
                   </div>
+				 
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label for="exampleFormControlSelect1">User Type</label>
                       <select multiple class="form-control" id="exampleFormControlSelect1">
-                        <option>1</option>                        
+						@foreach($roles as $role)
+							<option value="{{$role->name}}">{{$role->name}}</option>
+						@endforeach	
                       </select>
                     </div>
+					
+					<div class="input-group">
+							<input id="date" type="date" class="form-control" name="calender" placeholder="Date Created From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>						
+						</div><br>
+						<div class="input-group">
+							<input id="date" type="date" class="form-control" name="calender" placeholder="Date Modified From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+						</div>
+						
+						<div style="margin-top:10px;">
+							<p>LEGEND:  <span class="badge badge-primary">INDIVIDUAL</span>  <span class="badge badge-warning">ORGANIZATION</span>  <span class="badge badge-danger">LIBRARY</span>  <span class="badge badge-success">DONORS</span></p>
+						</div>
+					
                   </div>
                 </div>  
                 
               </div>
-              <div class="col-sm-8">
-                <div class="row">
-                  <div class="col-sm-4">
-                    asas      
-                  </div>
-                  <div class="col-sm-4">
-                    asas
-                  </div>
-                  <div class="col-sm-4">
-                    asas
-                  </div>         
-                </div>         
+			  
+			  </form>
+			  
+			  
+			  
+			  
+              <div class="col-sm-6">
+					<div class="row">
+					  <div class="col-sm-4">
+					  
+							<div class="checkbox">
+							  <label><input type="checkbox" value=""> Search only Email</label>
+							</div>                                    
+							<div class="checkbox">                    
+							  <label><input type="checkbox" value=""> Have Photo/Documents</label>
+							</div>                                    
+							<div class="checkbox">                    
+							  <label><input type="checkbox" value=""> Have Purchased List</label>
+							</div>                                    
+							<div class="checkbox">                    
+							  <label><input type="checkbox" value=""> Filtered Date Created</label>
+							</div>                                    
+							<div class="checkbox">                    
+							  <label><input type="checkbox" value=""> Filtered Date Last Edited</label>
+							</div> 	
+							
+							<div class="radio">
+							  <label><input type="radio" name="optradio" checked>All</label>
+							
+							  <label><input type="radio" name="optradio">Active</label>
+							
+							  <label><input type="radio" name="optradio" >inactive</label>
+							</div>
+							
+					  </div>
+
+					  <div class="col-sm-4">
+							<p class="text-secondary">Total Users : 108200</p>
+							<p class="text-primary">Total Active : 107815</p>
+							<p class="text-danger">Total inactivated : 90731</p>
+							<p class="text-success">Total hits : 1117</p>
+							
+					  </div>
+					  <div class="col-sm-4">
+						<button type="button" class="btn btn-success col-sm-12">Add New Individual</button>
+						<button type="button" class="btn btn-success col-sm-12">Add New Orgnization</button>
+						<button type="button" class="btn btn-success col-sm-12">Add New Library</button>
+						<button type="button" class="btn btn-success col-sm-12">Add New Library Group</button>
+						<button type="button" class="btn btn-success col-sm-12">Add New Foundation</button>
+						<button type="button" class="btn btn-success col-sm-12">Add New Subcription</button>
+						<button type="button" class="btn btn-info col-sm-12">One Month Subscriber List</button>
+					  </div>         
+					</div>         
               </div>
               
             
           </div>
+		  <div class="col-sm-9 offset-md-3">
+		  <div class="row">
+			<div class="col-sm-2"> 
+				<p>Free - Registered Free user</p>
+			</div>
+			<div class="col-sm-2"> 
+				<p>Free - Registered Free user</p>
+			</div>
+			<div class="col-sm-2"> 
+				<p>Free - Registered Free user</p>
+			</div>
+			<div class="col-sm-3"> 
+				<p>Free - Registered Free user</p>
+			</div>
+			<div class="col-sm-3"> 
+				<p>Free - Registered Free user</p>
+			</div>
+		  </div>
+		  </div>
         </div>
       </div>
     </div>    

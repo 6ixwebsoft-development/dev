@@ -3,7 +3,7 @@
 		<header class="site-header">
 			<div class="top-header">
 				<div class="container">
-					<a href="/" id="branding">
+					<a href="{{ url('/') }}" id="branding">
 						<img src="{{url('frontend/images/gg-logo.png ')}}" alt="Company Name" class="logo logo-design">
 						
 					</a> <!-- #branding -->

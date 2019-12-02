@@ -4,10 +4,10 @@
         <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
         <ul class="menu">
 
-          <li class="menu-item"><a href="/about">About us</a></li>
+          <li class="menu-item"><a href="{{ url('/about') }}">About us</a></li>
           <!-- <li class="menu-item"><a href="/insurance">Insurance plans</a></li>
           <li class="menu-item"><a href="/resource">Resources</a></li> -->
-          <li class="menu-item"><a href="/contact-us">Contact Us</a></li>
+          <li class="menu-item"><a href="{{ url('/contact-us') }}">Contact Us</a></li>
           <!-- <li class="menu-item"><a href="/search-foundation">Search Foundation</a></li>
           <li class="menu-item"><a href="/advance-search">Advance Search</a></li> -->
 
@@ -19,8 +19,8 @@
           <ul class="menu">
 
             @if (Auth::guest())
-                <li class="menu-item"><a href="/login">Login</a></li>
-                <li class="menu-item"><a href="/register">Register</a></li>
+                <li class="menu-item"><a href="{{ url('/login') }}">Login</a></li>
+                <li class="menu-item"><a href="{{ url('/register') }}">Register</a></li>
             @else
                 {{ Auth::user()->email }}
                 <a class="dropdown-item" href="{{ route('logout') }}"

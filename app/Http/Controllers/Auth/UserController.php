@@ -28,10 +28,14 @@ class UserController extends Controller
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }*/
     public function index(Request $request) {
-
+			/* print_r($request->get('search'));
+			print_r($request->post());
+			print_r($request->post('search'));
+	die();		 */
         if ($request->ajax()) {
          
             $data = User::all();
+
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->editColumn('roles', function($row) {
@@ -55,8 +59,9 @@ class UserController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
         }
-        
-       return view('admin.users.index');
+		
+       $roles = Role::all();
+       return view('admin.users.index',compact('roles'));
     }
     /**
      * Show the form for creating a new resource.
