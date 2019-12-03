@@ -74,5 +74,8 @@ class User extends Authenticatable
                 break;
         }
     }
+	
+	
+	
 
 }

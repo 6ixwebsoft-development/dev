@@ -39,7 +39,7 @@
           </div><!--row-->
           <hr>
 		  
-		  <form action="{{ url('/admin/getPostdata') }}" method="post" >
+		  <form action="{{ url('/admin/searchvikashuser') }}" method="post" >
 		  @csrf
           <div class="row">            
               
@@ -48,8 +48,8 @@
                   <div class="form-group " style="display: flex;">
 				  
                     <!-- <label for="exampleInputEmail1">Email address</label> -->
-                    <input type="email" name="search" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Search">
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    <input type="text" name="search" id="search" class="form-control searchtest" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Search by name">
+                    <button type="button" onClick="searchuserdata();" class="btn btn-primary">Search</button>
                     <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                   </div>
                 </div>
@@ -97,7 +97,7 @@
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label for="exampleFormControlSelect1">User Type</label>
-                      <select multiple class="form-control" id="exampleFormControlSelect1">
+                      <select multiple class="form-control" id="userRole" name="userRole">
 						@foreach($roles as $role)
 							<option value="{{$role->name}}">{{$role->name}}</option>
 						@endforeach	
@@ -120,8 +120,8 @@
                 
               </div>
 			  
-			  </form>
-			  
+			
+			    </form>
 			  
 			  
 			  
@@ -146,11 +146,11 @@
 							</div> 	
 							
 							<div class="radio">
-							  <label><input type="radio" name="optradio" checked>All</label>
+							  <label><input type="radio" name="optuser" id="optuser" value="" checked>All</label>
 							
-							  <label><input type="radio" name="optradio">Active</label>
+							  <label><input type="radio" name="optuser" id="optuser" value="1">Active</label>
 							
-							  <label><input type="radio" name="optradio" >inactive</label>
+							  <label><input type="radio" name="optuser" id="optuser" value="0">inactive</label>
 							</div>
 							
 					  </div>
@@ -215,7 +215,7 @@
               </div><!--col-->
           </div><!--row-->
           <hr>
-          <table class="table table-bordered user-table">
+          <table class="table table-bordered user-table" id="user-table">
             <thead>
                 <tr>
                     <th>No</th>

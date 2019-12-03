@@ -34,11 +34,16 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
     Route::get('admin/roles/delete/{id}', 'Auth\RoleController@delete');
     Route::resource('admin/users','Auth\UserController');
     Route::get('admin/users/delete/{id}', 'Auth\UserController@delete');
+	
+	Route::post('admin/searchvikashuser','Auth\UserController@searchvikashuser');
+	
     Route::get('/home', 'HomeController@index')->name('admin.index');
     Route::group(array('namespace' => 'Admin', 'prefix' => 'admin'), function() {
         Route::get('/', 'AdminController@index');
         Route::resource('/', 'AdminController');
-        
+		
+		
+		
         Route::get('/settings', 'SettingsController@index');
         Route::get('/settings/getSettings','SettingsController@getSettings');
         Route::post('/settings/store', 'SettingsController@store');

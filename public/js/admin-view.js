@@ -270,7 +270,7 @@ $(function () {
 });
 
 /* User table */
-$(function () {
+ $(function () {
     
     var table = $('.user-table').DataTable({
         processing: true,
@@ -286,7 +286,65 @@ $(function () {
         ]
     });
     
-});
+}); 
+
+/* User Search table */
+function searchuserdata() {
+    var searchtext = $('#search').val();
+	var userRole = $('#userRole').val();
+	var statususer = $("input[name='optuser']:checked").val();
+	
+/* 		var table = $('.user-table').DataTable({
+        processing: true,
+        serverSide: true,
+		data:{filter:search,value:searchtext},
+        ajax: APP_URL+"/admin/searchvikashuser",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'name', name: 'name'},
+            {data: 'email', name: 'email'},
+            {data: 'tstatus', name: 'status'},
+            {data: 'roles', name: 'roles'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    }); */
+	
+ 	  $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+	
+        $.ajax({
+           type:'POST',
+           url: APP_URL+"/admin/searchvikashuser",
+           data:{searchtext:searchtext,userRole:userRole,statususer:statususer},
+           success:function(data){
+			//alert(data);
+			$('.user-table').dataTable().fnDestroy()
+
+				data.draw = 1;
+				console.log(data);	
+				
+				$('.user-table').DataTable({
+				data: data.data,
+			columns: [
+			            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'name', name: 'name'},
+            {data: 'email', name: 'email'},
+            {data: 'tstatus', name: 'status'},
+            {data: 'roles', name: 'roles'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+					]
+				} );
+           }
+
+			});
+    
+};
+
+
+
 /*roles */
 $(function () {
     

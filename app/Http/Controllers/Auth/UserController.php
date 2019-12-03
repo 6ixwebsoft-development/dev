@@ -28,10 +28,7 @@ class UserController extends Controller
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }*/
     public function index(Request $request) {
-			/* print_r($request->get('search'));
-			print_r($request->post());
-			print_r($request->post('search'));
-	die();		 */
+
         if ($request->ajax()) {
          
             $data = User::all();
@@ -186,4 +183,55 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')
                         ->with('success','User deleted successfully');
     }
+
+	public function searchvikashuser(Request $request)
+	{
+		
+	if ($request->ajax()) {
+		
+		if(!empty($request->input('userRole')))
+		{		   
+			$data = User::role($request->input('userRole'));
+		}
+		else{
+			$query = User::orderBy('id');
+			if(!empty($request->input('statususer')))
+			{
+				$query = $query->where('status',$request->input('statususer'));
+			}
+			if(!empty($request->input('searchtext')))
+			{
+				$query = $query->where('name','LIKE','%'.$request->input('searchtext').'%')->orWhere('email','=',$request->input('searchtext'));
+			}
+			$data = $query->get();
+		}
+
+							
+				
+				return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->editColumn('roles', function($row) {
+                         $s_btn = '';
+                        if(!empty($row->getRoleNames())){
+                           foreach($row->getRoleNames() as $v) {
+                            $s_btn = '<label class="badge badge-success">'. $v .'</label>';
+                            } 
+                        }
+                            
+                      return  $s_btn;
+                    })
+                   ->escapeColumns([])
+                    ->addColumn('action', function($row){
+   
+                          $btn = '<a href="'.url('admin').'/users/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
+                                   <a href="'.url('admin').'/users/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+     
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+       $roles = Role::all();
+       return view('admin.users.index',compact('roles'));
+	}
 }
