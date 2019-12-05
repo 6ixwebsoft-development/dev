@@ -7,7 +7,11 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Models\Userinfo;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Redirect;
+
+
 use DataTables;
 use DB;
 use Hash;
@@ -67,8 +71,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
-        return view('admin.users.create',compact('roles'));
+		$roles = Role::pluck('name','name')->all();
+		$userroles = Role::all();
+        return view('admin.users.individualuser',compact('roles','userroles'));
     }
 
 
@@ -80,24 +85,82 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+		
+      /*   $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
             'roles' => 'required'
-        ]);
-
-
-        $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
-
-
-        $user = User::create($input);
-        $user->assignRole($request->input('roles'));
-
-
-        return redirect()->route('admin.users.index')
-                        ->with('success','User created successfully');
+        ]); */ 
+		//print_r($request->all());exit; 
+		/* echo $login->password;exit; */
+			$userinfo = $request->input('user');
+			$login = $request->input('login');
+			
+			
+			$this->validate($request, [
+				'login.name' => 'required',
+				'login.email' => 'required|email|unique:users,email',
+				'user.roles' => 'required'
+			]);
+			
+				/* if($errors->has()){
+				foreach ($errors->all() as $error){
+					echo $error;
+				}
+				} */
+			
+			/* $this->validate($request, [
+            'name' => 'required',
+             'email' => 'required|email|unique:users,email',
+            'password' => 'required|same:confirm-password',
+            'roles' => 'required' 
+        ]);die(); */
+			
+			
+			
+        /* $input = $request->all(); */
+        $login['password'] = Hash::make($login['password']);
+		$userinfo['fname'] = $login['name'];
+		
+		$user= User::Create($login);
+		$user->assignRole($user['roles']);
+		$userId = $user->id;
+		
+		$userdata = array(
+                    "userid" => $userId,
+                    "fname"  => $userinfo['fname'],
+                    "mname"  => $userinfo['middlename'],
+                    "lname"  => $userinfo['lastname'],
+					"age"   =>  $userinfo['age'],
+                    "dateofbirth"  => $userinfo['birthdate'],
+                    "language"  => $userinfo['language'],
+					"availability" => $userinfo['availability'],
+                    "streetaddress"  => $userinfo['streetaddress'],
+                    "zipcode"  => $userinfo['zipcode'],
+                    "country"  => $userinfo['country'],
+                    "personal"  => $userinfo['personal'],
+                    "mobile"  => $userinfo['mobile'],
+					"phone" => $userinfo['phone'],
+                    "librarycity"  => $userinfo['librarycity'],
+					"librarycard"  => $userinfo['librarycard'],
+                    "librarynumber"  => $userinfo['language'],
+					"comment" =>  $userinfo['comment'],
+                    "purpose"  => $userinfo['purpose'],
+                    "studymajor"  => $userinfo['studymajor'],
+                    "degree"  => $userinfo['degree'],
+					"school" => $userinfo['school'],
+                    "location"  => $userinfo['location'],
+                    "startdate"  => $userinfo['startdate'],
+                    "enddate"  => $userinfo['enddate'],
+                    "govtsupport"  => $userinfo['govtsupport'],
+                    
+            );
+		$userinfo = Userinfo::insert($userdata);
+		
+		
+		return Redirect::to('admin/users')->with('success','User created successfully');
+       // return redirect()->route('admin.users.index')->with('success','User created successfully');
     }
 
 
@@ -126,10 +189,13 @@ class UserController extends Controller
         $user = User::find($id);
         $roles = Role::pluck('name','name')->all();
 
+		$info = Userinfo::where('userid', $id)->first();
+		
         $userRole = $user->roles->pluck('name','name')->all();
-
-
-        return view('admin.users.edit',compact('user','roles','userRole'));
+		
+		 $userroles = Role::all();
+		 return view('admin.users.editindividualuser',compact('user','userroles','info'));
+        /* return view('admin.users.edit',compact('user','roles','userRole')); */
     }
 
 
@@ -142,32 +208,68 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'same:confirm-password',
-            'roles' => 'required'
-        ]);
-
-
-        $input = $request->all();
-        if(!empty($input['password'])){ 
-            $input['password'] = Hash::make($input['password']);
+		
+		
+			$userinfo = $request->input('user');
+			$login = $request->input('login');
+			
+			
+			$this->validate($request, [
+				'login.name' => 'required',
+				'login.email' => 'required|email|unique:users,email,'.$id,
+				'user.roles' => 'required'
+			]);
+			
+			
+			$userdata = array(
+                    "userid" => $id,
+                    "fname"  => $login['name'],
+                    "mname"  => $userinfo['middlename'],
+                    "lname"  => $userinfo['lastname'],
+					"age"   =>  $userinfo['age'],
+                    "dateofbirth"  => $userinfo['birthdate'],
+                    "language"  => $userinfo['language'],
+					"availability" => $userinfo['availability'],
+                    "streetaddress"  => $userinfo['streetaddress'],
+                    "zipcode"  => $userinfo['zipcode'],
+                    "country"  => $userinfo['country'],
+                    "personal"  => $userinfo['personal'],
+                    "mobile"  => $userinfo['mobile'],
+					"phone" => $userinfo['phone'],
+                    "librarycity"  => $userinfo['librarycity'],
+					"librarycard"  => $userinfo['librarycard'],
+                    "librarynumber"  => $userinfo['language'],
+					"comment" =>  $userinfo['comment'],
+                    "purpose"  => $userinfo['purpose'],
+                    "studymajor"  => $userinfo['studymajor'],
+                    "degree"  => $userinfo['degree'],
+					"school" => $userinfo['school'],
+                    "location"  => $userinfo['location'],
+                    "startdate"  => $userinfo['startdate'],
+                    "enddate"  => $userinfo['enddate'],
+                    "govtsupport"  => $userinfo['govtsupport']
+                    
+            );
+			
+       
+        if(!empty($login['password'])){ 
+            $login['password'] = Hash::make($login['password']);
         }else{
-            $input = array_except($input,array('password'));    
+            $login = array_except($login,array('password'));    
         }
-
+		
 
         $user = User::find($id);
-        $user->update($input);
+        $user->update($login);
         DB::table('model_has_roles')->where('model_id',$id)->delete();
+		
+       $user->assignRole($user['roles']);
+		
+		DB::table('userinfo')->where('userid', $id)->update($userdata);
 
-
-        $user->assignRole($request->input('roles'));
-
-
-       // return redirect()->route('admin.users.index')
-           return view('admin.users.index')->with('success','User updated successfully');
+			return Redirect::to('admin/users')->with('success','User updated successfully');
+			// return redirect()->route('admin.users.index')
+           //return view('admin.users.index')->with('success','User updated successfully');
     }
 
 
@@ -194,16 +296,36 @@ class UserController extends Controller
 			$data = User::role($request->input('userRole'));
 		}
 		else{
+			
 			$query = User::orderBy('id');
-			if(!empty($request->input('statususer')))
-			{
-				$query = $query->where('status',$request->input('statususer'));
-			}
+			if(!empty($request->input('createdFrom')) || !empty($request->input('createdTo')))
+				{
+					$query = $query->whereBetween('created_at', array($request->input('createdFrom'), $request->input('createdTo')));
+				}
+				
+			if(!empty($request->input('modifiesFrom')) || !empty($request->input('modifiesTo')))
+				{
+					$query = $query->whereBetween('updated_at', array($request->input('modifiesFrom'), $request->input('modifiesTo')));
+				}
+				
 			if(!empty($request->input('searchtext')))
 			{
-				$query = $query->where('name','LIKE','%'.$request->input('searchtext').'%')->orWhere('email','=',$request->input('searchtext'));
+				$query = $query->where('name','LIKE','%'.$request->input('searchtext').'%');
+				if($request->input('statususer') == 1 || $request->input('statususer') == 0)
+				{
+					$query = $query->orwhere('status',$request->input('statususer'));
+				}
+				$query = $query->Where('email','=',$request->input('searchtext'));
+				if($request->input('statususer') == 1 || $request->input('statususer') == 0)
+				{
+					$query = $query->orwhere('status',$request->input('statususer'));
+				}	
 			}
+			
+			
+			// DB::enableQueryLog(); 
 			$data = $query->get();
+			// dd(DB::getQueryLog());
 		}
 
 							

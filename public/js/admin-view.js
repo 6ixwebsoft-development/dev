@@ -294,6 +294,11 @@ function searchuserdata() {
 	var userRole = $('#userRole').val();
 	var statususer = $("input[name='optuser']:checked").val();
 	
+	var createdFrom = $('#createdFrom').val();
+	var createdTo = $('#createdTo').val();
+	var modifiesFrom = $('#modifiesFrom').val();
+	var modifiesTo = $('#modifiesTo').val();
+	
 /* 		var table = $('.user-table').DataTable({
         processing: true,
         serverSide: true,
@@ -318,7 +323,7 @@ function searchuserdata() {
         $.ajax({
            type:'POST',
            url: APP_URL+"/admin/searchvikashuser",
-           data:{searchtext:searchtext,userRole:userRole,statususer:statususer},
+           data:{searchtext:searchtext,userRole:userRole,statususer:statususer,createdFrom:createdFrom,createdTo:createdTo,modifiesFrom:modifiesFrom,modifiesTo:modifiesTo},
            success:function(data){
 			//alert(data);
 			$('.user-table').dataTable().fnDestroy()
@@ -329,7 +334,7 @@ function searchuserdata() {
 				$('.user-table').DataTable({
 				data: data.data,
 			columns: [
-			            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+			{data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
             {data: 'tstatus', name: 'status'},

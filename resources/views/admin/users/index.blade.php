@@ -22,7 +22,10 @@
     </li>
   </ol>
 @endsection
+
 @section('content')
+
+
 <div class="row">
     <div class="col-lg-12">
       <div class="card">
@@ -67,10 +70,11 @@
                     </div>
 					
 					<div class="input-group">
-							<input id="date" type="date" class="form-control" name="calender" placeholder="Date Created From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>						
+							<input id="createdFrom" type="date" class="form-control" name="createdFrom" placeholder="Date Created From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>						
 						</div><br>
+						
 						<div class="input-group">
-							<input id="date" type="date" class="form-control" name="calender" placeholder="Date Modified From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+							<input id="modifiesFrom" type="date" class="form-control" name="modifiesFrom" placeholder="Date Modified From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 						</div>
 					
 					<div style="margin-top:10px;" class="row">
@@ -105,10 +109,10 @@
                     </div>
 					
 					<div class="input-group">
-							<input id="date" type="date" class="form-control" name="calender" placeholder="Date Created From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>						
+							<input id="createdTo" type="date" class="form-control" name="createdTo" placeholder="Date Created From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>						
 						</div><br>
 						<div class="input-group">
-							<input id="date" type="date" class="form-control" name="calender" placeholder="Date Modified From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+							<input id="modifiesTo" type="date" class="form-control" name="modifiesTo" placeholder="Date Modified From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 						</div>
 						
 						<div style="margin-top:10px;">
@@ -235,4 +239,5 @@
 
   </div>
 @endsection
-      
+
+  

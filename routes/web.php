@@ -36,6 +36,8 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
     Route::get('admin/users/delete/{id}', 'Auth\UserController@delete');
 	
 	Route::post('admin/searchvikashuser','Auth\UserController@searchvikashuser');
+	Route::post('admin/user/store','Auth\UserController@store');
+	Route::post('admin/user/update/{id}', 'Auth\UserController@update');
 	
     Route::get('/home', 'HomeController@index')->name('admin.index');
     Route::group(array('namespace' => 'Admin', 'prefix' => 'admin'), function() {

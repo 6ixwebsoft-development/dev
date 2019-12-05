@@ -75,6 +75,10 @@ class User extends Authenticatable
         }
     }
 	
+	 public function info()
+    {    	
+        return $this->hasMany('App\Models\Userinfo','userid');
+    }
 	
 	
 
