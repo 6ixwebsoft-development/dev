@@ -134,7 +134,7 @@
 					  <div class="col-sm-4">
 					  
 							<div class="checkbox">
-							  <label><input type="checkbox" value=""> Search only Email</label>
+							  <label><input type="checkbox" value="email" id="byemail"> Search only Email</label>
 							</div>                                    
 							<div class="checkbox">                    
 							  <label><input type="checkbox" value=""> Have Photo/Documents</label>
@@ -160,9 +160,9 @@
 					  </div>
 
 					  <div class="col-sm-4">
-							<p class="text-secondary">Total Users : 108200</p>
-							<p class="text-primary">Total Active : 107815</p>
-							<p class="text-danger">Total inactivated : 90731</p>
+							<p class="text-secondary">Total Users : {{$totaluser}}</p>
+							<p class="text-primary">Total Active : {{$activeuser}}</p>
+							<p class="text-danger">Total inactivated : {{$inactiveuser}}</p>
 							<p class="text-success">Total hits : 1117</p>
 							
 					  </div>

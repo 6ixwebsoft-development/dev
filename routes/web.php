@@ -184,6 +184,37 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
         Route::get('subscription/delete/{id}', 'SubscriptionController@delete');
 
     });
+	
+	Route::group(array('namespace' => 'Admin\Payment', 'prefix' => 'admin'),function() {
+        
+        Route::get('paymentmood','PaymentController@index');
+		Route::get('paymentmood/create', 'PaymentController@create');
+		Route::post('paymentmood/store', 'PaymentController@store');
+		Route::get('paymentmood/{id}/edit', 'PaymentController@edit');
+		Route::post('paymentmood/update/{id}', 'PaymentController@update')->name('admin.paymentmood.update');
+		Route::get('paymentmood/delete/{id}', 'PaymentController@delete'); 
+    });
+	
+	Route::group(array('namespace' => 'Admin\Office', 'prefix' => 'admin'),function() {
+        
+        Route::get('Office','OfficeController@index');
+		Route::get('Office/create', 'OfficeController@create');
+		Route::post('Office/store', 'OfficeController@store');
+		Route::get('Office/{id}/edit', 'OfficeController@edit');
+		Route::post('Office/update/{id}', 'OfficeController@update')->name('admin.Office.update');
+		Route::get('Office/delete/{id}', 'OfficeController@delete');
+    });
+	
+	Route::group(array('namespace' => 'Admin\Sproduct', 'prefix' => 'admin'),function() {
+        
+        Route::get('products','SproductController@index');
+		Route::get('product/create', 'SproductController@create');
+		Route::post('product/store', 'SproductController@store');
+		Route::get('product/{id}/edit', 'SproductController@edit');
+		Route::post('product/update/{id}', 'SproductController@update')->name('admin.product.update');
+		Route::get('product/delete/{id}', 'SproductController@delete');
+    });
+	
 });
 
 

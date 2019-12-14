@@ -290,6 +290,7 @@ $(function () {
 
 /* User Search table */
 function searchuserdata() {
+	var emailcheck = '';
     var searchtext = $('#search').val();
 	var userRole = $('#userRole').val();
 	var statususer = $("input[name='optuser']:checked").val();
@@ -298,6 +299,11 @@ function searchuserdata() {
 	var createdTo = $('#createdTo').val();
 	var modifiesFrom = $('#modifiesFrom').val();
 	var modifiesTo = $('#modifiesTo').val();
+	
+	if ($('#byemail').is(":checked"))
+	{
+	  emailcheck = $('#byemail').val();
+	}
 	
 /* 		var table = $('.user-table').DataTable({
         processing: true,
@@ -323,7 +329,7 @@ function searchuserdata() {
         $.ajax({
            type:'POST',
            url: APP_URL+"/admin/searchvikashuser",
-           data:{searchtext:searchtext,userRole:userRole,statususer:statususer,createdFrom:createdFrom,createdTo:createdTo,modifiesFrom:modifiesFrom,modifiesTo:modifiesTo},
+           data:{searchtext:searchtext,userRole:userRole,statususer:statususer,createdFrom:createdFrom,createdTo:createdTo,modifiesFrom:modifiesFrom,modifiesTo:modifiesTo,emailcheck:emailcheck},
            success:function(data){
 			//alert(data);
 			$('.user-table').dataTable().fnDestroy()
@@ -386,3 +392,117 @@ $(function () {
     });
     
 });
+
+/* data table for Paymentmood */
+$(function () {
+    
+    var table = $('.payment-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: APP_URL+"/admin/paymentmood",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'paymentmethod', name: 'paymentmethod'},
+            {data: 'testaccount', name: 'testaccount'},
+			 {data: 'liveaccount', name: 'liveaccount'},
+            {data: 'status', name: 'status'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+    
+});
+
+/* data table for Office */
+$(function () {
+    
+    var table = $('.office-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: APP_URL+"/admin/Office",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'office', name: 'office'},
+            {data: 'address1', name: 'address1'},
+			{data: 'city', name: 'city'},
+			{data: 'country', name: 'country'},
+			{data: 'phonenumber', name: 'phonenumber'},
+            {data: 'status', name: 'status'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+    
+});
+
+/* For Validation */
+
+function alphaOnly(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
+ function IsNumeric(e) {
+	var keyCode = e.which ? e.which : e.keyCode
+	var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+	/* document.getElementById("error").style.display = ret ? "none" : "inline";
+	return ret; */
+	return false;
+}
+
+
+/* data table for Products */
+$(function () {
+    
+    var table = $('.product-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: APP_URL+"/admin/products",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'productname', name: 'productname'},
+            {data: 'description', name: 'description'},
+			{data: 'typeid', name: 'typeid'},
+			{data: 'price', name: 'price'},
+			{data: 'totalprice', name: 'totalprice'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+    
+});
+
+
+/* Total Sum */
+$('input.price,input.disamt,input.vattax,input.framt,input.frtax').on('change keyup',function(){
+	
+	var price =  parseFloat($('.price').val());
+	var discount = parseFloat($('.disamt').val());
+	var vattax = parseFloat($('.vattax').val());
+	var Freightc = parseFloat($('.framt').val());
+	var Freighttax = parseFloat($('.frtax').val()); 
+	
+	if(discount > 0)
+	{
+		var priced = price+discount;
+	}
+	if(vattax > 0)
+	{
+		var vattax = priced*vattax/100;
+	}
+	
+	if(Freighttax > 0)
+	{
+		var Freighttax = Freightc*Freighttax/100;
+	}
+	
+	var total = price+discount+vattax+Freighttax+Freightc;
+	$('.grandtotal').val(total);
+      
+})
+
+ 
+
+
+
+

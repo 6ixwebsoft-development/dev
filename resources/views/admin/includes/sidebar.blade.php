@@ -22,21 +22,35 @@
             </li>
             <li class="nav-item nav-dropdown">
                     <a class="nav-link nav-dropdown-toggle" href="#">
-                    <i class="nav-icon fas fa-language"></i>Languages
+                    <i class="nav-icon fas fa-language"></i>Settings
                 </a>
 
                 <ul class="nav-dropdown-items">
+						
+						<li class="nav-item">
+                            <a class="nav-link" href="{!! url('/admin/Office'); !!}">
+                              Manage Offices
+                            </a>
+                        </li>
+						
                         <li class="nav-item">
                             <a class="nav-link " href="{!! url('/admin/language'); !!}">
                                Manage Language 
                             </a>
                         </li>
-                        <li class="nav-item">
+						
+						 <li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/paymentmood'); !!}">
+                               Manage Payment Mood 
+                            </a>
+                        </li>
+                        <!--<li class="nav-item">
                             <a class="nav-link" href="{!! url('/admin/translation'); !!}">
                               Manage Translation
                             </a>
-                        </li>
+                        </li>-->
                     </ul>
+					
                 </li>
             <li class="nav-item nav-dropdown">
                 <a class="nav-link nav-dropdown-toggle" href="#">
@@ -86,6 +100,26 @@
                     </li>
                 </ul>
             </li>
+			
+			
+			<li class="nav-item nav-dropdown">
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                    <i class="nav-icon fas fa-language"></i>Manage Services
+                </a>
+
+                <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/products'); !!}">
+                               Manage List Type 
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{!! url('/admin/translation'); !!}">
+                              Manage Translation
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
         </ul>
     </nav>

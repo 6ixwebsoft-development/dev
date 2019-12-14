@@ -62,7 +62,10 @@ class UserController extends Controller
         }
 		
        $roles = Role::all();
-       return view('admin.users.index',compact('roles'));
+	   $totaluser = User::count();
+	   $activeuser = User::where('status',1)->count();
+	   $inactiveuser = User::where('status',0)->count();
+       return view('admin.users.index',compact('roles','activeuser','inactiveuser','totaluser'));
     }
     /**
      * Show the form for creating a new resource.
@@ -124,7 +127,7 @@ class UserController extends Controller
 		$userinfo['fname'] = $login['name'];
 		
 		$user= User::Create($login);
-		$user->assignRole($user['roles']);
+		$user->assignRole($userinfo['roles']);
 		$userId = $user->id;
 		
 		$userdata = array(
@@ -247,8 +250,7 @@ class UserController extends Controller
                     "location"  => $userinfo['location'],
                     "startdate"  => $userinfo['startdate'],
                     "enddate"  => $userinfo['enddate'],
-                    "govtsupport"  => $userinfo['govtsupport']
-                    
+                    "govtsupport"  => $userinfo['govtsupport']  
             );
 			
        
@@ -262,8 +264,8 @@ class UserController extends Controller
         $user = User::find($id);
         $user->update($login);
         DB::table('model_has_roles')->where('model_id',$id)->delete();
-		
-       $user->assignRole($user['roles']);
+
+        $user->assignRole($userinfo['roles']);
 		
 		DB::table('userinfo')->where('userid', $id)->update($userdata);
 
@@ -290,14 +292,18 @@ class UserController extends Controller
 	{
 		
 	if ($request->ajax()) {
-		
+		$query = User::orderBy('id');
 		if(!empty($request->input('userRole')))
 		{		   
-			$data = User::role($request->input('userRole'));
+			$query = User::role($request->input('userRole'));
+			if(!empty($request->input('searchtext')))
+				{
+					$query = $query->where('name',$request->input('searchtext'));
+				}	
 		}
 		else{
 			
-			$query = User::orderBy('id');
+			
 			if(!empty($request->input('createdFrom')) || !empty($request->input('createdTo')))
 				{
 					$query = $query->whereBetween('created_at', array($request->input('createdFrom'), $request->input('createdTo')));
@@ -308,27 +314,31 @@ class UserController extends Controller
 					$query = $query->whereBetween('updated_at', array($request->input('modifiesFrom'), $request->input('modifiesTo')));
 				}
 				
-			if(!empty($request->input('searchtext')))
+			if(!empty($request->input('searchtext')) && empty($request->input('searchtext')))
 			{
 				$query = $query->where('name','LIKE','%'.$request->input('searchtext').'%');
-				if($request->input('statususer') == 1 || $request->input('statususer') == 0)
+				if(!empty($request->input('statususer')))
 				{
-					$query = $query->orwhere('status',$request->input('statususer'));
-				}
-				$query = $query->Where('email','=',$request->input('searchtext'));
-				if($request->input('statususer') == 1 || $request->input('statususer') == 0)
+					$query = $query->where('status',$request->input('statususer'));
+				}	
+			}
+			
+			if(!empty($request->input('searchtext')) && !empty($request->input('emailcheck')))
+			{
+				$query = $query->where('email',$request->input('searchtext'));
+				if(!empty($request->input('statususer')))
 				{
-					$query = $query->orwhere('status',$request->input('statususer'));
+					$query = $query->where('status',$request->input('statususer'));
 				}	
 			}
 			
 			
-			// DB::enableQueryLog(); 
-			$data = $query->get();
-			// dd(DB::getQueryLog());
+			
 		}
 
-							
+			//DB::enableQueryLog(); 
+			$data = $query->get();
+			//dd(DB::getQueryLog());		
 				
 				return Datatables::of($data)
                     ->addIndexColumn()
