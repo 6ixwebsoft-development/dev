@@ -171,10 +171,10 @@ class FoundationController extends Controller
     }
 
     public function store(Request $request)
-    {
+    { DB::beginTransaction();
         try {
             $result = $request->all();
-            print_r($result);exit;
+           // print_r($result);exit;
             //Foundation 
             $foundation = array(
                     "user_id" => 1,
@@ -211,16 +211,26 @@ class FoundationController extends Controller
             FoundationContact::insert($contact);
 
             //Foundation Location 
-            $location = array(
-                    "foundation_id" => $foundation_id,
-                    "nation_id"  => $result['country_block'],
-                    "country_id"  => $result['country'],
-                    "region_id"  => $result['region'],
-                    "city_id"  => $result['city'],
-                    "parish"  => $result['parish']
-            );
-            FoundationLocation::insert($location);
-            
+			if(!empty($result['country_block'])){
+				$i =0;
+				foreach($result['country_block'] as $countryblock){
+					 $country = $result['country_block'];
+					 $region = $result['region'];
+					 $city = $result['city'];
+					 $parish = $result['parish'];
+					 
+					$location = array(
+							"foundation_id" => $foundation_id,
+							"nation_id"  => $countryblock[$i],
+							"country_id"  =>  $country[$i],
+							"region_id"  => $region[$i],
+							"city_id"  => $city[$i],
+							"parish"  => $parish[$i]
+					);
+					FoundationLocation::insert($location);
+				} 
+				$i++;
+			}
             //Foundation Purpose
 			if($result['purpose_ids']){
 				foreach ($result['purpose_ids'] as $purpose_id) {
@@ -244,7 +254,7 @@ class FoundationController extends Controller
 			}
 
             //Foundation Subject
-			if($result['subject_ids']){
+			if(!empty($result['subject_ids'])){
 				foreach ($result['subject_ids'] as $subject_id) {
 					$subject = array(
 							"foundation_id" => $foundation_id,
@@ -255,13 +265,20 @@ class FoundationController extends Controller
 			}
 
             //Foundation AGE
-            $age = array(
-                    "foundation_id" => $foundation_id,
-                    "from"  => $result['age_from'],
-                    "to"  => $result['age_to']
-            );
-            FoundationAge::insert($age);
-
+			
+			if(!empty($result['age_from'])){
+				$i =0;
+				foreach($result['age_from'] as $agef){
+					$aget = $result['age_from'];
+					$age = array(
+							"foundation_id" => $foundation_id,
+							"from"  => $agef,
+							"to"  => $aget[$i]
+					);
+					FoundationAge::insert($age);
+					$i++;
+				}
+			}
             //Foundation Start dates
             $dates = array(
                     "foundation_id" => $foundation_id,
@@ -281,17 +298,21 @@ class FoundationController extends Controller
                     "misc"  => $result['misc']
             );
             FoundationAdvertise::insert($f_advertise);
-
+			DB::commit();
             $output = ['success' => true,
                             'msg' => __("Module Field value added successfully")
                         ];
+			return redirect('admin/foundation')->with('status', $output);
         } catch (\Exception $e) {
             $output = ['success' => false,
                             'msg' => __("Something went wrong")
                         ];
+		DB::rollBack();
+		echo $e;
+		return redirect('admin/foundation')->with('status', $output);
         }
 
-        return redirect('admin/foundation')->with('status', $output);
+        
 
     }
 
@@ -301,7 +322,7 @@ class FoundationController extends Controller
         $contact = FoundationContact::where('foundation_id', $id)->first();
         $advertise = FoundationAdvertise::where('foundation_id', $id)->first();
         
-        $purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+        /* $purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Purpose')
                     ->select(
@@ -314,7 +335,7 @@ class FoundationController extends Controller
         $purpose = array();
         foreach ($purposes as $purposeVal) {
             $purpose[$purposeVal->id] = $purposeVal->value;
-        }
+        } */
 
         $foundation_purpose = FoundationPurpose::where('foundation_id', $id)->get();
         $selectedPurpose = array();
@@ -322,7 +343,7 @@ class FoundationController extends Controller
             $selectedPurpose[$key] = $purpose_id->param_id;
         }
         
-        $genders = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+       /*  $genders = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Gender')
                     ->select(
@@ -335,7 +356,7 @@ class FoundationController extends Controller
         $gender = array();
         foreach ($genders as $genderVal) {
             $gender[$genderVal->id] = $genderVal->value;
-        }
+        } */
 
         $foundation_gender = FoundationGender::where('foundation_id', $id)->get();
         $selectedGender = array();
@@ -343,7 +364,7 @@ class FoundationController extends Controller
             $selectedGender[$key] = $gender_id->param_id;
         }
 
-        $subjects = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+        /* $subjects = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Subject')
                     ->select(
@@ -357,15 +378,15 @@ class FoundationController extends Controller
         $subject = array();
         foreach ($subjects as $subjectVal) {
             $subject[$subjectVal->id] = $subjectVal->value;
-        }
+        } */
 
         $foundation_subject = FoundationSubject::where('foundation_id', $id)->get();
         $selectedSubject = array();
         foreach ($foundation_subject as $key => $subject_id) {
             $selectedSubject[$key] = $subject_id->param_id;
         }
-
-        $age = FoundationAge::where('foundation_id', $id)->first();
+	
+        $age = FoundationAge::where('foundation_id', $id)->get();
 
         $months = array(
                     "1"  => "Jan",
@@ -383,7 +404,7 @@ class FoundationController extends Controller
             );
 
         //foundation locations
-        $location = FoundationLocation::where('foundation_id', $id)->first();
+        $location = FoundationLocation::where('foundation_id', $id)->get();
         $dates    = FoundationDates::where('foundation_id', $id)->first();
 
         //country block
@@ -409,18 +430,26 @@ class FoundationController extends Controller
 
         //city 
         $cities = City::select('id', 'city_name')->get();
-
+		/* $userparam = FoundationPurpose::select('param_id')->where('foundation_id', $id)->get();
+		$i=0;
+		foreach ($userparam as $userparamid) {
+            $purposeId[$i] = $userparamid->param_id;
+			$i++;
+        } */
         $city_arr = array();
         foreach ($cities as $city) {
             $city_arr[$city->id] = $city->city_name;
         }
-        
-        return view('admin.foundation.edit')->with(compact('foundation', 'contact', 'advertise', 'purpose', 'selectedPurpose', 'gender', 'selectedGender', 'subject', 'selectedSubject', 'age', 'location', 'dates', 'months', 'blocks_arr', 'country_arr', 'region_arr', 'city_arr'));
+        $purpose = Purpose::pluck('purpose', 'id')->all();	
+		$gender = gender::pluck('name', 'id')->all();	
+		$subject = Subject::pluck('name', 'id')->all();	
+        return view('admin.foundation.edit')->with(compact('foundation', 'contact', 'advertise', 'purpose', 'selectedPurpose', 'gender', 'selectedGender', 'subject', 'selectedSubject', 'age', 'location', 'dates', 'months', 'blocks_arr', 'country_arr', 'region_arr', 'city_arr','purposeId'));
     }
 
     public function update(Request $request, $id) 
-    {
+    {	DB::beginTransaction();
         try {
+			
                 $result = $request->all();
 
                 $foundation = array(
@@ -466,24 +495,47 @@ class FoundationController extends Controller
                         "misc"  => $result['misc']
                 );
                 DB::table('gg_foundation_advertise')->where('foundation_id', $id)->update($f_advertise);
-                $age = array(
-                        "foundation_id" => $id,
-                        "from"  => $result['age_from'],
-                        "to"  => $result['age_to']
-                );                   
-                DB::table('gg_foundation_age')->where('foundation_id', $id)->update($age);
-
-                $location = array(
-                        "foundation_id" => $id,
-                        "nation_id"  => $result['country_block'],
-                        "country_id"  => $result['country'],
-                        "region_id"  => $result['region'],
-                        "city_id"  => $result['city'],
-                        "parish"  => $result['parish']
-                );
-                DB::table('gg_foundation_location')->where('foundation_id', $id)->update($location);
-
-
+				
+                if(!empty($result['age_from'])){
+				$i =0;
+				FoundationAge::where('foundation_id', $id)->delete();
+				foreach($result['age_from'] as $agef){
+					$aget = $result['age_to'];
+					
+					$age = array(
+							"foundation_id" => $id,
+							"from"  => $agef,
+							"to"  => $aget[$i]
+					);
+				//	echo $age[$i];exit;
+					FoundationAge::insert($age);
+					$i++;
+					}
+				}                   
+               
+            
+				if(!empty($result['country_block'])){
+				$i =0;
+				FoundationLocation::where('foundation_id', $id)->delete();
+				foreach($result['country_block'] as $countryblock){
+					 $country = $result['country_block'];
+					 $region = $result['region'];
+					 $city = $result['city'];
+					 $parish = $result['parish'];
+					 
+					$location = array(
+							"foundation_id" => $id,
+							"nation_id"  => $countryblock[$i],
+							"country_id"  =>  $country[$i],
+							"region_id"  => $region[$i],
+							"city_id"  => $city[$i],
+							"parish"  => $parish[$i]
+					);
+					FoundationLocation::insert($location);
+				} 
+				$i++;
+			}
+			
                 $dates = array(
                         "foundation_id" => $id,
                         "start_month"  => $result['apply_start_month'],
@@ -496,14 +548,14 @@ class FoundationController extends Controller
                 FoundationPurpose::where('foundation_id', $id)->delete();
 				
 				if($result['purpose_ids']){
-					foreach ($result['purpose_ids'] as $purpose_id) {
-						$purpose = array(
-								"foundation_id" => $id,
-								"param_id" => $purpose_id
-						);
-						FoundationPurpose::insert($purpose);
-					}
+				foreach ($result['purpose_ids'] as $purpose_id) {
+					$purpose = array(
+							"foundation_id" => $id,
+							"param_id" => $purpose_id
+					);
+					FoundationPurpose::insert($purpose);
 				}
+			}
                 
                 //Foundation Gender
                 FoundationGender::where('foundation_id', $id)->delete();
@@ -532,14 +584,19 @@ class FoundationController extends Controller
                 $output = ['success' => true,
                             'msg' => __("Module Field updated")
                             ];
+				DB::commit();
+				return redirect('admin/foundation')->with('status', $output);
             } catch (\Exception $e) {
             
                 $output = ['success' => false,
                             'msg' => __("messages.something_went_wrong")
                         ];
+				DB::rollBack();
+				echo $e;
+				//return redirect('admin/foundation')->with('status', $output);
             }
 
-            return redirect('admin/foundation')->with('status', $output);
+           
     }
 
     public function delete($id)

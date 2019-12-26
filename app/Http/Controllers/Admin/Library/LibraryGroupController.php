@@ -55,14 +55,15 @@ class LibraryGroupController extends Controller
 	
 	
 	 public function store(Request $request)
-    {
+    {   
+		DB::beginTransaction();
         try {
             $result = $request->all();
 			//print_r($result);exit;
 			
 			
             $basic = array(
-                    "userid" => $user_id,
+                    "userid" => 0,
                     "library"  => $result['library'],
                     "groupid"  => null,
                     "languageid"  => $result['language'],
@@ -99,17 +100,23 @@ class LibraryGroupController extends Controller
 			LibraryContact::insert($contact);
 
 		
-		 
+		 DB::commit();
 		$output = ['success' => true,
                             'msg' => __("Module Field value added successfully")
                         ];
+		  return redirect('admin/librarygroup')->with('status', $output);
+		  
         } catch (\Exception $e) {
+			
             $output = ['success' => false,
                             'msg' => __("Something went wrong")
                         ];
+			DB::rollBack();
+			//echo $e;
+		  return redirect('admin/librarygroup')->with('status', $output);
         }
 
-        return redirect('admin/librarygroup')->with('status', $output);
+      
 
     }
 	
@@ -126,16 +133,17 @@ class LibraryGroupController extends Controller
 	
 	public function update(Request $request, $id) 
 	{
+		DB::beginTransaction();
 		try {
 			$result = $request->all();
 			
 				$basic = array(
                     "userid" => null,
                     "library"  => $result['library'],
-                    "groupid"  => $result['group'],
+                    "groupid"  => null,
                     "languageid"  => $result['language'],
-                    "logintype"  => $result['logintype'],
-                    "usernumber"  => $result['usertype'],
+                    "logintype"  => null,
+                    "usernumber"  =>null,
                     "availability"  => 1,
                     "remark"  => $result['lremarks'],
                     "updated_at"  =>now(),
@@ -148,7 +156,7 @@ class LibraryGroupController extends Controller
 					"phone"  => $result['phone'],
 					"mobile"  => $result['mobile'],
 					"website"  => $result['website'],
-					"remotearena"  => $result['rarena'],
+					"remotearena"  => null,
 					"contactaddress"  => $result['baddress'],
 					"contactzip"  => $result['bzip'], 
 					"contactcountry"  => $result['bcountry'],
@@ -157,24 +165,28 @@ class LibraryGroupController extends Controller
 					"postalzip"  => $result['pzip'],
 					"postalcountry"  => $result['pcountry'],
 					"postalcity"  => $result['pcity'],
-					"about_sve"  => $result['sveaboyt'],
-					"about_eng"  => $result['engabout'],					
+					"about_sve"  => null,
+					"about_eng"  => null,					
 					"updated_at"  =>now(),
 			);
 			DB::table('library_contact')->where('libraryid', $id)->update($contact);
 			
-
+		DB::commit();
 		$output = ['success' => true,
 					'msg' => __("Individual updated")
 					];
+		return redirect('admin/librarygroup')->with('status', $output);
 		} catch (\Exception $e) {
 		
 			$output = ['success' => false,
 						'msg' => __("messages.something_went_wrong")
 					];
+			DB::rollBack();
+			//echo $e;
+			return redirect('admin/librarygroup')->with('status', $output);
 		}
 
-		return redirect('admin/librarygroup')->with('status', $output);
+		
 	}
 	
 	public function delete($id)

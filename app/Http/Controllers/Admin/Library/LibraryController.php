@@ -67,6 +67,7 @@ class LibraryController extends Controller
 				"email"  => $result['useremail'],
 				"name"  => $result['library'],
 				"password"  => $result['library'],
+				"user_type" =>"LIB",
 				"created_at"  => now(),
 				);
 				
@@ -109,12 +110,13 @@ class LibraryController extends Controller
 					"created_at"  =>now(),
 			);
 			LibraryContact::insert($contact);
-			
+			if(!empty($result['activeipstaus'])){$ips = $result['activeipstaus']; }else{$ips = 3;}
+			if(!empty($result['activeremoteip'])){$rips = $result['remotename']; }else{$rips = 3;}
 			$details = array(
                     "libraryid"  =>  $LibraryId,
-                    "activeip"  =>  $result['activeipstaus'],
+                    "activeip"  =>  $ips,
 					"remotename"  => $result['remotename'],
-					"remoteactiveip"  => $result['activeremoteip'],
+					"remoteactiveip"  => $rips,
                     "created_at"  =>now(),
 				);
 			
@@ -235,14 +237,16 @@ class LibraryController extends Controller
 					"updated_at"  =>now(),
 			);
 			DB::table('library_contact')->where('libraryid', $id)->update($contact);
-			
+				if(!empty($result['activeipstaus'])){
 				$details = array(
                     "activeip"  =>  $result['activeipstaus'],
 					"remotename"  => $result['remotename'],
 					"remoteactiveip"  => $result['activeremoteip'],
                     "updated_at"  =>now(),
 				);
-			DB::table('librarylogin')->where('libraryid', $id)->update($details);
+				DB::table('librarylogin')->where('libraryid', $id)->update($details);
+				}
+			
 		
 		
 				Libraryips::where('libraryid', $id)->delete();

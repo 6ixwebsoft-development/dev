@@ -47,7 +47,7 @@
 	                    <div class="col-12">
 	                        <div class="tab-content " class="bottom_style" id="v-pills-tabContent">
 	                            <div class="tab-pane fade active show" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-	                            	<div class="row">
+	                            <div class="row">
                                     <div class="col-md-6">
 
                                         <div class="form-group row">
@@ -311,8 +311,48 @@
                                             </div><!--col-->
                                         </div><!--form-group-->
                                     </div>
-
                                 </div>
+								
+								 <!-- <div class="col-xl-12 col-md-12 col-sm-12">
+									<div class="card">
+									  <div class="card-header bg-info">Videos, Photos, Social Media</div>
+									  <div class="card-body col-xl-12 ">
+									 
+									  <div class="form-inline">
+										<div class="col-xl-3 col-md-12 col-sm-12">
+											<div class="form-group row">
+												{!! Form::label('Type', __( 'Type' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
+												<div class="col-sm-8">								 
+													 {!! Form::select('videotype[]', (['0' => 'Facebook','1' => 'LinkedIn','2' => 'Youtube'] ),[], ['class' => 'form-control']) !!}
+												</div>
+											</div>
+										</div>
+										
+										<div class="col-xl-6 col-md-12 col-sm-12">
+											<div class="form-group row">
+												{!! Form::label('Url', __( 'Url' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
+												<div class="col-sm-8">								 
+													{!! Form::text('video_url[]', null, ['class' => 'form-control', 'value'=>'http://',  ]); !!}
+												</div>
+											</div>
+										</div>
+										
+											<div class="col-xl-3 col-md-12 col-sm-12">
+												<div class="form-group row">
+													<div class="col-sm-4">
+														<a class="btn btn-primary add_buttonvideo" value="add">Add</a>
+													</div>
+													
+												</div>
+											</div>
+										
+										</div><br>
+										
+										<div class="field_wrappervideo "></div>	
+										</div>
+									  </div>						 
+									</div>-->
+						
 	                            </div>
                             	<div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                             		<div class="row">
@@ -329,27 +369,33 @@
                                         </div>
                                     </div>
                                     <div class="col-md-5">
-                                        <div class="f_age">
-                                            <h4>Age</h4>
-                                            <div class="form-group row">
-                                                <div class="col-lg-3">
-													{!! Form::label('age-from', __( 'Age From' ) . ':*') !!}
-												</div>
+                                        <div class="card">
+											<div class="card-header bg-info">Age</div>
+												<div class="f_age"><br>    
+													<div class="form-group row">
+														<div class="col-lg-2">
+															{!! Form::label('age-from', __( 'From' ) . ':*') !!}
+														</div>
 
-                                                <div class="col-md-9">
-                                                    {!! Form::text('age_from', null, ['class' => 'form-control', '', 'placeholder' => __( 'Age From' ) ]); !!}
-                                                </div><!--col-->
-                                            </div><!--form-group-->
-                                            <div class="form-group row">
-                                                <div class="col-lg-3">
-													{!! Form::label('age-to', __( 'Age To' ) . ':*') !!}
-												</div>
+														<div class="col-md-3">
+															{!! Form::text('age_from[]', null, ['class' => 'form-control', 'maxlength'=>'2', 'placeholder' => __( 'Age From' ) ]); !!}
+														</div><!--col-->
+												   
+														<div class="col-lg-2">
+															{!! Form::label('age-to', __( 'To' ) . ':*') !!}
+														</div>
 
-                                                <div class="col-md-9">
-                                                    {!! Form::text('age_to', null, ['class' => 'form-control', '', 'placeholder' => __( 'Age To' ) ]); !!}
-                                                </div><!--col-->
-                                            </div><!--form-group-->
-                                        </div>
+														<div class="col-md-3">
+															{!! Form::text('age_to[]', null, ['class' => 'form-control','maxlength'=>'2', 'placeholder' => __( 'Age To' ) ]); !!}
+														</div><!--col-->
+														<div class="col-sm-2">
+															<a class="btn btn-primary add_buttonage" value="add">Add</a>
+														</div>
+													</div><!--form-group-->
+													<div class="field_wrapperage "></div>	
+												</div>
+											</div>
+										</div>
                                     </div>
 
                                     <div class="col-md-12">
@@ -358,75 +404,97 @@
                                             {!! Form::select('subject_ids[]', $subject, '', ['class' => 'form-control', 'multiple' => 'multiple']); !!}
                                         </div>
                                     </div>
+										<br>
+									<div class="row">
+										 <div class="col-md-12">
+											<div class="card">
+											  <div class="card-header bg-info">Location</div>
+											  <div class="card-body">
+											 
+											  <div class="">
+													<div class="">
+														<div class="f_gender">
+															<h4>Location</h4>
+															<div class="row">
+																<div class="col-md-2">
+																	{!! Form::label('country-block', __( 'Country Block' ) . ':*') !!}
+																	{!! Form::select('country_block[]', $blocks_arr, '', ['class' => 'form-control', 'id' => 'countryBlock']); !!}
+																</div><!--col-->
+																<div class="col-md-2">
+																	{!! Form::label('country', __( 'Country' ) . ':*') !!}
+																	{!! Form::select('country[]', $country_arr, '', ['class' => 'form-control', 'id' => 'countries','onchange' => 'getRegion();']); !!}
+																</div><!--col-->
+																<div class="col-md-2">
+																	{!! Form::label('region', __( 'Region' ) . ':*') !!}
+																	{!! Form::select('region[]', $region_arr, '', ['class' => 'form-control regiondata','id' => 'regionid','onchange' => 'getCity();']); !!}
+																</div><!--col-->
+																<div class="col-md-2">
+																	{!! Form::label('city', __( 'City' ) . ':*') !!}
+																	{!! Form::select('city[]', $city_arr, '', ['class' => 'form-control citydata', 'id' => 'cityid']); !!}
+																</div><!--col-->
+																<div class="col-md-2">
+																	{!! Form::label('parish[]', __( 'Parish' ) . ':*') !!}
+																	
+																	{!! Form::text('parish', null, ['class' => 'form-control ', '', 'placeholder' => __( 'Parish' ) ]); !!}
+																</div><!--col-->
+																<div class="col-md-2" style="margin-top: 2%;">
+																	<a class="btn btn-primary add_buttonlocation form-control" value="add">Add</a>
+																</div><!--col-->
+															</div><!--row-->
 
-                                    <div class="col-md-12">
-                                        <div class="f_gender">
-                                            <h4>Location</h4>
-                                            <div class="row">
-                                                <div class="col-md-2">
-                                                    {!! Form::label('country-block', __( 'Country Block' ) . ':*') !!}
-                                                    {!! Form::select('country_block', $blocks_arr, '', ['class' => 'form-control', 'id' => 'countryBlock']); !!}
-                                                </div><!--col-->
-                                                <div class="col-md-2">
-                                                    {!! Form::label('country', __( 'Country' ) . ':*') !!}
-                                                    {!! Form::select('country', $country_arr, '', ['class' => 'form-control', 'id' => 'countries','onchange' => 'getRegion();']); !!}
-                                                </div><!--col-->
-                                                <div class="col-md-2">
-                                                    {!! Form::label('region', __( 'Region' ) . ':*') !!}
-                                                    {!! Form::select('region', $region_arr, '', ['class' => 'form-control regiondata','id' => 'regionid','onchange' => 'getCity();']); !!}
-                                                </div><!--col-->
-                                                <div class="col-md-2">
-                                                    {!! Form::label('city', __( 'City' ) . ':*') !!}
-                                                    {!! Form::select('city', $city_arr, '', ['class' => 'form-control citydata', 'id' => 'cityid']); !!}
-                                                </div><!--col-->
-                                                <div class="col-md-2">
-                                                    {!! Form::label('parish', __( 'Parish' ) . ':*') !!}
-                                                    
-                                                    {!! Form::text('parish', null, ['class' => 'form-control ', '', 'placeholder' => __( 'Parish' ) ]); !!}
-                                                </div><!--col-->
-                                                <div class="col-md-2">
-                                                </div><!--col-->
-                                            </div><!--row-->
-
-                                        </div>
-                                    </div>
+														</div>
+														</div>
+												
+												</div><br>
+												<div class="field_wrapperlocation"></div>	
+												</div>
+											  </div>						 
+											</div>
+										</div>
 
                                     <!-- application dates -->
                                     <div class="col-md-12">
-                                    	<div class="app_dates">
-                                            <h4>Application Dates</h4>
-                                            <div class="row">
-                                            	<div class="col-md-6">
-                                            		<div class="row">
-                                            			<div class="col-md-4">
-                                            				{!! Form::label('app_start_day', __( 'Application Start' ) . ':*') !!}
-                                            			</div>
-                                            			<div class="col-md-3">
-                                            				{!! Form::select('apply_start_month',$months, '', ['class' => 'form-control']); !!}
-                                            			</div>
-                                            			<div class="col-md-3">
-                                            				{!! Form::text('apply_start_day', null, ['class' => 'form-control', '' ]); !!}
-                                            			</div>
+										<div class="card">
+											  <div class="card-header bg-info">Application Dates</div>
+												<div class="card-body">
+													<div class="app_dates">                                         
+														<div class="row">
+															<div class="col-md-6">
+																<div class="row">
+																	<div class="col-md-4">
+																		{!! Form::label('app_start_day', __( 'Application Start' ) . ':*') !!}
+																	</div>
+																	<div class="col-md-3">
+																		{!! Form::select('apply_start_month',$months, '', ['class' => 'form-control']); !!}
+																	</div>
+																	<div class="col-md-3">
+																		{!! Form::text('apply_start_day', null, ['class' => 'form-control', '' ]); !!}
+																	</div>
 
-                                            		</div> 
-                                            		
-                                            	</div>
-                                            	<div class="col-md-6">
-                                            		<div class="row">
-                                            			<div class="col-md-4">
-                                            				{!! Form::label('app_end_day', __( 'Application End' ) . ':*') !!}
-                                            			</div>
-                                            			<div class="col-md-3">
-                                            				{!! Form::select('apply_end_month',$months, '', ['class' => 'form-control']); !!}
-                                            			</div>
-                                            			<div class="col-md-3">
-                                            				{!! Form::text('apply_end_day', null, ['class' => 'form-control', '' ]); !!}
-                                            			</div>
+																</div> 
+																
+															</div>
+															<div class="col-md-6">
+																<div class="row">
+																	<div class="col-md-4">
+																		{!! Form::label('app_end_day', __( 'Application End' ) . ':*') !!}
+																	</div>
+																	<div class="col-md-3">
+																		{!! Form::select('apply_end_month',$months, '', ['class' => 'form-control']); !!}
+																	</div>
+																	<div class="col-md-3">
+																		{!! Form::text('apply_end_day', null, ['class' => 'form-control', '' ]); !!}
+																	</div>
 
-                                            		</div> 
-                                            	</div>
-                                            </div>
-                                        </div>
+																</div> 
+															</div>
+														</div>
+														
+														
+													</div>
+												</div>
+											</div>
+										</div>
                                     </div>
 
                                     <div class="col-md-12">
@@ -465,8 +533,7 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                </div>
+								  </div>
                             	</div>
                             </div>
                         </div>

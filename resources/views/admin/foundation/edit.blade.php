@@ -336,67 +336,102 @@
                                             {!! Form::select('gender_ids[]', $gender, $selectedGender, ['class' => 'form-control', 'multiple' => 'multiple']); !!}
                                         </div>
                                     </div>
-                                    <div class="col-md-5">
-                                        <div class="f_age">
-                                            <h4>Age</h4>
-                                            <div class="form-group row">
-                                                <div class="col-lg-3">
-                                                    {!! Form::label('age-from', __( 'Age From' ) . ':*') !!}
-                                                </div>
+                                     <div class="col-md-5">
+                                        <div class="card">
+											<div class="card-header bg-info">Age 
+												<div class="float-right">
+													<a class="btn btn-primary add_buttonage" value="add">Add</a>
+												</div>
+											</div>
+												<div class="f_age"><br>
+												@if(!empty($age))
+													@foreach($age as $myage)
+													<div class="form-group row">
+														<div class="col-lg-2">
+															{!! Form::label('age-from', __( 'From' ) . ':*') !!}
+														</div>
 
-                                                <div class="col-md-9">
-                                                    {!! Form::text('age_from', !empty($age->from) ? $age->from : '', ['class' => 'form-control', '', 'placeholder' => __( 'Age From' ) ]); !!}
-                                                </div><!--col-->
-                                            </div><!--form-group-->
-                                            <div class="form-group row">
-                                                <div class="col-lg-3">
-                                                    {!! Form::label('age-to', __( 'Age To' ) . ':*') !!}
-                                                </div>
+														<div class="col-md-3">
+															{!! Form::text('age_from[]', $myage->from, ['class' => 'form-control', 'maxlength'=>'2', 'placeholder' => __( 'Age From' ) ]); !!}
+														</div><!--col-->
+												   
+														<div class="col-lg-2">
+															{!! Form::label('age-to', __( 'To' ) . ':*') !!}
+														</div>
 
-                                                <div class="col-md-9">
-                                                    {!! Form::text('age_to', !empty($age->to) ? $age->to : '', ['class' => 'form-control', '', 'placeholder' => __( 'Age To' ) ]); !!}
-                                                </div><!--col-->
-                                            </div><!--form-group-->
-                                        </div>
-                                    </div>
+														<div class="col-md-3">
+															{!! Form::text('age_to[]', $myage->to, ['class' => 'form-control','maxlength'=>'2', 'placeholder' => __( 'Age To' ) ]); !!}
+														</div><!--col-->
+														<div class="col-sm-2">
+															<input type="hidden" name="age_id[]" value="{{$myage->id}}">
+														</div>
+													</div>
+													@endforeach
+												@endif
+													
+													<div class="field_wrapperage "></div>	
+												</div>
+											</div>
+										</div>
 
                                     <div class="col-md-12">
                                         <div class="f_gender">
                                             <h4>Subject</h4>
                                             {!! Form::select('subject_ids[]', $subject, $selectedSubject, ['class' => 'form-control', 'multiple' => 'multiple']); !!}
-                                        </div>
+                                        </div><br>
                                     </div>
-
+									<br><br>
                                     <div class="col-md-12">
-                                        <div class="f_gender">
-                                            <h4>Location</h4>
-                                            <div class="row">
-                                                <div class="col-md-2">
-                                                    {!! Form::label('country-block', __( 'Country Block' ) . ':*') !!}
-                                                    {!! Form::select('country_block', $blocks_arr, !empty($location->nation_id) ? $location->nation_id : '', ['class' => 'form-control']); !!}
-                                                </div><!--col-->
-                                                <div class="col-md-2">
-                                                    {!! Form::label('country', __( 'Country' ) . ':*') !!}
-                                                    {!! Form::select('country', $country_arr, !empty($location->country_id) ? $location->country_id : '', ['class' => 'form-control']); !!}
-                                                </div><!--col-->
-                                                <div class="col-md-2">
-                                                    {!! Form::label('region', __( 'Region' ) . ':*') !!}
-                                                    {!! Form::select('region', $region_arr, !empty($location->region_id) ? $location->region_id : '', ['class' => 'form-control']); !!}
-                                                </div><!--col-->
-                                                <div class="col-md-2">
-                                                    {!! Form::label('city', __( 'City' ) . ':*') !!}
-                                                    {!! Form::select('city', $city_arr, !empty($location->city_id) ? $location->city_id : '', ['class' => 'form-control']); !!}
-                                                </div><!--col-->
-                                                <div class="col-md-2">
-                                                    {!! Form::label('parish', __( 'Parish' ) . ':*') !!}
-                                                    
-                                                    {!! Form::text('parish', !empty($location->parish) ? $location->parish : '', ['class' => 'form-control', '', 'placeholder' => __( 'Parish' ) ]); !!}
-                                                </div><!--col-->
-                                                <div class="col-md-2">
-                                                </div><!--col-->
-                                            </div><!--row-->
+                                        <div class="card">
+											  <div class="card-header bg-info">Location
+											  <div class="float-right">
+												<a class="btn btn-primary add_buttonlocation form-control" value="add">Add</a>
+											  </div>
+											  </div>
+											  <div class="card-body">
+											 
+											  <div class="">
+													<div class="">
+													@if(!empty($location))
+													@foreach($location as $Location)
+														<div class="f_gender">
+															
+															<div class="row">
+																<div class="col-md-2">
+																	{!! Form::label('country-block', __( 'Country Block' ) . ':*') !!}
+																	{!! Form::select('country_block[]', $blocks_arr, '$Location->nation_id', ['class' => 'form-control', 'id' => 'countryBlock']); !!}
+																</div><!--col-->
+																<div class="col-md-2">
+																	{!! Form::label('country', __( 'Country' ) . ':*') !!}
+																	{!! Form::select('country[]', $country_arr, '$Location->country_id', ['class' => 'form-control', 'id' => 'countries','onchange' => 'getRegion();']); !!}
+																</div><!--col-->
+																<div class="col-md-2">
+																	{!! Form::label('region', __( 'Region' ) . ':*') !!}
+																	{!! Form::select('region[]', $region_arr, '$Location->region_id', ['class' => 'form-control regiondata','id' => 'regionid','onchange' => 'getCity();']); !!}
+																</div><!--col-->
+																<div class="col-md-2">
+																	{!! Form::label('city', __( 'City' ) . ':*') !!}
+																	{!! Form::select('city[]', $city_arr, '$Location->city_id', ['class' => 'form-control citydata', 'id' => 'cityid']); !!}
+																</div><!--col-->
+																<div class="col-md-2">
+																	{!! Form::label('parish[]', __( 'Parish' ) . ':*') !!}
+																	
+																	{!! Form::text('parish', $Location->parish, ['class' => 'form-control ', '', 'placeholder' => __( 'Parish' ) ]); !!}
+																</div><!--col-->
+																<div class="col-md-2" style="margin-top: 2%;">
+																	<input type="hidden" name="location_id" value="{{$Location->id}}">
+																</div><!--col-->
+															</div><!--row-->
 
-                                        </div>
+														</div>
+														@endforeach
+														@endif
+														</div>
+												
+												</div><br>
+												<div class="field_wrapperlocation"></div>	
+												</div>
+											  </div>
                                     </div>
 
                                     <!-- application dates -->

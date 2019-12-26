@@ -314,7 +314,7 @@ class IndividualController extends Controller
 		$personal = IndividualPersonal::where('userid',$id)->first();
 		$purposes = IndividualPerpose::where('userid',$id)->first();
 		if(!empty($purposes->purposeid)){$purposeId = json_decode($purposes->purposeid);}else{$purposeId = '';}
-					
+			//print_r($purposeId);exit;		
 		/* $purposeId = json_decode($purposes->purposeid); */
 		$study = IndividualStudy::where('userid',$id)->first();
 		$care = IndividualCare::where('userid',$id)->first();

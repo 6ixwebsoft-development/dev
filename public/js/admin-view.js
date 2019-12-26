@@ -986,3 +986,58 @@ $(function () {
     
 
 });
+
+/* Add Dynamic fields for Library Remote */
+$(document).ready(function(){
+    var maxField = 10; //Input fields increment limitation
+    var addButton = $('.add_buttonage'); //Add button selector
+    var wrapper = $('.field_wrapperage'); //Input field wrapper
+    var fieldHTML = '<div class="form-group row"><div class="col-lg-2"><label for="type" > From</label></div><div class="col-md-3"><input type="text" class="form-control" placeholder="Age From" name="age_from[]" maxlength="2" ></div><div class="col-lg-2"><label for="type" > To</label></div><div class="col-md-3"><input type="text" class="form-control" placeholder="Age From" name="age_to[]" maxlength="2" ></div><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div><br>'; //New input field html 
+    var x = 1; //Initial field counter is 1
+   
+    //Once add button is clicked
+    $(addButton).click(function(){
+        //Check maximum number of input fields
+        if(x < maxField){ 
+            x++; //Increment field counter
+            $(wrapper).append(fieldHTML); //Add field html
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper).on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+});
+
+/* Add Dynamic fields for Location */
+$(document).ready(function(){
+    var maxField = 10; //Input fields increment limitation
+    var addButton = $('.add_buttonlocation'); //Add button selector
+    var wrapper = $('.field_wrapperlocation'); //Input field wrapper
+    var fieldHTML = '<div class="row"><div class="col-md-2"><label for="type" >country-block</label><select class="form-control mycountryblock" name="country_block[]" id="countryBlock"><option></option></select></div><div class="col-md-2"><label for="type" >country</label><select class="form-control mycountries" name="country[]" id="countries" onchange="getRegion();"><option></option></select></div><div class="col-md-2"><label for="type" >Region</label><select class="form-control regiondata" name="region[]" id="regionid" onchange="getCity();"><option></option></select></div><div class="col-md-2"><label for="type" >City</label><select class="form-control citydata" name="city[]" id="cityid"><option></option></select></div><div class="col-md-2"><label for="type" >Parish</label><input type="text" name="parish" class="form-control" placeholder="parish"></div><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div><br>'; //New input field html 
+    var x = 1; //Initial field counter is 1
+   
+    //Once add button is clicked
+    $(addButton).click(function(){
+        //Check maximum number of input fields
+        if(x < maxField){ 
+            x++; //Increment field counter
+            $(wrapper).append(fieldHTML); //Add field html
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper).on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+});
+
+
+
+
+
