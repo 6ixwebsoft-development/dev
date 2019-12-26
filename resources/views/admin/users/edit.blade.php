@@ -39,7 +39,22 @@
                
           </div><!--row-->
           <hr>
-{!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
+		  
+		   @if (count($errors) > 0)
+				<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					<ul id="login-validation-errors" class="validation-errors">
+						@foreach ($errors->all() as $error)
+							<li class="validation-error-item">{{ $error }}</li>
+						@endforeach
+					</ul>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			@endif
+		  
+		  {!! Form::open(array('route' => array('admin.individual.update', $user->id))) !!}
+		
         <div class="form-group row">
             <div class="col-lg-2">
               {!! Form::label('name', __( 'Name' ) . ':*') !!}

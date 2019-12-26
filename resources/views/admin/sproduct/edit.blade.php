@@ -72,6 +72,19 @@
           </div><!--row-->
 
           <hr>
+		  
+		    @if (count($errors) > 0)
+				<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					<ul id="login-validation-errors" class="validation-errors">
+						@foreach ($errors->all() as $error)
+							<li class="validation-error-item">{{ $error }}</li>
+						@endforeach
+					</ul>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			@endif
 
        {!! Form::open(array('route' => array('admin.product.update', $product->id))) !!}
 

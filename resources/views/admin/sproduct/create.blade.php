@@ -1,7 +1,5 @@
 @extends('admin.includes.adminlayout')
 
-
-
 @section('breadcrumb')
 
   <!-- Breadcrumb-->
@@ -72,6 +70,20 @@
           </div><!--row-->
 
           <hr>
+		  
+		    @if (count($errors) > 0)
+				<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					<ul id="login-validation-errors" class="validation-errors">
+						@foreach ($errors->all() as $error)
+							<li class="validation-error-item">{{ $error }}</li>
+						@endforeach
+					</ul>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			@endif
+		  
 
          {!! Form::open(array('url' => 'admin/product/store')) !!}
 
@@ -101,11 +113,7 @@
 					</div>
 
 					<div class="col-lg-12">
-
-					 
-					 
-					  
-					  {!! Form::select('languageid', $language,[], ['class' => 'form-control']) !!}
+					  {!! Form::select('languageid', (['0' => 'Select a Language'] + $language),[], ['class' => 'form-control']) !!}
 
 					</div>
 				</div>
@@ -123,7 +131,7 @@
 
 					<div class="col-lg-12">
 
-					 {!! Form::select('officeid', $office,[], ['class' => 'form-control','' ]  ); !!}
+					 {!! Form::select('officeid', (['0' => 'Select a Office'] + $office),[], ['class' => 'form-control','' ]  ); !!}
 
 					</div>
 				</div>
@@ -187,7 +195,7 @@
 
 					<div class="col-lg-12">
 
-					  {!! Form::text('price', null, ['class' => 'form-control price', '', 'placeholder' => __( 'Enter Price' ) ]); !!}
+					  {!! Form::text('price', null, ['class' => 'form-control price', 'onkeypress'=>'gettotalproduct();', 'placeholder' => __( 'Enter Price' ) ]); !!}
 
 					</div>
 				</div>
@@ -233,7 +241,7 @@
 
 					<div class="col-lg-12">
 
-					  {!! Form::select('paymentmood', $payment,[],['class' => 'form-control','' ]  ); !!}
+					  {!! Form::select('paymentmood', (['0' => 'Select a Payment Method'] + $payment),[],['class' => 'form-control','' ]  ); !!}
 
 					</div>
 				</div>
@@ -266,7 +274,7 @@
 					<div class="col-lg-12">
 
 					 
-					  {!! Form::text('discountamount', null, ['class' => 'form-control disamt', '', 'placeholder' => __( 'Enter Discount Amount' ) ]); !!}
+					  {!! Form::text('discountamount', null, ['class' => 'form-control disamt', 'onkeypress'=>'gettotalproduct();', 'placeholder' => __( 'Enter Discount Amount' ) ]); !!}
 
 					</div>
 				</div>
@@ -299,7 +307,7 @@
 					<div class="col-lg-12">
 
 					 
-					  {!! Form::text('vatamount', null, ['class' => 'form-control vattax', '', 'placeholder' => __( 'Enter VAT %' ) ]); !!}
+					  {!! Form::text('vatamount', null, ['class' => 'form-control vattax', 'onkeypress'=>'gettotalproduct();', 'placeholder' => __( 'Enter VAT %' ) ]); !!}
 
 					</div>
 				</div>
@@ -333,7 +341,7 @@
 					<div class="col-lg-12">
 
 					 
-					  {!! Form::text('freightamount', null, ['class' => 'form-control framt', '', 'placeholder' => __( 'Enter Freight Charge' ) ]); !!}
+					  {!! Form::text('freightamount', null, ['class' => 'form-control framt','onkeypress'=>'gettotalproduct();', 'placeholder' => __( 'Enter Freight Charge' ) ]); !!}
 
 					</div>
 				</div>
@@ -366,7 +374,7 @@
 					<div class="col-lg-12">
 
 					 
-					  {!! Form::text('freighttax', null, ['class' => 'form-control frtax', '', 'placeholder' => __( 'Enter Freight Tax %' ) ]); !!}
+					  {!! Form::text('freighttax', null, ['class' => 'form-control frtax', 'onkeypress'=>'gettotalproduct();', 'placeholder' => __( 'Enter Freight Tax %' ) ]); !!}
 
 					</div>
 				</div>

@@ -71,6 +71,20 @@
 
           <hr>
 		  
+		  @if (count($errors) > 0)
+				<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					<ul id="login-validation-errors" class="validation-errors">
+						@foreach ($errors->all() as $error)
+							<li class="validation-error-item">{{ $error }}</li>
+						@endforeach
+					</ul>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			@endif
+		  
+		  
 	{!! Form::open(array('route' => array('admin.paymentmood.update', $Payment->id))) !!}
 
           <div class="form-group row">
@@ -243,7 +257,7 @@
 				  @if($Payment->testmood == 1)
                     {!! Form::checkbox('testmood', '1', true); !!}
 				@else
-                    {!! Form::checkbox('testmood', false) !!}
+                    {!! Form::checkbox('testmood', true); !!}
 				@endif
 
               </label>
@@ -269,7 +283,7 @@
 				@if($Payment->status == 1)
                     {!! Form::checkbox('status', '1', true); !!}
 				@else
-                    {!! Form::checkbox('status', false) !!}
+                    {!! Form::checkbox('status' ,true); !!}
 				@endif
 
               </label>

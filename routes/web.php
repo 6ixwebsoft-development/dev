@@ -84,8 +84,8 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
         Route::get('foundation/{id}/edit', 'FoundationController@edit');
         Route::post('/foundation/update/{id}', 'FoundationController@update')->name('admin.foundation.update');
         Route::get('foundation/delete/{id}', 'FoundationController@delete');
-
-        //countries block, country, state, city
+		
+		//countries block, country, state, city
         Route::group(['namespace' => 'Location', 'prefix' => 'location'], function () {
             //countryblock Routes
             Route::get('countryblock', 'CountryBlockController@index');
@@ -180,9 +180,11 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
         Route::get('subscription/create', 'SubscriptionController@create');
         Route::post('subscription/store', 'SubscriptionController@store');
         Route::get('subscription/{id}/edit', 'SubscriptionController@edit');
-        Route::patch('subscription/update/{id}', 'SubscriptionController@update')->name('admin.subscription.update');
+        Route::post('subscription/update/{id}', 'SubscriptionController@update')->name('admin.subscription.update');
         Route::get('subscription/delete/{id}', 'SubscriptionController@delete');
-
+		Route::get('subscription/userlist', 'SubscriptionController@userlist');
+		Route::post('subscription/getsubscriptiontype', 'SubscriptionController@getsubscriptiontype');
+		
     });
 	
 	Route::group(array('namespace' => 'Admin\Payment', 'prefix' => 'admin'),function() {
@@ -213,6 +215,90 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('product/{id}/edit', 'SproductController@edit');
 		Route::post('product/update/{id}', 'SproductController@update')->name('admin.product.update');
 		Route::get('product/delete/{id}', 'SproductController@delete');
+    });
+	
+	Route::group(array('namespace' => 'Admin\Hitlist', 'prefix' => 'admin'),function() {
+        
+        Route::get('hitlist','HitlistController@index');
+		Route::get('hitlist/create', 'HitlistController@create');
+		Route::post('hitlist/store', 'HitlistController@store');
+		Route::get('hitlist/{id}/edit', 'HitlistController@edit');
+		Route::post('hitlist/update/{id}', 'HitlistController@update')->name('admin.hitlist.update');
+		Route::get('hitlist/delete/{id}', 'HitlistController@delete');
+    });
+	
+	Route::group(array('namespace' => 'Admin\Purpose', 'prefix' => 'admin'),function() {
+        
+        Route::get('purpose','PurposeController@index');
+		Route::get('purpose/create', 'PurposeController@create');
+		Route::post('purpose/store', 'PurposeController@store');
+		Route::get('purpose/{id}/edit', 'PurposeController@edit');
+		Route::post('purpose/update/{id}', 'PurposeController@update')->name('admin.purpose.update');
+		Route::get('purpose/delete/{id}', 'PurposeController@delete');
+    });
+	
+	//Individual routes
+	Route::group(array('namespace' => 'Admin\individual', 'prefix' => 'admin'),function() {
+        Route::get('individual', 'IndividualController@index');
+        Route::get('individual/create/', 'IndividualController@create');
+        Route::post('/individual/store', 'IndividualController@store');
+        Route::get('individual/{id}/edit', 'IndividualController@edit');
+        Route::post('/individual/update/{id}', 'IndividualController@update')->name('admin.individual.update');
+        Route::get('individual/delete/{id}', 'IndividualController@delete');
+		Route::post('individual/getregion','IndividualController@getregion');
+		Route::post('individual/getcity','IndividualController@getcity');
+		
+	});
+	
+	Route::group(array('namespace' => 'Admin\library', 'prefix' => 'admin'),function() {
+        
+        Route::get('library','LibraryController@index');
+		Route::get('library/create', 'LibraryController@create');
+		Route::post('library/store', 'LibraryController@store');
+		Route::get('library/{id}/edit', 'LibraryController@edit');
+		Route::post('library/update/{id}', 'LibraryController@update')->name('admin.library.update');
+		Route::get('library/delete/{id}', 'LibraryController@delete');
+    });
+	
+	Route::group(array('namespace' => 'Admin\library', 'prefix' => 'admin'),function() {
+        
+        Route::get('librarygroup','LibraryGroupController@index');
+		Route::get('librarygroup/create', 'LibraryGroupController@create');
+		Route::post('librarygroup/store', 'LibraryGroupController@store');
+		Route::get('librarygroup/{id}/edit', 'LibraryGroupController@edit');
+		Route::post('librarygroup/update/{id}', 'LibraryGroupController@update')->name('admin.librarygroup.update');
+		Route::get('librarygroup/delete/{id}', 'LibraryGroupController@delete');
+    });
+	
+	Route::group(array('namespace' => 'Admin\organization', 'prefix' => 'admin'),function() {
+        
+        Route::get('organization','OganizationController@index');
+		Route::get('organization/create', 'OganizationController@create');
+		Route::post('organization/store', 'OganizationController@store');
+		Route::get('organization/{id}/edit', 'OganizationController@edit');
+		Route::post('organization/update/{id}', 'OganizationController@update')->name('admin.organization.update');
+		Route::get('organization/delete/{id}', 'OganizationController@delete');
+    });
+	
+	Route::group(array('namespace' => 'Admin\subscriptiontype', 'prefix' => 'admin'),function() {
+        
+        Route::get('subscriptiontype','SubscriptiontypeController@index');
+		Route::get('subscriptiontype/create', 'SubscriptiontypeController@create');
+		Route::post('subscriptiontype/store', 'SubscriptiontypeController@store');
+		Route::get('subscriptiontype/{id}/edit', 'SubscriptiontypeController@edit');
+		Route::post('subscriptiontype/update/{id}', 'SubscriptiontypeController@update')->name('admin.subscriptiontype.update');
+		Route::get('subscriptiontype/delete/{id}', 'SubscriptiontypeController@delete');
+		
+    });
+	
+	Route::group(array('namespace' => 'Admin\Subject', 'prefix' => 'admin'),function() {
+        
+        Route::get('subject','SubjectController@index');
+		Route::get('subject/create', 'SubjectController@create');
+		Route::post('subject/store', 'SubjectController@store');
+		Route::get('subject/{id}/edit', 'SubjectController@edit');
+		Route::post('subject/update/{id}', 'SubjectController@update')->name('admin.subject.update');
+		Route::get('subject/delete/{id}', 'SubjectController@delete');
     });
 	
 });

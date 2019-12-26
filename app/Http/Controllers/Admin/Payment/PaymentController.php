@@ -33,7 +33,7 @@ class PaymentController extends Controller
 				->addColumn('action', function($row){
 					$txt = "'Are you sure to delete this?'";
 					$btn  = '<a href="'.url('admin').'/paymentmood/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-					<a onclick="return confirm('.$txt.')" href="'.url('admin').'/paymentmood/delete/'.$row->id.'" class="delete btn btn-primary btn-sm"   >Delete</a>';
+					<a onclick="return confirm('.$txt.')" href="'.url('admin').'/paymentmood/delete/'.$row->id.'" class="delete btn btn-danger btn-sm"   >Delete</a>';
 
 					return $btn;
 				})
@@ -51,6 +51,7 @@ class PaymentController extends Controller
 	
 	public function store(Request $request)
 	{
+		/* print_r($request->all());exit; */
 		$this->validate($request, [
             'paymentmethod' => 'required',
 			'testaccount' => 'required',
@@ -102,6 +103,8 @@ class PaymentController extends Controller
 	
 	public function update(Request $request, $id) 
     {
+		/* print_r($request->all());exit; */
+		
 		$this->validate($request, [
             'paymentmethod' => 'required',
 			'testaccount' => 'required',

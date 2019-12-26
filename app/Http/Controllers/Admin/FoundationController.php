@@ -19,10 +19,13 @@ use App\Models\FoundationPurpose;
 use App\Models\FoundationSaveCount;
 use App\Models\FoundationSubject;
 
+use App\Models\gender;
+use App\Models\Purpose;
 use App\Models\CountryBlock;
 use App\Models\Country;
 use App\Models\Region;
 use App\Models\City;
+use App\Models\Subject;
 
 use DB;
 use App\Http\Requests;
@@ -39,6 +42,9 @@ class FoundationController extends Controller
     }
 
     public function index(Request $request) {
+		 /* $data = Foundation::select('id', 'name', 'sort')->get(); */
+		/*  $data = Foundation::alldata(5730);
+		echo "<pre>"; print_r($data);exit; */
 
         if ($request->ajax()) {
 
@@ -62,7 +68,7 @@ class FoundationController extends Controller
 
     public function create(Request $request) {
 
-        $purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+       /*  $purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Purpose')
                     ->select(
@@ -75,9 +81,9 @@ class FoundationController extends Controller
         $purpose = array();
         foreach ($purposes as $purposeVal) {
             $purpose[$purposeVal->id] = $purposeVal->value;
-        }
+        } */
         
-        $genders = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+        /* $genders = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Gender')
                     ->select(
@@ -90,9 +96,11 @@ class FoundationController extends Controller
         $gender = array();
         foreach ($genders as $genderVal) {
             $gender[$genderVal->id] = $genderVal->value;
-        }
+        } */
+		
+		
 
-        $subjects = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+       /*  $subjects = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Subject')
                     ->select(
@@ -106,7 +114,7 @@ class FoundationController extends Controller
         $subject = array();
         foreach ($subjects as $subjectVal) {
             $subject[$subjectVal->id] = $subjectVal->value;
-        }
+        } */
 
         $months = array(
                     "1"  => "Jan",
@@ -136,7 +144,7 @@ class FoundationController extends Controller
         $country_arr = array();
         $country_arr[0] = 'Select';
         foreach ($countries as $country) {
-            //$country_arr[$country->id] = $country->country_name;
+            $country_arr[$country->id] = $country->country_name;
         }
 
         //region
@@ -155,8 +163,10 @@ class FoundationController extends Controller
         foreach ($cities as $city) {
             //$city_arr[$city->id] = $city->city_name;
         }
-
-
+		$purpose = Purpose::pluck('purpose', 'id')->all();	
+		$gender = gender::pluck('name', 'id')->all();	
+		$subject = Subject::pluck('name', 'id')->all();	
+		
         return view('admin.foundation.create')->with(compact('purpose', 'gender', 'subject', 'months', 'blocks_arr', 'country_arr', 'region_arr', 'city_arr'));
     }
 
@@ -164,7 +174,7 @@ class FoundationController extends Controller
     {
         try {
             $result = $request->all();
-            
+            print_r($result);exit;
             //Foundation 
             $foundation = array(
                     "user_id" => 1,
@@ -212,31 +222,37 @@ class FoundationController extends Controller
             FoundationLocation::insert($location);
             
             //Foundation Purpose
-            foreach ($result['purpose_ids'] as $purpose_id) {
-                $purpose = array(
-                        "foundation_id" => $foundation_id,
-                        "param_id" => $purpose_id
-                );
-                FoundationPurpose::insert($purpose);
-            }
+			if($result['purpose_ids']){
+				foreach ($result['purpose_ids'] as $purpose_id) {
+					$purpose = array(
+							"foundation_id" => $foundation_id,
+							"param_id" => $purpose_id
+					);
+					FoundationPurpose::insert($purpose);
+				}
+			}
 
             //Foundation Gender
-            foreach ($result['gender_ids'] as $gender_id) {
-                $gender = array(
-                        "foundation_id" => $foundation_id,
-                        "param_id" => $gender_id
-                );
-                FoundationGender::insert($gender);
-            }
+			if($result['gender_ids']){
+				foreach ($result['gender_ids'] as $gender_id) {
+					$gender = array(
+							"foundation_id" => $foundation_id,
+							"param_id" => $gender_id
+					);
+					FoundationGender::insert($gender);
+				}
+			}
 
             //Foundation Subject
-            foreach ($result['subject_ids'] as $subject_id) {
-                $subject = array(
-                        "foundation_id" => $foundation_id,
-                        "param_id" => $subject_id
-                );
-                FoundationSubject::insert($subject);
-            }
+			if($result['subject_ids']){
+				foreach ($result['subject_ids'] as $subject_id) {
+					$subject = array(
+							"foundation_id" => $foundation_id,
+							"param_id" => $subject_id
+					);
+					FoundationSubject::insert($subject);
+				}
+			}
 
             //Foundation AGE
             $age = array(
@@ -478,34 +494,40 @@ class FoundationController extends Controller
                 DB::table('gg_foundation_dates')->where('foundation_id', $id)->update($dates);
 
                 FoundationPurpose::where('foundation_id', $id)->delete();
-
-                foreach ($result['purpose_ids'] as $purpose_id) {
-                    $purpose = array(
-                            "foundation_id" => $id,
-                            "param_id" => $purpose_id
-                    );
-                    FoundationPurpose::insert($purpose);
-                }
+				
+				if($result['purpose_ids']){
+					foreach ($result['purpose_ids'] as $purpose_id) {
+						$purpose = array(
+								"foundation_id" => $id,
+								"param_id" => $purpose_id
+						);
+						FoundationPurpose::insert($purpose);
+					}
+				}
                 
                 //Foundation Gender
                 FoundationGender::where('foundation_id', $id)->delete();
-                foreach ($result['gender_ids'] as $gender_id) {
-                    $gender = array(
-                            "foundation_id" => $id,
-                            "param_id" => $gender_id
-                    );
-                    FoundationGender::insert($gender);
-                }
+				if($result['gender_ids']){
+					foreach ($result['gender_ids'] as $gender_id) {
+						$gender = array(
+								"foundation_id" => $id,
+								"param_id" => $gender_id
+						);
+						FoundationGender::insert($gender);
+					}
+				}
 
                 //Foundation Subject
                 FoundationSubject::where('foundation_id', $id)->delete();
-                foreach ($result['subject_ids'] as $subject_id) {
-                    $subject = array(
-                            "foundation_id" => $id,
-                            "param_id" => $subject_id
-                    );
-                    FoundationSubject::insert($subject);
-                }
+				if($result['gender_ids']){
+					foreach ($result['subject_ids'] as $subject_id) {
+						$subject = array(
+								"foundation_id" => $id,
+								"param_id" => $subject_id
+						);
+						FoundationSubject::insert($subject);
+					}
+				}
 
                 $output = ['success' => true,
                             'msg' => __("Module Field updated")

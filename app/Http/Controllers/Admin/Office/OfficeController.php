@@ -33,7 +33,7 @@ class OfficeController extends Controller
 					
 					$txt = "'Are you sure to delete this?'";
 					$btn  = '<a href="'.url('admin').'/Office/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-					<a onclick="return confirm('.$txt.')" href="'.url('admin').'/Office/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+					<a onclick="return confirm('.$txt.')" href="'.url('admin').'/Office/delete/'.$row->id.'" class="delete btn btn-danger btn-sm">Delete</a>';
 
 					return $btn;
 				})
@@ -52,9 +52,14 @@ class OfficeController extends Controller
 	public function store(Request $request)
 	{
 		//print_r($request->all());exit;
-		/* $this->validate($request, [
-            'paymentmethod' => 'required',
-        ]); */
+		 $this->validate($request, [
+            'country' => 'required',
+			'countrycode' => 'required',
+			'office' => 'required',
+			'tag' => 'required',
+        ]); 
+		
+		
 		if(empty($request->input('status')))
 		{$status = 0;}else{$status = 1;}
 		
@@ -103,9 +108,12 @@ class OfficeController extends Controller
 	
 	public function update(Request $request, $id) 
     {
-		/* $this->validate($request, [
-            'paymentmethod' => 'required',
-        ]); */
+		$this->validate($request, [
+            'country' => 'required',
+			'countrycode' => 'required',
+			'office' => 'required',
+			'tag' => 'required',
+        ]);
 		
 		if(empty($request->input('status')))
 		{$status = 0;}else{$status = 1;}

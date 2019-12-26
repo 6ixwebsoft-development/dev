@@ -35,7 +35,7 @@ class SproductController extends Controller
 				->addColumn('action', function($row){
 					$txt = "'Are you sure to delete this?'";
 					$btn  = '<a href="'.url('admin').'/product/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-					<a onclick="return confirm('.$txt.')" href="'.url('admin').'/product/delete/'.$row->id.'" class="delete btn btn-primary btn-sm"   >Delete</a>';
+					<a onclick="return confirm('.$txt.')" href="'.url('admin').'/product/delete/'.$row->id.'" class="delete btn btn-danger btn-sm"   >Delete</a>';
 
 					return $btn;
 				})
@@ -48,7 +48,7 @@ class SproductController extends Controller
 	
 	public function create()
 	{
-		$language = Language::pluck('language', 'id')->all();
+		$language = Language::where('status','1')->pluck('language', 'id')->all();
 		$office   = Offices::pluck('office', 'id')->all();
 		$payment   = Payment::pluck('paymentmethod', 'id')->all();
 		//$userlangs = Language::all();
@@ -106,7 +106,7 @@ class SproductController extends Controller
 	public function edit($id)
 	{
 		$product = Sproduct::find($id);
-		$language = Language::pluck('language', 'id')->all();
+		$language = Language::where('status','1')->pluck('language', 'id')->all();
 		$office   = Offices::pluck('office', 'id')->all();
 		$payment   = Payment::pluck('paymentmethod', 'id')->all();
 		return view('admin.sproduct.edit')->with(compact('product','language','office','payment'));

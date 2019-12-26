@@ -2,16 +2,12 @@
 
 
 namespace App\Http\Controllers\Auth;
-
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Models\Userinfo;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Redirect;
-
-
 use DataTables;
 use DB;
 use Hash;
@@ -76,7 +72,7 @@ class UserController extends Controller
     {
 		$roles = Role::pluck('name','name')->all();
 		$userroles = Role::all();
-        return view('admin.users.individualuser',compact('roles','userroles'));
+        return view('admin.users.create',compact('roles','userroles'));
     }
 
 
@@ -89,15 +85,15 @@ class UserController extends Controller
     public function store(Request $request)
     {
 		
-      /*   $this->validate($request, [
+       $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
             'roles' => 'required'
-        ]); */ 
+        ]); 
 		//print_r($request->all());exit; 
 		/* echo $login->password;exit; */
-			$userinfo = $request->input('user');
+			/* $userinfo = $request->input('user');
 			$login = $request->input('login');
 			
 			
@@ -105,32 +101,23 @@ class UserController extends Controller
 				'login.name' => 'required',
 				'login.email' => 'required|email|unique:users,email',
 				'user.roles' => 'required'
-			]);
+			]); */
 			
 				/* if($errors->has()){
 				foreach ($errors->all() as $error){
 					echo $error;
 				}
 				} */
-			
-			/* $this->validate($request, [
-            'name' => 'required',
-             'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'roles' => 'required' 
-        ]);die(); */
-			
-			
-			
-        /* $input = $request->all(); */
-        $login['password'] = Hash::make($login['password']);
+
+         $input = $request->all(); 
+        /* $login['password'] = Hash::make($login['password']);
 		$userinfo['fname'] = $login['name'];
-		
-		$user= User::Create($login);
-		$user->assignRole($userinfo['roles']);
+		 */
+		$user= User::Create($input);
+		$user->assignRole($input['roles']);
 		$userId = $user->id;
 		
-		$userdata = array(
+		/* $userdata = array(
                     "userid" => $userId,
                     "fname"  => $userinfo['fname'],
                     "mname"  => $userinfo['middlename'],
@@ -159,7 +146,7 @@ class UserController extends Controller
                     "govtsupport"  => $userinfo['govtsupport'],
                     
             );
-		$userinfo = Userinfo::insert($userdata);
+		$userinfo = Userinfo::insert($userdata); */
 		
 		
 		return Redirect::to('admin/users')->with('success','User created successfully');
@@ -197,8 +184,8 @@ class UserController extends Controller
         $userRole = $user->roles->pluck('name','name')->all();
 		
 		 $userroles = Role::all();
-		 return view('admin.users.editindividualuser',compact('user','userroles','info'));
-        /* return view('admin.users.edit',compact('user','roles','userRole')); */
+		 /* return view('admin.users.edit',compact('user','userroles','info')); */
+         return view('admin.users.edit',compact('user','roles','userRole')); 
     }
 
 
@@ -212,8 +199,15 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
 		
+		$this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$id,
+            'password' => 'required|same:confirm-password',
+            'roles' => 'required'
+        ]); 
 		
-			$userinfo = $request->input('user');
+		
+			/* $userinfo = $request->input('user');
 			$login = $request->input('login');
 			
 			
@@ -222,9 +216,9 @@ class UserController extends Controller
 				'login.email' => 'required|email|unique:users,email,'.$id,
 				'user.roles' => 'required'
 			]);
+			 */
 			
-			
-			$userdata = array(
+			/* $userdata = array(
                     "userid" => $id,
                     "fname"  => $login['name'],
                     "mname"  => $userinfo['middlename'],
@@ -251,23 +245,23 @@ class UserController extends Controller
                     "startdate"  => $userinfo['startdate'],
                     "enddate"  => $userinfo['enddate'],
                     "govtsupport"  => $userinfo['govtsupport']  
-            );
+            ); */
 			
-       
-        if(!empty($login['password'])){ 
-            $login['password'] = Hash::make($login['password']);
+       $input = $request->all();
+        if(!empty($input['password'])){ 
+            $input['password'] = Hash::make($input['password']);
         }else{
-            $login = array_except($login,array('password'));    
+            $input = array_except($input,array('password'));    
         }
 		
 
         $user = User::find($id);
-        $user->update($login);
+        //$user->update($login);
         DB::table('model_has_roles')->where('model_id',$id)->delete();
 
-        $user->assignRole($userinfo['roles']);
+        $user->assignRole($input['roles']);
 		
-		DB::table('userinfo')->where('userid', $id)->update($userdata);
+		//DB::table('userinfo')->where('userid', $id)->update($userdata);
 
 			return Redirect::to('admin/users')->with('success','User updated successfully');
 			// return redirect()->route('admin.users.index')

@@ -325,7 +325,7 @@
                                     <div class="col-md-5">
                                         <div class="f_gender">
                                             <h4>Genders</h4>
-                                            {!! Form::select('gender_ids[]', $gender, '', ['class' => 'form-control', 'multiple' => 'multiple']); !!}
+                                            {!! Form::select('gender_ids[]', $gender, '', ['class' => 'form-control', 'multiple' => true]); !!}
                                         </div>
                                     </div>
                                     <div class="col-md-5">
@@ -369,20 +369,20 @@
                                                 </div><!--col-->
                                                 <div class="col-md-2">
                                                     {!! Form::label('country', __( 'Country' ) . ':*') !!}
-                                                    {!! Form::select('country', $country_arr, '', ['class' => 'form-control', 'id' => 'countries']); !!}
+                                                    {!! Form::select('country', $country_arr, '', ['class' => 'form-control', 'id' => 'countries','onchange' => 'getRegion();']); !!}
                                                 </div><!--col-->
                                                 <div class="col-md-2">
                                                     {!! Form::label('region', __( 'Region' ) . ':*') !!}
-                                                    {!! Form::select('region', $region_arr, '', ['class' => 'form-control', 'id' => 'regions']); !!}
+                                                    {!! Form::select('region', $region_arr, '', ['class' => 'form-control regiondata','id' => 'regionid','onchange' => 'getCity();']); !!}
                                                 </div><!--col-->
                                                 <div class="col-md-2">
                                                     {!! Form::label('city', __( 'City' ) . ':*') !!}
-                                                    {!! Form::select('city', $city_arr, '', ['class' => 'form-control', 'id' => 'cities']); !!}
+                                                    {!! Form::select('city', $city_arr, '', ['class' => 'form-control citydata', 'id' => 'cityid']); !!}
                                                 </div><!--col-->
                                                 <div class="col-md-2">
                                                     {!! Form::label('parish', __( 'Parish' ) . ':*') !!}
                                                     
-                                                    {!! Form::text('parish', null, ['class' => 'form-control', '', 'placeholder' => __( 'Parish' ) ]); !!}
+                                                    {!! Form::text('parish', null, ['class' => 'form-control ', '', 'placeholder' => __( 'Parish' ) ]); !!}
                                                 </div><!--col-->
                                                 <div class="col-md-2">
                                                 </div><!--col-->

@@ -482,27 +482,507 @@ $('input.price,input.disamt,input.vattax,input.framt,input.frtax').on('change ke
 	var Freightc = parseFloat($('.framt').val());
 	var Freighttax = parseFloat($('.frtax').val()); 
 	
+	var total = price;
+	
 	if(discount > 0)
 	{
-		var priced = price+discount;
+		//var priced = price+discount;
+		total = total+discount;
 	}
 	if(vattax > 0)
 	{
-		var vattax = priced*vattax/100;
+		var vattax = total*vattax/100;
+		total = total+vattax;
+	}
+	if(Freightc > 0)
+	{
+		//var Freighttax = Freightc*Freighttax/100;
+		total = total+Freightc;
 	}
 	
 	if(Freighttax > 0)
 	{
 		var Freighttax = Freightc*Freighttax/100;
+		total = total+Freighttax;
 	}
 	
-	var total = price+discount+vattax+Freighttax+Freightc;
+	/* var total = price+discount+vattax+Freighttax+Freightc; */
 	$('.grandtotal').val(total);
       
 })
 
- 
+
+$('input.myprice,input.mymisc,input.myvat,input.myfrch,input.myfrtx').on('change keyup',function(){
+	
+	var price =  parseFloat($('.myprice').val());
+	var misc = parseFloat($('.mymisc').val());
+	var vattax = parseFloat($('.myvat').val());
+	var Freightc = parseFloat($('.myfrch').val());
+	var Freighttax = parseFloat($('.myfrtx').val()); 
+	
+	var total = price;
+	
+	if(misc > 0)
+	{
+		//var priced = price+discount;
+		total = total+misc;
+	}
+	if(vattax > 0)
+	{
+		var vattax = total*vattax/100;
+		total = total+vattax;
+	}
+	if(Freightc > 0)
+	{
+		//var Freighttax = Freightc*Freighttax/100;
+		total = total+Freightc;
+	}
+	
+	if(Freighttax > 0)
+	{
+		var Freighttax = Freightc*Freighttax/100;
+		total = total+Freighttax;
+	}
+	
+	/* var total = price+discount+vattax+Freighttax+Freightc; */
+	$('.grandtotal').val(total);
+      
+})
+
+/* data table for Hitlist */
+$(function () {
+    
+    var table = $('.hitlist-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: APP_URL+"/admin/hitlist",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'name', name: 'name'},
+            {data: 'keyword', name: 'keyword'},
+			{data: 'description', name: 'description'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+    
+});
+
+/* data table for Purpose */
+$(function () {
+    var table = $('.purpose-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: APP_URL+"/admin/purpose",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'purpose', name: 'purpose'},
+            {data: 'description1', name: 'description1'},
+			{data: 'memberdescription1', name: 'memberdescription1'},
+			{data: 'formid', name: 'formid'},
+			{data: 'hitlist', name: 'hitlist'}, 
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+    
+});
+
+/* datepicker for individual */
+$(document).ready(function () {
+	var age = "";
+	$('#dob').datepicker({
+		onSelect: function (value, ui) {
+			var today = new Date();
+			age = today.getFullYear() - ui.selectedYear;
+			$('#age').val(age);
+		},
+		
+		changeMonth: true,
+		changeYear: true
+	})
+})
+
+
+function myDatepicker()
+{
+$(document).ready(function () {
+	$('.mycustomdate').datepicker({
+		changeMonth: true,
+		changeYear: true
+	})
+})
+}
+
+$(document).ready(function () {
+	$('.mycustomdate').datepicker({
+		changeMonth: true,
+		changeYear: true
+	})
+})
+
+
+
+/* Function to Get region by country */
+
+function getRegion()
+{
+	var cid = $("#countryid").val();
+	//alert(cid);return false;
+	
+ 	  $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+  $.ajax({
+		type:'POST',
+		url: APP_URL+"/admin/individual/getregion",
+		data:{cid:cid},
+		success:function(data){
+			$(".regiondata").empty();
+			$(".regiondata").append(data);
+		}
+	});
+}
+
+function getCity()
+{
+	var cid = $("#regionid").val();
+	//alert(cid);return false;
+	
+ 	  $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+  $.ajax({
+		type:'POST',
+		url: APP_URL+"/admin/individual/getcity",
+		data:{cid:cid},
+		success:function(data){
+			$(".citydata").empty();
+			$(".citydata").append(data);
+		}
+	});
+}
+
+
+/* Add Fields For Video Link */
+$(document).ready(function(){
+    var maxField = 10; //Input fields increment limitation
+    var addButton = $('.add_buttonvideo'); //Add button selector
+    var wrapper = $('.field_wrappervideo'); //Input field wrapper
+    var fieldHTML = '<div class="form-inline"><div class="col-xl-3 col-md-12 col-sm-12"><div class="form-group row"><label for="type" class="col-sm-4 col-form-label">type</label><div class="col-sm-8"><select name="videotype[]" class="form-control"><option value="1">Facebook</option><option value="2">LinkedIn</option><option value="3">Youtube</option></select></div></div></div><div class="col-xl-6 col-md-12 col-sm-12"><div class="form-group row"><label for="type" class="col-sm-4 col-form-label">Url</label><div class="col-sm-8"><input type="text" class="form-control" name="video_url[]" value="http://"></div></div></div><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div><br>'; //New input field html 
+    var x = 1; //Initial field counter is 1
+     
+    //Once add button is clicked
+    $(addButton).click(function(){
+        //Check maximum number of input fields
+        if(x < maxField){ 
+            x++; //Increment field counter
+            $(wrapper).append(fieldHTML); //Add field html
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper).on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+}); 
+
+/* Add Dynamic fields for Childern */
+
+
+$(document).ready(function(){
+    var maxField = 15; //Input fields increment limitation
+    var addButton = $('.add_buttonchild'); //Add button selector
+    var wrapper = $('.field_wrapperchild'); //Input field wrapper
+    var fieldHTML = '<div class="form-inline"><div class="col-xl-3 col-md-12 col-sm-12"><div class="form-group row"><label for="type" class="col-sm-12 col-form-label bddaydate">Birthdate</label><div class="col-sm-12"><input type="text" class="form-control mycustomdate" name="cdob[]" id="C_dob" ></div></div></div><div class="col-xl-2 col-md-12 col-sm-12"><div class="form-group row"><label for="type" class="col-sm-12 col-form-label">Gender</label><div class="col-sm-12"><select name="cgender[]" class="form-control"><option value="1">Male</option><option value="2">Female</option></select></div></div></div><div class="col-xl-3 col-md-12 col-sm-12"><div class="form-group row"><label for="type" class="col-sm-12 col-form-label">School</label><div class="col-sm-12"><input type="text" class="form-control" name="cschool[]"></div></div></div><div class="col-xl-3 col-md-12 col-sm-12"><div class="form-group row"><label for="type" class="col-sm-12 col-form-label">Location</label><div class="col-sm-12"><select name="clocation[]" class="form-control"><option value="1">Delhi</option><option value="2">Mp</option></select></div></div></div><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div><br>'; //New input field html 
+    var x = 1; //Initial field counter is 1
+     
+    //Once add button is clicked
+    $(addButton).click(function(){
+        //Check maximum number of input fields
+        if(x < maxField){ 
+            x++; //Increment field counter
+            $(wrapper).append(fieldHTML); //Add field html
+			myDatepicker();
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper).on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+}); 
 
 
 
 
+$(function () {
+    var table = $('.individual-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: APP_URL+"/admin/individual",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'firstname', name: 'firstname'},
+            {data: 'lastname', name: 'lastname'},
+			
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+    
+});
+
+/* Add Dynamic fields for Library IPs */
+$(document).ready(function(){
+    var maxField = 10; //Input fields increment limitation
+    var addButton = $('.add_buttonip'); //Add button selector
+    var wrapper = $('.field_wrapperip'); //Input field wrapper
+    var fieldHTML = '<div class="form-group row"><label for="type" class="col-sm-1 col-form-label">From</label><div class="col-sm-1"><input type="text" name="from1[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="from2[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="from3[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="from4[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><label for="type" class="col-sm-1 col-form-label">To</label><div class="col-sm-1"><input type="text" name="to1[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="to2[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" onkeypress = "return alphaOnly(event);"  name="to3[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="to4[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div><br>'; //New input field html 
+    var x = 1; //Initial field counter is 1
+     
+    //Once add button is clicked
+    $(addButton).click(function(){
+        //Check maximum number of input fields
+        if(x < maxField){ 
+            x++; //Increment field counter
+            $(wrapper).append(fieldHTML); //Add field html
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper).on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+}); 
+
+
+/* Add Dynamic fields for Library Remote */
+$(document).ready(function(){
+    var maxField = 10; //Input fields increment limitation
+    var addButton = $('.add_buttonremote'); //Add button selector
+    var wrapper = $('.field_wrapperremote'); //Input field wrapper
+    var fieldHTML = '<div class="form-group row"><label for="type" class="col-sm-3 col-form-label">Digits in Remote ID</label><div class="col-sm-1"><select name="remotedigit[]" id="remoteip" class="form-control"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13<option value="14">14</option></option><option value="15">15</option></select></div><label for="type" class="col-sm-3 col-form-label">Remote ID</label><div class="col-sm-3"><input type=""   name="remoteid[]" maxlength="" onkeypress = "return alphaOnly(event);" class="form-control"></div><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div><br>'; //New input field html 
+    var x = 1; //Initial field counter is 1
+   
+    //Once add button is clicked
+    $(addButton).click(function(){
+        //Check maximum number of input fields
+        if(x < maxField){ 
+            x++; //Increment field counter
+            $(wrapper).append(fieldHTML); //Add field html
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper).on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+});
+
+function maxLengthFunction()
+{
+
+   var ddl = document.getElementById("remotedigit");
+  
+   var strOption = ddl.options[ddl.selectedIndex].text
+		document.getElementById("remoteid").removeAttribute('readonly');
+       document.getElementById("remoteid").maxLength=strOption;
+}
+
+												
+$(function () {
+    var table = $('.librarygroup-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: APP_URL+"/admin/librarygroup",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'library', name: 'library'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+    
+});
+
+$(function () {
+    var table = $('.library-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: APP_URL+"/admin/library",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'library', name: 'library'},
+
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+    
+});
+
+
+$(function () {
+    var table = $('.org-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: APP_URL+"/admin/organization",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'library', name: 'library'},
+
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+    
+});
+
+
+/* data table for Subscription Type */
+$(function () {
+    
+    var table = $('.subs-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: APP_URL+"/admin/subscriptiontype",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'eng_name', name: 'eng_name'},
+            {data: 'usertype', name: 'usertype'},
+			{data: 'duration', name: 'duration'},
+			{data: 'price', name: 'price'},
+			{data: 'totalprice', name: 'totalprice'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+    
+});
+
+$(document).ready(function () {
+	 $('#customer_search').click(function(){
+		$("#usersearch").hide();
+		$("#userlists").show();
+		
+	})
+})
+
+
+/* User list table */
+$(function () {
+    
+    var table = $('.userlists-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: APP_URL+"/admin/subscription/userlist",
+        columns: [
+			{data: 'action', name: 'action'},
+            {data: 'id', name: 'id'},
+            {data: 'name', name: 'name'},
+            {data: 'email', name: 'email'},
+            {data: 'user_type', name: 'user_type', orderable: false, searchable: false},  
+        ]
+    });
+	
+	$('#customer_search').keyup(function(){
+		//alert('ddd');
+		table.search($(this).val()).draw() ;
+	})
+    
+}); 
+
+
+$(document).ready(function(){
+
+    // code to read selected table row cell data (values).
+    $("#myTableuser").on('click','.btnSelect',function(){
+         // get the current row
+         var currentRow=$(this).closest("tr"); 
+         var col1=currentRow.find("td:eq(1)").text(); // get current row 1st TD value
+         var col2=currentRow.find("td:eq(2)").text(); // get current row 2nd TD
+         var col3=currentRow.find("td:eq(3)").text(); // get current row 3rd TD
+		 var col4=currentRow.find("td:eq(4)").text(); // get current row 3rd TD
+         //var data=col1+"\n"+col2+"\n"+col3+"\n"+col4;
+         //alert(data);
+		 
+		 $('#cid').val(col1);
+		 $('#name').val(col2);
+		 $('#type').val(col4);
+		 $("#userlists").hide();
+		 $.ajaxSetup({
+			headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+	
+        $.ajax({
+				type:'POST',
+			   url: APP_URL+"/admin/subscription/getsubscriptiontype",
+			   data:{col4:col4},
+			   success:function(data){
+				//alert(data);
+				$('#substypedata').empty();
+				$('#substypedata').append(data);
+				$('#usersearch').show();
+				putsubscriptiondata()
+			   }
+
+			});
+    });
+});
+
+function putsubscriptiondata(){
+	$('input[type=radio][name=subscription_type]').change(function() {
+		//alert('ass');
+		var id = $(this).val();
+		var price =  parseFloat($('#price_'+id).val());
+		var misc = parseFloat($('#misc_'+id).val());
+		var vat =  parseFloat($('#vat_'+id).val());
+		var freight =  parseFloat($('#freight_'+id).val());
+		var freighttax =  parseFloat($('#freighttax_'+id).val());
+		
+		var myprice = price+misc;
+		var myvat = myprice*vat/100;
+		var myfrtax = freight*freighttax/100;
+		var myfreight = myfrtax + freight;
+		var totals = myprice+myvat+myfrtax+freight;
+		
+		$('#newmisc').val(misc);
+		$('#newprice').val(price);
+		$('#newvat').val(vat);
+		$('#newfr').val(freight);
+		$('#newfrt').val(freighttax);
+		$('#newtotal').val(totals);
+		
+		$('#total_price').text(myprice);
+		$('#total_vat').text(myvat);
+		$('#total_freight_tax').text(myfreight);
+		$('#totals').text(totals);
+		
+		
+	});
+}
+
+/*subject */
+$(function () {
+    
+    var table = $('.subject-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: APP_URL+"/admin/subject",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'name', name: 'name'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+    
+
+});

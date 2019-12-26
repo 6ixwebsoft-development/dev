@@ -44,6 +44,13 @@
                                Manage Payment Mood 
                             </a>
                         </li>
+						
+						<li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/subscriptiontype'); !!}">
+                               Manage Subscription Ttype
+                            </a>
+                        </li>
+						
                         <!--<li class="nav-item">
                             <a class="nav-link" href="{!! url('/admin/translation'); !!}">
                               Manage Translation
@@ -69,11 +76,52 @@
                     </li>
                 </ul>
             </li>
+			<li class="nav-item">
+                <a class="nav-link " href="{!! url('/admin/organization'); !!}">
+                    <i class="nav-icon fas fa-language"></i>Organization
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link " href="{!! url('/admin/foundation'); !!}">
                     <i class="nav-icon fas fa-language"></i>Foundation
                 </a>
             </li>
+			
+			 <li class="nav-item">
+                <a class="nav-link " href="{!! url('/admin/individual'); !!}">
+                    <i class="nav-icon fas fa-language"></i>Individual
+                </a>
+            </li>
+			
+			 <li class="nav-item nav-dropdown">
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                    <i class="nav-icon fas fa-language"></i>Library
+                </a>
+
+                <ul class="nav-dropdown-items">
+						
+						<li class="nav-item">
+                            <a class="nav-link" href="{!! url('/admin/library'); !!}">
+                              Library
+                            </a>
+                        </li>
+						
+                        <li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/librarygroup'); !!}">
+                             Library Group
+                            </a>
+                        </li>
+                    </ul>
+					
+                </li>
+				
+				 <li class="nav-item">
+                <a class="nav-link " href="{!! url('/admin/subscription'); !!}">
+                    <i class="nav-icon fas fa-language"></i>Subscription
+                </a>
+            </li>
+			
+			
             <li class="nav-item">
                 <a class="nav-link " href="{!! url('/admin/pages'); !!}"><i class="nav-icon fas fa-language"></i>Pages</a>
             </li>
@@ -113,9 +161,24 @@
                                Manage List Type 
                             </a>
                         </li>
+						<li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/hitlist'); !!}">
+                               Manage Hitlist
+                            </a>
+                        </li>
+						<li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/purpose'); !!}">
+                               Manage Forms & Purposes
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{!! url('/admin/translation'); !!}">
                               Manage Translation
+                            </a>
+                        </li>
+						 <li class="nav-item">
+                            <a class="nav-link" href="{!! url('/admin/subject'); !!}">
+                              Manage Subjects
                             </a>
                         </li>
                     </ul>

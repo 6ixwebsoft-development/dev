@@ -10,8 +10,9 @@ class Foundation extends Model
 
 	protected $table = 'gg_foundation';
     protected $guarded = [];
-
-
+	/* public $tablegetdata = ['contact','location']; */
+	 
+	 
     public function age()
     {    	
         return $this->hasMany('App\Models\FoundationAge','foundation_id');
@@ -57,6 +58,12 @@ class Foundation extends Model
     {    	
         return $this->hasMany('App\Models\FoundationSubject','foundation_id');
     }
+	
+	static function alldata($id)
+	{
+		$tablegetdata = ['contact','location'];
+		return Foundation::find($id)->with($tablegetdata)->get();
+	}
    
 }
 
