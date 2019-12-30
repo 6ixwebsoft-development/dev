@@ -16,6 +16,7 @@ class CreateIndividualProjectTable extends Migration
         Schema::create('individual_project', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->integer('userid');
+			$table->integer('individualid');
 			$table->longtext('projectobject')->nullable();
 			$table->longtext('projectpurpose')->nullable();
 			$table->longtext('projectgeoarea')->nullable();

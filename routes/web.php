@@ -84,6 +84,9 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
         Route::get('foundation/{id}/edit', 'FoundationController@edit');
         Route::post('/foundation/update/{id}', 'FoundationController@update')->name('admin.foundation.update');
         Route::get('foundation/delete/{id}', 'FoundationController@delete');
+
+		// Search user data for admin
+		 Route::post('/getuserdata', 'UserseachController@searchuserdata');
 		
 		//countries block, country, state, city
         Route::group(['namespace' => 'Location', 'prefix' => 'location'], function () {
@@ -278,6 +281,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('organization/{id}/edit', 'OganizationController@edit');
 		Route::post('organization/update/{id}', 'OganizationController@update')->name('admin.organization.update');
 		Route::get('organization/delete/{id}', 'OganizationController@delete');
+		Route::post('organization/document', 'OganizationController@deleteDataImg');
     });
 	
 	Route::group(array('namespace' => 'Admin\subscriptiontype', 'prefix' => 'admin'),function() {
@@ -300,6 +304,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::post('subject/update/{id}', 'SubjectController@update')->name('admin.subject.update');
 		Route::get('subject/delete/{id}', 'SubjectController@delete');
     });
+	
 	
 });
 

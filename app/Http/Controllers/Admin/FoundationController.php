@@ -232,7 +232,7 @@ class FoundationController extends Controller
 				$i++;
 			}
             //Foundation Purpose
-			if($result['purpose_ids']){
+			if(!empty($result['purpose_ids'])){
 				foreach ($result['purpose_ids'] as $purpose_id) {
 					$purpose = array(
 							"foundation_id" => $foundation_id,
@@ -243,7 +243,7 @@ class FoundationController extends Controller
 			}
 
             //Foundation Gender
-			if($result['gender_ids']){
+			if(!empty($result['gender_ids'])){
 				foreach ($result['gender_ids'] as $gender_id) {
 					$gender = array(
 							"foundation_id" => $foundation_id,
@@ -308,7 +308,7 @@ class FoundationController extends Controller
                             'msg' => __("Something went wrong")
                         ];
 		DB::rollBack();
-		echo $e;
+		//echo $e;
 		return redirect('admin/foundation')->with('status', $output);
         }
 
@@ -547,7 +547,7 @@ class FoundationController extends Controller
 
                 FoundationPurpose::where('foundation_id', $id)->delete();
 				
-				if($result['purpose_ids']){
+				if(!empty($result['purpose_ids'])){
 				foreach ($result['purpose_ids'] as $purpose_id) {
 					$purpose = array(
 							"foundation_id" => $id,
@@ -559,7 +559,7 @@ class FoundationController extends Controller
                 
                 //Foundation Gender
                 FoundationGender::where('foundation_id', $id)->delete();
-				if($result['gender_ids']){
+				if(!empty($result['gender_ids'])){
 					foreach ($result['gender_ids'] as $gender_id) {
 						$gender = array(
 								"foundation_id" => $id,
@@ -571,7 +571,7 @@ class FoundationController extends Controller
 
                 //Foundation Subject
                 FoundationSubject::where('foundation_id', $id)->delete();
-				if($result['gender_ids']){
+				if(!empty($result['gender_ids'])){
 					foreach ($result['subject_ids'] as $subject_id) {
 						$subject = array(
 								"foundation_id" => $id,

@@ -65,7 +65,14 @@
     @endforeach
 </ul>
 @endif
-{!! Form::open(array('route' => array('admin.organization.update', $basic->id))) !!}
+{!! Form::open(
+				array('route' => array(
+									'admin.organization.update', 
+									$basic->id 
+									),
+					'files' => true
+					)
+				) !!}
 	@csrf
   <div class="row">
 
@@ -85,14 +92,14 @@
                 <div class="col-sm-6">
 
                     <h4 class="card-title mb-0">
-                      Library  Management <small class="text-muted">Library Add</small>
+                      Organization   Management <small class="text-muted">Organization  Add</small>
                     </h4>
 
                 </div><!--col-->
 				 <div class="col-sm-6">
 					<div class="float-right">
 						<button type="submit" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Save</button>
-						<a class="btn btn-warning" href="{{url('admin/library')}}	"><i class="fa fa-th-list" aria-hidden="true"></i> Back To List</a>
+						<a class="btn btn-warning" href="{{url('admin/organization')}}	"><i class="fa fa-th-list" aria-hidden="true"></i> Back To List</a>
 						<!--<button type="button" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button> -->
 					</div>
                 </div><!--col-->
@@ -107,6 +114,8 @@
 				  <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Basic Info</a>
 				   <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">purpose</a>
 				  <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"> IP & Remote Login</a>
+				 
+				  <a class="nav-link" id="v-pills-photos-tab" data-toggle="pill" href="#v-pills-photos" role="tab" aria-controls="v-pills-photos" aria-selected="false">Documents and photos</a>
 				 
 				  <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Foundations</a>
 				</div>
@@ -144,7 +153,7 @@
 							 <div class="form-group row">
 								  {!! Form::label('User Number', __( 'User Number' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">
-								   {!! Form::text('usertype', $basic->usernumber, ['class' => 'form-control', '', 'placeholder' => __( '' ) ]); !!}
+								   {!! Form::text('usertype', $basic->usernumber, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);', 'maxlength'=>'5','placeholder' => __( '' ) ]); !!}
 								</div>
 							  </div>
 							 
@@ -213,13 +222,13 @@
 							   <div class="form-group row">
 								{!! Form::label('Phone', __( 'Phone' ) . ':', [ 'class' => 'col-sm-2 col-form-label']) !!}
 								<div class="col-sm-4">
-								   {!! Form::text('phone', $contact->phone, ['class' => 'form-control','','placeholder' => __( '' ) ]); !!}
+								   {!! Form::text('phone', $contact->phone, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);','placeholder' => __( '' ) ]); !!}
 								</div>
 							 
 								
 								{!! Form::label('Mobile', __( 'Mobile' ) . ':', [ 'class' => 'col-sm-2 col-form-label']) !!}
 								<div class="col-sm-4">
-								   {!! Form::text('mobile', $contact->mobile, ['class' => 'form-control','','placeholder' => __( '' ) ]); !!}
+								   {!! Form::text('mobile', $contact->mobile, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);','placeholder' => __( '' ) ]); !!}
 								</div>
 							  </div>
 							  
@@ -245,7 +254,7 @@
 											<div class="form-group row">
 											  {!! Form::label('Zip', __( 'Zip' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 												<div class="col-sm-8">
-												   {!! Form::text('bzip', $contact->contactzip, ['class' => 'form-control','', 'placeholder' => __( '' ) ]); !!}
+												   {!! Form::text('bzip', $contact->contactzip, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);', 'placeholder' => __( '' ) ]); !!}
 												</div>
 											</div>
 											<div class="form-group row">
@@ -277,7 +286,7 @@
 											<div class="form-group row">
 											  {!! Form::label('Zip', __( 'Zip' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 												<div class="col-sm-8">
-												   {!! Form::text('pzip', $contact->postalzip, ['class' => 'form-control','', 'placeholder' => __( '' ) ]); !!}
+												   {!! Form::text('pzip', $contact->postalzip, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);', 'placeholder' => __( '' ) ]); !!}
 												</div>
 											</div>
 											<div class="form-group row">
@@ -530,6 +539,73 @@
 						</div>
 					</div>				
 				  </div>
+					
+					
+					
+					
+					
+					 <div class="tab-pane fade" id="v-pills-photos" role="tabpanel" aria-labelledby="v-pills-photos-tab">
+						
+						<h5>My Logo</h5>
+						<input type="file" name="logoImg" id="logoImg" accept="image/x-png,image/gif,image/jpeg" >
+						<br><br>
+						@if(!empty($logo))
+							<div class="row">
+								<div class="col-md-4">
+									<img src="{{URL::asset('uploads/images/'.$logo->name)}}" height="120" width="200">
+									<div class="col-md-12" target="_blank"><br>
+									<a href="{{URL::asset('uploads/images/'.$logo->name)}}" class="btn btn-info">View</a>
+								
+									<a onClick="deleteDataImg({{$logo->id}},'ORG');" class="btn btn-danger">Delete</a>
+									</div>
+								</div>
+							</div>
+						@endif
+						<hr>
+						<br>
+						<h5>My Documents</h5>
+						<input type="file" name="documents[]" id="Documents" accept="application/pdf,application/vnd.ms-excel" multiple>
+						<br><br>
+						@if(!empty($doc))
+							@foreach($doc as $Docs)
+							<div class="col-md-12">
+								<div class="col-md-4">
+									<a href="{{URL::asset('uploads/images/'.$Docs->name)}}" target="_blank"><i class="far fa-file-pdf fa-lg"></i></a>
+									<div class="col-md-12" ><br>
+									<a href="{{URL::asset('uploads/images/'.$Docs->name)}}" class="btn btn-info" target="_blank">View</a>
+								
+									<a onClick="deleteDataImg({{$Docs->id}},'ORG');" class="btn btn-danger">Delete</a>
+									</div><br>
+								</div>
+							</div>
+							@endforeach
+						@endif
+						<hr>
+						<br>
+						<h5>My Photo</h5>
+						<input type="file" name="photos[]" id="photos" accept="image/x-png,image/gif,image/jpeg" multiple>
+						<br><br>
+						@if(!empty($photo))
+							@foreach($photo as $Photo)
+							<div class="col-md-12">
+								<div class="col-md-4">
+									<img src="{{URL::asset('uploads/images/'.$Photo->name)}}" target="_blank" height="120" width="200">
+									<div class="col-md-12" ><br>
+									<a href="{{URL::asset('uploads/images/'.$Photo->name)}}" class="btn btn-info" target="_blank">View</a>
+								
+									<a  onClick="deleteDataImg({{$Photo->id}},'ORG');" class="btn btn-danger">Delete</a>
+									</div><br>
+								</div>
+							</div>
+							@endforeach
+						@endif
+						<hr>
+							
+					</div>
+					
+					
+					
+					
 					
 					
 				  </div>

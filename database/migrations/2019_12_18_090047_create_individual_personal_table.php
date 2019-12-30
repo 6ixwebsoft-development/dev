@@ -16,6 +16,7 @@ class CreateIndividualPersonalTable extends Migration
         Schema::create('individual_personal', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->integer('userid');
+			$table->integer('individualid');
 			$table->string('gender')->nullable();
 			$table->string('civilstatus')->nullable();
 			$table->string('occupation')->nullable();

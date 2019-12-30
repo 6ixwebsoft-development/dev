@@ -112,12 +112,13 @@ class IndividualController extends Controller
 				"created_at"  => Now(),
 				);
 				
-				Individual::insert($basicinfo);
+				$indId = Individual::insertGetId($basicinfo);
 				
 				
 				$contactinfo = array(
 				"userid"  => $user_id ,
 				"streetadress"  => $result['streetaddress'],
+				"individualid"  => $indId,
 				"zipcode"  => $result['zipcode'],
 				"country"  => $result['country'],
 				"region"  =>  $result['region'],
@@ -132,6 +133,7 @@ class IndividualController extends Controller
 					
 				$personalinfo = array(
 				"userid"  => $user_id ,
+				"individualid"  => $indId,
 				"gender"  => $result['gender'],
 				"civilstatus"  => $result['civilstatus'],
 				"occupation"  => $result['occupation'],
@@ -154,6 +156,7 @@ class IndividualController extends Controller
 				}
 				$purposelist = array(
 					"userid" => $user_id ,
+					"individualid"  => $indId,
 					"purposeid" => $purpose,
 					"created_at"  => Now(),
 				);
@@ -169,6 +172,7 @@ class IndividualController extends Controller
 				$edate = date("Y-m-d", strtotime($result['enddate']));
 				$study = array(
 					"userid"  => $user_id ,
+					"individualid"  => $indId,
 					"studyfield"  => $result['studyfield'],
 					"studydegree"  => $result['degree'],
 					"studyschool"  => $result['school'],
@@ -193,6 +197,7 @@ class IndividualController extends Controller
 				
 				$care = array(
 					"userid"  => $user_id ,
+					"individualid"  => $indId,
 					"careillness"  => $result['careillness'],
 					"caresymptoms"  => $result['caresymptoms'],
 					"carehospital"  => $result['carehospital'],
@@ -205,6 +210,7 @@ class IndividualController extends Controller
 				
 				$walfare = array(
 					"userid"  => $user_id ,
+					"individualid"  => $indId,
 					"welfareneeds"  => $result['welfareneeds'],
 					"welfareadditionalinfo"  => $result['welfareadditionalinfo'],
 					"created_at"  => Now(),
@@ -219,6 +225,7 @@ class IndividualController extends Controller
 				$redate = date("Y-m-d", strtotime($result['researchenddate']));
 				$research = array(
 					"userid"  => $user_id ,
+					"individualid"  => $indId,
 					"researchsubject"  => $subjects,
 					"researchobjective"  => $result['researchobjective'],
 					"researchlimitation"  => $result['researchlimitation'],
@@ -237,6 +244,7 @@ class IndividualController extends Controller
 				
 				$project = array(
 					"userid"  => $user_id ,
+					"individualid"  => $indId,
 					"projectobject"  => $result['projectobject'],
 					"projectpurpose"  => $result['projectpurpose'],
 					"projectgeoarea"  => $result['projectgeoarea'],
@@ -253,6 +261,7 @@ class IndividualController extends Controller
 					$url = $result['video_url'];
 					$video = array(
 					"userid"  => $user_id ,
+					"individualid"  => $indId,
 					"type"  => $type,
 					"url"  => $url[$i],
 					"created_at"  => Now(),
@@ -270,6 +279,7 @@ class IndividualController extends Controller
 					foreach($result['cdob'] as $Cdob){
 					$childern = array(
 					"userid"  => $user_id ,
+					"individualid"  => $indId,
 					"childerndob"  => $Cdob,
 					"childerngender"  => $gender[$j],
 					"childernschool"  => $school[$j],
@@ -291,8 +301,8 @@ class IndividualController extends Controller
                             'msg' => __("Individual Not create".$e)
                             ];
 		DB::rollBack();
-		//echo $e;
-		return redirect('admin/individual/create')->with('message', $output);
+		echo $e;
+		//return redirect('admin/individual/create')->with('message', $output);
         }
 		
 	}
@@ -300,7 +310,9 @@ class IndividualController extends Controller
 	
 	public function edit($id)
 	{
-	
+		/* $data = Individual::get(); 
+		  $data = Individual::alldata(3);
+		echo "<pre>"; print_r($data);exit; */ 
 		$roles = Role::pluck('name','id')->all();
 		$country = Country::pluck('country_name','id')->all();
 		$purpose = Purpose::pluck('purpose','id')->all();

@@ -16,6 +16,7 @@ class CreateIndividualStudyTable extends Migration
         Schema::create('individual_study', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->integer('userid');
+			$table->integer('individualid');
 			$table->longtext('studyfield')->nullable();
 			$table->longtext('studydegree')->nullable();
 			$table->longtext('studyschool')->nullable();

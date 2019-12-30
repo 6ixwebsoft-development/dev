@@ -20,6 +20,7 @@ use App\Models\Country;
 use App\Models\Region;
 use App\Models\City;
 use App\Models\Purpose;
+use App\Models\Documents;
 use DataTables;
 use DB;
 use Hash;
@@ -76,7 +77,7 @@ class LibraryController extends Controller
 				
 				$basic = array(
                     "userid" => $user_id,
-                    "library"  => $result['library'],
+                    "name"  => $result['library'],
                     "groupid"  => $result['group'],
                     "languageid"  => $result['language'],
                     "logintype"  => $result['logintype'],
@@ -188,8 +189,9 @@ class LibraryController extends Controller
 		$details  = Librarylogin::where('libraryid',$id)->first();
 		$ips  = Libraryips::where('libraryid',$id)->get();
 		$remoteips  = Libraryremoteip::where('libraryid',$id)->get();
-		
-        return view('admin.library.edit',compact('roles','userroles','language','country','purpose','group','basic','contact','details','ips','remoteips'));
+		$logo = Documents::where('userid',$id)->where('type','LIB')->where('filetype',1)->first();
+			
+        return view('admin.library.edit',compact('roles','userroles','language','country','purpose','group','basic','contact','details','ips','remoteips','logo'));
 	}
 	
 	public function update(Request $request, $id) 
@@ -206,7 +208,7 @@ class LibraryController extends Controller
 				
 				$basic = array(
                    
-                    "library"  => $result['library'],
+                    "name"  => $result['library'],
                     "groupid"  => $result['group'],
                     "languageid"  => $result['language'],
                     "logintype"  => $result['logintype'],
@@ -289,6 +291,20 @@ class LibraryController extends Controller
 					Libraryremoteip::insert($ips);
 					$i++; }
 				}
+				
+			 if(!empty($request->file('logoImg')))
+				{
+					$imageName = time().'.'.request()->logoImg->getClientOriginalExtension();
+					request()->logoImg->move(public_path('uploads/images'), $imageName);
+					$datalogo = array(
+						'userid'=> $id,
+						'name'=> $imageName,
+						'type'=> 'LIB',
+						'filetype'=>1,
+						'created_at'=>now(),
+					);
+					Documents::insert($datalogo);
+				} 
 
 
 		$output = ['success' => true,

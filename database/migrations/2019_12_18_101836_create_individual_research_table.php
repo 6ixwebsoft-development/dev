@@ -16,6 +16,7 @@ class CreateIndividualResearchTable extends Migration
         Schema::create('individual_research', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->integer('userid');
+			$table->integer('individualid');
 			$table->longtext('researchsubject')->nullable();
 			$table->longtext('researchobjective')->nullable();
 			$table->longtext('researchlimitation')->nullable();

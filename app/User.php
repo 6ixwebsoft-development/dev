@@ -41,7 +41,7 @@ class User extends Authenticatable
     ];
 
     protected $appends  = [
-        'tstatus'
+        'tstatus','rolename',
     ];
 
     // public function getStatusAttribute($value)
@@ -80,6 +80,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Userinfo','userid');
     }
 	
+	 public function getRolenameAttribute()
+    {    	
+      return $this->getRoleNames();
+    }
 	
 
 }

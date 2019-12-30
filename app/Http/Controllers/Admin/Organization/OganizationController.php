@@ -21,6 +21,7 @@ use App\Models\Country;
 use App\Models\Region;
 use App\Models\City;
 use App\Models\Purpose;
+use App\Models\Documents;
 use DataTables;
 use DB;
 use Hash;
@@ -95,7 +96,7 @@ class OganizationController extends Controller
 				
 				$basic = array(
                     "userid" => $user_id,
-                    "library"  => $result['orgname'],
+                    "name"  => $result['orgname'],
                     "groupid"  => null,
                     "languageid"  => $result['language'],
                     "logintype"  => $result['logintype'],
@@ -230,7 +231,11 @@ class OganizationController extends Controller
 		$purposes = orgpurpose::where('orgid',$id)->first();
 		if(!empty($purposes->purposeid)){$purposeId = json_decode($purposes->purposeid);}else{$purposeId = '';}
 		
-        return view('admin.organization.edit',compact('roles','userroles','language','country','purpose','group','basic','contact','details','ips','remoteips','purposeId','user'));
+		$logo = Documents::where('userid',$id)->where('filetype',1)->where('type','ORG')->first();
+		$doc = Documents::where('userid',$id)->where('filetype',2)->where('type','ORG')->get();
+		$photo = Documents::where('userid',$id)->where('filetype',3)->where('type','ORG')->get();
+		
+        return view('admin.organization.edit',compact('roles','userroles','language','country','purpose','group','basic','contact','details','ips','remoteips','purposeId','user','logo','doc','photo'));
 	}
 	
 	public function update(Request $request, $id) 
@@ -241,27 +246,29 @@ class OganizationController extends Controller
 					'email' => 'required|email',
 					'userrole' => 'required',
 					'availability' => 'required',
-					
+					/* 'useremail' => 'required|email|unique:users,email,'.$basic->userid, */
 					'mobile' => 'numeric',
 					'phone' => 'numeric',
 				]);
 				DB::beginTransaction();
 		try {
 			$result = $request->all();
-				
+				/* print_r($_FILES);
+				echo $request->file('logoImg');
+				echo $result['logoImg'];exit; */
 				$userLog = array(
 				"email"  => $result['useremail'],
 				"name"  => $result['orgname'],
 				"updated_at"  => Now(),
 				);
-				DB::table('users')->where('id', $id)->update($userLog);
+				DB::table('users')->where('id', $basic->userid)->update($userLog);
 				
 				DB::table('model_has_roles')->where('model_id', $id)->update(
 					['role_id' => $result['userrole']]
 				);
 				
 				$basic = array(
-                    "library"  => $result['orgname'],
+                    "name"  => $result['orgname'],
                     "groupid"  => null,
                     "languageid"  => $result['language'],
                     "logintype"  => $result['logintype'],
@@ -362,6 +369,57 @@ class OganizationController extends Controller
 				
 				}
 				
+				 if(!empty($request->file('logoImg')))
+				{
+					$imageName = time().'.'.request()->logoImg->getClientOriginalExtension();
+					request()->logoImg->move(public_path('uploads/images'), $imageName);
+					$datalogo = array(
+						'userid'=> $id,
+						'name'=> $imageName,
+						'type'=> 'ORG',
+						'filetype'=>1,
+						'created_at'=>now(),
+					);
+					Documents::insert($datalogo);
+				} 
+				
+				
+				
+				if ($documents = $request->file('documents')) {
+					$i = 0;
+					foreach ($documents as $files) {
+					$destinationPath = 'uploads/images'; // upload path
+					
+					$profileImage = md5(microtime().$i)."Photo." . $files->getClientOriginalExtension();					
+					$files->move($destinationPath, $profileImage);
+						 $datadoc = array(
+							'userid'=> $id,
+							'name'=> $profileImage,
+							'type'=> 'ORG',
+							'filetype'=>2,
+							'created_at'=>now(),
+						);
+						Documents::insert($datadoc);
+					}
+				}
+				
+				if ($photos = $request->file('photos')) {
+					$i = 0;
+					foreach ($photos as $files) {
+					$destinationPath = 'uploads/images'; // upload path
+					
+					$profileImage = md5(microtime().$i)."Photo." . $files->getClientOriginalExtension();					
+					$files->move($destinationPath, $profileImage);
+						$dataphoto = array(
+							'userid'=> $id,
+							'name'=> $profileImage,
+							'type'=> 'ORG',
+							'filetype'=>3,
+							'created_at'=>now(),
+						);
+						Documents::insert($dataphoto);
+					}
+				}
 
 			$output	= ['class' => 'alert-position-success',
                             'msg' => __("Organization updated")
@@ -374,8 +432,8 @@ class OganizationController extends Controller
                             'msg' => __("Organization Not create")
                             ];
 			DB::rollBack();
-			//echo $e;
-			return redirect('admin/organization')->with('message', $output);
+			echo $e;
+			//return redirect('admin/organization')->with('message', $output);
 		}
 
 		
@@ -402,6 +460,14 @@ class OganizationController extends Controller
                             ];
 		}
 		return redirect('admin/organization')->with('message', $output);
+	}
+	
+	public function deleteDataImg(Request $request)
+	{
+		$doc = Documents::where('id', $request->id)->where('type', $request->txt)->first();
+		$destinationPath = 'uploads/images/'. $doc->name;
+		unlink($destinationPath);
+		Documents::where('id', $request->id)->where('type', $request->txt)->delete();
 	}
 	
 }

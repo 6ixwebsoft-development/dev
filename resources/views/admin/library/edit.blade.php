@@ -65,7 +65,7 @@
     @endforeach
 </ul>
 @endif
-{!! Form::open(array('route' => array('admin.library.update', $basic->id))) !!}
+{!! Form::open(array('route' => array('admin.library.update', $basic->id) ,'files' => true )) !!}
 	@csrf
   <div class="row">
 
@@ -106,6 +106,8 @@
 				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 				  <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Basic Info</a>
 				  <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"> IP & Remote Login</a>
+				  
+				   <a class="nav-link" id="v-pills-photos-tab" data-toggle="pill" href="#v-pills-photos" role="tab" aria-controls="v-pills-photos" aria-selected="false">Upload Logo</a>
 				  
 				</div>
 			  </div>
@@ -150,7 +152,7 @@
 							 <div class="form-group row">
 								  {!! Form::label('User Number', __( 'User Number' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">
-								   {!! Form::text('usertype', $basic->usernumber, ['class' => 'form-control', '', 'placeholder' => __( '' ) ]); !!}
+								   {!! Form::text('usertype', $basic->usernumber, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);', 'maxlength'=>'5', 'placeholder' => __( '' ) ]); !!}
 								</div>
 							  </div>
 							 
@@ -500,6 +502,27 @@
 						</div>
 					</div>
 				</div>
+				
+				
+				<div class="tab-pane fade" id="v-pills-photos" role="tabpanel" aria-labelledby="v-pills-photos-tab">
+						
+						<h5>My Logo</h5><br>
+						<input type="file" name="logoImg" id="logoImg" accept="image/x-png,image/gif,image/jpeg" >
+						<br><br>
+						@if(!empty($logo))
+							<div class="row">
+								<div class="col-md-4">
+									<img src="{{URL::asset('uploads/images/'.$logo->name)}}" height="120" width="200">
+									<div class="col-md-12" target="_blank"><br>
+									<a href="{{URL::asset('uploads/images/'.$logo->name)}}" class="btn btn-info">View</a>
+								
+									<a  onClick="deleteDataImg({{$logo->id}},'LIB');" class="btn btn-danger">Delete</a>
+									</div>
+								</div>
+							</div>
+						@endif
+						<hr>
+					</div>
 
 				  </div>
 				  

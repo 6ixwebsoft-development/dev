@@ -16,7 +16,8 @@ class CreateIndividualPurposelistTable extends Migration
         Schema::create('individual_purposelist', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->integer('userid');
-			$table->integer('purposeid');
+			$table->integer('individualid');
+			$table->text('purposeid')->nullable();
             $table->timestamps();
         });
     }

@@ -59,22 +59,22 @@
                 <div class="row col-row">
                   <div class="col-sm-6">
                     <div class="form-group">
-                      <label for="exampleFormControlSelect1">All</label>
-                      <select multiple class="form-control" id="exampleFormControlSelect1">
-                        <option value="">DONORS</option>
-						<option value="">INDIVIDUAL</option>
-						<option value="">ORGANIZATION</option>
-						<option value="">LIBRARY</option>
-						<option value="">LIBRARY GROUP</option>
+                      <label for="usertytype">All</label>
+                      <select multiple class="form-control" id="usertytype" name="usertytype">
+                        <option value="DON">DONORS</option>
+						<option value="IND">INDIVIDUAL</option>
+						<option value="ORG">ORGANIZATION</option>
+						<option value="LIB">LIBRARY</option>
+						<option value="LIBGROUP">LIBRARY GROUP</option>
                       </select>
                     </div>
 					
 					<div class="input-group">
-							<input id="createdFrom" type="date" class="form-control" name="createdFrom" placeholder="Date Created From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>						
+							<input id="createdFrom" type="text" class="form-control mycustomdate" name="createdFrom" placeholder="Date Created From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>						
 						</div><br>
 						
 						<div class="input-group">
-							<input id="modifiesFrom" type="date" class="form-control" name="modifiesFrom" placeholder="Date Modified From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+							<input id="modifiesFrom" type="text" class="form-control mycustomdate" name="modifiesFrom" placeholder="Date Modified From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 						</div>
 					
 					<div style="margin-top:10px;" class="row">
@@ -109,10 +109,10 @@
                     </div>
 					
 					<div class="input-group">
-							<input id="createdTo" type="date" class="form-control" name="createdTo" placeholder="Date Created From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>						
+							<input id="createdTo" type="text" class="form-control mycustomdate" name="createdTo" placeholder="Date Created To"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>						
 						</div><br>
 						<div class="input-group">
-							<input id="modifiesTo" type="date" class="form-control" name="modifiesTo" placeholder="Date Modified From"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+							<input id="modifiesTo" type="text" class="form-control mycustomdate" name="modifiesTo" placeholder="Date Modified To"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 						</div>
 						
 						<div style="margin-top:10px;">
@@ -137,7 +137,7 @@
 							  <label><input type="checkbox" value="email" id="byemail"> Search only Email</label>
 							</div>                                    
 							<div class="checkbox">                    
-							  <label><input type="checkbox" value=""> Have Photo/Documents</label>
+							  <label><input type="checkbox" value="byDocumnet"> Have Photo/Documents</label>
 							</div>                                    
 							<div class="checkbox">                    
 							  <label><input type="checkbox" value=""> Have Purchased List</label>

@@ -16,6 +16,7 @@ class CreateIndividualCareTable extends Migration
         Schema::create('individual_care', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->integer('userid');
+			$table->integer('individualid');
 			$table->longtext('careillness')->nullable();
 			$table->longtext('caresymptoms')->nullable();
 			$table->longtext('carehospital')->nullable();

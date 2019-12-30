@@ -294,7 +294,8 @@ function searchuserdata() {
     var searchtext = $('#search').val();
 	var userRole = $('#userRole').val();
 	var statususer = $("input[name='optuser']:checked").val();
-	
+	var usertytype = $('#usertytype').val();
+	/* alert(usertytype); */
 	var createdFrom = $('#createdFrom').val();
 	var createdTo = $('#createdTo').val();
 	var modifiesFrom = $('#modifiesFrom').val();
@@ -328,8 +329,8 @@ function searchuserdata() {
 	
         $.ajax({
            type:'POST',
-           url: APP_URL+"/admin/searchvikashuser",
-           data:{searchtext:searchtext,userRole:userRole,statususer:statususer,createdFrom:createdFrom,createdTo:createdTo,modifiesFrom:modifiesFrom,modifiesTo:modifiesTo,emailcheck:emailcheck},
+           url: APP_URL+"/admin/getuserdata",
+           data:{searchtext:searchtext,userRole:userRole,statususer:statususer,createdFrom:createdFrom,createdTo:createdTo,modifiesFrom:modifiesFrom,modifiesTo:modifiesTo,emailcheck:emailcheck,usertytype:usertytype},
            success:function(data){
 			//alert(data);
 			$('.user-table').dataTable().fnDestroy()
@@ -1037,7 +1038,26 @@ $(document).ready(function(){
     });
 });
 
-
+function deleteDataImg(id,txt)
+{
+	
+	 $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+	//alert(id);return false;
+	 $.ajax({
+		   type:'POST',
+		  url: APP_URL+"/admin/organization/document",
+		   data:{id:id,txt:txt},
+		   success:function(data) {
+			alert("File deleted successfully...!");
+			location.reload();
+               }
+            });
+	
+}
 
 
 

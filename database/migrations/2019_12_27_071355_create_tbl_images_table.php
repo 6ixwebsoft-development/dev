@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIndividualLibraryTable extends Migration
+class CreateTblImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateIndividualLibraryTable extends Migration
      */
     public function up()
     {
-        Schema::create('individual_library', function (Blueprint $table) {
+        Schema::create('tbl_images', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->integer('userid');
-			$table->integer('individualid');
-			$table->integer('librarycity')->nullable();
-			$table->integer('librarycardnumber')->nullable();
-			$table->longtext('librarycomment')->nullable();
+			$table->string('name');
+			$table->string('type');
+			$table->integer('filetype');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateIndividualLibraryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('individual_library');
+        Schema::dropIfExists('tbl_images');
     }
 }

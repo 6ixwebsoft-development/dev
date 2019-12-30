@@ -16,6 +16,7 @@ class CreateIndividualWelfareTable extends Migration
         Schema::create('individual_welfare', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->integer('userid');
+			$table->integer('individualid');
 			$table->longtext('welfareneeds')->nullable();
 			$table->longtext('welfareadditionalinfo')->nullable();
             $table->timestamps();

@@ -64,7 +64,7 @@ class LibraryGroupController extends Controller
 			
             $basic = array(
                     "userid" => 0,
-                    "library"  => $result['library'],
+                    "name"  => $result['library'],
                     "groupid"  => null,
                     "languageid"  => $result['language'],
                     "logintype"  => null,
@@ -139,7 +139,7 @@ class LibraryGroupController extends Controller
 			
 				$basic = array(
                     "userid" => null,
-                    "library"  => $result['library'],
+                    "name"  => $result['library'],
                     "groupid"  => null,
                     "languageid"  => $result['language'],
                     "logintype"  => null,

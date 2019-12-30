@@ -284,7 +284,7 @@ class UserController extends Controller
 
 	public function searchvikashuser(Request $request)
 	{
-		
+		print_r($request->all());exit;
 	if ($request->ajax()) {
 		$query = User::orderBy('id');
 		if(!empty($request->input('userRole')))

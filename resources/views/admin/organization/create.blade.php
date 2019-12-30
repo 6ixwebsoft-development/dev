@@ -151,7 +151,7 @@
 							 <div class="form-group row">
 								  {!! Form::label('User Number', __( 'User Number' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">
-								   {!! Form::text('usertype', null, ['class' => 'form-control', '', 'placeholder' => __( '' ) ]); !!}
+								   {!! Form::text('usertype', null, ['class' => 'form-control', 'maxlength'=>'5','onkeypress' => 'return alphaOnly(event);', 'placeholder' => __( '' ) ]); !!}
 								</div>
 							  </div>
 							 
@@ -220,13 +220,13 @@
 							   <div class="form-group row">
 								{!! Form::label('Phone', __( 'Phone' ) . ':', [ 'class' => 'col-sm-2 col-form-label']) !!}
 								<div class="col-sm-4">
-								   {!! Form::text('phone', null, ['class' => 'form-control','','placeholder' => __( '' ) ]); !!}
+								   {!! Form::text('phone', null, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);','placeholder' => __( '' ) ]); !!}
 								</div>
 							 
 								
 								{!! Form::label('Mobile', __( 'Mobile' ) . ':', [ 'class' => 'col-sm-2 col-form-label']) !!}
 								<div class="col-sm-4">
-								   {!! Form::text('mobile', null, ['class' => 'form-control','','placeholder' => __( '' ) ]); !!}
+								   {!! Form::text('mobile', null, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);','placeholder' => __( '' ) ]); !!}
 								</div>
 							  </div>
 							  
@@ -254,7 +254,7 @@
 											<div class="form-group row">
 											  {!! Form::label('Zip', __( 'Zip' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 												<div class="col-sm-8">
-												   {!! Form::text('bzip', null, ['class' => 'form-control','', 'placeholder' => __( '' ) ]); !!}
+												   {!! Form::text('bzip', null, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);', 'placeholder' => __( '' ) ]); !!}
 												</div>
 											</div>
 											<div class="form-group row">
@@ -286,7 +286,7 @@
 											<div class="form-group row">
 											  {!! Form::label('Zip', __( 'Zip' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 												<div class="col-sm-8">
-												   {!! Form::text('pzip', null, ['class' => 'form-control','', 'placeholder' => __( '' ) ]); !!}
+												   {!! Form::text('pzip', null, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);', 'placeholder' => __( '' ) ]); !!}
 												</div>
 											</div>
 											<div class="form-group row">

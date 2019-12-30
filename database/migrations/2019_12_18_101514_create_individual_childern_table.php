@@ -16,6 +16,7 @@ class CreateIndividualChildernTable extends Migration
         Schema::create('individual_childern', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->integer('userid');
+			$table->integer('individualid');
 			$table->string('childerndob')->nullable();
 			$table->string('childerngender')->nullable();
 			$table->string('childernschool')->nullable();

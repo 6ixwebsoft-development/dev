@@ -16,6 +16,7 @@ class CreateIndividualVideoTable extends Migration
         Schema::create('individual_video', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->integer('userid');
+			$table->integer('individualid');
 			$table->string('type')->nullable();;
 			$table->string('url')->nullable();;
             $table->timestamps();

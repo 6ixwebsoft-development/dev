@@ -16,6 +16,7 @@ class CreateIndividualContactTable extends Migration
         Schema::create('individual_contact', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->integer('userid');
+			$table->integer('individualid');
 			$table->string('streetadress')->nullable();;
 			$table->string('zipcode')->nullable();;
 			$table->string('country')->nullable();;
