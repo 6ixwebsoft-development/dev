@@ -62,9 +62,9 @@
                       <label for="usertytype">All</label>
                       <select multiple class="form-control" id="usertytype" name="usertytype">
                         <option value="DON">DONORS</option>
-						<option value="IND">INDIVIDUAL</option>
-						<option value="ORG">ORGANIZATION</option>
-						<option value="LIB">LIBRARY</option>
+						<option value="IND" selected>INDIVIDUAL</option>
+						<option value="ORG" selected>ORGANIZATION</option>
+						<option value="LIB" selected>LIBRARY</option>
 						<option value="LIBGROUP">LIBRARY GROUP</option>
                       </select>
                     </div>

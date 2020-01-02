@@ -1,5 +1,7 @@
+@if(empty($ajax))
 @extends('layouts.mainlayout')
 @section('content')
+@endif
 <main class="main-content">
 
 	<div class="page">
@@ -37,4 +39,6 @@
 		</div>
 	</div> <!-- .page -->
 </main>
+@if(empty($ajax))
 @endsection
+@endif

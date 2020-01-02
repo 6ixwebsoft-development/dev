@@ -15,6 +15,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.js"></script>
 		<script>
 			(function($, document, window){
                 // git testing git
@@ -159,6 +160,16 @@
 		            });
 		        }
 		    });
+		</script>
+		<script>
+
+		$(function() {
+		  $("select").select2({
+			placeholder: "Select a word",
+			width: "100%"
+		  });
+		});
+
 		</script>
 		
 	</body>

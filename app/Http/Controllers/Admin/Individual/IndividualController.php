@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Admin\Individual;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Language;
+use App\Models\Modules;
+use App\Models\ModuleField;
+use App\Models\ModuleFieldValue;
+//Individual models
+
 use App\Models\Individual;
 use App\Models\IndividualContact;
 use App\Models\IndividualPersonal;
@@ -60,12 +65,57 @@ class IndividualController extends Controller
 	public function create()
     {
 		
+		$civilstatuss = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+                    //->where('gg_module_fields.module_id', $id)
+                    ->where('gg_module_fields.field_name', 'Civil Status')
+                    ->select(
+                        'mfv.id',
+                        'gg_module_fields.field_name',
+                        'gg_module_fields.field_type',
+                        'mfv.value'
+                    )
+                    ->get();
+        $civilstatus = array();
+        foreach ($civilstatuss as $civilstatusval) {
+            $civilstatus[$civilstatusval->id] = $civilstatusval->value;
+        } 
+		
+		 $genders = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+                    //->where('gg_module_fields.module_id', $id)
+                    ->where('gg_module_fields.field_name', 'Type of applicant')
+                    ->select(
+                        'mfv.id',
+                        'gg_module_fields.field_name',
+                        'gg_module_fields.field_type',
+                        'mfv.value'
+                    )
+                    ->get();
+        $gender = array();
+        foreach ($genders as $genderVal) {
+            $gender[$genderVal->id] = $genderVal->value;
+        } 
+		$purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+                    //->where('gg_module_fields.module_id', $id)
+                    ->where('gg_module_fields.field_name', 'Purpose')
+                    ->select(
+                        'mfv.id',
+                        'gg_module_fields.field_name',
+                        'gg_module_fields.field_type',
+                        'mfv.value'
+                    )
+                    ->get();
+        $purpose = array();
+        foreach ($purposes as $purposeVal) {
+            $purpose[$purposeVal->id] = $purposeVal->value;
+        } 
+		
 		$roles = Role::pluck('name','id')->all();
 		$country = Country::pluck('country_name','id')->all();
-		$purpose = Purpose::pluck('purpose','id')->all();
+		//$purpose = Purpose::pluck('purpose','id')->all();
 		$userroles = Role::all();
 		$language = Language::where('status','1')->pluck('language', 'id')->all();
-        return view('admin.Individual.create',compact('roles','userroles','language','country','purpose'));
+		/* print_r($) */
+        return view('admin.Individual.create',compact('roles','userroles','language','country','purpose','civilstatus','gender'));
     }
 	
 	public function store(Request $request)
@@ -310,11 +360,59 @@ class IndividualController extends Controller
 	
 	public function edit($id)
 	{
+		$civilstatuss = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+                    //->where('gg_module_fields.module_id', $id)
+                    ->where('gg_module_fields.field_name', 'Civil Status')
+                    ->select(
+                        'mfv.id',
+                        'gg_module_fields.field_name',
+                        'gg_module_fields.field_type',
+                        'mfv.value'
+                    )
+                    ->get();
+        $civilstatus = array();
+        foreach ($civilstatuss as $civilstatusval) {
+            $civilstatus[$civilstatusval->id] = $civilstatusval->value;
+        } 
+		
+		 $genders = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+                    //->where('gg_module_fields.module_id', $id)
+                    ->where('gg_module_fields.field_name', 'Type of applicant')
+                    ->select(
+                        'mfv.id',
+                        'gg_module_fields.field_name',
+                        'gg_module_fields.field_type',
+                        'mfv.value'
+                    )
+                    ->get();
+        $gender = array();
+        foreach ($genders as $genderVal) {
+            $gender[$genderVal->id] = $genderVal->value;
+        } 
+		
+		$purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+                    //->where('gg_module_fields.module_id', $id)
+                    ->where('gg_module_fields.field_name', 'Purpose')
+                    ->select(
+                        'mfv.id',
+                        'gg_module_fields.field_name',
+                        'gg_module_fields.field_type',
+                        'mfv.value'
+                    )
+                    ->get();
+        $purpose = array();
+        foreach ($purposes as $purposeVal) {
+           // $purpose[$purposeVal->id] = $purposeVal->value;
+        } 
+		
 		/* $data = Individual::get(); 
 		  $data = Individual::alldata(3);
 		echo "<pre>"; print_r($data);exit; */ 
 		$roles = Role::pluck('name','id')->all();
 		$country = Country::pluck('country_name','id')->all();
+		/* $formids = ["1","2"];
+		->whereIn('formid',1) */
+		
 		$purpose = Purpose::pluck('purpose','id')->all();
 		//$s = Role::all();
 		$language = Language::where('status','1')->pluck('language', 'id')->all();
@@ -338,7 +436,7 @@ class IndividualController extends Controller
 		/*  echo "<pre>";
 		print_r($user);exit; */
 		
-        return view('admin.Individual.edit',compact('roles','language','country','purpose','individual','user','contact','personal','purpose','purposeId','study','care','walfare','research','project','video','childern','userRole'));
+        return view('admin.Individual.edit',compact('roles','language','country','purpose','individual','user','contact','personal','purpose','purposeId','study','care','walfare','research','project','video','childern','userRole','civilstatus','gender'));
 	}
 
 public function update(Request $request, $id) 
@@ -360,12 +458,11 @@ public function update(Request $request, $id)
 				"name"  => $result['firstname'].' '.$result['lastname'],
 				"updated_at"  => Now(),
 				);
-				DB::table('users')->where('id', $id)->update($userLog);
-				
+				DB::table('users')->where('id', $id)->update($userLog);				
 				DB::table('model_has_roles')->where('model_id', $id)->update(
 					['role_id' => $result['userrole']]
-				);
-			
+				); 
+				
 				$dob = date("Y-m-d", strtotime($result['dob']));				
 				$basicinfo = array(
 				"firstname"  =>  $result['firstname'],
@@ -406,7 +503,7 @@ public function update(Request $request, $id)
 				"birthcity"  => $result['bcity'],
 				"birthparish"  => $result['bparish'],
 				"applicationletter"  => $result['appletter'],
-				"created_at"  => Now(),
+				"updated_at"  => Now(),
 				);
 				DB::table('individual_personal')->where('userid', $id)->update($personalinfo);
 				
@@ -555,12 +652,8 @@ public function update(Request $request, $id)
 		//echo $e;
 		return redirect('admin/individual')->with('status', $output);
 		}
-
-		
 }
-	
-	
-	
+
 	public function delete($id)
 	{
 		try {			

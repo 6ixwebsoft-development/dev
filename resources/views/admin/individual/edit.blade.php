@@ -392,15 +392,16 @@
 			   <div class="col-xl-6 col-md-12 col-sm-12">
 					<div class="form-group row">
 						{!! Form::label('Gender', __( 'Gender' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
-						<div class="col-sm-8">								 
-							 {!! Form::select('gender', (['0' => 'Select a gender','1' => 'Male','2' => 'female'] ),$personal->gender, ['class' => 'form-control']) !!}
+						<div class="col-sm-8">	
+							 {!! Form::select('gender',(['0' => 'Select a Gender'] + $gender),$personal->gender, ['class' => 'form-control']) !!}
+							 
 						</div>
 					</div>
 					
 					<div class="form-group row">
 						{!! Form::label('Civil Status', __( 'Civil Status' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
-						<div class="col-sm-8">								 		
-							{!! Form::select('civilstatus', (['0' => 'Select Civil Status','1' => 'Single no children','2' => 'Married no minor children','122' => 'Single with minor children','126' => 'Married, have minor children']),$personal->civilstatus, ['class' => 'form-control']) !!}
+						<div class="col-sm-8">	
+							{!! Form::select('civilstatus',(['0' => 'Select a Civil Status'] + $civilstatus),$personal->civilstatus, ['class' => 'form-control']) !!}
 						</div>
 					</div>
 				</div>

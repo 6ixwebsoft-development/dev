@@ -135,7 +135,7 @@
 					<div class="form-group row">
 						{!! Form::label('Payment Status', __( 'Payment Status' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 						<div class="col-sm-8">								 						 
-						  {!! Form::select('paymentstatus', (['0' => 'Select a payment status']),$subscription->paymentstatus, ['class' => 'form-control','' ]  ); !!}
+						  {!! Form::select('paymentstatus', (['0' => 'Select a payment status']+$subscriptionstatus),$subscription->paymentstatus, ['class' => 'form-control','' ]  ); !!}
 						</div>
 					</div>
 				</div>

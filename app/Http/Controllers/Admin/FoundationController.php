@@ -19,6 +19,7 @@ use App\Models\FoundationPurpose;
 use App\Models\FoundationSaveCount;
 use App\Models\FoundationSubject;
 
+use App\Models\Language;
 use App\Models\gender;
 use App\Models\Purpose;
 use App\Models\CountryBlock;
@@ -68,7 +69,7 @@ class FoundationController extends Controller
 
     public function create(Request $request) {
 
-       /*  $purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+     $purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Purpose')
                     ->select(
@@ -81,11 +82,11 @@ class FoundationController extends Controller
         $purpose = array();
         foreach ($purposes as $purposeVal) {
             $purpose[$purposeVal->id] = $purposeVal->value;
-        } */
+        } 
         
-        /* $genders = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+        $genders = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
-                    ->where('gg_module_fields.field_name', 'Gender')
+                    ->where('gg_module_fields.field_name', 'Type of applicant')
                     ->select(
                         'mfv.id',
                         'gg_module_fields.field_name',
@@ -96,11 +97,11 @@ class FoundationController extends Controller
         $gender = array();
         foreach ($genders as $genderVal) {
             $gender[$genderVal->id] = $genderVal->value;
-        } */
+        } 
 		
 		
 
-       /*  $subjects = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+         $subjects = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Subject')
                     ->select(
@@ -114,7 +115,7 @@ class FoundationController extends Controller
         $subject = array();
         foreach ($subjects as $subjectVal) {
             $subject[$subjectVal->id] = $subjectVal->value;
-        } */
+        } 
 
         $months = array(
                     "1"  => "Jan",
@@ -163,11 +164,12 @@ class FoundationController extends Controller
         foreach ($cities as $city) {
             //$city_arr[$city->id] = $city->city_name;
         }
-		$purpose = Purpose::pluck('purpose', 'id')->all();	
+		/* $purpose = Purpose::pluck('purpose', 'id')->all();	
 		$gender = gender::pluck('name', 'id')->all();	
-		$subject = Subject::pluck('name', 'id')->all();	
+		$subject = Subject::pluck('name', 'id')->all();	 */
+		$language = Language::where('status','1')->pluck('language', 'id')->all();
 		
-        return view('admin.foundation.create')->with(compact('purpose', 'gender', 'subject', 'months', 'blocks_arr', 'country_arr', 'region_arr', 'city_arr'));
+        return view('admin.foundation.create')->with(compact('purpose', 'gender', 'subject', 'months', 'blocks_arr', 'country_arr', 'region_arr', 'city_arr','language'));
     }
 
     public function store(Request $request)
@@ -177,7 +179,7 @@ class FoundationController extends Controller
            // print_r($result);exit;
             //Foundation 
             $foundation = array(
-                    "user_id" => 1,
+                    "user_id" => 0,
                     "sort"  => $result['sort_name'],
                     "name"  => $result['name'],
                     "administrator"  => $result['admin'],
@@ -322,7 +324,7 @@ class FoundationController extends Controller
         $contact = FoundationContact::where('foundation_id', $id)->first();
         $advertise = FoundationAdvertise::where('foundation_id', $id)->first();
         
-        /* $purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+       $purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Purpose')
                     ->select(
@@ -335,7 +337,7 @@ class FoundationController extends Controller
         $purpose = array();
         foreach ($purposes as $purposeVal) {
             $purpose[$purposeVal->id] = $purposeVal->value;
-        } */
+        } 
 
         $foundation_purpose = FoundationPurpose::where('foundation_id', $id)->get();
         $selectedPurpose = array();
@@ -343,9 +345,9 @@ class FoundationController extends Controller
             $selectedPurpose[$key] = $purpose_id->param_id;
         }
         
-       /*  $genders = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+       $genders = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
-                    ->where('gg_module_fields.field_name', 'Gender')
+                    ->where('gg_module_fields.field_name', 'Type of applicant')
                     ->select(
                         'mfv.id',
                         'gg_module_fields.field_name',
@@ -356,7 +358,7 @@ class FoundationController extends Controller
         $gender = array();
         foreach ($genders as $genderVal) {
             $gender[$genderVal->id] = $genderVal->value;
-        } */
+        } 
 
         $foundation_gender = FoundationGender::where('foundation_id', $id)->get();
         $selectedGender = array();
@@ -364,7 +366,7 @@ class FoundationController extends Controller
             $selectedGender[$key] = $gender_id->param_id;
         }
 
-        /* $subjects = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+         $subjects = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Subject')
                     ->select(
@@ -378,7 +380,7 @@ class FoundationController extends Controller
         $subject = array();
         foreach ($subjects as $subjectVal) {
             $subject[$subjectVal->id] = $subjectVal->value;
-        } */
+        } 
 
         $foundation_subject = FoundationSubject::where('foundation_id', $id)->get();
         $selectedSubject = array();
@@ -440,10 +442,12 @@ class FoundationController extends Controller
         foreach ($cities as $city) {
             $city_arr[$city->id] = $city->city_name;
         }
-        $purpose = Purpose::pluck('purpose', 'id')->all();	
+       /*  $purpose = Purpose::pluck('purpose', 'id')->all();	
 		$gender = gender::pluck('name', 'id')->all();	
-		$subject = Subject::pluck('name', 'id')->all();	
-        return view('admin.foundation.edit')->with(compact('foundation', 'contact', 'advertise', 'purpose', 'selectedPurpose', 'gender', 'selectedGender', 'subject', 'selectedSubject', 'age', 'location', 'dates', 'months', 'blocks_arr', 'country_arr', 'region_arr', 'city_arr','purposeId'));
+		$subject = Subject::pluck('name', 'id')->all();	 */
+		$language = Language::where('status','1')->pluck('language', 'id')->all();
+		
+        return view('admin.foundation.edit')->with(compact('foundation', 'contact', 'advertise', 'purpose', 'selectedPurpose', 'gender', 'selectedGender', 'subject', 'selectedSubject', 'age', 'location', 'dates', 'months', 'blocks_arr', 'country_arr', 'region_arr', 'city_arr','purposeId','language'));
     }
 
     public function update(Request $request, $id) 
@@ -453,7 +457,7 @@ class FoundationController extends Controller
                 $result = $request->all();
 
                 $foundation = array(
-                        "user_id" => 1,
+                        "user_id" => 0,
                         "sort"  => $result['sort_name'],
                         "name"  => $result['name'],
                         "administrator"  => $result['admin'],

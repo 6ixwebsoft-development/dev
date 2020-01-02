@@ -808,7 +808,7 @@ $(function () {
         ajax: APP_URL+"/admin/librarygroup",
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-            {data: 'library', name: 'library'},
+            {data: 'name', name: 'name'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -822,7 +822,7 @@ $(function () {
         ajax: APP_URL+"/admin/library",
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-            {data: 'library', name: 'library'},
+            {data: 'name', name: 'name'},
 
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
@@ -838,7 +838,7 @@ $(function () {
         ajax: APP_URL+"/admin/organization",
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-            {data: 'library', name: 'library'},
+            {data: 'name', name: 'name'},
 
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]

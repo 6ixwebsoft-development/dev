@@ -29,7 +29,7 @@ class LibraryController extends Controller
 {
      public function index(Request $request) {
         if ($request->ajax()) {
-            $data = Library::select('id', 'library')->where('type','1')->get();
+            $data = Library::select('id', 'name')->where('type','1')->get();
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){

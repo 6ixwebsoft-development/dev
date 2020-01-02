@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Admin\Subscription;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
+use App\Models\Modules;
+use App\Models\ModuleField;
+use App\Models\ModuleFieldValue;
+
 use App\User;
 use App\Http\Controllers\Controller;
 use App\Models\Subscriptiontype;
@@ -48,8 +52,24 @@ class SubscriptionController extends Controller
     }
 
     public function create() {
-       
-        return view('admin.subscription.create');
+        $subscriptionstatusr = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+                    //->where('gg_module_fields.module_id', $id)
+                    ->where('gg_module_fields.field_name', 'Subscription Status')
+                    ->select(
+                        'mfv.id',
+                        'gg_module_fields.field_name',
+                        'gg_module_fields.field_type',
+                        'mfv.value'
+                    )
+                    ->get();
+					
+        $subscriptionstatus = array();
+        foreach ($subscriptionstatusr as $subscriptionstatusVal) {
+            $subscriptionstatus[$subscriptionstatusVal->id] = $subscriptionstatusVal->value;
+			
+        } 
+		
+        return view('admin.subscription.create',compact('subscriptionstatus'));
     }
     public function store(request $request) {
 		 $this->validate($request, [
@@ -115,8 +135,24 @@ class SubscriptionController extends Controller
     }
     public function edit($id)
     {
+		  $subscriptionstatusr = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+                    //->where('gg_module_fields.module_id', $id)
+                    ->where('gg_module_fields.field_name', 'Subscription Status')
+                    ->select(
+                        'mfv.id',
+                        'gg_module_fields.field_name',
+                        'gg_module_fields.field_type',
+                        'mfv.value'
+                    )
+                    ->get();
+					
+        $subscriptionstatus = array();
+        foreach ($subscriptionstatusr as $subscriptionstatusVal) {
+            $subscriptionstatus[$subscriptionstatusVal->id] = $subscriptionstatusVal->value;
+			
+        } 
         $subscription = Subscription::find($id);
-        return view('admin.subscription.edit')->with(compact('subscription'));
+        return view('admin.subscription.edit')->with(compact('subscription','subscriptionstatus'));
     }
 
     public function update(Request $request, $id) 

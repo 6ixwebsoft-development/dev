@@ -61,7 +61,8 @@
 
                   <h4 class="card-title mb-0">
 
-                      Hitlist Management <small class="text-muted">Hitlist Add</small>
+                      
+					  Purpose Management <small class="text-muted">Purpose Add</small>
 
 
                   </h4>

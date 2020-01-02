@@ -109,6 +109,7 @@
                                         </div><!--form-group-->
                                     </div>
 
+
                                     <div class="col-md-6"> 
                                         <div class="form-group row">
                                             <div class="col-lg-3">
@@ -116,7 +117,8 @@
                                             </div>
 
                                             <div class="col-md-9">
-                                                {!! Form::select('status', array('1' => 'active', '2' => 'inactive'), !empty($foundation->status) ? $foundation->status : '', ['class' => 'form-control']); !!}
+												{!! Form::select('status', array('Active' => 'Active', 'Expired' => 'Expired', 'NoAppl' => 'NoAppl', 'NoGG' => 'NoGG', 'NoAdr' => 'NoAdr', 'Double' => 'Double'), !empty($foundation->status) ? $foundation->status : '', ['class' => 'form-control']); !!}
+											   
                                             </div><!--col-->
                                         </div><!--form-group-->
 
@@ -127,7 +129,7 @@
                                             </div>
 
                                             <div class="col-md-9">
-                                                {!! Form::select('language_id', array('1' => 'English', '2' => 'Sweedish'), !empty($foundation->language) ? $foundation->language : '', ['class' => 'form-control']); !!}
+                                                {!! Form::select('language_id', $language, !empty($foundation->language) ? $foundation->language : '', ['class' => 'form-control']); !!}
                                             </div><!--col-->
                                         </div><!--form-group-->
 

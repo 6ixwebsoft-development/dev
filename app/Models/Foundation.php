@@ -12,7 +12,10 @@ class Foundation extends Model
     protected $guarded = [];
 	/* public $tablegetdata = ['contact','location']; */
 	 
-	 
+	protected $appends  = [
+        'tstatus',
+    ];
+	
     public function age()
     {    	
         return $this->hasMany('App\Models\FoundationAge','foundation_id');
@@ -64,6 +67,34 @@ class Foundation extends Model
 		$tablegetdata = ['contact','location'];
 		return Foundation::find($id)->with($tablegetdata)->get();
 	}
+	
+	 public function getTstatusAttribute()
+    {
+        switch ($this->status) {
+            case "Active":
+                return '<label class="badge badge-success">Active</label>';
+                break;
+            case "Expired":
+                return '<label class="badge badge-danger">Expired</label>';
+                break;
+			case "NoAppl":
+				return '<label class="badge badge-danger">NoAppl</label>';
+				break;
+			case "NoGG":
+				return '<label class="badge badge-danger">NoGG</label>';
+				break;				
+			case "NoAdr":
+				return '<label class="badge badge-danger">NoAdr</label>';
+				break;
+			case "Double":
+				return '<label class="badge badge-danger">Double</label>';
+				break;
+				
+            default:
+                return $this->status;
+                break;
+        }
+    }
    
 }
 

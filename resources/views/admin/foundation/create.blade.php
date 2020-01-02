@@ -110,7 +110,7 @@
 											</div>
 
                                             <div class="col-md-9">
-                                                {!! Form::select('status', array('1' => 'active', '2' => 'inactive'), '1', ['class' => 'form-control']); !!}
+                                                {!! Form::select('status', array('Active' => 'Active', 'Expired' => 'Expired', 'NoAppl' => 'NoAppl', 'NoGG' => 'NoGG', 'NoAdr' => 'NoAdr', 'Double' => 'Double'), '1', ['class' => 'form-control']); !!}
                                             </div><!--col-->
                                         </div><!--form-group-->
 
@@ -120,7 +120,7 @@
 											</div>
 
                                             <div class="col-md-9">
-                                                {!! Form::select('language_id', array('1' => 'English', '2' => 'Sweedish'), '1', ['class' => 'form-control']); !!}
+                                                {!! Form::select('language_id', $language, '[]', ['class' => 'form-control']); !!}
                                             </div><!--col-->
                                         </div><!--form-group-->
 

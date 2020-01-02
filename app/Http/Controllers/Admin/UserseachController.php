@@ -93,7 +93,7 @@ class UserseachController extends Controller
 	
 	public function userseachdata($type,$data)
 	{
-		$query = User::orderBy('id');
+		$query = User::orderBy('id', 'DESC');
 		//print_r($data);exit;
 			if(!empty($data['userRole']))
 			{		   
@@ -147,7 +147,7 @@ class UserseachController extends Controller
 	
 	public function userdonorseachdata($type,$data)
 	{
-		$query = Foundation::orderBy('id');
+		$query = Foundation::orderBy('id', 'DESC');
 		$query = Foundation::leftjoin('gg_foundation_contact as gfc', 'gg_foundation.id', '=', 'gfc.foundation_id')
                     //->where('gg_module_fields.module_id', $id)
                    /*  ->where('gg_module_fields.field_name', 'Gender') */
@@ -166,7 +166,7 @@ class UserseachController extends Controller
 	public function userlibrarygroupdata($type,$data)
 	{
 		$data = array();
-		$query = Library::orderBy('id');
+		$query = Library::orderBy('id', 'DESC');
 		
 		$query = Library::leftjoin('library_contact as gfc', 'library_basic.id', '=', 'gfc.libraryid')
                     //->where('gg_module_fields.module_id', $id)

@@ -9,6 +9,10 @@ use App\Models\Language;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Redirect;
 
+use App\Models\Modules;
+use App\Models\ModuleField;
+use App\Models\ModuleFieldValue;
+
 use App\User;
 use App\Models\orgpurpose;
 use App\Models\LibraryContact;
@@ -30,7 +34,7 @@ class OganizationController extends Controller
 {
    public function index(Request $request) {
         if ($request->ajax()) {
-            $data = Library::select('id', 'library')->where('type','3')->get();
+            $data = Library::select('id', 'name')->where('type','3')->get();
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
@@ -50,12 +54,27 @@ class OganizationController extends Controller
 	public function create()
     {
 		
+		$purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+                    //->where('gg_module_fields.module_id', $id)
+                    ->where('gg_module_fields.field_name', 'Purpose')
+                    ->select(
+                        'mfv.id',
+                        'gg_module_fields.field_name',
+                        'gg_module_fields.field_type',
+                        'mfv.value'
+                    )
+                    ->get();
+        $purpose = array();
+        foreach ($purposes as $purposeVal) {
+            $purpose[$purposeVal->id] = $purposeVal->value;
+        }
+		
 		$roles = Role::pluck('name','id')->all();
 		$country = Country::pluck('country_name','id')->all();
-		$purpose = Purpose::pluck('purpose','id')->all();
+		//$purpose = Purpose::pluck('purpose','id')->all();
 		$userroles = Role::all();
 		$language = Language::where('status','1')->pluck('language', 'id')->all();
-		$group  =  Library::where('type','2')->pluck('library', 'id')->all();
+		$group  =  Library::where('type','2')->pluck('name', 'id')->all();
 		
 		
         return view('admin.organization.create',compact('roles','userroles','language','country','purpose','group'));
@@ -216,14 +235,29 @@ class OganizationController extends Controller
 	
 	public function edit($id)
 	{
+		$purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+                    //->where('gg_module_fields.module_id', $id)
+                    ->where('gg_module_fields.field_name', 'Purpose')
+                    ->select(
+                        'mfv.id',
+                        'gg_module_fields.field_name',
+                        'gg_module_fields.field_type',
+                        'mfv.value'
+                    )
+                    ->get();
+        $purpose = array();
+        foreach ($purposes as $purposeVal) {
+            $purpose[$purposeVal->id] = $purposeVal->value;
+        }
+		
 		$basic = Library::where('id',$id)->first();
 		$user = User::where('id',$basic->userid)->first();
 		$contact = LibraryContact::where('libraryid',$id)->first();
 		$roles = Role::pluck('name','id')->all();
 		$country = Country::pluck('country_name','id')->all();
-		$purpose = Purpose::pluck('purpose','id')->all();
+		//$purpose = Purpose::pluck('purpose','id')->all();
 		$language = Language::where('status','1')->pluck('language', 'id')->all();
-		$group  =  Library::where('type','2')->pluck('library', 'id')->all();
+		$group  =  Library::where('type','2')->pluck('name', 'id')->all();
 		$details  = Librarylogin::where('libraryid',$id)->first();
 		
 		$ips  = Libraryips::where('libraryid',$id)->get();

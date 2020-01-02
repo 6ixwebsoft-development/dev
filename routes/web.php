@@ -339,6 +339,6 @@ Route::get('foundation-detail/{id}','FoundationSearchController@getFoundationDet
 Route::get('saveSearch','UserSearchSaveController@saveSearch');
 Route::get('fund-search-mail','MailController@fundSearchEmail');
 Route::post('fund-search-mail-send','MailController@foundationSearchSendMail');
-
+Route::get('getFoundationDetailAjax','FoundationSearchController@getFoundationDetailAjax');
 //Pages dynamic route
 Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));

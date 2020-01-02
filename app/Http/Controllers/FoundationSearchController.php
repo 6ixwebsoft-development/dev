@@ -98,13 +98,13 @@ class FoundationSearchController extends Controller
             $subject[$subjectVal->id] = $subjectVal->value;
         }
 
-        $cities = City::where('country_id', 1)->get();
+        $cities = City::where('status', 1)->get();
 
         $city = array();
         foreach ($cities as $citi) {
             $city[$citi->id] = $citi->city_name;
         }
-        
+        /* print_r($cities);exit; */
         return view('foundation-search')->with(compact('purpose', 'gender', 'subject', 'city'));
     }
 
@@ -113,7 +113,8 @@ class FoundationSearchController extends Controller
         $cityIds = $request->city_ids;
 
         $foundation_ids = $request->favourite_fund_ids;
-        // echo "<pre>";
+		
+		// echo "<pre>";
         // // print_r($cityIds);
         // // print_r($foundation_ids);
         // $d = Foundation::find(7)->age;
@@ -165,9 +166,9 @@ class FoundationSearchController extends Controller
                             "ct.city_name",
                             "cn.country_name"
                         )
-                        ->orderBy('sc.count',  'desc')
-                        ->whereIn('fp.param_id', array(2, 4))
-                        ->where('cn.id', 1);
+                        ->orderBy('sc.count',  'desc');
+                        /* ->whereIn('fp.param_id', array(2, 4)) */
+                       /*  ->where('cn.id', 1); */ 
 
             /*if (!empty($purposeIds)) {
                 $foundation->leftjoin('gg_foundation_purpose as fp', 'gg_foundation.id', 'fp.foundation_id');
@@ -214,8 +215,9 @@ class FoundationSearchController extends Controller
                     }*/
                 }
             }
-
+			
         //}
+		
         $fund_count = $foundation->get()->unique()->count();
         $save_count = array();
         if($user) {
@@ -242,11 +244,13 @@ class FoundationSearchController extends Controller
                 $all_foundations = array();
             }
         }
+		
+		
         //return response()->json(array("foundations" => $all_foundations, "foundations_contacts" => $foundation_contacts));
         return view('simple-search-result')->with(compact('all_foundations', 'fund_count', 'save_count'));
     }
 
-    public function loadMore(Request $request) {
+    /* public function loadMore(Request $request) {
         if ($request->ajax()) {
 
             $id = $request->get('foundation_id');
@@ -300,9 +304,9 @@ class FoundationSearchController extends Controller
                 }
 
             }*/
-        }
+       /*  }
         return response()->json($data);
-    }
+    }  */
 
     public function getFoundationDetails(Request $request) {
         if ($request->ajax()) {
@@ -353,7 +357,7 @@ class FoundationSearchController extends Controller
     } 
 
 
-    public function getFoundationDetail($id) {
+    public function getFoundationDetail($id) {	
         if ($id) {
 
             $foundation_details = Foundation::leftjoin('gg_foundation_advertise as fa', 'gg_foundation.id', 'fa.foundation_id')
@@ -382,8 +386,47 @@ class FoundationSearchController extends Controller
                             ->where('gg_foundation.id', $id)
                             ->get();
         }
+		/* print_r($foundation_details);exit; */
         return view('foundation-detail')->with(compact('foundation_details'));
     } 
+	
+	
+	public function getFoundationDetailAjax(Request $request) {
+			$id = $request->foundationId;
+        if ($id) {
+
+            $foundation_details = Foundation::leftjoin('gg_foundation_advertise as fa', 'gg_foundation.id', 'fa.foundation_id')
+                            ->leftjoin('gg_foundation_contact as gc', 'gg_foundation.id', 'gc.foundation_id')
+                            ->select(
+                                "gg_foundation.id",
+                                "name",
+                                "sort",
+                                "administrator",
+                                "asset",
+                                "source",
+                                "org_no",
+                                "remarks",
+                                "fa.who_can_apply",
+                                "fa.purpose",
+                                "fa.details",
+                                "fa.misc",
+                                "gc.phone_no",
+                                "gc.mobile_no",
+                                "gc.email",
+                                "gc.website",
+                                "gc.address1",
+                                "gc.address2",
+                                "gc.address3"
+                            )
+                            ->where('gg_foundation.id', $id)
+                            ->get();
+        }
+		/* print_r($foundation_details);exit; */
+		$ajax =array(
+			'ajax' => true,
+		);
+        return view('foundation-detail')->with(compact('foundation_details','ajax'));
+    }
 
 
     //advance search
@@ -407,7 +450,7 @@ class FoundationSearchController extends Controller
         
         $genders = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
-                    ->where('gg_module_fields.field_name', 'Gender')
+                    ->where('gg_module_fields.field_name', 'Type of applicant')
                     ->select(
                         'mfv.id',
                         'gg_module_fields.field_name',
@@ -418,8 +461,8 @@ class FoundationSearchController extends Controller
         $gender = array();
         foreach ($genders as $genderVal) {
             $gender[$genderVal->id] = $genderVal->value;
-        }
-
+        } 
+		
         $subjects = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Subject')
@@ -435,8 +478,14 @@ class FoundationSearchController extends Controller
         foreach ($subjects as $subjectVal) {
             $subject[$subjectVal->id] = $subjectVal->value;
         }
-
-        return view('advance-search')->with(compact('purpose', 'gender', 'subject'));
+		
+		$cities = City::where('status', 1)->get();
+		 $city = array();
+        foreach ($cities as $citi) {
+            $city[$citi->id] = $citi->city_name;
+        }
+		
+        return view('advance-search')->with(compact('purpose', 'gender', 'subject','city'));
     }
 
     public function getAdvanceFoundations(Request $request)
@@ -485,7 +534,7 @@ class FoundationSearchController extends Controller
             }
 
             if (!empty($cityName)) {
-                $foundation->where('ct.city_name', 'like', $cityName.'%');
+                $foundation->where('ct.id', $cityName);
             }
 
             //$data = $foundation->distinct()->get();
@@ -527,7 +576,7 @@ class FoundationSearchController extends Controller
             }
 
         }
-        
+       /*  print_r($data);exit; */
         return response()->json(array("foundations" => $data, "foundations_contacts" => $foundation_contacts));
     }
 

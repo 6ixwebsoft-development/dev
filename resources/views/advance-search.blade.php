@@ -31,6 +31,7 @@
 						        <h2 class="title">Gender</h2>
 						        <div class="checkbox-container"> 
 							        @foreach($gender as $key => $value)
+								
 							        <div class="checkboxes">
 							        	<input type="checkbox" id="gender_ids" name="gender_ids" value="{{$key}}">
 							        	<label>{{$value}}</label>
@@ -53,7 +54,9 @@
 						    </div> 
 						    <div class="col-md-12">
 						        <h2 class="title">Location(City Name)</h2>
-						        {!! Form::text('location', null, ['class' => 'typeahead form-control', '', 'placeholder' => __( 'City name' ), 'id' => 'location' ]); !!}
+						     <!--    {!! Form::text('location', null, ['class' => 'typeahead form-control', '', 'placeholder' => __( 'City name' ), 'id' => 'location' ]); !!} -->
+								
+								{!! Form::select('location',(['' => 'select'] + $city),[], ['class' => 'form-control','id' => 'location']) !!}
 						        
 						        <input class="advance_submit" type="submit" value="Search">
 						    </div>
@@ -76,8 +79,8 @@
 						            </div>
 
 						            <div class="modal-body">
-						                <div class="modal-content">
-						                    <div class="purpose"></div>
+									  <div class="modal-content">
+						                  <div class="purpose"></div>
 						                    <p class="details"></p>
 						                    <p class="misc"></p>
 						                    <p class="who-can-apply"></p>
@@ -87,17 +90,18 @@
 											<p class="mobile"></p>
 											<p class="email"></p>
 											<p class="website"></p>
-						                    <div class="readMore"></div>
+						                    <div class="readMore"></div> 
+											<div class="fund-details"></div>
 						                </div>
 						            </div>
 						        </div>
 						    </div>
 						</div>
-
-						<table border="1" width="100%" id="ad_table">
+						<div class="table-responsive">
+						<table class="table table-bordered" border="1" width="100%" id="ad_table">
 							<thead>
 								<tr>
-									<th>#</th>
+									<th>ID</th>
 									<th>NAME</th>
 									<th>SORT</th>
 									<th>DETAILS</th>
@@ -109,7 +113,7 @@
 								</tr>
 							</tbody>
 						</table>
-
+					</div>
 					</div>
 
 				</div> <!-- .page -->

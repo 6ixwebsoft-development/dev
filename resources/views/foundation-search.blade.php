@@ -24,18 +24,12 @@
 						    	</div>
 							    <div class="col-md-4">
 							    	<div class="city_select">
-							        @php
-							        	$i=0;
-							        @endphp
-							        @foreach($city as $key => $value)
+							       
 								        <div class="city_checkbox">
-								        	{!! Form::checkbox('city_ids[]', $key, ($i==0) ? true : false) !!}
-									    	{!! Form::label('name', $value) !!}
-								    	@php
-								        	$i++;
-								        @endphp
+											{!! Form::select('city_ids[]',$city,[], ['class' => 'form-control','multiple']) !!}
+								    	
 								    	</div>
-								    @endforeach
+								   
 							        </div>
 							        <input class="submit_btn" type="submit" value="Search" style="width: 100%;">
 							    </div>
@@ -45,9 +39,11 @@
 						        
 						    
 						{!! Form::close() !!}
-
 					</div>
 
 				</div> <!-- .page -->
 			</main>
 			@endsection
+			
+		
+   
