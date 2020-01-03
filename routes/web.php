@@ -243,7 +243,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
     });
 	
 	//Individual routes
-	Route::group(array('namespace' => 'Admin\individual', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Individual', 'prefix' => 'admin'),function() {
         Route::get('individual', 'IndividualController@index');
         Route::get('individual/create/', 'IndividualController@create');
         Route::post('/individual/store', 'IndividualController@store');
@@ -255,7 +255,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		
 	});
 	
-	Route::group(array('namespace' => 'Admin\library', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Library', 'prefix' => 'admin'),function() {
         
         Route::get('library','LibraryController@index');
 		Route::get('library/create', 'LibraryController@create');
@@ -265,7 +265,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('library/delete/{id}', 'LibraryController@delete');
     });
 	
-	Route::group(array('namespace' => 'Admin\library', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Library', 'prefix' => 'admin'),function() {
         
         Route::get('librarygroup','LibraryGroupController@index');
 		Route::get('librarygroup/create', 'LibraryGroupController@create');
@@ -275,7 +275,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('librarygroup/delete/{id}', 'LibraryGroupController@delete');
     });
 	
-	Route::group(array('namespace' => 'Admin\organization', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Organization', 'prefix' => 'admin'),function() {
         
         Route::get('organization','OganizationController@index');
 		Route::get('organization/create', 'OganizationController@create');
@@ -286,7 +286,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::post('organization/document', 'OganizationController@deleteDataImg');
     });
 	
-	Route::group(array('namespace' => 'Admin\subscriptiontype', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Subscriptiontype', 'prefix' => 'admin'),function() {
         
         Route::get('subscriptiontype','SubscriptiontypeController@index');
 		Route::get('subscriptiontype/create', 'SubscriptiontypeController@create');
