@@ -360,4 +360,7 @@ class UserController extends Controller
        $roles = Role::all();
        return view('admin.users.index',compact('roles'));
 	}
+	
+	
+	
 }

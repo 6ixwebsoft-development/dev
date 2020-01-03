@@ -38,7 +38,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 	Route::post('admin/searchvikashuser','Auth\UserController@searchvikashuser');
 	Route::post('admin/user/store','Auth\UserController@store');
 	Route::post('admin/user/update/{id}', 'Auth\UserController@update');
-	
+
     Route::get('/home', 'HomeController@index')->name('admin.index');
     Route::group(array('namespace' => 'Admin', 'prefix' => 'admin'), function() {
         Route::get('/', 'AdminController@index');
@@ -87,6 +87,8 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 
 		// Search user data for admin
 		 Route::post('/getuserdata', 'UserseachController@searchuserdata');
+		 // Search user List data for admin
+		 Route::get('/listalluser', 'UserseachController@listalluser');
 		
 		//countries block, country, state, city
         Route::group(['namespace' => 'Location', 'prefix' => 'location'], function () {

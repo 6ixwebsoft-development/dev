@@ -78,16 +78,16 @@ class Foundation extends Model
                 return '<label class="badge badge-danger">Expired</label>';
                 break;
 			case "NoAppl":
-				return '<label class="badge badge-danger">NoAppl</label>';
+				return '<label class="badge badge-info">NoAppl</label>';
 				break;
 			case "NoGG":
-				return '<label class="badge badge-danger">NoGG</label>';
+				return '<label class="badge badge-info">NoGG</label>';
 				break;				
 			case "NoAdr":
-				return '<label class="badge badge-danger">NoAdr</label>';
+				return '<label class="badge badge-info">NoAdr</label>';
 				break;
 			case "Double":
-				return '<label class="badge badge-danger">Double</label>';
+				return '<label class="badge badge-info">Double</label>';
 				break;
 				
             default:

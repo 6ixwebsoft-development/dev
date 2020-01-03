@@ -119,12 +119,12 @@ class UserseachController extends Controller
 				
 			if(!empty($data['createdFrom']) || !empty($data['createdTo']))
 				{
-					$query = $query->whereBetween('created_at', array($data['createdFrom'], $data['createdTo']));
+					$query = $query->whereBetween('created_at', array(date("Y-m-d", strtotime($data['createdFrom'])), date("Y-m-d", strtotime($data['createdTo']))));
 				}
 				
 			if(!empty($data['modifiesFrom']) || !empty($data['modifiesTo']))
 				{
-					$query = $query->whereBetween('updated_at', array($data['modifiesFrom'], $data['modifiesTo']));
+					$query = $query->whereBetween('updated_at', array(date("Y-m-d", strtotime($data['modifiesFrom'])), date("Y-m-d", strtotime($data['modifiesTo']))));
 				}
 			
 			if(!empty($type))
@@ -156,10 +156,18 @@ class UserseachController extends Controller
                         'gg_foundation.name',
 						'gfc.email',
                         'gg_foundation.status'
-                    )
-                    ->get();
-		
-		return $query;
+                    );
+			/* if(!empty($data['createdFrom']) || !empty($data['createdTo']))
+				{
+					$query = $query->whereBetween('created_at', array(date("Y-m-d", strtotime($data['createdFrom'])), date("Y-m-d", strtotime($data['createdTo']))));
+				}
+				
+			if(!empty($data['modifiesFrom']) || !empty($data['modifiesTo']))
+				{
+					$query = $query->whereBetween('updated_at', array(date("Y-m-d", strtotime($data['modifiesFrom'])), date("Y-m-d", strtotime($data['modifiesTo']))));
+				} */
+
+		return $query->get();
 		
 	}
 	
@@ -177,10 +185,18 @@ class UserseachController extends Controller
 						'gfc.email',
                         'library_basic.status'
                     )
-					->where('type','2')
-                    ->get();
-					
-			return $query;
+					->where('type','2');
+              /* if(!empty($data['createdFrom']) || !empty($data['createdTo']))
+				{
+					$query = $query->whereBetween('created_at', array(date("Y-m-d", strtotime($data['createdFrom'])), date("Y-m-d", strtotime($data['createdTo']))));
+				}
+				
+			if(!empty($data['modifiesFrom']) || !empty($data['modifiesTo']))
+				{
+					$query = $query->whereBetween('updated_at', array(date("Y-m-d", strtotime($data['modifiesFrom'])), date("Y-m-d", strtotime($data['modifiesTo']))));
+				} */
+
+		return $query->get();
 		
 		/* foreach($query as $libg)
 		{	
@@ -198,6 +214,93 @@ class UserseachController extends Controller
 		}
 		return $data; */
 		
+	}
+	
+	
+	public function listalluser(Request $request)
+	{
+		
+		$filter = "";
+		$role= "";
+		$firstletter ="";
+		if(!empty($request))
+		{
+			$filter = $request->filter;
+			$firstletter = $request->firstletter;
+			if($filter == 'role')
+			{
+				$role = $request->role;
+			}
+		}
+		
+		//print_r($data);exit;
+		if ($request->ajax()) {
+			$data = $this->getuserlistdatabyfilter($filter,$role,$firstletter);
+				return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->editColumn('roles', function($row) {
+                         $s_btn = '';
+                       if(!empty($row->rolename)){
+                           foreach($row->rolename as $v) {
+                            $s_btn = '<label class="badge badge-success">'. $v .'</label>';
+                            } 
+                        } 
+                      return  $s_btn;
+                    })
+                   ->escapeColumns([])
+                   /*  ->addColumn('action', function($row){
+   
+                          $btn = '<a href="'.url('admin').'/users/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
+                                   <a href="'.url('admin').'/users/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+     
+                            return $btn;
+                    })
+                    ->rawColumns(['action']) */
+                    ->make(true);
+        }
+
+		$roles = Role::all();
+		return view('admin.users.listalluser',compact('roles','filter','role','data'));
+	}
+	
+	
+	public function getuserlistdatabyfilter($filter,$role,$firstletter)
+	{
+		$query = User::orderBy('id', 'DESC');
+		if(!empty($filter))
+		{
+			if($filter == 'role')
+			{
+				$query = User::role($role);
+			}
+			if($filter == 'inactive')
+			{
+				$query = User::where('status','0');
+			}
+			
+			if($filter == 'banned')
+			{
+				$query = User::where('status','2');
+			}
+			
+			if($filter == 'deleted')
+			{
+				$query = User::where('status','3');
+			}
+			
+			if(!empty($firstletter))
+			{
+				$query = $query->where('name', 'LIKE', $firstletter.'%');
+			}
+			
+		}else{
+			if(!empty($firstletter))
+			{
+				$query = $query->where('name', 'LIKE', $firstletter.'%');
+			}
+		}
+		
+		return $query->get();
 	}
 	
 }

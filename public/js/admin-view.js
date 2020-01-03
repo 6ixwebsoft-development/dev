@@ -1059,5 +1059,62 @@ function deleteDataImg(id,txt)
 	
 }
 
+//user list data
 
+$(function () {
+	var data = {};
+    var pageURL = $(location).attr("href");
+	 data = getUrlParameter(pageURL);
+	  $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+	
+        $.ajax({
+           type:'GET',
+           url: APP_URL+"/admin/listalluser",
+           data:data,
+           success:function(data){
+			//alert(data);
+			$('.user-table').dataTable().fnDestroy()
 
+				data.draw = 1;
+				console.log(data);	
+				
+				$('.userlist-table').DataTable({
+				data: data.data,
+			columns: [
+			{data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'name', name: 'name'},
+            {data: 'email', name: 'email'},
+            {data: 'tstatus', name: 'status'},
+            {data: 'roles', name: 'roles'},
+            /* {data: 'action', name: 'action', orderable: false, searchable: false}, */
+					]
+				} );
+           }
+
+			});
+    
+}); 
+
+function getUrlParameter(url) {
+	//alert(url);
+    var toReturn = {};
+    var questionSplit = url.split('?');
+    questionSplit.shift();
+    var onlyParameters = questionSplit.join('?');
+	//alert(onlyParameters);
+    var splittedParameters = onlyParameters.split('&');
+	//alert(splittedParameters);
+    for (var c = 0; c < splittedParameters.length; c++) {
+        var parts = splittedParameters[c].split('=');
+		//alert($.trim(parts[1]));
+         if ($.trim(parts[0]) != '') {
+            toReturn[parts[0]] = parts[1];
+        } 
+    } 
+	//alert(toReturn);
+    return toReturn;
+}

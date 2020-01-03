@@ -17,9 +17,35 @@
                 </a>
             </li>
             <li class="divider"></li>
-             <li class="nav-item">
-                <a class="nav-link " href="{!! url('/admin/roles'); !!}"><i class="nav-icon fas fa-user" aria-hidden="true"></i>User Roles</a>
-            </li>
+			
+			 <li class="nav-item nav-dropdown">
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                    <i class="nav-icon fas fa-user"></i>User
+                </a>
+
+                <ul class="nav-dropdown-items">
+						
+						<li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/roles'); !!}">User Roles</a>
+                        </li>
+						
+                        <li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/users'); !!}">
+								User
+                            </a>
+                        </li>
+						
+						<li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/listalluser'); !!}">
+								List All user
+                            </a>
+                        </li>
+						
+                    </ul>
+					
+                </li>
+			
+			
             <li class="nav-item nav-dropdown">
                     <a class="nav-link nav-dropdown-toggle" href="#">
                     <i class="nav-icon fas fa-language"></i>Settings
