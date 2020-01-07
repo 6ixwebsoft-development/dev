@@ -31,7 +31,8 @@
       <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
       <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
       <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-
+	  <link href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css" rel="stylesheet">
+		
       <!-- Styles -->
       <link href="{{ asset('css/style.css') }}" rel="stylesheet">
       <link href="{{ asset('css/pace.min.css') }}" rel="stylesheet">

@@ -916,6 +916,7 @@ $(document).ready(function(){
 		 $('#cid').val(col1);
 		 $('#name').val(col2);
 		 $('#type').val(col4);
+		  $('#email').val(col3);
 		 $("#userlists").hide();
 		 $.ajaxSetup({
 			headers: {
@@ -941,7 +942,7 @@ $(document).ready(function(){
 
 function putsubscriptiondata(){
 	$('input[type=radio][name=subscription_type]').change(function() {
-		//alert('ass');
+		/* alert($(this).val()); */
 		var id = $(this).val();
 		var price =  parseFloat($('#price_'+id).val());
 		var misc = parseFloat($('#misc_'+id).val());
@@ -961,6 +962,7 @@ function putsubscriptiondata(){
 		$('#newfr').val(freight);
 		$('#newfrt').val(freighttax);
 		$('#newtotal').val(totals);
+		$('#subscId').val(id);
 		
 		$('#total_price').text(myprice);
 		$('#total_vat').text(myvat);
@@ -1118,3 +1120,212 @@ function getUrlParameter(url) {
 	//alert(toReturn);
     return toReturn;
 }
+
+
+/* User Search table */
+function get_exportlist() {
+		
+	var only_my_list = $('#only_my_list').val();
+	var date_from = $('#date_from').val();
+	var date_to = $('#date_to').val();
+	var min_stat_data = $('#min_stat_data').val();
+	var language_id = $('#language_id').val();
+	
+	var only_active = $('#only_active').val();
+	var search_field = $('#search_field').val();
+	var purpose_ids = $('#purpose_ids').val();
+	var gender_ids = $('#gender_ids').val();
+	var countryid = $('#countryid').val();
+	var regionid = $('#regionid').val();
+	var cityid = $('#cityid').val();
+	var subject_ids = $('#subject_ids').val();
+	var age_start = $('#age_start').val();
+	var age_end = $('#age_end').val();
+	var apply_start_month = $('#apply_start_month').val();
+	var apply_start_day = $('#apply_start_day').val();
+	var apply_end_month = $('#apply_end_month').val();
+	var apply_end_day = $('#apply_end_day').val();
+	
+	/*  alert(purpose_ids); */
+	
+ 	  $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+	
+        $.ajax({
+           type:'POST',
+           url: APP_URL+"/admin/foundation/searchexportfoundation",
+           data:{only_my_list:only_my_list,date_from:date_from,date_to:date_to,min_stat_data:min_stat_data,language_id:language_id,search_field:search_field,purpose_ids:purpose_ids,gender_ids:gender_ids,countryid:countryid,regionid:regionid,cityid:cityid,subject_ids:subject_ids,age_start:age_start,age_end:age_end,apply_start_month:apply_start_month,apply_start_day:apply_start_day,apply_end_month:apply_end_month,apply_end_day:apply_end_day,only_active:only_active},
+           success:function(data){
+			//alert(data);
+			$('.exportdata-table').dataTable().fnDestroy()
+
+				data.draw = 1;
+				//console.log(data);	
+				
+			$('.exportdata-table').DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					/* 'copyHtml5',
+					'excelHtml5',
+					'csvHtml5', */
+					'pdf'
+				],
+				buttons: [
+				   { 
+					 extend: 'pdf',
+					 text: 'Export Foundtaion',
+					 title: 'Export Foundtaion Data'
+					  
+				   }
+				],
+				data: data,
+				columns: [
+				{data: 'id', name: 'id'},
+				{data: 'name', name: 'name'},
+				{data: 'param_id', name: 'param_id'}
+			  /*   {data: 'tstatus', name: 'status'},
+				{data: 'roles', name: 'roles'},
+				{data: 'action', name: 'action', orderable: false, searchable: false},  */
+						]
+				
+				});
+           }
+
+			});
+    
+}
+
+function searchtransdata()
+{
+	 var data = $("#transData").serialize();
+	  $.ajax({
+           type:'POST',
+           url: APP_URL+"/admin/transaction/searchtransactiondata",
+           data:data,
+           success:function(data){
+			//alert(data);
+			$('.tranaction-table').dataTable().fnDestroy()
+				data.draw = 1;
+				console.log(data);	
+				
+			$('.tranaction-table').DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					/* 'copyHtml5',
+					'excelHtml5',
+					'csvHtml5', */
+					'excel'
+				],
+				buttons: [
+				   { 
+					 extend: 'excel',
+					 text: 'Export Result To xls',
+					 title: 'Export Data'
+					  
+				   }
+				],
+				data: data.data,
+				columns: [
+				{data: 'id', name: 'id'},
+				{data: 'sname', name: 'sname'},
+				{data: 'name', name: 'name'},
+				{data: 'email', name: 'email'},
+			    {data: 'total', name: 'total'},
+				{data: 'start_date', name: 'start_date'},
+				{data: 'end_date', name: 'end_date'},
+				{data: 'created_at', name: 'created_at'},
+				{data: 'updated_at', name: 'updated_at'},
+			    {data: 'value', name: 'value'},
+				{data: 'action', name: 'action', orderable: false, searchable: false}
+						]
+				
+				});
+           }
+
+			});
+}	
+
+function getProduct()
+{
+	var id = $('#productids').val();
+	 $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+  $.ajax({
+		type:'POST',
+		url: APP_URL+"/admin/order/getproduct",
+		data:{id:id},
+		success:function(data){
+			  var price = data[0].price;
+			  
+			  $('#productId').val(id);
+			  $('#price').val(price);
+			  $('#quantity').val(0);
+			  $('#misc').val(0);
+			  $('#freight').val(0);
+		}
+	});
+}
+
+
+function calculateorderprice(){
+	
+		var quantity =  parseFloat($('#quantity').val());
+		var price =  parseFloat($('#price').val());
+		var misc = parseFloat($('#misc').val());
+		var vat =  parseFloat($('#vat').val());
+		var freight =  parseFloat($('#freight').val());
+		var freighttax =  parseFloat($('#freighttax').val());
+
+		var myprice = price+misc;
+		var myvat = myprice*vat/100;
+		var myfrtax = freight*freighttax/100;
+		var myfreight = myfrtax + freight;
+		var totals = myprice+myvat+myfrtax+freight;
+		
+		var gtotal = totals*quantity;
+		
+		$('#newquantity').val(quantity);
+		$('#newmisc').val(misc);
+		$('#newprice').val(price);
+		$('#newvat').val(vat);
+		$('#newfr').val(freight);
+		$('#newfrt').val(freighttax);
+		$('#newtotal').val(gtotal);
+		
+		$('#total_quantity').text(quantity);
+		$('#total_price').text(myprice);
+		$('#total_vat').text(myvat);
+		$('#total_freight_tax').text(myfreight);
+		$('#totals').text(gtotal);
+
+}
+
+/*foundation table*/
+$(function () {
+    
+    var moduleTable = $('.order-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: APP_URL+"/admin/order",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+			{data: 'userid', name: 'userid'},
+            {data: 'id', name: 'id'},
+			{data: 'orderdate', name: 'orderdate'},
+            {data: 'name', name: 'name'},
+			{data: 'productname', name: 'productname'},
+            {data: 'paiddate', name: 'paiddate'},
+            {data: 'totalprice', name: 'totalprice'},
+            {data: 'status', name: 'status'},
+			 {data: 'ordernotes', name: 'ordernotes'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+    
+});

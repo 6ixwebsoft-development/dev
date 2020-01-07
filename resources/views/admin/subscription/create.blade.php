@@ -129,7 +129,7 @@
 					<div class="form-group row">
 						{!! Form::label('Payment Method', __( 'Payment Method' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 						<div class="col-sm-8">								 						 
-						  {!! Form::select('paymentmood', (['0' => 'Select a payment']),[], ['class' => 'form-control','' ]  ); !!}
+						  {!! Form::select('paymentmood', (['0' => 'Select a payment']+$payment),[], ['class' => 'form-control','' ]  ); !!}
 						</div>
 					</div>
 					<div class="form-group row">
@@ -258,6 +258,7 @@
 		<input type="hidden" name="newfr" id="newfr">
 		<input type="hidden" name="newfrt" id="newfrt">
 		<input type="hidden" name="newtotal" id="newtotal">
+		<input type="hidden" name="subscId" id="subscId">
 
         {!! Form::close() !!}
             </div>

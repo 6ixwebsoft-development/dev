@@ -6,12 +6,10 @@
             </li>
             <li class="nav-item">
 
+               <!--  <a class="nav-link" href="{!! url('/admin'); !!}">
+                <a class="nav-link " href="{!! url('/admin'); !!}"> -->
+				
                 <a class="nav-link" href="{!! url('/admin'); !!}">
-
-                <a class="nav-link " href="{!! url('/admin'); !!}">
-                <a class="nav-link" href="{!! url('/admin'); !!}">
-
-
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                   Dashboard
                 </a>
@@ -22,9 +20,7 @@
                     <a class="nav-link nav-dropdown-toggle" href="#">
                     <i class="nav-icon fas fa-user"></i>User
                 </a>
-
                 <ul class="nav-dropdown-items">
-						
 						<li class="nav-item">
                             <a class="nav-link " href="{!! url('/admin/roles'); !!}">User Roles</a>
                         </li>
@@ -40,7 +36,34 @@
 								List All user
                             </a>
                         </li>
+                    </ul>
+					
+                </li>
+				
+				
+				 <li class="nav-item nav-dropdown">
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                    <i class="nav-icon fas fa-user"></i>Foundation
+                </a>
+                <ul class="nav-dropdown-items">
+				
+						 <li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/foundation'); !!}">
+								Foundation
+                            </a>
+                        </li>
 						
+                        <li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/foundation/exports'); !!}">
+								Exports Books
+                            </a>
+                        </li>
+						
+						<li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/foundation'); !!}">
+								Search Foundations
+                            </a>
+                        </li>
                     </ul>
 					
                 </li>
@@ -107,11 +130,11 @@
                     <i class="nav-icon fas fa-language"></i>Organization
                 </a>
             </li>
-            <li class="nav-item">
+            <!--<li class="nav-item">
                 <a class="nav-link " href="{!! url('/admin/foundation'); !!}">
                     <i class="nav-icon fas fa-language"></i>Foundation
                 </a>
-            </li>
+            </li> -->
 			
 			 <li class="nav-item">
                 <a class="nav-link " href="{!! url('/admin/individual'); !!}">
@@ -142,11 +165,15 @@
                 </li>
 				
 				 <li class="nav-item">
-                <a class="nav-link " href="{!! url('/admin/subscription'); !!}">
-                    <i class="nav-icon fas fa-language"></i>Subscription
-                </a>
-            </li>
-			
+					<a class="nav-link " href="{!! url('/admin/subscription'); !!}">
+						<i class="nav-icon fas fa-language"></i>Subscription
+					</a>
+				</li>
+			 <li class="nav-item">
+					<a class="nav-link " href="{!! url('/admin/order'); !!}">
+						<i class="nav-icon fas fa-language"></i>Order
+					</a>
+				</li>
 			
             <li class="nav-item">
                 <a class="nav-link " href="{!! url('/admin/pages'); !!}"><i class="nav-icon fas fa-language"></i>Pages</a>
@@ -182,6 +209,11 @@
                 </a>
 
                 <ul class="nav-dropdown-items">
+						 <li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/transaction'); !!}">
+                              Transaction Search
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link " href="{!! url('/admin/products'); !!}">
                                Manage List Type 

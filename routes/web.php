@@ -84,7 +84,10 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
         Route::get('foundation/{id}/edit', 'FoundationController@edit');
         Route::post('/foundation/update/{id}', 'FoundationController@update')->name('admin.foundation.update');
         Route::get('foundation/delete/{id}', 'FoundationController@delete');
-
+		Route::get('foundation/exports', 'FoundationController@exports');
+		// Search user data for admin
+		 Route::post('foundation/searchexportfoundation', 'FoundationController@search_export_foundation');
+		
 		// Search user data for admin
 		 Route::post('/getuserdata', 'UserseachController@searchuserdata');
 		 // Search user List data for admin
@@ -305,6 +308,30 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('subject/{id}/edit', 'SubjectController@edit');
 		Route::post('subject/update/{id}', 'SubjectController@update')->name('admin.subject.update');
 		Route::get('subject/delete/{id}', 'SubjectController@delete');
+    });
+	
+	Route::group(array('namespace' => 'Admin\Transaction', 'prefix' => 'admin'),function() {
+        
+        Route::get('transaction','TransactionController@index');
+		Route::get('transaction/create', 'TransactionController@create');
+		Route::post('transaction/store', 'TransactionController@store');
+		Route::get('transaction/{id}/edit', 'TransactionController@edit');
+		Route::post('transaction/update/{id}', 'TransactionController@update')->name('admin.transaction.update');
+		Route::get('transaction/delete/{id}', 'TransactionController@delete');
+		
+		Route::post('transaction/searchtransactiondata', 'TransactionController@searchtransactiondata');
+    });
+	
+	Route::group(array('namespace' => 'Admin\Order', 'prefix' => 'admin'),function() {
+        
+        Route::get('order','OrderController@index');
+		Route::get('order/create', 'OrderController@create');
+		Route::post('order/store', 'OrderController@store');
+		Route::get('order/{id}/edit', 'OrderController@edit');
+		Route::post('order/update/{id}', 'OrderController@update')->name('admin.order.update');
+		Route::get('order/delete/{id}', 'OrderController@delete');
+		Route::post('order/getproduct', 'OrderController@getproduct');
+		
     });
 	
 	

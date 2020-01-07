@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Modules;
 use App\Models\ModuleField;
 use App\Models\ModuleFieldValue;
+use App\Models\Payment;
+
 
 use App\User;
 use App\Http\Controllers\Controller;
@@ -68,8 +70,9 @@ class SubscriptionController extends Controller
             $subscriptionstatus[$subscriptionstatusVal->id] = $subscriptionstatusVal->value;
 			
         } 
-		
-        return view('admin.subscription.create',compact('subscriptionstatus'));
+
+		$payment = Payment::pluck('paymentmethod','id')->all();
+        return view('admin.subscription.create',compact('subscriptionstatus','payment'));
     }
     public function store(request $request) {
 		 $this->validate($request, [
@@ -99,6 +102,7 @@ class SubscriptionController extends Controller
 					"userid"  => $result['cid'],
 					"user_type"  => $result['type'],
 					"subscriptionid"  => $result['subscriptionid'],
+					"subscriptiontype_id"  => $result['subscId'],
 					"start_date"  => $sdate,
 					"end_date"  => $edate,
 					"status"  => 1,
@@ -151,8 +155,9 @@ class SubscriptionController extends Controller
             $subscriptionstatus[$subscriptionstatusVal->id] = $subscriptionstatusVal->value;
 			
         } 
+		$payment = Payment::pluck('paymentmethod','id')->all();
         $subscription = Subscription::find($id);
-        return view('admin.subscription.edit')->with(compact('subscription','subscriptionstatus'));
+        return view('admin.subscription.edit')->with(compact('subscription','subscriptionstatus','payment'));
     }
 
     public function update(Request $request, $id) 
@@ -184,6 +189,7 @@ class SubscriptionController extends Controller
 					"userid"  => $result['cid'],
 					"user_type"  => $result['type'],
 					"subscriptionid"  => $result['subscriptionid'],
+					"subscriptiontype_id"  => $result['subscId'],
 					"start_date"  => $sdate,
 					"end_date"  => $edate,
 					"status"  => 1,

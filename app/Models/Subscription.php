@@ -8,4 +8,13 @@ class Subscription extends Model
 {
   protected $table = 'gg_subscription';
   protected $guarded = [];
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }

@@ -628,4 +628,197 @@ class FoundationController extends Controller
 
         return redirect('admin/foundation')->with('status', $output);
     }
+	
+	public function exports()
+	{
+		 $months = array(
+					"0" => "Select",
+                    "1"  => "Jan",
+                    "2"  => "Fab",
+                    "3"  => "Mar",
+                    "4"  => "Apr",
+                    "5"  => "May",
+                    "6"  => "Jun",
+                    "7"  => "Jul",
+                    "8"  => "Aug",
+                    "9"  => "Sep",
+                    "10" => "Oct",
+                    "11" => "Nov",
+                    "12" => "Dec"
+            );
+			
+			$purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+                    //->where('gg_module_fields.module_id', $id)
+                    ->where('gg_module_fields.field_name', 'Purpose')
+                    ->select(
+                        'mfv.id',
+                        'gg_module_fields.field_name',
+                        'gg_module_fields.field_type',
+                        'mfv.value'
+                    )
+                    ->get();
+        $purpose = array();
+        foreach ($purposes as $purposeVal) {
+            $purpose[$purposeVal->id] = $purposeVal->value;
+        } 
+
+       
+		
+		 $genders = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+                    //->where('gg_module_fields.module_id', $id)
+                    ->where('gg_module_fields.field_name', 'Type of applicant')
+                    ->select(
+                        'mfv.id',
+                        'gg_module_fields.field_name',
+                        'gg_module_fields.field_type',
+                        'mfv.value'
+                    )
+                    ->get();
+        $gender = array();
+        foreach ($genders as $genderVal) {
+            $gender[$genderVal->id] = $genderVal->value;
+        } 
+		
+         $subjects = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+                    //->where('gg_module_fields.module_id', $id)
+                    ->where('gg_module_fields.field_name', 'Subject')
+                    ->select(
+                        'mfv.id',
+                        'gg_module_fields.field_name',
+                        'gg_module_fields.field_type',
+                        'mfv.value'
+                    )
+                    ->get();
+        
+        $subject = array();
+        foreach ($subjects as $subjectVal) {
+            $subject[$subjectVal->id] = $subjectVal->value;
+        } 
+		
+		
+		 //countries
+        $countries = Country::select('id', 'country_name')->get();
+        $country_arr = array();
+        $country_arr[0] = 'Select';
+        foreach ($countries as $country) {
+            $country_arr[$country->id] = $country->country_name;
+        }
+		
+		//region
+        $regions = Region::select('id', 'region_name')->get();
+        $region_arr = array();
+        $region_arr[0] = 'Select';
+        foreach ($regions as $region) {
+            $region_arr[$region->id] = $region->region_name;
+        }
+
+        //city 
+        $cities = City::select('id', 'city_name')->get();
+
+        $city_arr = array();
+        $city_arr[0] = 'Select';
+        foreach ($cities as $city) {
+            $city_arr[$city->id] = $city->city_name;
+        }
+		
+		//print_r($purpose);exit;
+		  return view('admin.foundation.exports',compact('months','purpose','subject','gender','country_arr','region_arr','city_arr'));
+	}
+	
+	public function search_export_foundation(Request $request)
+	{
+		//print_r($request->all());
+		
+		    $purposeIds = $request->get('purpose_ids');
+            $genderIds  = $request->get('gender_ids');
+            $subjectIds = $request->get('subject_ids');
+            $cityName   = $request->get('cityName');
+			$only_active   = $request->get('only_active');
+			$age_start   = $request->get('age_start');
+			$age_end   = $request->get('age_end');
+			$apply_start_month   = $request->get('apply_start_month');
+			$apply_start_day   = $request->get('apply_start_day');
+			$apply_end_month   = $request->get('apply_end_month');
+			$apply_end_day   = $request->get('apply_end_day');
+		
+            $foundation = Foundation::leftjoin('gg_foundation_advertise as fa', 'gg_foundation.id', 'fa.foundation_id')
+                        ->leftjoin('gg_foundation_location as fl', 'gg_foundation.id', 'fl.foundation_id')
+                        ->leftjoin('gg_city as ct', 'fl.city_id', 'ct.id')
+                        ->leftjoin('gg_country as cn', 'fl.country_id', 'cn.id')
+						->leftjoin('gg_foundation_purpose as fp', 'gg_foundation.id', 'fp.foundation_id')
+                        ->select(
+                            "gg_foundation.id",
+                            "name",
+                            "sort",
+							"fp.param_id"
+                            /* "administrator",
+                            "asset",
+                            "source",
+                            "org_no",
+                            "remarks", 
+                            "fa.who_can_apply",
+                            "fa.purpose"
+                             "fa.details",
+                            "fa.misc",
+                            "ct.city_name",
+                            "cn.country_name" */
+                        );
+                //$foundation->where('cn.country_name', 'like', 'Sweden%');
+            
+			  if (!empty($search_field)) {
+                $foundation->where('name','LIKE', $search_field.'%');
+				} 
+			
+            if (!empty($purposeIds)) {
+                $foundation->whereIn('fp.param_id', $purposeIds);
+            }
+         
+            if (!empty($genderIds)) {
+                $foundation->leftjoin('gg_foundation_gender as fg', 'gg_foundation.id', 'fg.foundation_id');
+                $foundation->WhereIn('fg.param_id', $genderIds);
+            }
+            if (!empty($subjectIds)) {
+                $foundation->leftjoin('gg_foundation_subject as fs', 'gg_foundation.id', 'fs.foundation_id');
+                $foundation->WhereIn('fs.param_id', $subjectIds);
+            }
+			
+			if (!empty($age_start) || !empty($age_end)) {
+                $foundation->leftjoin('gg_foundation_age as fag', 'gg_foundation.id', 'fag.foundation_id');
+                $foundation->Where('fag.from','>', $age_start )->where('fag.to','<', $age_end);
+            }
+			
+			if (!empty($apply_start_month) || !empty($apply_start_day) || !empty($apply_end_month) || !empty($apply_end_day)) {
+                $foundation->leftjoin('gg_foundation_dates as fdt', 'gg_foundation.id', 'fdt.foundation_id');
+                $foundation->Where('fdt.start_month',$apply_start_month )->where('fdt.start_day', $apply_start_day)->where('fdt.end_month', $apply_end_month)->where('fdt.end_day', $apply_end_month);
+            }
+
+            if (!empty($cityName)) {
+                $foundation->where('ct.id', $cityName);
+            }
+
+			if (!empty($only_active == 1)){
+                $foundation->where('gg_foundation.status','Active');
+            }
+			
+            //$data = $foundation->distinct()->get();
+          $data = $foundation->limit(100)->distinct()->get();
+			/* print_r($data); */
+			return $data;exit;
+			/*  if ($request->ajax()) {
+			return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('select', function($row){
+   
+                           $btn = '<input type="checkbox" value="'.$row->id.'" name="selectfound" id="selectfound"';
+     
+                            return $btn;
+                    })
+                    ->rawColumns(['select'])
+                    ->make(true);
+
+		} */
+	}
+	
+	
+	
 }
