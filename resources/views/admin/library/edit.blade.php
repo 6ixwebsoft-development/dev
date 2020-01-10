@@ -65,7 +65,7 @@
     @endforeach
 </ul>
 @endif
-{!! Form::open(array('route' => array('admin.library.update', $basic->id) ,'files' => true )) !!}
+{!! Form::open(array('route' => array('admin.library.update', $basic->userid) ,'files' => true )) !!}
 	@csrf
   <div class="row">
 
@@ -123,7 +123,7 @@
 							  <div class="form-group row">
 								  {!! Form::label('Library', __( 'Library' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">
-								   {!! Form::text('library', $basic->library, ['class' => 'form-control', '', 'placeholder' => __( 'Enter Last name' ) ]); !!}
+								   {!! Form::text('library', $basic->name, ['class' => 'form-control', '', 'placeholder' => __( 'Enter Last name' ) ]); !!}
 								</div>
 							  </div>
 
@@ -183,7 +183,12 @@
 								{!! Form::label('Role', __( 'Role' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">								 
 								 
-								  {!! Form::select('userrole', (['0' => 'Select a role'] + $roles),[], ['class' => 'form-control','' ]  ); !!}
+								  <select class="form-control" name="userrole">
+									<option value="">Select Roles</option>
+									@foreach($roles as $role)
+										<option value="{{$role->id}}">{{$role->name}}</option>
+									@endforeach
+									</select>
 								  
 								</div>
 							  </div>
@@ -192,7 +197,7 @@
 							
 								{!! Form::label('E-mail', __( 'E-mail' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">								 
-								    {!! Form::email('uemail', null, ['class' => 'form-control','','placeholder' => __( 'Enter email' ) ]); !!}
+								    {!! Form::email('uemail', $user->email, ['class' => 'form-control','','placeholder' => __( 'Enter email' ) ]); !!}
 								</div>
 								<P>Password will be generated automatically by the system for security purposes and can be changed by the user on their member page.</p>
 							  </div>

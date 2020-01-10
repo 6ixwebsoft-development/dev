@@ -43,6 +43,13 @@
                 </div><!--col-->
           </div><!--row-->
           <hr>
+			<div class="form-group row">
+				
+				<div class="col-sm-4">								 						 
+				  {!! Form::select('orderstatus', (['0' => 'Select a order status']+$subscriptionstatus),[], ['class' => 'form-control','onChange'=>'getorderbystatus();','id'=>'orderstatus' ]  ); !!}
+				</div>
+			</div>
+		  <hr>
           <table class="table table-bordered order-table">
             <thead>
                 <tr>

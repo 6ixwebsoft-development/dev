@@ -241,6 +241,10 @@ class TransactionController extends Controller
 					{
 						$query = $query->whereBetween('gg_order.created_at', array(date("Y-m-d 00:00:00", strtotime($data['startdate'])), date("Y-m-d 23:59:59", strtotime($data['expiry_date']))));
 					}
+					if(!empty($data['search']))
+					{
+						$query = $query->where('gg_order.name','LIKE','%'.$data['search'].'%');
+					}
 					return $data = $query->select(
 						'gg_order.id', 
 						'gg_order.userid',

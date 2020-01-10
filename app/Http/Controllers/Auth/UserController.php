@@ -8,6 +8,7 @@ use App\User;
 use App\Models\Userinfo;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Redirect;
+use App\Models\Language;
 use DataTables;
 use DB;
 use Hash;
@@ -61,7 +62,8 @@ class UserController extends Controller
 	   $totaluser = User::count();
 	   $activeuser = User::where('status',1)->count();
 	   $inactiveuser = User::where('status',0)->count();
-       return view('admin.users.index',compact('roles','activeuser','inactiveuser','totaluser'));
+	   $language = Language::where('status','1')->pluck('language', 'id')->all();
+       return view('admin.users.index',compact('roles','activeuser','inactiveuser','totaluser','language'));
     }
     /**
      * Show the form for creating a new resource.

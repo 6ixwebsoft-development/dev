@@ -11,6 +11,7 @@ use App\Models\Sproduct;
 use App\User;
 use App\Models\Payment;
 
+use App\Models\Transaction;
 use App\Http\Controllers\Controller;
 use DataTables;
 use DB;
@@ -65,7 +66,23 @@ class OrderController extends Controller
                     ->make(true);
         }
 
-       return view('admin.order.index');
+		$subscriptionstatusr = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+                    //->where('gg_module_fields.module_id', $id)
+                    ->where('gg_module_fields.field_name', 'Order Status')
+                    ->select(
+                        'mfv.id',
+                        'gg_module_fields.field_name',
+                        'gg_module_fields.field_type',
+                        'mfv.value'
+                    )
+                    ->get();
+					
+        $subscriptionstatus = array();
+        foreach ($subscriptionstatusr as $subscriptionstatusVal) {
+            $subscriptionstatus[$subscriptionstatusVal->id] = $subscriptionstatusVal->value;
+        } 
+
+       return view('admin.order.index',compact('subscriptionstatus'));
     } 
 	
 	 public function create() {
@@ -126,7 +143,34 @@ class OrderController extends Controller
 					"created_at"  =>now(),
 			);
 
-            $subscription = Order::insert($data);
+            $subscription = Order::insertGetId($data);
+			
+			$freighttax = $result['newfr']*$result['newfrt']/100;
+			$vat = $result['newprice']*$result['newvat']/100;
+			$totaltax = $vat;
+			 $transdata = array(
+					"customerid" => $result['cid'],
+					"orderid" => $subscription,
+					"customername" =>$result['name'],
+					"productid" => $result['productId'],
+					"paymentmood" => $result['paymentmood'],
+					"status" => $result['paymentstatus'],
+					"address" => null,
+					"selesperson" => null,
+					"total" => $result['newprice'],
+					"vat" => $vat,
+					"misc" => $result['newmisc'],
+					"freight" => $result['newfr'],
+					"freighttax" => $freighttax,
+					"totaltax" =>$totaltax ,
+					"totalinvoice" => $result['newtotal'],
+					"user_type"  => $result['usertype'],
+					"order_type"  => 'ORD',
+					"orderdate" => date("Y-m-d"),
+					"created_at" =>now(),
+					
+			);
+			 $transaction = Transaction::insert($transdata);
 			DB::commit();
 			$output	= ['class' => 'alert-position-success',
                             'msg' => __("Order created")
@@ -138,7 +182,7 @@ class OrderController extends Controller
 				$output	= ['class' => 'alert-position-danger',
 					'msg' => __("Order Not create")
 					];
-				//return redirect('admin/order')->with('message', $output);
+			//return redirect('admin/order')->with('message', $output);
         }
 
         
@@ -210,6 +254,29 @@ class OrderController extends Controller
 			);
 
           DB::table('gg_order')->where('id', $id)->update($data);
+		  $freighttax = $result['newfr']*$result['newfrt']/100;
+			$vat = $result['newprice']*$result['newvat']/100;
+			$totaltax = $vat;
+			 $transdata = array(
+					"customerid" => $result['cid'],
+					"customername" =>$result['name'],
+					"productid" => $result['orderid'],
+					"paymentmood" => $result['paymentmood'],
+					"status" => $result['paymentstatus'],
+					"address" => null,
+					"selesperson" => null,
+					"total" => $result['newprice'],
+					"vat" => $vat,
+					"misc" => $result['newmisc'],
+					"freight" => $result['newfr'],
+					"freighttax" => $freighttax,
+					"totaltax" =>$totaltax ,
+					"totalinvoice" => $result['total'],
+					"orderdate" => date("Y-m-d"),
+					"created_at" =>now(),
+					
+			);
+			DB::table('gg_transaction')->where('orderid', $id)->update($data);
 			DB::commit();
 			$output	= ['class' => 'alert-position-success',
                             'msg' => __("Order updated")
@@ -240,4 +307,52 @@ class OrderController extends Controller
 		return $product= Sproduct::where('id',$id)->get();
 	}
 	
+	public function getorderbystatus(Request $request)
+	{
+		if ($request->ajax()) {
+
+            $data = Order::orderBy('id', 'DESC')
+					->leftjoin('sproduct as srdt', 'gg_order.productid', '=', 'srdt.id')
+					->leftjoin('gg_module_fields_values as gmf', 'gg_order.orderstatus', '=', 'gmf.id')
+					->select(
+						'gg_order.id', 
+						'gg_order.userid',
+						'gg_order.orderdate', 
+						'gg_order.name',
+						'gg_order.totalprice',
+						'gg_order.ordernotes',
+						'gg_order.totalprice',
+						'gg_order.created_at',
+						'srdt.productname',
+						'gmf.value'
+                    )->where('orderstatus',$request->cid)->get();
+				return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->editColumn('paiddate', function($row) {
+                        
+                            $s_btn = '';                     
+                        return  $s_btn;
+                    })
+                    ->escapeColumns([])
+					 ->addIndexColumn()
+                    ->editColumn('status', function($row) {
+                        
+                          $s_btn = '';  
+						  if(!empty($row->value)){
+							   $s_btn = '<label class="badge badge-success">'.$row->value .'</label>';
+						  }
+                        return  $s_btn;
+                    })
+                    ->escapeColumns([])
+                    ->addColumn('action', function($row){
+                        
+                           $btn = '<a href="'.url('admin').'/order/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
+                                   <a href="'.url('admin').'/order/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+     
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+	}
 }

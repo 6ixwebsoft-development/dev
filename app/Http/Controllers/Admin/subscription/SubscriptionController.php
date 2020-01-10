@@ -8,7 +8,7 @@ use App\Models\ModuleField;
 use App\Models\ModuleFieldValue;
 use App\Models\Payment;
 
-
+use App\Models\Transaction;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\Models\Subscriptiontype;
@@ -119,7 +119,35 @@ class SubscriptionController extends Controller
 					"created_at"  =>now(),
 			);
 
-            $subscription = Subscription::insert($data);
+            $subscription = Subscription::insertGetId($data);
+		//	$insertedId = $subscription->id;
+			$freighttax = $result['newfr']*$result['newfrt']/100;
+			$vat = $result['newprice']*$result['newvat']/100;
+			$totaltax = $vat;
+			 $transdata = array(
+					"customerid" => $result['cid'],
+					"orderid" => $subscription,
+					"customername" =>$result['name'],
+					"productid" => $result['subscId'],
+					"paymentmood" => $result['paymentmood'],
+					"status" => $result['paymentstatus'],
+					"address" => null,
+					"selesperson" => null,
+					"total" => $result['newprice'],
+					"vat" => $vat,
+					"misc" => $result['newmisc'],
+					"freight" => $result['newfr'],
+					"freighttax" => $freighttax,
+					"totaltax" =>$totaltax ,
+					"totalinvoice" => $result['newtotal'],
+					"user_type"  => $result['type'],
+					"order_type"  => 'SUB',
+					"orderdate" => date("Y-m-d"),
+					"created_at" =>now(),
+					
+			);
+			 $transaction = Transaction::insert($transdata);
+			
 			DB::commit();
 			$output	= ['class' => 'alert-position-success',
                             'msg' => __("Subscription created")
@@ -131,7 +159,7 @@ class SubscriptionController extends Controller
 				$output	= ['class' => 'alert-position-danger',
 					'msg' => __("Subscription Not create")
 					];
-				return redirect('admin/subscription')->with('message', $output);
+			return redirect('admin/subscription')->with('message', $output);
         }
 
         
@@ -205,8 +233,32 @@ class SubscriptionController extends Controller
 					"subsnote"  => $result['subscriptionnote'],				
 					"updated_at"  =>now(),
 			);
+			
 			DB::table('gg_subscription')->where('id', $id)->update($data);
-             DB::commit();
+			$freighttax = $result['newfr']*$result['newfrt']/100;
+			$vat = $result['newprice']*$result['newvat']/100;
+			$totaltax = $vat;
+			 $transdata = array(
+					"customerid" => $result['cid'],
+					"customername" =>$result['name'],
+					"productid" => $result['subscId'],
+					"paymentmood" => $result['paymentmood'],
+					"status" => $result['paymentstatus'],
+					"address" => null,
+					"selesperson" => null,
+					"total" => $result['newprice'],
+					"vat" => $vat,
+					"misc" => $result['newmisc'],
+					"freight" => $result['newfr'],
+					"freighttax" => $freighttax,
+					"totaltax" =>$totaltax ,
+					"totalinvoice" => $result['total'],
+					"orderdate" => date("Y-m-d"),
+					"created_at" =>now(),
+					
+			);
+			DB::table('gg_transaction')->where('orderid', $id)->update($transdata);
+            DB::commit();
 			$output	= ['class' => 'alert-position-success',
                             'msg' => __("Subscription updated")
                             ];
@@ -217,7 +269,7 @@ class SubscriptionController extends Controller
                $output	= ['class' => 'alert-position-danger',
 					'msg' => __("Subscription Not updated")
 					];
-				return redirect('admin/subscription')->with('message', $output);
+			return redirect('admin/subscription')->with('message', $output);
             }
 
             

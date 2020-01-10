@@ -8,6 +8,7 @@ use App\Models\Language;
 
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Redirect;
+use App\Models\Usertyperole;
 
 use App\Models\LibraryContact;
 use App\Models\Library;
@@ -29,14 +30,14 @@ class LibraryController extends Controller
 {
      public function index(Request $request) {
         if ($request->ajax()) {
-            $data = Library::select('id', 'name')->where('type','1')->get();
+            $data = Library::select('id', 'name','userid')->where('type','1')->get();
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
    
                            $txt = "'Are you sure to delete this?'";
-                           $btn = '<a href="'.url('admin').'/library/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a onclick="return confirm('.$txt.')" href="'.url('admin').'/library/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+                           $btn = '<a href="'.url('admin').'/library/'.$row->userid.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
+                                   <a onclick="return confirm('.$txt.')" href="'.url('admin').'/library/delete/'.$row->userid.'" class="delete btn btn-primary btn-sm">Delete</a>';
      
                             return $btn;
                     })
@@ -49,13 +50,17 @@ class LibraryController extends Controller
 	public function create()
     {
 		
-		$roles = Role::pluck('name','id')->all();
+		//$roles = Role::pluck('name','id')->all();
 		$country = Country::pluck('country_name','id')->all();
 		$purpose = Purpose::pluck('purpose','id')->all();
 		$userroles = Role::all();
 		$language = Language::where('status','1')->pluck('language', 'id')->all();
-		$group  =  Library::where('type','2')->pluck('library', 'id')->all();
+		$group  =  Library::where('type','2')->pluck('name', 'id')->all();
 		
+		$rolesIds = Usertyperole::where('type','TESt')->first();		
+		$roleid = json_decode($rolesIds,TRUE);
+		$dataids = $roleid['role_ids'];
+		$roles = Role::select('name','id')->whereIn('id', ["8","9"])->get(); 
         return view('admin.library.create',compact('roles','userroles','language','country','purpose','group'));
     }
 	
@@ -165,46 +170,55 @@ class LibraryController extends Controller
 				
 
 		$output = ['success' => true,
-                            'msg' => __("Module Field value added successfully")
+                            'class' => __("Library added successfully")
                         ];
         } catch (\Exception $e) {
             $output = ['success' => false,
-                            'msg' => __("Something went wrong")
+                            'class' => __("Something went wrong")
                         ];
+			
         }
 
-        return redirect('admin/library')->with('status', $output);
+       return redirect('admin/library')->with('status', $output);
 
     }
 	
-	public function edit($id)
+	public function edit($uid)
 	{
-		$basic = Library::where('id',$id)->first();
+		$basic = Library::where('userid',$uid)->first();
+		$user = User::where('id',$uid)->first();
+		$id = $basic->id;
 		$contact = LibraryContact::where('libraryid',$id)->first();
-		$roles = Role::pluck('name','id')->all();
+		//$roles = Role::pluck('name','id')->all();
 		$country = Country::pluck('country_name','id')->all();
 		$purpose = Purpose::pluck('purpose','id')->all();
 		$language = Language::where('status','1')->pluck('language', 'id')->all();
-		$group  =  Library::where('type','2')->pluck('library', 'id')->all();
+		$group  =  Library::where('type','2')->pluck('name', 'id')->all();
 		$details  = Librarylogin::where('libraryid',$id)->first();
 		$ips  = Libraryips::where('libraryid',$id)->get();
 		$remoteips  = Libraryremoteip::where('libraryid',$id)->get();
 		$logo = Documents::where('userid',$id)->where('type','LIB')->where('filetype',1)->first();
-			
-        return view('admin.library.edit',compact('roles','userroles','language','country','purpose','group','basic','contact','details','ips','remoteips','logo'));
+		$rolesIds = Usertyperole::where('type','TESt')->first();		
+		$roleid = json_decode($rolesIds,TRUE);
+		$dataids = $roleid['role_ids'];
+		$roles = Role::select('name','id')->whereIn('id', ["8","9"])->get(); 
+		
+        return view('admin.library.edit',compact('roles','userroles','language','country','purpose','group','basic','contact','details','ips','remoteips','logo','user'));
 	}
 	
-	public function update(Request $request, $id) 
+	public function update(Request $request, $uid) 
 	{
 		try {
+			$basic = Library::where('userid',$uid)->first();
+			$id = $basic->id;
 			$result = $request->all();
 				
-				/* $userLog = array(
+				 $userLog = array(
 				"email"  => $result['uemail'],
 				"name"  => $result['library'],
 				"updated_at"  => Now(),
 				);
-				DB::table('users')->where('id', $id)->update($basic); */
+				DB::table('users')->where('id', $uid)->update($userLog); 
 				
 				$basic = array(
                    
@@ -315,6 +329,7 @@ class LibraryController extends Controller
 			$output = ['success' => false,
 						'msg' => __("messages.something_went_wrong")
 					];
+		//echo $e;
 		}
 
 		return redirect('admin/library')->with('status', $output);
@@ -322,7 +337,11 @@ class LibraryController extends Controller
 	
 	public function delete($id)
 	{
-		try {			
+		try {
+			$basic = Library::where('userid',$uid)->first();
+			
+			$id = $basic->id;
+			User::where('id', $uid)->delete();
 			Library::where('id', $id)->delete();
 			LibraryContact::where('libraryid', $id)->delete();
 			Libraryremoteip::where('libraryid', $id)->delete();

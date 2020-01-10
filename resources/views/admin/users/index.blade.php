@@ -42,7 +42,7 @@
           </div><!--row-->
           <hr>
 		  
-		  <form action="{{ url('/admin/searchvikashuser') }}" method="post" >
+		  <form action="" method="post" name="searchuserdatas" id="searchuserdatas" >
 		  @csrf
           <div class="row">            
               
@@ -60,7 +60,7 @@
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label for="usertytype">All</label>
-                      <select multiple class="form-control" id="usertytype" name="usertytype">
+                      <select multiple class="form-control" id="usertytype" name="usertytype[]">
                         <option value="DON">DONORS</option>
 						<option value="IND" selected>INDIVIDUAL</option>
 						<option value="ORG" selected>ORGANIZATION</option>
@@ -78,18 +78,16 @@
 						</div>
 					
 					<div style="margin-top:10px;" class="row">
-						<div class="col-sm-6">
+						<!-- <div class="col-sm-6">
 						  <div class="form-group">
 						  <select  class="form-control" id="exampleFormControlSelect1">
 							<option>1</option>
 						  </select>
 						  </div>
-						</div>
-						<div class="col-sm-6">
-							  <div class="form-group">
-							   <select  class="form-control" id="exampleFormControlSelect1">
-								<option>1</option>
-							  </select>
+						</div> -->
+						<div class="col-sm-12">
+							  <div class="form-group"> 
+								{!! Form::select('languageid', (['0' => 'Select a Language'] + $language),[], ['class' => 'form-control','id'=>'languageid']) !!}
 							</div>
 						</div>
 					
@@ -101,7 +99,7 @@
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label for="exampleFormControlSelect1">User Type</label>
-                      <select multiple class="form-control" id="userRole" name="userRole">
+                      <select multiple class="form-control" id="userRole" name="userRole[]">
 						@foreach($roles as $role)
 							<option value="{{$role->name}}">{{$role->name}}</option>
 						@endforeach	
@@ -125,7 +123,7 @@
               </div>
 			  
 			
-			    </form>
+			 
 			  
 			  
 			  
@@ -167,18 +165,18 @@
 							
 					  </div>
 					  <div class="col-sm-4">
-						<button type="button" class="btn btn-success col-sm-12">Add New Individual</button>
-						<button type="button" class="btn btn-success col-sm-12">Add New Orgnization</button>
-						<button type="button" class="btn btn-success col-sm-12">Add New Library</button>
-						<button type="button" class="btn btn-success col-sm-12">Add New Library Group</button>
-						<button type="button" class="btn btn-success col-sm-12">Add New Foundation</button>
-						<button type="button" class="btn btn-success col-sm-12">Add New Subcription</button>
-						<button type="button" class="btn btn-info col-sm-12">One Month Subscriber List</button>
+						<a href="{!! url('/admin/individual/create'); !!}" type="button" class="btn btn-success col-sm-12">Add New Individual</a>
+						<a href="{!! url('/admin/organization/create'); !!}" type="button" class="btn btn-success col-sm-12">Add New Orgnization</a>
+						<a href="{!! url('/admin/library/create'); !!}" type="button" class="btn btn-success col-sm-12">Add New Library</a>
+						<a href="{!! url('/admin/librarygroup/create'); !!}" type="button" class="btn btn-success col-sm-12">Add New Library Group</a>
+						<a href="{!! url('/admin/foundation/create'); !!}" type="button" class="btn btn-success col-sm-12">Add New Foundation</a>
+						<a href="{!! url('/admin/subscription/create'); !!}" type="button" class="btn btn-success col-sm-12">Add New Subcription</a>
+						<a href="#" type="button" class="btn btn-info col-sm-12">One Month Subscriber List</a>
 					  </div>         
 					</div>         
               </div>
               
-            
+               </form>
           </div>
 		  <div class="col-sm-9 offset-md-3">
 		  <div class="row">

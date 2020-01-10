@@ -281,6 +281,7 @@
             </div>
 
         </div>
+		<input type="hidden" name="usertype" id="usertype">
 		<input type="hidden" name="productId" id="productId">
 		<input type="hidden" name="newquantity" id="newquantity">
 		<input type="hidden" name="newprice" id="newprice">

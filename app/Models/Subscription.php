@@ -11,10 +11,5 @@ class Subscription extends Model
   
   
   
-  
-  
-  
-  
-  
-  
+ 
 }

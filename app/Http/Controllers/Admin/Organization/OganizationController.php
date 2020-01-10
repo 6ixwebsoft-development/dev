@@ -13,6 +13,7 @@ use App\Models\Modules;
 use App\Models\ModuleField;
 use App\Models\ModuleFieldValue;
 
+use App\Models\Usertyperole;
 use App\User;
 use App\Models\orgpurpose;
 use App\Models\LibraryContact;
@@ -34,14 +35,14 @@ class OganizationController extends Controller
 {
    public function index(Request $request) {
         if ($request->ajax()) {
-            $data = Library::select('id', 'name')->where('type','3')->get();
+            $data = Library::select('id', 'name','userid')->where('type','3')->get();
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
    
                            $txt = "'Are you sure to delete this?'";
-                           $btn = '<a href="'.url('admin').'/organization/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a onclick="return confirm('.$txt.')" href="'.url('admin').'/organization/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+                           $btn = '<a href="'.url('admin').'/organization/'.$row->userid.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
+                                   <a onclick="return confirm('.$txt.')" href="'.url('admin').'/organization/delete/'.$row->userid.'" class="delete btn btn-primary btn-sm">Delete</a>';
      
                             return $btn;
                     })
@@ -54,7 +55,7 @@ class OganizationController extends Controller
 	public function create()
     {
 		
-		$purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+		/* $purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Purpose')
                     ->select(
@@ -67,15 +68,18 @@ class OganizationController extends Controller
         $purpose = array();
         foreach ($purposes as $purposeVal) {
             $purpose[$purposeVal->id] = $purposeVal->value;
-        }
+        } */
 		
-		$roles = Role::pluck('name','id')->all();
+		//$roles = Role::pluck('name','id')->all();
 		$country = Country::pluck('country_name','id')->all();
-		//$purpose = Purpose::pluck('purpose','id')->all();
+		$purpose = Purpose::pluck('purpose','id')->all();
 		$userroles = Role::all();
 		$language = Language::where('status','1')->pluck('language', 'id')->all();
 		$group  =  Library::where('type','2')->pluck('name', 'id')->all();
-		
+		$rolesIds = Usertyperole::where('type','TESt')->first();		
+		$roleid = json_decode($rolesIds,TRUE);
+		$dataids = $roleid['role_ids'];
+		$roles = Role::select('name','id')->whereIn('id', ["8","9"])->get(); 
 		
         return view('admin.organization.create',compact('roles','userroles','language','country','purpose','group'));
     }
@@ -233,9 +237,9 @@ class OganizationController extends Controller
 
     }
 	
-	public function edit($id)
+	public function edit($uid)
 	{
-		$purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+		/* $purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Purpose')
                     ->select(
@@ -248,14 +252,15 @@ class OganizationController extends Controller
         $purpose = array();
         foreach ($purposes as $purposeVal) {
             $purpose[$purposeVal->id] = $purposeVal->value;
-        }
+        } */
 		
-		$basic = Library::where('id',$id)->first();
-		$user = User::where('id',$basic->userid)->first();
+		$basic = Library::where('userid',$uid)->first();
+		$user = User::where('id',$uid)->first();
+		$id = $basic->id;
 		$contact = LibraryContact::where('libraryid',$id)->first();
-		$roles = Role::pluck('name','id')->all();
+		//$roles = Role::pluck('name','id')->all();
 		$country = Country::pluck('country_name','id')->all();
-		//$purpose = Purpose::pluck('purpose','id')->all();
+		$purpose = Purpose::pluck('purpose','id')->all();
 		$language = Language::where('status','1')->pluck('language', 'id')->all();
 		$group  =  Library::where('type','2')->pluck('name', 'id')->all();
 		$details  = Librarylogin::where('libraryid',$id)->first();
@@ -269,12 +274,18 @@ class OganizationController extends Controller
 		$doc = Documents::where('userid',$id)->where('filetype',2)->where('type','ORG')->get();
 		$photo = Documents::where('userid',$id)->where('filetype',3)->where('type','ORG')->get();
 		
+		$rolesIds = Usertyperole::where('type','TESt')->first();		
+		$roleid = json_decode($rolesIds,TRUE);
+		$dataids = $roleid['role_ids'];
+		$roles = Role::select('name','id')->whereIn('id', ["8","9"])->get(); 
+		
         return view('admin.organization.edit',compact('roles','userroles','language','country','purpose','group','basic','contact','details','ips','remoteips','purposeId','user','logo','doc','photo'));
 	}
 	
-	public function update(Request $request, $id) 
+	public function update(Request $request, $uid) 
 	{
-		$basic = Library::where('id',$id)->first();
+		$basic = Library::where('userid',$uid)->first();
+		$id = $basic->id;
 		$this->validate($request, [
 					'orgname' => 'required',
 					'email' => 'required|email',
@@ -295,7 +306,7 @@ class OganizationController extends Controller
 				"name"  => $result['orgname'],
 				"updated_at"  => Now(),
 				);
-				DB::table('users')->where('id', $basic->userid)->update($userLog);
+				DB::table('users')->where('id', $uid)->update($userLog);
 				
 				DB::table('model_has_roles')->where('model_id', $id)->update(
 					['role_id' => $result['userrole']]
@@ -466,24 +477,26 @@ class OganizationController extends Controller
                             'msg' => __("Organization Not create")
                             ];
 			DB::rollBack();
-			echo $e;
-			//return redirect('admin/organization')->with('message', $output);
+			//echo $e;
+			return redirect('admin/organization')->with('message', $output);
 		}
 
 		
 	}
 	
-	public function delete($id)
+	public function delete($uid)
 	{
-		try {			
+		try {	
+			$basic = Library::where('userid',$uid)->first();
+			$id = $basic->id;
+			User::where('id', $uid)->delete();
 			Library::where('id', $id)->delete();
 			LibraryContact::where('libraryid', $id)->delete();
 			Libraryremoteip::where('libraryid', $id)->delete();
 			Libraryips::where('libraryid', $id)->delete();
 			Libraryips::where('libraryid', $id)->delete();
 			orgpurpose::where('orgid', $id)->delete();
-			$basic = Library::where('id',$id)->first();
-			User::where('id', $basic->userid)->delete();
+			
 			$output	= ['class' => 'alert-position-danger',
                             'msg' => __("Organization deleted")
                             ];

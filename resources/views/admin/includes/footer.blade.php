@@ -32,17 +32,19 @@
 	<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
 	<script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js
 "></script>
+
 	
-    <script src="{{ asset('js/admin-view.js') }}" defer></script>
-    <script src="{{ asset('js/popper.min.js') }}" defer></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}" defer></script>
-    <script src="{{ asset('js/pace.min.js') }}" defer></script>
-    <script src="{{ asset('js/perfect-scrollbar.min.js') }}" defer></script>
-    <script src="{{ asset('js/coreui.min.js') }}" defer></script>
-    <script src="{{ asset('js/Chart.min.js') }}" defer></script>
-    <script src="{{ asset('js/custom-tooltips.min.js') }}" defer></script>
-    <script src="{{ asset('js/main.js') }}" defer></script>
-    <script src="{{ asset('js/script.js') }}" defer></script>
+    <script src="{{ asset('js/admin-view.js') }}" ></script>
+    <script src="{{ asset('js/popper.min.js') }}" ></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}" ></script>
+    <script src="{{ asset('js/pace.min.js') }}" ></script>
+    <script src="{{ asset('js/perfect-scrollbar.min.js') }}" ></script>
+    <script src="{{ asset('js/coreui.min.js') }}" ></script>
+    <script src="{{ asset('js/Chart.min.js') }}" ></script>
+    <script src="{{ asset('js/custom-tooltips.min.js') }}" ></script>
+    <script src="{{ asset('js/main.js') }}" ></script>
+    <script src="{{ asset('js/script.js') }}" ></script>
+	
     <script>
       
         window.setTimeout(function() {

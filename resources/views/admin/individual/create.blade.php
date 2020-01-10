@@ -250,8 +250,16 @@
 							<div class="form-group row">
 								{!! Form::label('Role', __( 'Role' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">								 
+									
+									<select class="form-control" name="userrole">
+									<option value="">Select Roles</option>
+									@foreach($roles as $role)
+										<option value="{{$role->id}}">{{$role->name}}</option>
+									@endforeach
+									</select>
+									
+								  <!--{!! Form::select('userrole', (['0' => 'Select a role']),[], ['class' => 'form-control','' ]  ); !!}-->
 								 
-								  {!! Form::select('userrole', (['0' => 'Select a role'] + $roles),[], ['class' => 'form-control','' ]  ); !!}
 								  
 								</div>
 							  </div>

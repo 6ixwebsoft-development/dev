@@ -175,9 +175,29 @@
 					</a>
 				</li>
 			
-            <li class="nav-item">
-                <a class="nav-link " href="{!! url('/admin/pages'); !!}"><i class="nav-icon fas fa-language"></i>Pages</a>
-            </li>
+			<li class="nav-item nav-dropdown">
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                    <i class="nav-icon fas fa-language"></i>CMS
+                </a>
+
+                <ul class="nav-dropdown-items">
+						
+						 <li class="nav-item">
+							<a class="nav-link " href="{!! url('/admin/pages'); !!}"></i>Pages</a>
+						</li>
+						
+                        <li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/menu'); !!}">
+                            Menu
+                            </a>
+                        </li>
+                    </ul>
+					
+                </li>
+			
+           
+			
+			
             <li class="nav-item">
                 <a class="nav-link " href="{!! url('/admin/settings'); !!}"><i class="nav-icon fas fa-language"></i>Default Settings</a>
             </li>
@@ -212,6 +232,11 @@
 						 <li class="nav-item">
                             <a class="nav-link " href="{!! url('/admin/transaction'); !!}">
                               Transaction Search
+                            </a>
+                        </li>
+						<li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/report/cash_flow'); !!}">
+                              Sales By Amount
                             </a>
                         </li>
                         <li class="nav-item">

@@ -68,7 +68,7 @@
 {!! Form::open(
 				array('route' => array(
 									'admin.organization.update', 
-									$basic->id 
+									$basic->userid 
 									),
 					'files' => true
 					)
@@ -132,7 +132,7 @@
 							  <div class="form-group row">
 								  {!! Form::label('Organization', __( 'Organization' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">
-								   {!! Form::text('orgname', $basic->library, ['class' => 'form-control', '', 'placeholder' => __( 'Enter Last name' ) ]); !!}
+								   {!! Form::text('orgname', $basic->name, ['class' => 'form-control', '', 'placeholder' => __( 'Enter Last name' ) ]); !!}
 								</div>
 							  </div>
 
@@ -184,7 +184,14 @@
 								{!! Form::label('Role', __( 'Role' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">								 
 								 
-								  {!! Form::select('userrole', (['0' => 'Select a role'] + $roles),[], ['class' => 'form-control','' ]  ); !!}
+									 <select class="form-control" name="userrole">
+									<option value="">Select Roles</option>
+									@foreach($roles as $role)
+										<option value="{{$role->id}}">{{$role->name}}</option>
+									@endforeach
+									</select>
+									
+								 
 								  
 								</div>
 							  </div>

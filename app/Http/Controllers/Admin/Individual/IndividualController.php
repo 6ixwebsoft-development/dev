@@ -8,6 +8,7 @@ use App\Models\Language;
 use App\Models\Modules;
 use App\Models\ModuleField;
 use App\Models\ModuleFieldValue;
+use App\Models\Usertyperole;
 //Individual models
 
 use App\Models\Individual;
@@ -94,7 +95,7 @@ class IndividualController extends Controller
         foreach ($genders as $genderVal) {
             $gender[$genderVal->id] = $genderVal->value;
         } 
-		$purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+		/* $purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Purpose')
                     ->select(
@@ -107,14 +108,25 @@ class IndividualController extends Controller
         $purpose = array();
         foreach ($purposes as $purposeVal) {
             $purpose[$purposeVal->id] = $purposeVal->value;
-        } 
+        }  */
 		
-		$roles = Role::pluck('name','id')->all();
+		//$roles = Role::pluck('name','id')->all();
 		$country = Country::pluck('country_name','id')->all();
-		//$purpose = Purpose::pluck('purpose','id')->all();
+		$purpose = Purpose::pluck('purpose','id')->all();
 		$userroles = Role::all();
 		$language = Language::where('status','1')->pluck('language', 'id')->all();
 		/* print_r($) */
+		
+		$rolesIds = Usertyperole::where('type','TESt')->first();		
+		$roleid = json_decode($rolesIds,TRUE);
+		$dataids = $roleid['role_ids'];
+		
+		//DB::enableQueryLog();
+		$roles = Role::select('name','id')->whereIn('id', ["5","6","7"])->get(); 
+		//dd(DB::getQueryLog());
+		//echo "<pre>";
+		//print_r($roles);exit;
+		
         return view('admin.Individual.create',compact('roles','userroles','language','country','purpose','civilstatus','gender'));
     }
 	
@@ -408,7 +420,7 @@ class IndividualController extends Controller
 		/* $data = Individual::get(); 
 		  $data = Individual::alldata(3);
 		echo "<pre>"; print_r($data);exit; */ 
-		$roles = Role::pluck('name','id')->all();
+		//$roles = Role::pluck('name','id')->all();
 		$country = Country::pluck('country_name','id')->all();
 		/* $formids = ["1","2"];
 		->whereIn('formid',1) */
@@ -419,7 +431,7 @@ class IndividualController extends Controller
 		$individual = Individual::where('userid',$id)->first();
 		$user = User::where('id',$id)->first();
 		$userRole = $user->roles->pluck('name','id')->all();
-		
+		$roles = Role::pluck('name','name')->all();
 		$contact = IndividualContact::where('userid',$id)->first();
 		$personal = IndividualPersonal::where('userid',$id)->first();
 		$purposes = IndividualPerpose::where('userid',$id)->first();
@@ -435,7 +447,12 @@ class IndividualController extends Controller
 		$childern = IndividualChildern::where('userid',$id)->get();
 		/*  echo "<pre>";
 		print_r($user);exit; */
+		$rolesIds = Usertyperole::where('type','TESt')->first();		
+		$roleid = json_decode($rolesIds,TRUE);
+		$dataids = $roleid['role_ids'];
+		$roles = Role::select('name','id')->whereIn('id', ["5","6","7"])->get(); 
 		
+		/* echo $userRole['7']; exit; */
         return view('admin.Individual.edit',compact('roles','language','country','purpose','individual','user','contact','personal','purpose','purposeId','study','care','walfare','research','project','video','childern','userRole','civilstatus','gender'));
 	}
 

@@ -295,11 +295,12 @@ function searchuserdata() {
 	var userRole = $('#userRole').val();
 	var statususer = $("input[name='optuser']:checked").val();
 	var usertytype = $('#usertytype').val();
-	/* alert(usertytype); */
+	 //alert(userRole); 
 	var createdFrom = $('#createdFrom').val();
 	var createdTo = $('#createdTo').val();
 	var modifiesFrom = $('#modifiesFrom').val();
 	var modifiesTo = $('#modifiesTo').val();
+	var languageid = $('#languageid').val();
 	
 	if ($('#byemail').is(":checked"))
 	{
@@ -330,7 +331,7 @@ function searchuserdata() {
         $.ajax({
            type:'POST',
            url: APP_URL+"/admin/getuserdata",
-           data:{searchtext:searchtext,userRole:userRole,statususer:statususer,createdFrom:createdFrom,createdTo:createdTo,modifiesFrom:modifiesFrom,modifiesTo:modifiesTo,emailcheck:emailcheck,usertytype:usertytype},
+           data:{searchtext:searchtext,userRole:userRole,statususer:statususer,createdFrom:createdFrom,createdTo:createdTo,modifiesFrom:modifiesFrom,modifiesTo:modifiesTo,emailcheck:emailcheck,usertytype:usertytype,languageid:languageid},
            success:function(data){
 			//alert(data);
 			$('.user-table').dataTable().fnDestroy()
@@ -916,6 +917,8 @@ $(document).ready(function(){
 		 $('#cid').val(col1);
 		 $('#name').val(col2);
 		 $('#type').val(col4);
+		  $('#usertype').val(col4);
+		 
 		  $('#email').val(col3);
 		 $("#userlists").hide();
 		 $.ajaxSetup({
@@ -1329,3 +1332,140 @@ $(function () {
     });
     
 });
+
+
+/* Get Order List By status */
+
+function getorderbystatus()
+{
+	var cid = $("#orderstatus").val();
+	
+	$.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+	
+        $.ajax({
+           type:'POST',
+           url: APP_URL+"/admin/order/getorderbystatus",
+           data:{cid:cid},
+           success:function(data){
+			//alert(data);
+			$('.order-table').dataTable().fnDestroy()
+
+				data.draw = 1;
+				console.log(data);	
+				
+				$('.order-table').DataTable({
+				data: data.data,
+			  columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+			{data: 'userid', name: 'userid'},
+            {data: 'id', name: 'id'},
+			{data: 'orderdate', name: 'orderdate'},
+            {data: 'name', name: 'name'},
+			{data: 'productname', name: 'productname'},
+            {data: 'paiddate', name: 'paiddate'},
+            {data: 'totalprice', name: 'totalprice'},
+            {data: 'status', name: 'status'},
+			 {data: 'ordernotes', name: 'ordernotes'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+				} );
+           }
+
+			});
+}
+
+/*subject */
+$(function () {
+    
+    var table = $('.cashflow-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: APP_URL+"/admin/report/cash_flow",
+        columns: [
+            {data: 'orderdate', name: 'orderdate'},
+			{data: 'customerid', name: 'customerid'},
+            {data: 'orderid', name: 'orderid'},
+			{data: 'customername', name: 'customername'},
+            {data: 'address', name: 'address'},
+			{data: 'selesperson', name: 'selesperson'},
+            {data: 'total', name: 'total'},
+            {data: 'misc', name: 'misc'},
+			 {data: 'freight', name: 'freight'},
+            {data: 'vat', name: 'vat'},
+			 {data: 'freighttax', name: 'freighttax'},
+			 {data: 'totaltax', name: 'totaltax'},
+			 {data: 'totalinvoice', name: 'totalinvoice'},
+        ]
+    });
+    
+
+});
+
+
+function searchcashflowdata()
+{
+ var data = $("#transData").serialize();
+/*   alert(data);  */
+  $.ajax({
+	   type:'POST',
+	   url: APP_URL+"/admin/report/searchdatabyfilter",
+	   data:data,
+	   success:function(data){
+		//alert(data);
+		$('.cashflow-table').dataTable().fnDestroy()
+			data.draw = 1;
+			console.log(data);	
+			
+		$('.cashflow-table').DataTable({
+			dom: 'Bfrtip',
+			buttons: [
+				'excel'
+			],
+			buttons: [
+			   { 
+				 extend: 'excel',
+				 text: 'Export Result To xls',
+				 title: 'Export Data'
+				  
+			   }
+			],
+			
+			data: data.data,
+			columns: [
+			{data: 'orderdate', name: 'orderdate'},
+			{data: 'customerid', name: 'customerid'},
+			{data: 'orderid', name: 'orderid'},
+			{data: 'customername', name: 'customername'},
+			{data: 'address', name: 'address'},
+			{data: 'selesperson', name: 'selesperson'},
+			{data: 'total', name: 'total'},
+			{data: 'misc', name: 'misc'},
+			 {data: 'freight', name: 'freight'},
+			{data: 'vat', name: 'vat'},
+			 {data: 'freighttax', name: 'freighttax'},
+			 {data: 'totaltax', name: 'totaltax'},
+			 {data: 'totalinvoice', name: 'totalinvoice'},
+			]
+			
+			});
+	   }
+
+		});
+}
+
+function geturlbox()
+{
+	var val = $('#page').val();
+	if(val == 0)
+	{
+		$('#customfeild').show();
+	}else{
+		$('#customfeild').hide();
+	}
+}
+
+

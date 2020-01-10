@@ -78,9 +78,30 @@ class UserseachController extends Controller
                     })
                    ->escapeColumns([])
                     ->addColumn('action', function($row){
-   
-                          $btn = '<a href="'.url('admin').'/users/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a href="'.url('admin').'/users/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+						
+						    $btn ='';
+							if(!empty($row->user_type)){
+							$controller = '';
+							if($row->user_type == 'LIB'){$controller = 'library';}
+							if($row->user_type == 'ORG'){$controller = 'organization';}
+							if($row->user_type == 'IND'){$controller = 'individual';}
+							$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
+                                   <a href="'.url('admin').'/'.$controller.'/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+							}
+							if(!empty($row->foundation_id))
+							{
+								$controller = 'foundation';
+								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
+                                   <a href="'.url('admin').'/'.$controller.'/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+							}
+							if(!empty($row->libraryid))
+							{
+								$controller = 'librarygroup';
+								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
+                                   <a href="'.url('admin').'/'.$controller.'/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+							}
+						
+                           
      
                             return $btn;
                     })
@@ -88,8 +109,11 @@ class UserseachController extends Controller
                     ->make(true);
         }
        $roles = Role::all();
+	  
        return view('admin.users.index',compact('roles'));
 	}
+	
+	
 	
 	public function userseachdata($type,$data)
 	{
@@ -128,9 +152,9 @@ class UserseachController extends Controller
 				}
 			
 			if(!empty($type))
-			{
-				$query = $query->whereIn('user_type',$data['usertytype']);
-			}
+				{
+					$query = $query->whereIn('user_type',$data['usertytype']);
+				}
 
 		//DB::enableQueryLog(); 
 		 
@@ -138,7 +162,8 @@ class UserseachController extends Controller
 						'id',                   
                         'name',
 						'email',
-                        'status'
+                        'status',
+						'user_type'
                     )->get();
 		//dd(DB::getQueryLog());
 		
@@ -155,9 +180,27 @@ class UserseachController extends Controller
 						'gg_foundation.id',                   
                         'gg_foundation.name',
 						'gfc.email',
+						'gfc.foundation_id',
                         'gg_foundation.status'
                     );
-			/* if(!empty($data['createdFrom']) || !empty($data['createdTo']))
+					
+		if(!empty($data['searchtext']))
+			{	
+				if(!empty($data['emailcheck']))
+				{
+					$query = $query->where('email',$data['searchtext']);
+				}
+				else
+				{
+					$query = $query->where('name','LIKE','%'.$data['searchtext'].'%');
+				}
+			}
+			
+			if(!empty($data['statususer']))
+				{
+					$query = $query->where('status',$data['statususer']);
+				}	
+			/*  if(!empty($data['createdFrom']) || !empty($data['createdTo']))
 				{
 					$query = $query->whereBetween('created_at', array(date("Y-m-d", strtotime($data['createdFrom'])), date("Y-m-d", strtotime($data['createdTo']))));
 				}
@@ -165,7 +208,12 @@ class UserseachController extends Controller
 			if(!empty($data['modifiesFrom']) || !empty($data['modifiesTo']))
 				{
 					$query = $query->whereBetween('updated_at', array(date("Y-m-d", strtotime($data['modifiesFrom'])), date("Y-m-d", strtotime($data['modifiesTo']))));
-				} */
+				}  */
+				
+			if(!empty($data['languageid']))
+				{
+					$query = $query->where('language',$data['languageid']);
+				} 
 
 		return $query->get();
 		
@@ -183,17 +231,38 @@ class UserseachController extends Controller
 						'library_basic.id',                   
                         'library_basic.name',
 						'gfc.email',
+						'gfc.libraryid',
                         'library_basic.status'
                     )
 					->where('type','2');
-              /* if(!empty($data['createdFrom']) || !empty($data['createdTo']))
+               if(!empty($data['createdFrom']) || !empty($data['createdTo']))
 				{
 					$query = $query->whereBetween('created_at', array(date("Y-m-d", strtotime($data['createdFrom'])), date("Y-m-d", strtotime($data['createdTo']))));
 				}
 				
-			if(!empty($data['modifiesFrom']) || !empty($data['modifiesTo']))
+				if(!empty($data['modifiesFrom']) || !empty($data['modifiesTo']))
 				{
 					$query = $query->whereBetween('updated_at', array(date("Y-m-d", strtotime($data['modifiesFrom'])), date("Y-m-d", strtotime($data['modifiesTo']))));
+				} 
+				if(!empty($data['searchtext']))
+				{	
+					if(!empty($data['emailcheck']))
+					{
+						$query = $query->where('email',$data['searchtext']);
+					}
+					else
+					{
+						$query = $query->where('name','LIKE','%'.$data['searchtext'].'%');
+					}	
+				}
+				if(!empty($data['languageid']))
+				{
+					$query = $query->where('languageid',$data['languageid']);
+				} 
+				
+				/* if(!empty($data['statususer']))
+				{
+					$query = $query->where('status',$data['statususer']);
 				} */
 
 		return $query->get();
@@ -299,7 +368,7 @@ class UserseachController extends Controller
 				$query = $query->where('name', 'LIKE', $firstletter.'%');
 			}
 		}
-		
+		$query = User::where('user_type',null);
 		return $query->get();
 	}
 	

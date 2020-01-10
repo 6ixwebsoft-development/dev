@@ -331,7 +331,26 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::post('order/update/{id}', 'OrderController@update')->name('admin.order.update');
 		Route::get('order/delete/{id}', 'OrderController@delete');
 		Route::post('order/getproduct', 'OrderController@getproduct');
+		Route::post('order/getorderbystatus', 'OrderController@getorderbystatus');
 		
+    });
+	
+	Route::group(array('namespace' => 'Admin\Menu', 'prefix' => 'admin'),function() {
+        
+        Route::get('menu','MenuController@index');
+		Route::get('menu/create', 'MenuController@create');
+		Route::post('menu/store', 'MenuController@store');
+		Route::get('menu/{id}/edit', 'MenuController@edit');
+		Route::post('menu/update/{id}', 'MenuController@update')->name('admin.menu.update');
+		Route::get('menu/delete/{id}', 'MenuController@delete');
+		
+    });
+	
+	Route::group(array('namespace' => 'Admin\Report', 'prefix' => 'admin'),function() {
+        
+        Route::get('report/cash_flow','ReportController@index');
+		
+		Route::post('report/searchdatabyfilter', 'ReportController@searchdatabyfilter');	
     });
 	
 	
