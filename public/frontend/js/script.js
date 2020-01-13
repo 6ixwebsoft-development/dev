@@ -162,23 +162,52 @@ function getAdvanceFoundations() {
     data: { _token : token, purpose_ids : purposeIds, cityName : location, gender_ids : genderIds, subject_ids : subjectIds},
     success: function (data) {
 		
-        $("#advanceFoundations").empty();
-        for(var i in data.foundations) {
-          
-          for(var j in data.foundations_contacts[i]) {
-           // foundationContacts.push(data.foundations_contacts[i][j]);
-          }
-			
-          $("#advanceFoundations").append('<tr><td>'+ data.foundations[i].id +'</td><td>'+ data.foundations[i].name +'</td><td>'+ data.foundations[i].sort +'</td><td><button onclick="getFoundationDetailajax('+ data.foundations[i].id +')">Details</button></td></tr>')
-        }
-        $("#advanceFoundations").append('<tr id="addMore"><td colspan="4"><button id="btn-more" data-id="'+data.foundations[i].id+'" data-type="advance" class="nounderline btn-block mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="loadMore('+data.foundations[i].id+','+data.foundations[i].id+');"> Load More </button></td></tr>');
+	$('.search-table').dataTable().fnDestroy()
+
+		data.draw = 1;
+		console.log(data);	
+
+		$('.search-table').DataTable({
+		data: data.data,
+		columns: [
+			{data: 'DT_RowIndex', name: 'DT_RowIndex'},
+			{data: 'name', name: 'name'},
+			{data: 'email', name: 'email'},
+			{data: 'tstatus', name: 'status'},
+			{data: 'roles', name: 'roles'},
+	/* {data: 'action', name: 'action', orderable: false, searchable: false}, */
+			]
+		});
     }
   });
 
 }
 
 
-function getFoundationDetailajax(id) {
+function getFoundationDetailajax(id,val) {
+	//alert(val);
+	var showbtn = '';
+	var nextid = '';
+	var previd = '';
+	if(val == 0)
+	{
+		$('#loaderarea').show();
+		$('.modal').toggleClass('is-visible');
+	}
+	
+	//$('.fund-details').empty();
+	
+	var idArray = [];
+	$('.myallids').each(function () {
+		idArray.push(this.id);
+	});
+	//console.log(idArray);
+	//alert(idArray);return false;
+	//alert(id)
+	var index = idArray.indexOf(''+id+'');
+	
+	var arrayval = idArray.length -1;
+	// alert(index); 
     var foundationIds = [];
     $.each($("input[name='foundatoin_check']:checked"), function(){            
         foundationIds.push($(this).val());
@@ -186,29 +215,55 @@ function getFoundationDetailajax(id) {
     var fund_id = $.grep(foundationIds, function(v) {
         return v== id;
     });
+	
+	if(val != 0)
+	{
+		id = idArray[index];
+		/* alert(id); */
+	}
+	
+	if(index == 0)
+	{
+		//showbtn = 1;	
+		var nextid = idArray[index+1];
+		var previd = '';
+	}
+	else
+	{
+		if(arrayval == index)
+		{
+			var nextid = '';
+			var previd = idArray[index-1];
+			
+		}
+		else
+		{
+			var nextid = idArray[index+1];
+			var previd = idArray[index-1];
+		}
+	}
+	
     //$('.modal').toggleClass('is-visible');
     var token = $("input[name=_token]").val();
-
     $.ajax({
         url: "getFoundationDetailAjax",
-        data: { _token : token, foundationId : id},
+        data: { _token : token, foundationId : id,nextid : nextid,previd:previd},
 		dataType:"html",
         success: function (data) {
            //console.log(data);
             if(data.length > 0) {
+			  $('#loaderarea').hide();
               $('.fund-details').show();
               $('.fund-details').empty();
-             /*  for(var i in data) { */
-                $('.fund-details').append(data);
-            /*   } */
-               
+              $('.fund-details').append(data);           
             } else {
               $('.fund-details').hide();
               $('.fund-details').empty();
             }
         }
     });
-   $('.modal').toggleClass('is-visible');
+	//$('#loaderarea').hide();
+    
 }
 
 

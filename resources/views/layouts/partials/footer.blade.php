@@ -1,3 +1,7 @@
+		
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js
+"></script>
 		<div class="site-footer">
 			<div class="widget-area">
 				<div class="container">

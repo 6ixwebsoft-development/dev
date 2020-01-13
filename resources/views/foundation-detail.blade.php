@@ -6,8 +6,20 @@
 
 	<div class="page">
 		<div class="container">
+			<div  class="fund-detail" id="loaderarea" style="display:none">
+				<img src="{{url('frontend/images/loader.gif ')}}" />
+			</div>
 			<div class="fund-detail">
 				@foreach($foundation_details as $foundation_detail)
+					<div>
+						@if(!empty($previd))
+						<a class="btn btn-info" onClick="getFoundationDetailajax({{$previd}},-1);">Previous</a> 
+						@endif
+						@if(!empty($nextid))
+						<a class="btn btn-info" onClick="getFoundationDetailajax({{$nextid}},1);">next</a>
+						@endif
+					<br>
+					</div>
 					<div class="fundTitle">
 						<strong>ID {{$foundation_detail->id}} - {{$foundation_detail->name}}</strong>
 					</div>

@@ -344,6 +344,8 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::post('menu/update/{id}', 'MenuController@update')->name('admin.menu.update');
 		Route::get('menu/delete/{id}', 'MenuController@delete');
 		
+		Route::get('menu/getdatamenu', 'MenuController@getdatamenu');
+		
     });
 	
 	Route::group(array('namespace' => 'Admin\Report', 'prefix' => 'admin'),function() {

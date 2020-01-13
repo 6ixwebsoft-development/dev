@@ -178,7 +178,7 @@
 						                <h2 class="modal-heading foundation-name"></h2>
 						            </div>
 
-						            <div class="modal-body">
+						            <div class="modal-body" >
 									  <div class="modal-content">
 						                  <div class="purpose"></div>
 						                    <p class="details"></p>
@@ -191,11 +191,14 @@
 											<p class="email"></p>
 											<p class="website"></p>
 						                    <div class="readMore"></div> 
-											<div class="fund-details"></div>
+											<div class="fund-details" style="max-height: 425px;"></div>
 						                </div>
 						            </div>
 						        </div>
 						    </div>
+						</div>
+						<div  class="fund-detail" id="loaderarea" style="display:none">
+							<img src="{{url('frontend/images/loader.gif ')}}" />
 						</div>
 						<div class="table-responsive">
 						<table class="table table-bordered" border="1" width="" id="ad_table">

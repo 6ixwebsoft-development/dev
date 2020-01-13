@@ -393,8 +393,9 @@ class FoundationSearchController extends Controller
 	
 	public function getFoundationDetailAjax(Request $request) {
 			$id = $request->foundationId;
+			$nextid = $request->nextid;
+			$previd = $request->previd;
         if ($id) {
-
             $foundation_details = Foundation::leftjoin('gg_foundation_advertise as fa', 'gg_foundation.id', 'fa.foundation_id')
                             ->leftjoin('gg_foundation_contact as gc', 'gg_foundation.id', 'gc.foundation_id')
                             ->select(
@@ -425,7 +426,7 @@ class FoundationSearchController extends Controller
 		$ajax =array(
 			'ajax' => true,
 		);
-        return view('foundation-detail')->with(compact('foundation_details','ajax'));
+        return view('foundation-detail')->with(compact('foundation_details','ajax','nextid','previd'));
     }
 
 
@@ -538,7 +539,7 @@ class FoundationSearchController extends Controller
             }
 
             //$data = $foundation->distinct()->get();
-            $data = $foundation->limit(10)->get();
+            $data = $foundation->limit(100)->get();
             //check user for contact show 
             $user = Auth::user();
             $foundation_contacts = array();
