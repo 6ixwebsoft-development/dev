@@ -288,7 +288,7 @@ class UserseachController extends Controller
 	
 	public function listalluser(Request $request)
 	{
-		
+		//print_r($request->all());exit;
 		$filter = "";
 		$role= "";
 		$firstletter ="";
@@ -317,14 +317,13 @@ class UserseachController extends Controller
                       return  $s_btn;
                     })
                    ->escapeColumns([])
-                   /*  ->addColumn('action', function($row){
+                     ->addColumn('checkbox', function($row){
    
-                          $btn = '<a href="'.url('admin').'/users/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a href="'.url('admin').'/users/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
-     
+                          $btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
+                                   
                             return $btn;
                     })
-                    ->rawColumns(['action']) */
+                    ->rawColumns(['checkbox']) 
                     ->make(true);
         }
 
@@ -368,8 +367,24 @@ class UserseachController extends Controller
 				$query = $query->where('name', 'LIKE', $firstletter.'%');
 			}
 		}
-		$query = User::where('user_type',null);
-		return $query->get();
+		
+		//DB::enableQueryLog();
+		 return $query->where('user_type','=',null)->get();
+		//dd(DB::getQueryLog());
+	}
+	
+	public function updateaction(Request $request)
+	{
+		$data = array(
+		'status'=>$request->val
+		);
+		$queryRun = DB::table('users')->whereIn('id', $request->favorite)->update($data);
+		if($queryRun)
+		{
+			return 'yes';
+		}else{
+			return 'no';
+		}
 	}
 	
 }

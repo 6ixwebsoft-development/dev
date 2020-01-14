@@ -108,7 +108,7 @@
 			 
 			<div class="dropdown-menu">
 			@foreach($roles as $role)
-			  <a class="dropdown-item" href="{!! url('/admin/listalluser').'?filter=role&role='.$role->name!!}">{{$role->name}}</a>
+			  <a class="dropdown-item" href="{!! url('/admin/listalluser').'?filter=role&role='.$role->id!!}">{{$role->name}}</a>
 			@endforeach
 			</div>
 			
@@ -116,6 +116,7 @@
           <table class="table table-bordered userlist-table" id="userlist-table">
             <thead>
                 <tr>
+					<th><input type="checkbox"></th>
                     <th>No</th>
                     <th>Name</th>
                     <th>Email</th>
@@ -128,7 +129,13 @@
             </thead>
             <tbody>
             </tbody>
+			  
           </table>
+		   <button class="btn btn-success" onClick="getalllistcheckboxval(1);">Activate</button>
+		   <button class="btn btn-danger" onClick="getalllistcheckboxval(0);">Inactive</button>
+		  <button class="btn btn-warning" onClick="getalllistcheckboxval(2);">Ban</button>
+		  <button class="btn btn-danger" onClick="getalllistcheckboxval(3);">Delete</button>
+		  
         </div>
       </div>
     </div>

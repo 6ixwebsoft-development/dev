@@ -191,7 +191,11 @@
 											<p class="email"></p>
 											<p class="website"></p>
 						                    <div class="readMore"></div> 
-											<div class="fund-details" style="max-height: 425px;"></div>
+											<div class="fund-details" style="max-height: 425px;">
+											
+											
+											
+											</div>
 						                </div>
 						            </div>
 						        </div>
@@ -201,9 +205,10 @@
 							<img src="{{url('frontend/images/loader.gif ')}}" />
 						</div>
 						<div class="table-responsive">
-						<table class="table table-bordered" border="1" width="" id="ad_table">
+						<table class="table table-bordered searchFOUND-table" border="1" width="" id="">
 							<thead>
 								<tr>
+									<th>No.</th>
 									<th>ID</th>
 									<th>NAME</th>
 									<th>SORT</th>
@@ -212,7 +217,7 @@
 							</thead>
 							<tbody id="advanceFoundations">
 								<tr>
-									<td colspan="4" style="text-align: center;">Search Funds/Foundations</td>
+									<td colspan="5" style="text-align: center;">Search Funds/Foundations</td>
 								</tr>
 							</tbody>
 						</table>

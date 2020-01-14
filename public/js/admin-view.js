@@ -1090,6 +1090,7 @@ $(function () {
 				$('.userlist-table').DataTable({
 				data: data.data,
 			columns: [
+			{data: 'checkbox', name: 'checkbox'},
 			{data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
@@ -1382,6 +1383,79 @@ function getorderbystatus()
 $(function () {
     
     var table = $('.cashflow-table').DataTable({
+		"footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            // converting to interger to find total
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // computing column Total of the complete result 
+            var monTotal = api
+                .column( 6 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+				
+	    var tueTotal = api
+                .column( 7 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+				
+            var wedTotal = api
+                .column( 8 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+				
+	     var vatTotal = api
+                .column( 9 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+				
+	     var ftaxTotal = api
+                .column( 10 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+				
+		 var taxTotal = api
+                .column( 11 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+				
+		var invoiceTotal = api
+                .column( 12 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+			
+				
+            // Update footer by showing the total with the reference of the column index 
+	    $( api.column( 0 ).footer() ).html('Total');
+		//console.log(monTotal);
+            $( api.column( 6 ).footer() ).html(monTotal);
+            $( api.column( 7 ).footer() ).html(tueTotal);
+            $( api.column( 8 ).footer() ).html(wedTotal);
+            $( api.column( 9 ).footer() ).html(vatTotal);
+            $( api.column( 10 ).footer() ).html(ftaxTotal);
+			$( api.column( 11 ).footer() ).html(taxTotal);
+			$( api.column( 12 ).footer() ).html(invoiceTotal);
+        },
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/report/cash_flow",
@@ -1421,6 +1495,80 @@ function searchcashflowdata()
 			console.log(data);	
 			
 		$('.cashflow-table').DataTable({
+			"footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            // converting to interger to find total
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // computing column Total of the complete result 
+            var monTotal = api
+                .column( 6 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+				
+	    var tueTotal = api
+                .column( 7 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+				
+            var wedTotal = api
+                .column( 8 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+				
+	     var vatTotal = api
+                .column( 9 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+				
+	     var ftaxTotal = api
+                .column( 10 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+				
+		 var taxTotal = api
+                .column( 11 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+				
+		var invoiceTotal = api
+                .column( 12 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+			
+				
+            // Update footer by showing the total with the reference of the column index 
+	    $( api.column( 0 ).footer() ).html('Total');
+		//console.log(monTotal);
+            $( api.column( 6 ).footer() ).html(monTotal);
+            $( api.column( 7 ).footer() ).html(tueTotal);
+            $( api.column( 8 ).footer() ).html(wedTotal);
+            $( api.column( 9 ).footer() ).html(vatTotal);
+            $( api.column( 10 ).footer() ).html(ftaxTotal);
+			$( api.column( 11 ).footer() ).html(taxTotal);
+			$( api.column( 12 ).footer() ).html(invoiceTotal);
+        },
+			
 			dom: 'Bfrtip',
 			buttons: [
 				'excel'
@@ -1467,5 +1615,38 @@ function geturlbox()
 		$('#customfeild').hide();
 	}
 }
+
+function getalllistcheckboxval(val){
+	
+	var favorite = [];
+	$.each($("input[name='userslistIds']:checked"), function(){
+	favorite.push($(this).val());
+	});
+	if(favorite == '')
+	{
+		alert("please select one or more records");
+		return false;
+	}
+	
+	$.ajax({
+			type:'POST',
+			url: APP_URL+"/admin/updateaction",
+			data:{val:val,favorite:favorite},
+			success:function(data){
+			//alert(data);
+				if(data == 'yes')
+				{
+					location.reload();
+				}else{
+					alert('There is some problem');
+				}
+
+			}
+
+		});
+	
+
+}
+
 
 

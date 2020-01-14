@@ -157,26 +157,33 @@ function getAdvanceFoundations() {
   var location = $("#location").val();
 
 //alert(location);
+
   $.ajax({
     url: "getAdvanceFoundations",
     data: { _token : token, purpose_ids : purposeIds, cityName : location, gender_ids : genderIds, subject_ids : subjectIds},
     success: function (data) {
-		
-	$('.search-table').dataTable().fnDestroy()
+	
+		//$('.searchFOUND-table').DataTable().fnDestroy()
+		//data.draw = 1;
+	
+		//console.log(data);
 
-		data.draw = 1;
-		console.log(data);	
-
-		$('.search-table').DataTable({
+	var table =	$('.searchFOUND-table').DataTable({
+		destroy: true,
 		data: data.data,
+		rowId: 'id',
 		columns: [
-			{data: 'DT_RowIndex', name: 'DT_RowIndex'},
+			 {data: 'DT_RowIndex', name: 'DT_RowIndex'}, 
+			{data: 'id', name: 'id'},
+			{data: 'sort', name: 'sort'},
 			{data: 'name', name: 'name'},
-			{data: 'email', name: 'email'},
-			{data: 'tstatus', name: 'status'},
-			{data: 'roles', name: 'roles'},
-	/* {data: 'action', name: 'action', orderable: false, searchable: false}, */
-			]
+			 {data: 'action', name: 'action', orderable: false, searchable: false}, 
+			],
+			createdRow: function( row, data, dataIndex ) {
+				$(row).addClass('myallids');
+				//table.column( 1 ).data().unique();
+			}
+			
 		});
     }
   });
@@ -202,12 +209,12 @@ function getFoundationDetailajax(id,val) {
 		idArray.push(this.id);
 	});
 	//console.log(idArray);
-	//alert(idArray);return false;
-	//alert(id)
+	//alert(idArray);
+	//alert(id);return false;
 	var index = idArray.indexOf(''+id+'');
 	
 	var arrayval = idArray.length -1;
-	// alert(index); 
+	 //alert(index); 
     var foundationIds = [];
     $.each($("input[name='foundatoin_check']:checked"), function(){            
         foundationIds.push($(this).val());
@@ -312,7 +319,7 @@ function favoriteFunds() {
       url: "getFoundationDetails",
       data: { _token : token, foundation_ids : foundationIds},
       success: function (data) {
-        console.log(data);
+        //console.log(data);
         if(data.length > 0) {
           $('.fund-details').show();
           $('.fund-details').empty();
@@ -399,7 +406,7 @@ function seveSearchEmail() {
     url: "fund-search-mail",
     data: { _token : token, foundation_ids : foundationIds},
     success: function (data) {
-        console.log(data.email_details); 
+        //console.log(data.email_details); 
         if(data.details.length > 0) {
           $('.mail-body').empty();
           for(var i in data.details) {

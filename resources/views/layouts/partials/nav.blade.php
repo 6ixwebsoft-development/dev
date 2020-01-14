@@ -88,7 +88,7 @@
 							<span class="caret"></span>
 							<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
 								@foreach($links_child['child'] as $links_child_child)
-								<li><a tabindex="-1" href="#" style="background:#black;color:#000;">{{$links_child_child['name']}}</a></li><br>
+								<li><a tabindex="-1" href="/{{geturlbyPageId(26)}}" style="background:#black;color:#000;">{{$links_child_child['name']}}</a></li><br>
 								@endforeach
 							  </ul>
 	

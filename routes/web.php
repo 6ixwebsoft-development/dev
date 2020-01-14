@@ -92,6 +92,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		 Route::post('/getuserdata', 'UserseachController@searchuserdata');
 		 // Search user List data for admin
 		 Route::get('/listalluser', 'UserseachController@listalluser');
+		 Route::post('/updateaction', 'UserseachController@updateaction');
 		
 		//countries block, country, state, city
         Route::group(['namespace' => 'Location', 'prefix' => 'location'], function () {

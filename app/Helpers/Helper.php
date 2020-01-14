@@ -90,9 +90,10 @@ function getName()
 	return $mydata;
 	
 }
-function getnamebyPageId($id)
+function geturlbyPageId($id)
 {
-	
+	$result = DB::table('gg_page_translation')->select('url')->where('page_id',$id)->first(); 
+	return $result->url;
 }
 
 

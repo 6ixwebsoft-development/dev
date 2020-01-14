@@ -392,6 +392,7 @@ class FoundationSearchController extends Controller
 	
 	
 	public function getFoundationDetailAjax(Request $request) {
+		//	print_r($request->all());exit;
 			$id = $request->foundationId;
 			$nextid = $request->nextid;
 			$previd = $request->previd;
@@ -539,12 +540,12 @@ class FoundationSearchController extends Controller
             }
 
             //$data = $foundation->distinct()->get();
-            $data = $foundation->limit(100)->get();
+            $data = $foundation->limit(1000)->get();
             //check user for contact show 
             $user = Auth::user();
             $foundation_contacts = array();
 
-            if($user) {
+          /*   if($user) {
                 $roles = $user->getRoleNames(); 
                 $permissions = $user->getPermissionsViaRoles();
 
@@ -574,13 +575,21 @@ class FoundationSearchController extends Controller
                         }
                     }
                 }
-            }
+            } */
 
-        }
-       /*  print_r($data);exit; */
-        return response()->json(array("foundations" => $data, "foundations_contacts" => $foundation_contacts));
+		 return Datatables::of($data)
+				->addIndexColumn()
+				->escapeColumns([])
+				->addColumn('action', function($row){
+				   $btn = '<button onclick="getFoundationDetailajax('.$row->id.',0)">Details</button>';
+					return $btn;
+				})
+				->rawColumns(['action'])
+				->make(true);
+         /* print_r($data);exit;
+        return response()->json(array("foundations" => $data, "foundations_contacts" => $foundation_contacts)); */
     }
-
+}
     public function autocomplete(Request $request)
     {
         if($request->ajax())

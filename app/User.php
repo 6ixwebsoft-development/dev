@@ -68,7 +68,12 @@ class User extends Authenticatable
             case 0:
                 return '<label class="badge badge-danger">Inactive</label>';
                 break;
-            
+            case 2:
+                return '<label class="badge badge-warning">Banned</label>';
+                break;
+			case 3:
+                return '<label class="badge badge-warning">Delete</label>';
+                break;	
             default:
                 return $this->status;
                 break;

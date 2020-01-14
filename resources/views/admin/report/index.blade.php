@@ -170,6 +170,27 @@
             </thead>
             <tbody>
             </tbody>
+			<tfoot>
+               <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <!-- <th>Phone</th>
+					<th>Mobile</th> 
+                    <th>user type</th>-->
+                    <th></th>
+                    <th></th>
+                    <th></th>
+					<th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+					 <th></th>
+					 <th></th>
+                </tr>
+				
+            </tfoot>
           </table>
         </div>
       </div>

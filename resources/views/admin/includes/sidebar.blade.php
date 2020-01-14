@@ -187,7 +187,7 @@
 						</li>
 						
                         <li class="nav-item">
-                            <a class="nav-link " href="{!! url('/admin/menu'); !!}">
+                            <a class="nav-link " href="{!! url('/admin/menu/create'); !!}">
                             Menu
                             </a>
                         </li>

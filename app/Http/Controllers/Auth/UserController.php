@@ -32,7 +32,7 @@ class UserController extends Controller
 
         if ($request->ajax()) {
          
-            $data = User::all();
+            $data = User::where('user_type','!=',null)->get();
 
             return Datatables::of($data)
                     ->addIndexColumn()
