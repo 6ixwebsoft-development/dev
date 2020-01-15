@@ -40,8 +40,11 @@
         <table class="table table-bordered librarygroup-table">
           <thead>
             <tr>
+			<th><input type="checkbox"></th>
               <th>No</th>
-              <th> Library</th>
+              <th> Library Group</th>
+			  <th> Email</th>
+			  <th> Status</th>
               <th width="100px">Action</th>
             </tr>
           </thead>

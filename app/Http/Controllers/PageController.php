@@ -21,7 +21,7 @@ class PageController extends Controller
         //echo $slug;
         if($slug) {
             
-            $page_data = PageTranslation::where('gg_page_translation.url', 'like', $slug.'%')
+            $page_data = PageTranslation::where('gg_page_translation.url', 'like', $slug.'%')->where('language_id','1')
                                     ->get();
             /*leftjoin('gg_page_blocks as pb', function($join) {
                             $join->on('pb.page_id', '=', 'gg_page_translation.page_id')

@@ -16,50 +16,59 @@ function getName()
 	$mydata = array();
 	foreach($data as $Data)
 	{	
-		$page = '';
-		$link = '';
+		$page1 = '';
+		$link1 = '';
+		$page2 = '';
+		$link2 = '';
+		$page3 = '';
+		$link3 = '';
 		$childone ='';
 		$childonedata = array();
 		$childtwo = '';
 		$childtwodata = array();
-		
-		if($Data['page'] == 0)
+		if(!empty($Data['page']))
 		{
-			$link = $Data['href'];
+			if($Data['page'] == 0 )
+			{
+				$link1 = $Data['href'];
+			}else{
+				$page1 = $Data['page'];
+			}
 		}else{
-			$page = $Data['page'];
+			$page1 = null;
 		}
-		if(isset($Data['children']))
+		
+		if(!empty($Data['children']))
 		{
 			$childone = true;
 			$childdataone = $Data['children'];
 			foreach($childdataone as $childdata)
 			{
-					if($childdata['page'] == 0)
+					if($childdata['page'] == 0 || $childdata['page'] == '')
 					{
-						$link = $childdata['href'];
+						$link2 = $childdata['href'];
 					}else{
-						$page = $childdata['page'];
+						$page2 = $childdata['page'];
 					}
 					//$childtwo = true;
 					//$childonedata = $Data['children'];
-					if(isset($Data['children']))
+					if(!empty($childdata['children']))
 					{ 
 						$childtwo = true;
 						$childdatatwo = $childdata['children'];
 						foreach($childdatatwo as $childdatatw)
 						{
-							if($childdatatw['page'] == 0)
+							if($childdatatw['page'] == 0 || $childdatatw['page'] == '')
 								{
-									$link = $childdatatw['href'];
+									$link3 = $childdatatw['href'];
 								}else{
-									$page = $childdatatw['page'];
+									$page3 = $childdatatw['page'];
 								}
 								
 								$childtwodata[] = array(
 								'name' =>$childdatatw['text'],
-								'link' =>$link,
-								'page' =>$page,
+								'link' =>$link3,
+								'page' =>$page3,
 								'target' =>$childdatatw['target']
 								); 
 						}
@@ -67,8 +76,8 @@ function getName()
 					}
 					$childonedata[] = array(
 						'name' =>$childdata['text'],
-						'link' =>$link,
-						'page' =>$page,
+						'link' =>$link2,
+						'page' =>$page2,
 						'target' =>$Data['target'],
 						'childtwo' =>$childtwo,
 						'child' =>$childtwodata
@@ -77,8 +86,8 @@ function getName()
 		}
 		$mydata[] = array(
 				'name' =>$Data['text'],
-				'link' =>$link,
-				'page' =>$page,
+				'link' =>$link1,
+				'page' =>$page1,
 				'target' =>$Data['target'],
 				'childone' =>$childone,
 				'child' =>$childonedata,
@@ -93,7 +102,10 @@ function getName()
 function geturlbyPageId($id)
 {
 	$result = DB::table('gg_page_translation')->select('url')->where('page_id',$id)->first(); 
-	return $result->url;
+	if(!empty($result->url))
+	{return $result->url;}
+	else
+	{return false;}
 }
 
 

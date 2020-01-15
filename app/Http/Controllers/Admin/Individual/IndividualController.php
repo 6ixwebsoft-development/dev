@@ -41,19 +41,38 @@ class IndividualController extends Controller
      public function index(Request $request) {
 
         if ($request->ajax()) {
-
-            $data = Individual::select('id','userid', 'firstname','lastname')->get();
+         
+            $data = User::where('user_type','IND')->where('status','!=','3')->get();
 
             return Datatables::of($data)
                     ->addIndexColumn()
+                    ->editColumn('roles', function($row) {
+                         $s_btn = '';
+                        if(!empty($row->getRoleNames())){
+                           foreach($row->getRoleNames() as $v) {
+                            $s_btn = '<label class="badge badge-success">'. $v .'</label>';
+                            } 
+                        }
+                            
+                      return  $s_btn;
+                    })
+                   ->escapeColumns([])
                     ->addColumn('action', function($row){
-							$txt = "'Are you sure to delete this?'";
-                           $btn = '<a href="'.url('admin').'/individual/'.$row->userid.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a onclick="return confirm('.$txt.')" href="'.url('admin').'/individual/delete/'.$row->userid.'" class="delete btn btn-primary btn-sm">Delete</a>';
+   
+                          $btn = '<a href="'.url('admin').'/individual/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
+                                   <a href="'.url('admin').'/individual/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
      
                             return $btn;
                     })
                     ->rawColumns(['action'])
+                     ->escapeColumns([])
+                     ->addColumn('checkbox', function($row){
+   
+                          $btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
+                                   
+                            return $btn;
+                    })
+                    ->rawColumns(['checkbox']) 
                     ->make(true);
         }
 

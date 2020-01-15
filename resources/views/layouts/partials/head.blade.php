@@ -5,8 +5,11 @@
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1">
-
-		<title>Globalgrant</title>
+		@if(isset($page_meta))
+		<meta name="description" content="@if($page_meta->meta_description){!! $page_meta->meta_description !!}@endif">
+		<meta name="keywords" content="@if($page_meta->meta_keyword){!! $page_meta->meta_keyword !!} @endif">
+		@endif
+		<title>@if(isset($page_meta)){!! ucfirst($page_meta->meta_title) !!}@endif Globalgrant</title>
 
 		<!-- Loading third party fonts -->
 		<link href="http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700|" rel="stylesheet" type="text/css">

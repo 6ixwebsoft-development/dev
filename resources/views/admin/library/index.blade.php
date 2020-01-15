@@ -40,15 +40,22 @@
         <table class="table table-bordered library-table">
           <thead>
             <tr>
+			<th><input type="checkbox"></th>
               <th>No</th>
-              <th> First Name</th>
-			 
-			
+              <th>Library</th>
+			  <th>Remote Name</th>
+			 <!--<th>Login Type</th>-->
+			  <th>Email</th>
+			  <th>Status</th>
               <th width="100px">Action</th>
             </tr>
           </thead>
           <tbody></tbody>
         </table>
+		<button class="btn btn-success" onClick="getalllistcheckboxval(1);">Activate</button>
+		   <button class="btn btn-warning" onClick="getalllistcheckboxval(0);">Inactive</button>
+		<!--  <button class="btn btn-warning" onClick="getalllistcheckboxval(2);">Ban</button> -->
+		  <button class="btn btn-danger" onClick="getalllistcheckboxval(3);">Delete</button>
       </div>
     </div>
   </div>

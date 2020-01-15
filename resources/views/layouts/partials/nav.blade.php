@@ -1,6 +1,8 @@
  <style>
  .dropdown-submenu {
   position: relative;
+   background:#4a4c4e;
+ 
 }
 
 .dropdown-submenu>.dropdown-menu {
@@ -11,6 +13,7 @@
   -webkit-border-radius: 0 6px 6px 6px;
   -moz-border-radius: 0 6px 6px;
   border-radius: 0 6px 6px 6px;
+   background:#4a4c4e;
 }
 
 .dropdown-submenu:hover>.dropdown-menu {
@@ -29,6 +32,7 @@
   border-left-color: #ccc;
   margin-top: 5px;
   margin-right: -10px;
+  
 }
 
 .dropdown-submenu:hover>a:after {
@@ -45,7 +49,20 @@
   -webkit-border-radius: 6px 0 6px 6px;
   -moz-border-radius: 6px 0 6px 6px;
   border-radius: 6px 0 6px 6px;
+   background:#4a4c4e;
 }
+
+ul.dropdown-menu.multi-level li {
+    width: 100%;
+    padding: 5px 10px;
+}
+ul.dropdown-menu.multi-level {
+    
+    margin:0;
+    padding:0;
+    border-top:1px solid #fff
+}
+
  </style>
  <div class="bottom-header">
     <div class="container">
@@ -61,8 +78,9 @@
           <li class="menu-item"><a href="/advance-search">Advance Search</a></li> -->
 				@php
 				$result = getName();
-				//print_r($result);
-				@endphp	
+				//echo "<pre>";
+				//print_r($result);exit;
+				//@endphp	
 				
 				@foreach($result as $links)
 				@php	
@@ -75,41 +93,37 @@
 				$drop = 'dropdown';
 				@endphp
 				@endif	
-				<li style="color:#fff;" class="{{$class}}"  data-toggle="{{$drop}}">{{$links['name']}}
-					
-				
+				<li style="color:#fff;" class="{{$class}}"  data-toggle="{{$drop}}">
+					<a href="{{ url(geturlbyPageId($links['page'])) }}">		{{ucwords(strtolower($links['name']))}}</a>
+				</li>	
 				@if(!empty($links['child']))
 					<span class="caret"></span>
-				<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-					@foreach($links['child'] as $links_child)
-						<li style="color:#000;" class="dropdown-submenu">{{$links_child['name']}}
-						
-						@if(!empty($links_child['child']))
-							<span class="caret"></span>
-							<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-								@foreach($links_child['child'] as $links_child_child)
-								<li><a tabindex="-1" href="/{{geturlbyPageId(26)}}" style="background:#black;color:#000;">{{$links_child_child['name']}}</a></li><br>
-								@endforeach
-							  </ul>
-	
-							
-						@endif
-						</li>
-					 @endforeach
-				  </ul>
-				  @endif
-			 </li>
+						<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+							@foreach($links['child'] as $links_child)
+								<li style="color:#000;" class="dropdown-submenu">
+									<a href="{{ url(geturlbyPageId($links_child['page'])) }}"> {{ucwords(strtolower($links_child['name']))}}</a>
+								
+										@if(!empty($links_child['child']))
+											<span class="caret"></span>
+											<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+												@foreach($links_child['child'] as $links_child_child)
+												<li><a tabindex="-1" href="{{ url(geturlbyPageId($links_child_child['page'])) }}" style="background:#000;color:#fff;">{{ucwords(strtolower($links_child_child['name']))}}</a></li><br>
+												@endforeach
+											</ul>
+										@endif
+									</li><br>
+							@endforeach
+						</ul>
+				@endif
+				
+			
 			 @endforeach
 		
-
+			
 
         </ul> <!-- .menu -->
       </div> <!-- .main-navigation -->
 	 
-	 @php 
-			$result = getName();
-	 @endphp
-
       <div style="float:right">
         <div class="main-navigation">
           <ul class="menu">

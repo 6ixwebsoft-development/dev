@@ -64,16 +64,7 @@
                         <div class="card-header bg-primary text-white">Edit item</div>
                         <div class="card-body">
                            
-                                <div class="form-group">
-                                    <label for="text">Text</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control item-menu" name="text" id="text" placeholder="Text">
-                                        <div class="input-group-append">
-                                            <button type="button" id="myEditor_icon" class="btn btn-outline-secondary"></button>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="icon" class="item-menu">
-                                </div>
+                                
 								 <div class="form-group">
                                     <label for="page">Select Pages</label>
                                     <select name="page" id="page" class="form-control item-menu" onChange="geturlbox();">
@@ -83,6 +74,15 @@
                                         <option value="{{$pages->id}}">{{$pages->title}}</option>                                        
 										@endforeach
                                     </select>
+                                </div>
+								
+								<div class="form-group">
+                                    <label for="text">Name</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control item-menu" name="text" id="textname" placeholder="Text">
+                                        
+                                    </div>
+                                    <input type="hidden" name="icon" class="item-menu">
                                 </div>
 								
                                 <div class="form-group" style="display:none;" id="customfeild">

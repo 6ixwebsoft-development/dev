@@ -25,7 +25,15 @@ class LibraryGroupController extends Controller
 {
    public function index(Request $request) {
         if ($request->ajax()) {
-            $data = Library::select('id', 'name')->where('type','2')->get();
+            $data = Library::where('type','2')->where('status','!=','3')
+			->leftjoin('library_contact as llog', 'library_basic.id', '=', 'llog.libraryid')
+			->select(
+					'library_basic.id',
+					'library_basic.name',
+					'llog.email',
+					'library_basic.status'
+                    )
+			->get();
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
@@ -35,7 +43,32 @@ class LibraryGroupController extends Controller
      
                             return $btn;
                     })
-                    ->rawColumns(['action'])
+                      ->rawColumns(['action'])
+					   ->escapeColumns([])
+                     ->addColumn('status', function($row){
+							
+							if($row->status == '1')
+							{
+								$btn = '<span class="badge badge-success">Active</span>';
+							}else if($row->status == '0')
+							{
+								$btn = '<span class="badge badge-warning">Inactive</span>';
+							}else{
+								$btn = '<span class="badge badge-danger">Delete</span>';
+							}
+                          
+                                   
+                            return $btn;
+                    })
+                    ->rawColumns(['status']) 
+                     ->escapeColumns([])
+                     ->addColumn('checkbox', function($row){
+   
+                          $btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
+                                   
+                            return $btn;
+                    })
+                    ->rawColumns(['checkbox']) 
                     ->make(true);
         }
         return view('admin.librarygroup.index');

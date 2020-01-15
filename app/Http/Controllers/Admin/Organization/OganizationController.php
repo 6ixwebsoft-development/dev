@@ -35,18 +35,33 @@ class OganizationController extends Controller
 {
    public function index(Request $request) {
         if ($request->ajax()) {
-            $data = Library::select('id', 'name','userid')->where('type','3')->get();
+            $data = User::where('user_type','ORG')->where('status','!=','3')
+			->leftjoin('librarylogin as llog', 'users.id', '=', 'llog.libraryid')
+			
+			->select(
+					'users.*',
+					'llog.remotename'
+                    )
+			->get();
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
    
                            $txt = "'Are you sure to delete this?'";
-                           $btn = '<a href="'.url('admin').'/organization/'.$row->userid.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a onclick="return confirm('.$txt.')" href="'.url('admin').'/organization/delete/'.$row->userid.'" class="delete btn btn-primary btn-sm">Delete</a>';
+                           $btn = '<a href="'.url('admin').'/organization/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
+                                   <a onclick="return confirm('.$txt.')" href="'.url('admin').'/organization/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
      
                             return $btn;
                     })
-                    ->rawColumns(['action'])
+                     ->rawColumns(['action'])
+                     ->escapeColumns([])
+                     ->addColumn('checkbox', function($row){
+   
+                          $btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
+                                   
+                            return $btn;
+                    })
+                    ->rawColumns(['checkbox']) 
                     ->make(true);
         }
         return view('admin.organization.index');

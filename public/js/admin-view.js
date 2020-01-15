@@ -2,6 +2,11 @@
 $(function () {
     
     var table = $('.language-table').DataTable({
+       "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/language",
@@ -20,6 +25,11 @@ $(function () {
 $(function () {
     
     var table = $('.pages-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/pages",
@@ -36,6 +46,11 @@ $(function () {
 $(function () {
     
     var table = $('.language-deleted-record').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/language/deleted",
@@ -93,6 +108,11 @@ $(function () {
 $(function () {
     
     var table = $('.translation-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/translation",
@@ -111,6 +131,11 @@ $(function () {
 $(function () {
     
     var table = $('.permission-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/permission",
@@ -127,6 +152,11 @@ $(function () {
 $(function () {
     
     var moduleTable = $('.modules-table').DataTable({
+       "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/modules/module",
@@ -144,6 +174,11 @@ $(function () {
 $(function () {
     
     var moduleTable = $('.foundation-table').DataTable({
+		"bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 25,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/foundation",
@@ -161,6 +196,11 @@ $(function () {
 $(function () {
     
     var moduleField = $('.module-field-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/modules/field",
@@ -180,6 +220,11 @@ $(function () {
 $(function () {
     
     var moduleFieldValue = $('.module-fieldvalue-table').DataTable({
+       "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/modules/fieldvalue",
@@ -199,6 +244,11 @@ $(function () {
 $(function () {
     
     var moduleFieldValue = $('.country-block-table').DataTable({
+       "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/location/countryblock",
@@ -216,6 +266,11 @@ $(function () {
 $(function () {
     
     var moduleFieldValue = $('.location-country-table').DataTable({
+       "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/location/country",
@@ -236,6 +291,11 @@ $(function () {
 $(function () {
     
     var moduleFieldValue = $('.location-region-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/location/region",
@@ -254,6 +314,11 @@ $(function () {
 $(function () {
     
     var moduleFieldValue = $('.location-city-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/location/city",
@@ -273,6 +338,11 @@ $(function () {
  $(function () {
     
     var table = $('.user-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/users",
@@ -337,22 +407,32 @@ function searchuserdata() {
 			$('.user-table').dataTable().fnDestroy()
 
 				data.draw = 1;
-				console.log(data);	
+			//console.log(data);	
 				
 				$('.user-table').DataTable({
-				data: data.data,
-			columns: [
-			{data: 'DT_RowIndex', name: 'DT_RowIndex'},
-            {data: 'name', name: 'name'},
-            {data: 'email', name: 'email'},
-            {data: 'tstatus', name: 'status'},
-            {data: 'roles', name: 'roles'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
+					
+					data: data.data,
+				
+					"bJQueryUI":true,
+					"bSort":false,
+					"bPaginate":true,
+					"sPaginationType":"full_numbers",
+					"iDisplayLength": 10,
+					"bFilter": true,
+					processing: true,
+					
+					columns: [
+						{data: 'DT_RowIndex', name: 'DT_RowIndex'},
+						{data: 'name', name: 'name'},
+						{data: 'email', name: 'email'},
+						{data: 'tstatus', name: 'status'},
+						{data: 'roles', name: 'roles'},
+						{data: 'action', name: 'action', orderable: false, searchable: false},
 					]
-				} );
+				});
            }
 
-			});
+		});
     
 };
 
@@ -362,6 +442,11 @@ function searchuserdata() {
 $(function () {
     
     var table = $('.role-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/roles",
@@ -378,6 +463,11 @@ $(function () {
 $(function () {
     
     var table = $('.subscription-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/subscription",
@@ -399,6 +489,11 @@ $(function () {
 $(function () {
     
     var table = $('.payment-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/paymentmood",
@@ -418,6 +513,11 @@ $(function () {
 $(function () {
     
     var table = $('.office-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/Office",
@@ -458,6 +558,11 @@ function alphaOnly(evt) {
 $(function () {
     
     var table = $('.product-table').DataTable({
+       "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/products",
@@ -555,6 +660,11 @@ $('input.myprice,input.mymisc,input.myvat,input.myfrch,input.myfrtx').on('change
 $(function () {
     
     var table = $('.hitlist-table').DataTable({
+       "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/hitlist",
@@ -572,6 +682,11 @@ $(function () {
 /* data table for Purpose */
 $(function () {
     var table = $('.purpose-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/purpose",
@@ -726,14 +841,21 @@ $(document).ready(function(){
 
 $(function () {
     var table = $('.individual-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/individual",
         columns: [
+			{data: 'checkbox', name: 'checkbox'},
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-            {data: 'firstname', name: 'firstname'},
-            {data: 'lastname', name: 'lastname'},
-			
+            {data: 'name', name: 'name'},
+            {data: 'email', name: 'email'},
+            {data: 'tstatus', name: 'status'},
+            {data: 'roles', name: 'roles'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -804,12 +926,20 @@ function maxLengthFunction()
 												
 $(function () {
     var table = $('.librarygroup-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/librarygroup",
         columns: [
+          {data: 'checkbox', name: 'checkbox'},
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
+			{data: 'email', name: 'email'},
+			{data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -818,13 +948,21 @@ $(function () {
 
 $(function () {
     var table = $('.library-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/library",
         columns: [
+			{data: 'checkbox', name: 'checkbox'},
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
-
+			{data: 'remotename', name: 'remotename'},
+			{data: 'email', name: 'email'},
+			{data: 'tstatus', name: 'tstatus'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -834,13 +972,21 @@ $(function () {
 
 $(function () {
     var table = $('.org-table').DataTable({
+       "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/organization",
         columns: [
+			{data: 'checkbox', name: 'checkbox'},
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
-
+			{data: 'remotename', name: 'remotename'},
+			{data: 'email', name: 'email'},
+			{data: 'tstatus', name: 'tstatus'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -852,6 +998,11 @@ $(function () {
 $(function () {
     
     var table = $('.subs-table').DataTable({
+       "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/subscriptiontype",
@@ -881,6 +1032,11 @@ $(document).ready(function () {
 $(function () {
     
     var table = $('.userlists-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/subscription/userlist",
@@ -980,6 +1136,11 @@ function putsubscriptiondata(){
 $(function () {
     
     var table = $('.subject-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/subject",
@@ -1314,6 +1475,11 @@ function calculateorderprice(){
 $(function () {
     
     var moduleTable = $('.order-table').DataTable({
+        "bJQueryUI":true,
+		"bSort":false,
+		"bPaginate":true,
+		"sPaginationType":"full_numbers",
+		"iDisplayLength": 10,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/order",
@@ -1611,8 +1777,11 @@ function geturlbox()
 	if(val == 0)
 	{
 		$('#customfeild').show();
+		$('#textname').val('');
 	}else{
 		$('#customfeild').hide();
+		$('#textname').val($( "#page option:selected" ).text());
+
 	}
 }
 
