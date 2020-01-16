@@ -239,5 +239,24 @@ class LibraryGroupController extends Controller
 		return redirect('admin/librarygroup')->with('status', $output);
 	}
 	
+	public function changestatus(Request $request)
+	{
+		$data = array(
+		'status'=>$request->val
+		);
+		if($request->id != '')
+		{
+			$queryRun = DB::table('library_basic')->where('id', $request->id)->update($data);
+		}else{
+			$queryRun = DB::table('library_basic')->whereIn('id', $request->favorite)->update($data);
+		}
+		
+		if($queryRun)
+		{
+			return 'yes';
+		}else{
+			return 'no';
+		}
+	}
 	
 }

@@ -40,14 +40,17 @@
         <table class="table table-bordered foundation-table">
           <thead>
             <tr>
+				<th><input type="checkbox"></th>
               <th>No</th>
+			  <th>Sort Name</th>
               <th>Foundation Name</th>
-              <th>Sort Name</th>
+              <th>Status</th>
               <th width="100px">Action</th>
             </tr>
           </thead>
           <tbody></tbody>
         </table>
+		 <button class="btn btn-danger" onClick="deletefoundation(1);">Delete</button>
       </div>
     </div>
   </div>

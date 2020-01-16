@@ -225,7 +225,7 @@
                     <th>Email</th>
                     <th>Status</th>
                     <th>Roles</th>
-                    <th width="150px">Action</th>
+                    <th width="200px">Action</th>
                 </tr>
             </thead>
             <tbody>

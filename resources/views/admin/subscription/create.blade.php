@@ -66,7 +66,20 @@
 			
 			 {!! Form::open(array('url' => 'admin/subscription/store')) !!}
 			 <div class="row">
-				
+				@php 
+					$uid='';
+					$uname='';
+					$utype='';
+					$readonly = ''
+				@endphp
+					@if(!empty($userdata))
+						@php 
+							$uid = $userdata->id;
+							$uname = $userdata->name;
+							$utype = $userdata->user_type;
+							$readonly = 'readonly';
+						@endphp 	
+					@endif
 				<div class="col-sm-4">
 					<div class="form-group row">
 						<div class="col-lg-12">
@@ -79,7 +92,7 @@
 						  {!! Form::label('Customer ID', __( 'Customer ID' ) . ':*') !!}
 						</div>
 						<div class="col-lg-8">
-						  {!! Form::text('cid', null, ['class' => 'form-control','id'=>'cid', 'placeholder' => __( '' ) ]); !!}
+						  {!! Form::text('cid', $uid, ['class' => 'form-control',$readonly,'id'=>'cid', 'placeholder' => __( '' ) ]); !!}
 						</div>
 					</div>	
 				
@@ -88,7 +101,7 @@
 						  {!! Form::label('name', __( 'Name' ) . ':') !!}
 						</div>
 						<div class="col-lg-8">
-						  {!! Form::text('name', null, ['class' => 'form-control','id'=>'name','required' => 'required', 'placeholder' => __( '' ) ]); !!}
+						  {!! Form::text('name', $uname, ['class' => 'form-control','id'=>'name',$readonly,'required' => 'required', 'placeholder' => __( '' ) ]); !!}
 						</div>
 					</div>	
 				
@@ -97,7 +110,7 @@
 						  {!! Form::label('Type', __( 'Type' ) . ':') !!}
 						</div>
 						<div class="col-lg-8">
-						  {!! Form::text('type', null, ['class' => 'form-control','id'=>'type', 'placeholder' => __( '' ) ]); !!}
+						  {!! Form::text('type', $utype, ['class' => 'form-control',$readonly,'id'=>'type', 'placeholder' => __( '' ) ]); !!}
 						</div>
 					</div>	
 					<hr>
@@ -151,7 +164,54 @@
 					</div>	
 					<hr>
 					<div style=""><h4>Search a Customer and Choose a Subscription Type</h4></div>
+					
 					<div class="row" id="substypedata"></div>
+					<div class="row" id="getsubstype">
+						@foreach($substypedata as $substypeData)
+						<div class="col-md-7">
+							<input type="radio" name="subscription_type"  id="{{$substypeData->id}}" value="{{$substypeData->id}}" onClick="putsubscriptiondata()"><span class="sunstitle">{{$substypeData->eng_name}}<span><br>
+							<span class="sunstitle">{{$substypeData->eng_desc}}<span>
+						</div>
+						
+						<div class="col-md-5">
+							<div class="form-group row">
+								<div class="col-md-2"><label >Price</label></div>
+								<div class="col-md-4">
+									<input class="form-control myprice{{$substypeData->id}}" type="text" name="price" id="price_{{$substypeData->id}}" onkeyup="calculatesubstaxs({{$substypeData->id}});" value="{{$substypeData->price}}">
+								</div>
+								<div class="col-md-2"><label >+Misc</label></div>
+								<div class="col-md-4">
+									<input class="form-control mymisc{{$substypeData->id}}" type="text" name="misc" id="misc_{{$substypeData->id}}" onkeyup="calculatesubstaxs();"  value="{{$substypeData->misc}}">
+								</div>
+							</div>
+						
+								<div class="form-group row">
+									<div class="col-md-6"></div>
+									<div class="col-md-2"><label >VAT</label></div>
+									<div class="col-md-4">
+										<input class="form-control myvat{{$substypeData->id}}" type="text" name="vat" id="vat_{{$substypeData->id}}" onkeyup="calculatesubstaxs();"  value="{{$substypeData->vat}}">
+									</div>
+								</div>
+								
+								<div class="form-group row">
+									<div class="col-md-6"></div>
+									<div class="col-md-2"><label >Freight %</label></div>
+									<div class="col-md-4">
+										<input class="form-control myfrch{{$substypeData->id}}" type="text" name="freight" id="freight_{{$substypeData->id}}" onkeyup="calculatesubstaxs();"  value="{{$substypeData->frieghtcharge}}">
+									</div>
+								</div>
+								
+								<div class="form-group row">
+									<div class="col-md-4"></div>
+									<div class="col-md-4"><label >Freight Tax %</label></div>
+									<div class="col-md-4"><input class="form-control myfrtx{{$substypeData->id}}" type="text" name="freighttax" id="freighttax_{{$substypeData->id}}" onkeyup="calculatesubstaxs();" value="{{$substypeData->frieghttax}}"></div>
+								</div>
+						</div>
+					
+					@endforeach
+					
+					</div>
+					
 					<div class="form-group row">
 						<div class="col-lg-8">
 						 <div class="form-group">

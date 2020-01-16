@@ -43,24 +43,31 @@ class FoundationController extends Controller
     }
 
     public function index(Request $request) {
-		 /* $data = Foundation::select('id', 'name', 'sort')->get(); */
+		/*  $data = Foundation::select('id', 'name', 'sort')->get();  */
 		/*  $data = Foundation::alldata(5730);
 		echo "<pre>"; print_r($data);exit; */
 
         if ($request->ajax()) {
 
-            $data = Foundation::select('id', 'name', 'sort')->get();
-
+            $data = Foundation::where('deleted','0')->get();
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-   
+							$txt = "'Are you sure to delete this?'";
                            $btn = '<a href="'.url('admin').'/foundation/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a href="'.url('admin').'/foundation/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+                                   <a onclick="return confirm('.$txt.')" href="'.url('admin').'/foundation/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
      
                             return $btn;
                     })
                     ->rawColumns(['action'])
+                     ->escapeColumns([])
+                     ->addColumn('checkbox', function($row){
+   
+                          $btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
+                                   
+                            return $btn;
+                    })
+                    ->rawColumns(['checkbox']) 
                     ->make(true);
         }
 
@@ -301,14 +308,16 @@ class FoundationController extends Controller
             );
             FoundationAdvertise::insert($f_advertise);
 			DB::commit();
-            $output = ['success' => true,
-                            'msg' => __("Module Field value added successfully")
-                        ];
-			return redirect('admin/foundation')->with('status', $output);
-        } catch (\Exception $e) {
-            $output = ['success' => false,
-                            'msg' => __("Something went wrong")
-                        ];
+            $output = ['class' => 'alert-position-danger',
+                            'msg' => __("Foundation Created")
+                            ];
+				DB::commit();
+				return redirect('admin/foundation')->with('status', $output);
+            } catch (\Exception $e) {
+				
+				$output = ['class' => 'alert-position-danger',
+                            'msg' => __("messages.something_went_wrong")
+                            ];
 		DB::rollBack();
 		//echo $e;
 		return redirect('admin/foundation')->with('status', $output);
@@ -585,19 +594,20 @@ class FoundationController extends Controller
 					}
 				}
 
-                $output = ['success' => true,
-                            'msg' => __("Module Field updated")
+               $output = ['class' => 'alert-position-danger',
+                            'msg' => __("Foundation updated")
                             ];
 				DB::commit();
 				return redirect('admin/foundation')->with('status', $output);
             } catch (\Exception $e) {
-            
-                $output = ['success' => false,
+				
+				$output = ['class' => 'alert-position-danger',
                             'msg' => __("messages.something_went_wrong")
-                        ];
+                            ];
+               
 				DB::rollBack();
-				echo $e;
-				//return redirect('admin/foundation')->with('status', $output);
+				//echo $e;
+				return redirect('admin/foundation')->with('status', $output);
             }
 
            
@@ -606,7 +616,7 @@ class FoundationController extends Controller
     public function delete($id)
     {
         try {
-            Foundation::where('id', $id)->delete();
+            /* Foundation::where('id', $id)->delete();
             FoundationContact::where('foundation_id', $id)->delete();
             FoundationAdvertise::where('foundation_id', $id)->delete();
             FoundationLocation::where('foundation_id', $id)->delete();
@@ -614,16 +624,18 @@ class FoundationController extends Controller
             FoundationDates::where('foundation_id', $id)->delete();
             FoundationPurpose::where('foundation_id', $id)->delete();
             FoundationGender::where('foundation_id', $id)->delete();
-            FoundationSubject::where('foundation_id', $id)->delete();
-
-            $output = ['success' => true,
-                        'msg' => __("Module Field Deleted")
-                        ];
+            FoundationSubject::where('foundation_id', $id)->delete(); */
+			$foundation =array('deleted'=>1);
+			
+			DB::table('gg_foundation')->where('id', $id)->update($foundation);
+            $output = ['class' => 'alert-position-success',
+                            'msg' => __("Foundation Deleted")
+                            ];
         } catch (\Exception $e) {
         
-            $output = ['success' => false,
-                        'msg' => __("messages.something_went_wrong")
-                    ];
+             $output = ['class' => 'alert-position-danger',
+                            'msg' => __("Foundation not Deleted")
+                            ];
         }
 
         return redirect('admin/foundation')->with('status', $output);
@@ -819,6 +831,21 @@ class FoundationController extends Controller
 		} */
 	}
 	
+	public function multidelete(Request $request)
+	{
+
+		$foundation = array(
+		'deleted'=>$request->val
+		);
+		$queryRun = DB::table('gg_foundation')->whereIn('id', $request->favorite)->update($foundation);
+		
+		if($queryRun)
+		{
+			return 'yes';
+		}else{
+			return 'no';
+		}
+	}
 	
 	
 }

@@ -85,20 +85,28 @@ class UserseachController extends Controller
 							if($row->user_type == 'LIB'){$controller = 'library';}
 							if($row->user_type == 'ORG'){$controller = 'organization';}
 							if($row->user_type == 'IND'){$controller = 'individual';}
-							$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a href="'.url('admin').'/'.$controller.'/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+							if($controller = 'organization' || $controller = 'individual')
+							{
+								if($row->user_type != 'LIB')
+								{
+									$btn = '<a href="'.url('admin').'/order/create/'.$row->id.'/'.$row->user_type.'" class="edit btn btn-warning btn-sm">Order</a>
+									<a href="'.url('admin').'/subscription/create/'.$row->id.'/'.$row->user_type.'" class="edit btn btn-info btn-sm">Subscribe</a>';
+								}
+								$btn .= '<button href="" class="edit btn btn-danger btn-sm" onClick="getalllistcheckboxval(0,'.$row->id.');">Inactive</button>';
+							}
+							
 							}
 							if(!empty($row->foundation_id))
 							{
 								$controller = 'foundation';
-								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a href="'.url('admin').'/'.$controller.'/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+								$btn = '';
 							}
 							if(!empty($row->libraryid))
 							{
 								$controller = 'librarygroup';
-								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a href="'.url('admin').'/'.$controller.'/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+								$btn = '<a href="'.url('admin').'/order/subscription/'.$row->id.'/LIB" class="edit btn btn-info btn-sm">Subscribe</a>
+								<a href="" onClick="getLibGrpStatus(0,'.$row->id.');" class="edit btn btn-danger btn-sm">Inactive</a>
+								';
 							}
 						
                            
@@ -106,6 +114,30 @@ class UserseachController extends Controller
                             return $btn;
                     })
                     ->rawColumns(['action'])
+					 ->escapeColumns([])
+                    ->addColumn('name', function($row){
+							$btn ='';
+							if(!empty($row->user_type)){
+							$controller = '';
+							if($row->user_type == 'LIB'){$controller = 'library';}
+							if($row->user_type == 'ORG'){$controller = 'organization';}
+							if($row->user_type == 'IND'){$controller = 'individual';}
+							$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->name.'</a>';
+							}
+							if(!empty($row->foundation_id))
+							{
+								$controller = 'foundation';
+								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->name.'</a>';
+							}
+							if(!empty($row->libraryid))
+							{
+								$controller = 'librarygroup';
+								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->name.'</a>';
+							}
+						
+                            return $btn;
+                    })
+                    ->rawColumns(['name'])
                     ->make(true);
         }
        $roles = Role::all();
@@ -215,7 +247,7 @@ class UserseachController extends Controller
 					$query = $query->where('language',$data['languageid']);
 				} 
 
-		return $query->get();
+		return $query->where('deleted','0')->get();
 		
 	}
 	
@@ -378,7 +410,13 @@ class UserseachController extends Controller
 		$data = array(
 		'status'=>$request->val
 		);
-		$queryRun = DB::table('users')->whereIn('id', $request->favorite)->update($data);
+		if($request->id != '')
+		{
+			$queryRun = DB::table('users')->where('id', $request->id)->update($data);
+		}else{
+			$queryRun = DB::table('users')->whereIn('id', $request->favorite)->update($data);
+		}
+		
 		if($queryRun)
 		{
 			return 'yes';

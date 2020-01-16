@@ -201,6 +201,32 @@
 								</div>
 								<P>Password will be generated automatically by the system for security purposes and can be changed by the user on their member page.</p>
 							  </div>
+							  
+							  <div class="form-group row">
+								 <label for="input" class="col-sm-4 col-form-label">Password</label>
+								
+								<div class="col-sm-8">								 
+								   <input type="text" class="form-control" id="password" placeholder="" name="login[password]" required>
+								</div> 
+
+							  </div>
+							  
+							   <div class="form-group row ">
+									
+									<div class="col-sm-12 offset-md-4">						 
+										<a  onClick="generate();" class="btn btn-info "><i class="fa fa-repeat" aria-hidden="true"></i> Genrate</a> 
+									</div>
+							   </div>
+							 
+							  <div class="form-group row">
+								
+								<div class="col-sm-12 ">								 
+								    <a class="btn btn-secondary float-right" onClick="saveactivepassword({{$user->id}});"><i class="fa fa-check-square-o" aria-hidden="true"></i> Save & Active</a>
+									<br>
+									
+								</div>
+								<p class="col-sm-12 offset-md-4">Save & Activate: Change passwords immediately.<br>Do not send any E-mail</p>
+							</div>
 					</div>
 					 
 				</div>

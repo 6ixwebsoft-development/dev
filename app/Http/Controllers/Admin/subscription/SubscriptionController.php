@@ -27,15 +27,51 @@ class SubscriptionController extends Controller
 
     	if ($request->ajax()) {
 
-            $data = Subscription::all();
-            return Datatables::of($data)
+            $data = Subscription::orderBy('id', 'DESC')
+					->leftjoin('subscriptiontype as srdt', 'gg_subscription.subscriptiontype_id', '=', 'srdt.id')
+					->leftjoin('gg_module_fields_values as gmf', 'gg_subscription.paymentstatus', '=', 'gmf.id')
+					->select(
+						'gg_subscription.id', 
+						'gg_subscription.userid',
+						'gg_subscription.name',
+						'gg_subscription.start_date',
+						'gg_subscription.end_date',
+						'gg_subscription.price',
+						'gg_subscription.no_of_days',
+						'srdt.eng_name',
+						'gg_subscription.paymentstatus',
+						'gmf.value'
+                    )->get();
+				return Datatables::of($data)
                     ->addIndexColumn()
+                    ->editColumn('paiddate', function($row) {
+                        
+                            $s_btn = '';                     
+                        return  $s_btn;
+                    })
+                    ->escapeColumns([])
+					 ->addIndexColumn()
                     ->editColumn('status', function($row) {
-                        if($row->status == 1) {
-                            $s_btn = '<span class="badge badge-success">Active</span>';
-                        }else {
-                            $s_btn = '<span class="badge badge-danger">Inactive</span>';
-                        }
+                        
+                          $s_btn = '';  
+						  $color = '';
+						  if(!empty($row->value)){
+							  if($row->paymentstatus == 16 ||$row->paymentstatus == 123 )
+							  {
+								 $color = 'success';
+							  }
+							  if($row->paymentstatus == 15 ||$row->paymentstatus == 128 )
+							  {
+								 $color = 'warning';
+							  }
+							  if($row->paymentstatus == 17 ||$row->paymentstatus == 124 )
+							  {
+								 $color = 'dark';
+							  }
+						  
+						  
+							   $s_btn = '<label class="badge badge-'.$color.'">'.$row->value .'</label>';
+						  }
                         return  $s_btn;
                     })
                     ->escapeColumns([])
@@ -49,11 +85,29 @@ class SubscriptionController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
         }
-
-       return view('admin.subscription.index');
+		$subscriptionstatusr = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+                    //->where('gg_module_fields.module_id', $id)
+                    ->where('gg_module_fields.field_name', 'Subscription Status')
+                    ->select(
+                        'mfv.id',
+                        'gg_module_fields.field_name',
+                        'gg_module_fields.field_type',
+                        'mfv.value'
+                    )
+                    ->get();
+					
+        $subscriptionstatus = array();
+        foreach ($subscriptionstatusr as $subscriptionstatusVal) {
+            $subscriptionstatus[$subscriptionstatusVal->id] = $subscriptionstatusVal->value;
+			
+        } 
+       return view('admin.subscription.index',compact('subscriptionstatus'));
     }
 
-    public function create() {
+    public function create($id='',$type='') {
+		
+		 $userdata =array();
+		 $substypedata =array();
         $subscriptionstatusr = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Subscription Status')
@@ -72,7 +126,13 @@ class SubscriptionController extends Controller
         } 
 
 		$payment = Payment::pluck('paymentmethod','id')->all();
-        return view('admin.subscription.create',compact('subscriptionstatus','payment'));
+		if(!empty($id) || !empty($type))
+		{
+			$userdata = User::where('id',$id)->where('user_type',$type)->first();
+			$substypedata = Subscriptiontype::where('usertype',$type)->get();
+		}
+
+        return view('admin.subscription.create',compact('subscriptionstatus','payment','userdata','substypedata'));
     }
     public function store(request $request) {
 		 $this->validate($request, [
@@ -185,7 +245,10 @@ class SubscriptionController extends Controller
         } 
 		$payment = Payment::pluck('paymentmethod','id')->all();
         $subscription = Subscription::find($id);
-        return view('admin.subscription.edit')->with(compact('subscription','subscriptionstatus','payment'));
+		$substypedata = Subscriptiontype::where('id',$subscription->subscriptiontype_id)->get();
+		
+		
+        return view('admin.subscription.edit')->with(compact('subscription','subscriptionstatus','payment','substypedata'));
     }
 
     public function update(Request $request, $id) 
@@ -340,6 +403,70 @@ class SubscriptionController extends Controller
 		$Html .= '<div class="col-md-7"><input type="radio" name="subscription_type"  id="'.$mydata->id.'" value="'.$mydata->id.'" onChage="putsubscriptiondata()"><span class="sunstitle">'.$mydata->eng_name.'<span><br><span class="sunstitle">'.$mydata->eng_desc.'<span></div><div class="col-md-5"><div class="form-group row"><div class="col-md-2"><label >Price</label></div><div class="col-md-4"><input class="form-control" type="text" name="price" id="price_'.$mydata->id.'" value="'.$mydata->price.'"></div><div class="col-md-2"><label >+Misc</label></div><div class="col-md-4"><input class="form-control" type="text" name="misc" id="misc_'.$mydata->id.'" value="'.$mydata->misc.'"></div></div><div class="form-group row"><div class="col-md-6"></div><div class="col-md-2"><label >VAT</label></div><div class="col-md-4"><input class="form-control" type="text" name="vat" id="vat_'.$mydata->id.'" value="'.$mydata->vat.'"></div></div><div class="form-group row"><div class="col-md-6"></div><div class="col-md-2"><label >Freight %</label></div><div class="col-md-4"><input class="form-control" type="text" name="freight" id="freight_'.$mydata->id.'" value="'.$mydata->frieghtcharge.'"></div></div><div class="form-group row"><div class="col-md-4"></div><div class="col-md-4"><label >Freight Tax %</label></div><div class="col-md-4"><input class="form-control" type="text" name="freighttax" id="freighttax_'.$mydata->id.'" value="'.$mydata->frieghttax.'"></div></div></div>';
 		}
 		echo $Html;exit;
+	}
+	
+	public function getsubsbystatus(Request $request)
+	{       
+		if ($request->ajax()) {
+
+            $data = Subscription::orderBy('id', 'DESC')
+					->leftjoin('subscriptiontype as srdt', 'gg_subscription.subscriptiontype_id', '=', 'srdt.id')
+					->leftjoin('gg_module_fields_values as gmf', 'gg_subscription.paymentstatus', '=', 'gmf.id')
+					->select(
+						'gg_subscription.id', 
+						'gg_subscription.userid',
+						'gg_subscription.name',
+						'gg_subscription.start_date',
+						'gg_subscription.end_date',
+						'gg_subscription.price',
+						'gg_subscription.no_of_days',
+						'srdt.eng_name',
+						'gg_subscription.paymentstatus',
+						'gmf.value'
+                    )->where('paymentstatus',$request->cid)->get();
+				return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->editColumn('paiddate', function($row) {
+                        
+                            $s_btn = '';                     
+                        return  $s_btn;
+                    })
+                    ->escapeColumns([])
+					 ->addIndexColumn()
+                    ->editColumn('status', function($row) {
+                        
+                          $s_btn = '';  
+						  $color = '';
+						  if(!empty($row->value)){
+							  if($row->paymentstatus == 16 ||$row->paymentstatus == 123 )
+							  {
+								 $color = 'success';
+							  }
+							  if($row->paymentstatus == 15 ||$row->paymentstatus == 128 )
+							  {
+								 $color = 'warning';
+							  }
+							  if($row->paymentstatus == 17 ||$row->paymentstatus == 124 )
+							  {
+								 $color = 'dark';
+							  }
+						  
+						  
+							   $s_btn = '<label class="badge badge-'.$color.'">'.$row->value .'</label>';
+						  }
+                        return  $s_btn;
+                    })
+                    ->escapeColumns([])
+                    ->addColumn('action', function($row){
+                        
+                           $btn = '<a href="'.url('admin').'/subscription/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
+                                   <a href="'.url('admin').'/subscription/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+     
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
 	}
 	
 }

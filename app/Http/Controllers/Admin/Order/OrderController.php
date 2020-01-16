@@ -85,7 +85,8 @@ class OrderController extends Controller
        return view('admin.order.index',compact('subscriptionstatus'));
     } 
 	
-	 public function create() {
+	 public function create($id='',$type='') {
+		 $userdata =array();
         $subscriptionstatusr = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Order Status')
@@ -104,7 +105,14 @@ class OrderController extends Controller
         } 
 		$product= Sproduct::all();
 		$payment = Payment::pluck('paymentmethod','id')->all();
-        return view('admin.order.create',compact('subscriptionstatus','product','payment'));
+		
+		if(!empty($id) || !empty($type))
+		{
+			$userdata = User::where('id',$id)->where('user_type',$type)->first();
+			//print_r($userdata);exit;
+		}
+		
+        return view('admin.order.create',compact('subscriptionstatus','product','payment','userdata'));
     }
 	
 	 public function store(request $request) {

@@ -183,9 +183,11 @@ $(function () {
         serverSide: true,
         ajax: APP_URL+"/admin/foundation",
         columns: [
+			{data: 'checkbox', name: 'checkbox'},
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+			{data: 'sort', name: 'sort'},
             {data: 'name', name: 'name'},
-            {data: 'sort', name: 'sort'},
+            {data: 'tstatus', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -627,7 +629,7 @@ $('input.myprice,input.mymisc,input.myvat,input.myfrch,input.myfrtx').on('change
 	var Freightc = parseFloat($('.myfrch').val());
 	var Freighttax = parseFloat($('.myfrtx').val()); 
 	
-	var total = price;
+	
 	
 	if(misc > 0)
 	{
@@ -656,6 +658,36 @@ $('input.myprice,input.mymisc,input.myvat,input.myfrch,input.myfrtx').on('change
       
 })
 
+function calculatesubstaxs(id)
+{
+	//alert(id);
+	$("#"+id).prop("checked", true);
+	var price =  parseFloat($('#price_'+id).val());
+		var misc = parseFloat($('#misc_'+id).val());
+		var vat =  parseFloat($('#vat_'+id).val());
+		var freight =  parseFloat($('#freight_'+id).val());
+		var freighttax =  parseFloat($('#freighttax_'+id).val());
+		
+		var myprice = price+misc;
+		var myvat = myprice*vat/100;
+		var myfrtax = freight*freighttax/100;
+		var myfreight = myfrtax + freight;
+		var totals = myprice+myvat+myfrtax+freight;
+		
+		$('#newmisc').val(misc);
+		$('#newprice').val(price);
+		$('#newvat').val(vat);
+		$('#newfr').val(freight);
+		$('#newfrt').val(freighttax);
+		$('#newtotal').val(totals);
+		$('#subscId').val(id);
+		
+		$('#total_price').text(myprice);
+		$('#total_vat').text(myvat);
+		$('#total_freight_tax').text(myfreight);
+		$('#totals').text(totals);
+
+}
 /* data table for Hitlist */
 $(function () {
     
@@ -1082,13 +1114,15 @@ $(document).ready(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 			}
 		});
-	
+	//alert(col4);
         $.ajax({
 				type:'POST',
 			   url: APP_URL+"/admin/subscription/getsubscriptiontype",
 			   data:{col4:col4},
 			   success:function(data){
 				//alert(data);
+				
+				$('#getsubstype').empty();
 				$('#substypedata').empty();
 				$('#substypedata').append(data);
 				$('#usersearch').show();
@@ -1101,7 +1135,6 @@ $(document).ready(function(){
 
 function putsubscriptiondata(){
 	$('input[type=radio][name=subscription_type]').change(function() {
-		/* alert($(this).val()); */
 		var id = $(this).val();
 		var price =  parseFloat($('#price_'+id).val());
 		var misc = parseFloat($('#misc_'+id).val());
@@ -1456,17 +1489,17 @@ function calculateorderprice(){
 		var gtotal = totals*quantity;
 		
 		$('#newquantity').val(quantity);
-		$('#newmisc').val(misc);
-		$('#newprice').val(price);
-		$('#newvat').val(vat);
-		$('#newfr').val(freight);
-		$('#newfrt').val(freighttax);
-		$('#newtotal').val(gtotal);
+		$('#newmisc').val(misc*quantity);
+		$('#newprice').val(price*quantity);
+		$('#newvat').val(vat*quantity);
+		$('#newfr').val(freight*quantity);
+		$('#newfrt').val(freighttax*quantity);
+		$('#newtotal').val(gtotal*quantity);
 		
-		$('#total_quantity').text(quantity);
-		$('#total_price').text(myprice);
-		$('#total_vat').text(myvat);
-		$('#total_freight_tax').text(myfreight);
+		$('#total_quantity').text(quantity*quantity);
+		$('#total_price').text(myprice*quantity);
+		$('#total_vat').text(myvat*quantity);
+		$('#total_freight_tax').text(myfreight*quantity);
 		$('#totals').text(gtotal);
 
 }
@@ -1539,6 +1572,45 @@ function getorderbystatus()
 			 {data: 'ordernotes', name: 'ordernotes'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
+				} );
+           }
+
+			});
+}
+
+function getsubsbystatus()
+{
+	var cid = $("#orderstatus").val();
+	
+	$.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+	
+        $.ajax({
+           type:'POST',
+           url: APP_URL+"/admin/subscription/getsubsbystatus",
+           data:{cid:cid},
+           success:function(data){
+			//alert(data);
+			$('.subscription-table').dataTable().fnDestroy()
+
+				data.draw = 1;
+				console.log(data);	
+				
+				$('.subscription-table').DataTable({
+				data: data.data,
+			  columns: [
+				{data: 'DT_RowIndex', name: 'DT_RowIndex'},
+				{data: 'name', name: 'name'},
+				{data: 'start_date', name: 'start date'},
+				{data: 'end_date', name: 'end date'},
+				{data: 'status', name: 'status'},
+				{data: 'price', name: 'price'},
+				{data: 'no_of_days', name: 'no of days'},
+				{data: 'action', name: 'action', orderable: false, searchable: false},
+				]
 				} );
            }
 
@@ -1785,22 +1857,26 @@ function geturlbox()
 	}
 }
 
-function getalllistcheckboxval(val){
+function getalllistcheckboxval(val,id=''){
 	
 	var favorite = [];
 	$.each($("input[name='userslistIds']:checked"), function(){
 	favorite.push($(this).val());
 	});
-	if(favorite == '')
+	if(id == '')
 	{
-		alert("please select one or more records");
-		return false;
+		if(favorite == '')
+		{
+			alert("please select one or more records");
+			return false;
+		}
 	}
 	
+	//alert(favorite);
 	$.ajax({
 			type:'POST',
 			url: APP_URL+"/admin/updateaction",
-			data:{val:val,favorite:favorite},
+			data:{val:val,favorite:favorite,id:id},
 			success:function(data){
 			//alert(data);
 				if(data == 'yes')
@@ -1818,4 +1894,123 @@ function getalllistcheckboxval(val){
 }
 
 
+function deletefoundation(val){
+	
+	var favorite = [];
+	$.each($("input[name='userslistIds']:checked"), function(){
+	favorite.push($(this).val());
+	});
+	
+		if(favorite == '')
+		{
+			alert("please select one or more records");
+			return false;
+		}
+	
+	
+	//alert(favorite);
+	$.ajax({
+			type:'POST',
+			url: APP_URL+"/admin/foundation/multidelete",
+			data:{val:val,favorite:favorite},
+			success:function(data){
+			//alert(data);
+				if(data == 'yes')
+				{
+					location.reload();
+				}else{
+					alert('There is some problem');
+				}
 
+			}
+
+		});
+	
+
+}
+
+function getLibGrpStatus(val,id=''){
+	
+	var favorite = [];
+	$.each($("input[name='userslistIds']:checked"), function(){
+	favorite.push($(this).val());
+	});
+	if(id == '')
+	{
+		if(favorite == '')
+		{
+			alert("please select one or more records");
+			return false;
+		}
+	}
+	
+	//alert(favorite);
+	$.ajax({
+			type:'POST',
+			url: APP_URL+"/admin/librarygroup/changestatus",
+			data:{val:val,favorite:favorite,id:id},
+			success:function(data){
+			//alert(data);
+				if(data == 'yes')
+				{
+					location.reload();
+				}else{
+					alert('There is some problem');
+				}
+
+			}
+
+		});
+	
+
+}
+
+/* Password Genrate  */
+
+function randomPassword(length) {
+    var chars = "abcdefghijklmnopqrstuvwxyz!@#$%^&*()-+<>ABCDEFGHIJKLMNOP1234567890";
+    var pass = "";
+    for (var x = 0; x < length; x++) {
+        var i = Math.floor(Math.random() * chars.length);
+        pass += chars.charAt(i);
+    }
+    return pass;
+}
+
+function generate() {
+	var pass = randomPassword(10);
+	$('#password').val(pass);
+   
+}
+
+function saveactivepassword(id)
+{
+	var password = $("#password").val();
+	//alert(password);return false;
+	if(password == '')
+	{
+		alert("Please genrate password");
+		return false;
+	}
+ 	  $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+  $.ajax({
+		type:'POST',
+		url: APP_URL+"/admin/user/passwordactive",
+		data:{id:id},
+		success:function(data){
+			if(data == 1)
+			{
+				alert('Password has been activated successfully');
+			}
+			else{
+				alert('There is some problem,Try again.');
+				
+			}
+		}
+	});
+	$('#password').val('');
+}

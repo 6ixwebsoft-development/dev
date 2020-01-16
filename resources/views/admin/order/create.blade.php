@@ -66,6 +66,20 @@
 			
 			 {!! Form::open(array('url' => 'admin/order/store')) !!}
 			 <div class="row">
+				@php 
+					$uid='';
+					$uname='';
+					$uemail='';
+					$readonly = ''
+				@endphp
+					@if(!empty($userdata))
+						@php 
+							$uid = $userdata->id;
+							$uname = $userdata->name;
+							$uemail = $userdata->email;
+							$readonly = 'readonly';
+						@endphp 	
+					@endif
 				
 				<div class="col-sm-4">
 					<div class="form-group row">
@@ -79,7 +93,7 @@
 						  {!! Form::label('Customer ID', __( 'Customer ID' ) . ':*') !!}
 						</div>
 						<div class="col-lg-8">
-						  {!! Form::text('cid', null, ['class' => 'form-control','id'=>'cid', 'placeholder' => __( '' ) ]); !!}
+						  {!! Form::text('cid', $uid, ['class' => 'form-control',$readonly,'id'=>'cid', 'placeholder' => __( '' ) ]); !!}
 						</div>
 					</div>	
 				
@@ -88,7 +102,7 @@
 						  {!! Form::label('name', __( 'Name' ) . ':') !!}
 						</div>
 						<div class="col-lg-8">
-						  {!! Form::text('name', null, ['class' => 'form-control','id'=>'name','required' => 'required', 'placeholder' => __( '' ) ]); !!}
+						  {!! Form::text('name', $uname, ['class' => 'form-control','id'=>'name',$readonly,'required' => 'required', 'placeholder' => __( '' ) ]); !!}
 						</div>
 					</div>	
 				
@@ -97,7 +111,7 @@
 						  {!! Form::label('Email', __( 'Email' ) . ':') !!}
 						</div>
 						<div class="col-lg-8">
-						  {!! Form::text('email', null, ['class' => 'form-control','id'=>'email', 'placeholder' => __( '' ) ]); !!}
+						  {!! Form::text('email', $uemail, ['class' => 'form-control','id'=>'email',$readonly, 'placeholder' => __( '' ) ]); !!}
 						</div>
 					</div>	
 					<hr>

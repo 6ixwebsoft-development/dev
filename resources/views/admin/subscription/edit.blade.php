@@ -152,6 +152,51 @@
 					<hr>
 					<div style=""><h4>Search a Customer and Choose a Subscription Type</h4></div>
 					<div class="row" id="substypedata"></div>
+					<div class="row" id="getsubstype">
+						@foreach($substypedata as $substypeData)
+						<div class="col-md-7">
+							<input type="radio" name="subscription_type"  id="{{$substypeData->id}}" value="{{$substypeData->id}}" onClick="putsubscriptiondata()" checked><span class="sunstitle">{{$substypeData->eng_name}}<span><br>
+							<span class="sunstitle">{{$substypeData->eng_desc}}<span>
+						</div>
+						
+						<div class="col-md-5">
+							<div class="form-group row">
+								<div class="col-md-2"><label >Price</label></div>
+								<div class="col-md-4">
+									<input class="form-control myprice{{$substypeData->id}}" type="text" name="price" id="price_{{$substypeData->id}}" onkeyup="calculatesubstaxs({{$substypeData->id}});" value="{{$substypeData->price}}">
+								</div>
+								<div class="col-md-2"><label >+Misc</label></div>
+								<div class="col-md-4">
+									<input class="form-control mymisc{{$substypeData->id}}" type="text" name="misc" id="misc_{{$substypeData->id}}" onkeyup="calculatesubstaxs();"  value="{{$substypeData->misc}}">
+								</div>
+							</div>
+						
+								<div class="form-group row">
+									<div class="col-md-6"></div>
+									<div class="col-md-2"><label >VAT</label></div>
+									<div class="col-md-4">
+										<input class="form-control myvat{{$substypeData->id}}" type="text" name="vat" id="vat_{{$substypeData->id}}" onkeyup="calculatesubstaxs();"  value="{{$substypeData->vat}}">
+									</div>
+								</div>
+								
+								<div class="form-group row">
+									<div class="col-md-6"></div>
+									<div class="col-md-2"><label >Freight %</label></div>
+									<div class="col-md-4">
+										<input class="form-control myfrch{{$substypeData->id}}" type="text" name="freight" id="freight_{{$substypeData->id}}" onkeyup="calculatesubstaxs();"  value="{{$substypeData->frieghtcharge}}">
+									</div>
+								</div>
+								
+								<div class="form-group row">
+									<div class="col-md-4"></div>
+									<div class="col-md-4"><label >Freight Tax %</label></div>
+									<div class="col-md-4"><input class="form-control myfrtx{{$substypeData->id}}" type="text" name="freighttax" id="freighttax_{{$substypeData->id}}" onkeyup="calculatesubstaxs();" value="{{$substypeData->frieghttax}}"></div>
+								</div>
+						</div>
+					
+					@endforeach
+					
+					</div>
 					<div class="form-group row">
 						<div class="col-lg-8">
 						 <div class="form-group">

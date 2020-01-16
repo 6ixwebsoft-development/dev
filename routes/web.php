@@ -38,6 +38,8 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 	Route::post('admin/searchvikashuser','Auth\UserController@searchvikashuser');
 	Route::post('admin/user/store','Auth\UserController@store');
 	Route::post('admin/user/update/{id}', 'Auth\UserController@update');
+	
+	Route::post('admin/user/passwordactive', 'Auth\UserController@passwordactive');
 
     Route::get('/home', 'HomeController@index')->name('admin.index');
     Route::group(array('namespace' => 'Admin', 'prefix' => 'admin'), function() {
@@ -86,7 +88,8 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
         Route::get('foundation/delete/{id}', 'FoundationController@delete');
 		Route::get('foundation/exports', 'FoundationController@exports');
 		// Search user data for admin
-		 Route::post('foundation/searchexportfoundation', 'FoundationController@search_export_foundation');
+		Route::post('foundation/searchexportfoundation','FoundationController@search_export_foundation');
+		Route::post('/foundation/multidelete', 'FoundationController@multidelete');
 		
 		// Search user data for admin
 		 Route::post('/getuserdata', 'UserseachController@searchuserdata');
@@ -192,7 +195,10 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
         Route::post('subscription/update/{id}', 'SubscriptionController@update')->name('admin.subscription.update');
         Route::get('subscription/delete/{id}', 'SubscriptionController@delete');
 		Route::get('subscription/userlist', 'SubscriptionController@userlist');
-		Route::post('subscription/getsubscriptiontype', 'SubscriptionController@getsubscriptiontype');
+		Route::post('subscription/getsubscriptiontype','SubscriptionController@getsubscriptiontype');
+		
+		Route::post('subscription/getsubsbystatus', 'SubscriptionController@getsubsbystatus');
+		Route::get('subscription/create/{id}/{type}', 'SubscriptionController@create');
 		
     });
 	
@@ -277,6 +283,8 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('librarygroup/{id}/edit', 'LibraryGroupController@edit');
 		Route::post('librarygroup/update/{id}', 'LibraryGroupController@update')->name('admin.librarygroup.update');
 		Route::get('librarygroup/delete/{id}', 'LibraryGroupController@delete');
+		
+		Route::post('librarygroup/changestatus', 'LibraryGroupController@changestatus');
     });
 	
 	Route::group(array('namespace' => 'Admin\Organization', 'prefix' => 'admin'),function() {
@@ -333,6 +341,8 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('order/delete/{id}', 'OrderController@delete');
 		Route::post('order/getproduct', 'OrderController@getproduct');
 		Route::post('order/getorderbystatus', 'OrderController@getorderbystatus');
+		
+		Route::get('order/create/{id}/{type}', 'OrderController@create');
 		
     });
 	
