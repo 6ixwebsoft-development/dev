@@ -47,18 +47,25 @@
           <table class="table table-bordered product-table">
             <thead>
                 <tr>
+					<th><input type="checkbox" id="selectAll"></th>
                     <th>No</th>
                     <th>name</th>
                     <th>Description</th>
 					<th>Type</th>
                     <th>Price w/o Tax</th>
 					<th>Display Price</th>
+					<th>Status</th>
                     <th width="100px">Action</th>
                 </tr>
             </thead>
             <tbody>
             </tbody>
           </table>
+		  <div class="row container">
+			  <div id="pending">
+				<button class="btn btn-danger" onClick="getproductStatus(3,'sts');">Delete</button>
+			  </div>
+		</div>
         </div>
       </div>
     </div>

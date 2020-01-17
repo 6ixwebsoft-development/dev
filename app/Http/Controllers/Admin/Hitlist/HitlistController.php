@@ -19,7 +19,7 @@ class HitlistController extends Controller
 	{
 		if ($request->ajax())
 			{
-				$data = Hitlist::all();
+				$data = Hitlist::where('status','!=','3')->get();
 				return Datatables::of($data)
 				->addIndexColumn()
 				->editColumn('status', function($row) {
@@ -40,7 +40,15 @@ class HitlistController extends Controller
 					return $btn;
 				})
 				->rawColumns(['action'])
-				->make(true);
+                    ->escapeColumns([])
+					->addColumn('checkbox', function($row){
+
+						$btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
+
+						return $btn;
+						})
+					->rawColumns(['checkbox']) 
+					->make(true);
 			}
 
 		return view('admin.hitlist.index');
@@ -139,5 +147,36 @@ class HitlistController extends Controller
         }
         return back()->with('message', $output);
     }
+	
+	public function changestatus(Request $request)
+	{
+
+		if($request->txt == 'sts')
+		{
+			$data = array(
+			'status'=>$request->val
+			);
+		}else{
+			$data = array(
+				'orderstatus'=>$request->val
+				);
+		}
+		/* DB::enableQueryLog(); */
+		$queryRun = DB::table('hitlist')->whereIn('id', $request->favorite)->update($data);
+		/* dd(DB::getQueryLog()); */
+		
+		if($queryRun)
+		{
+			 $output = ['class' => 'alert-position-success',
+				'msg' => __("Hitlist Deleted")
+				];
+			return 'yes';
+		}else{
+			 $output = ['class' => 'alert-position-danger',
+				'msg' => __("Hitlist not Deleted")
+				];
+			return 'no';
+		}
+	}
 	
 }

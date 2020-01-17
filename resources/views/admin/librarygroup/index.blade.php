@@ -40,7 +40,7 @@
         <table class="table table-bordered librarygroup-table">
           <thead>
             <tr>
-			<th><input type="checkbox"></th>
+			<th><input type="checkbox" id="selectAll"></th>
               <th>No</th>
               <th> Library Group</th>
 			  <th> Email</th>

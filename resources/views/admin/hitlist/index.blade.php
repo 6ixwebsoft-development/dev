@@ -47,16 +47,23 @@
           <table class="table table-bordered hitlist-table">
             <thead>
                 <tr>
+					<th><input type="checkbox" id="selectAll"></th>
                     <th>No</th>
                     <th>Name</th>
                     <th>Keyword</th>
                     <th>Description</th>
+					<th>Status</th>
                     <th width="100px">Action</th>
                 </tr>
             </thead>
             <tbody>
             </tbody>
           </table>
+		   <div class="row container">
+			  <div id="pending">
+				<button class="btn btn-danger" onClick="gethitlistStatus(3,'sts');">Delete</button>
+			  </div>
+		</div>
         </div>
       </div>
     </div>

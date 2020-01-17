@@ -40,7 +40,7 @@
         <table class="table table-bordered foundation-table">
           <thead>
             <tr>
-				<th><input type="checkbox"></th>
+				<th><input type="checkbox" id="selectAll"></th>
               <th>No</th>
 			  <th>Sort Name</th>
               <th>Foundation Name</th>

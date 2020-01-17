@@ -35,6 +35,7 @@ class OrderController extends Controller
 						'gg_order.totalprice',
 						'gg_order.created_at',
 						'srdt.productname',
+						'gg_order.orderstatus',
 						'gmf.value'
                     )->get();
             return Datatables::of($data)
@@ -49,9 +50,32 @@ class OrderController extends Controller
                     ->editColumn('status', function($row) {
                         
                           $s_btn = '';  
+						  $color = '';
 						  if(!empty($row->value)){
-							   $s_btn = '<label class="badge badge-success">'.$row->value .'</label>';
+							  if($row->orderstatus == 12 ||$row->orderstatus == 121  )
+							  {
+								 $color = 'success';
+							  }
+							  if($row->orderstatus == 10)
+							  {
+								 $color = 'warning';
+							  }
+							  if($row->orderstatus == 14)
+							  {
+								 $color = 'dark';
+							  }
+							  if($row->orderstatus == 13)
+							  {
+								 $color = 'light';
+							  }
+							  if($row->orderstatus == 11)
+							  {
+								 $color = 'primary';
+							  }
+						  
+							   $s_btn = '<label class="badge badge-'.$color.'">'.$row->value .'</label>';
 						  }
+							return  $s_btn; 
                         return  $s_btn;
                     })
                     ->escapeColumns([])
@@ -62,8 +86,17 @@ class OrderController extends Controller
      
                             return $btn;
                     })
+                   
                     ->rawColumns(['action'])
-                    ->make(true);
+					->escapeColumns([])
+					->addColumn('checkbox', function($row){
+
+						$btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
+
+						return $btn;
+						})
+					->rawColumns(['checkbox']) 
+					->make(true);
         }
 
 		$subscriptionstatusr = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
@@ -186,11 +219,11 @@ class OrderController extends Controller
 			return redirect('admin/order')->with('message', $output);
             } catch (\Exception $e) {
 				DB::rollBack();
-				echo $e;
+				//echo $e;
 				$output	= ['class' => 'alert-position-danger',
 					'msg' => __("Order Not create")
 					];
-			//return redirect('admin/order')->with('message', $output);
+			return redirect('admin/order')->with('message', $output);
         }
 
         
@@ -235,6 +268,8 @@ class OrderController extends Controller
 				DB::beginTransaction();
         try {
              $result = $request->all();
+			 //print_r($result);exit;
+			 
 			 $odate = '';
 			if(!empty($result['order_date'])){
 				 $odate = date("Y-m-d", strtotime($result['order_date']));
@@ -260,8 +295,9 @@ class OrderController extends Controller
 					"ordernotes"  => $result['ordernote'],				
 					"updated_at"  =>now(),
 			);
-
+		
           DB::table('gg_order')->where('id', $id)->update($data);
+		 
 		  $freighttax = $result['newfr']*$result['newfrt']/100;
 			$vat = $result['newprice']*$result['newvat']/100;
 			$totaltax = $vat;
@@ -279,12 +315,15 @@ class OrderController extends Controller
 					"freight" => $result['newfr'],
 					"freighttax" => $freighttax,
 					"totaltax" =>$totaltax ,
-					"totalinvoice" => $result['total'],
+					"totalinvoice" => $result['newtotal'],
 					"orderdate" => date("Y-m-d"),
 					"created_at" =>now(),
 					
 			);
-			DB::table('gg_transaction')->where('orderid', $id)->update($data);
+			
+			/* DB::enableQueryLog(); */
+			DB::table('gg_transaction')->where('orderid', $id)->where('order_type','ORD')->update($transdata);
+			 /* dd(DB::getQueryLog()); */
 			DB::commit();
 			$output	= ['class' => 'alert-position-success',
                             'msg' => __("Order updated")
@@ -332,6 +371,7 @@ class OrderController extends Controller
 						'gg_order.totalprice',
 						'gg_order.created_at',
 						'srdt.productname',
+						'gg_order.orderstatus',
 						'gmf.value'
                     )->where('orderstatus',$request->cid)->get();
 				return Datatables::of($data)
@@ -344,12 +384,33 @@ class OrderController extends Controller
                     ->escapeColumns([])
 					 ->addIndexColumn()
                     ->editColumn('status', function($row) {
-                        
                           $s_btn = '';  
+						  $color = '';
 						  if(!empty($row->value)){
-							   $s_btn = '<label class="badge badge-success">'.$row->value .'</label>';
+							  if($row->orderstatus == 12 ||$row->orderstatus == 121  )
+							  {
+								 $color = 'success';
+							  }
+							  if($row->orderstatus == 10)
+							  {
+								 $color = 'warning';
+							  }
+							  if($row->orderstatus == 14)
+							  {
+								 $color = 'dark';
+							  }
+							  if($row->orderstatus == 13)
+							  {
+								 $color = 'light';
+							  }
+							  if($row->orderstatus == 11)
+							  {
+								 $color = 'primary';
+							  }
+						  
+							   $s_btn = '<label class="badge badge-'.$color.'">'.$row->value .'</label>';
 						  }
-                        return  $s_btn;
+							return  $s_btn; 
                     })
                     ->escapeColumns([])
                     ->addColumn('action', function($row){
@@ -360,7 +421,48 @@ class OrderController extends Controller
                             return $btn;
                     })
                     ->rawColumns(['action'])
-                    ->make(true);
+					->escapeColumns([])
+					->addColumn('checkbox', function($row){
+
+						$btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
+
+						return $btn;
+						})
+					->rawColumns(['checkbox']) 
+					->make(true);
         }
 	}
+	
+	
+	public function changestatus(Request $request)
+	{
+
+		if($request->txt == 'sts')
+		{
+			$data = array(
+			'status'=>$request->val
+			);
+		}else{
+			$data = array(
+				'orderstatus'=>$request->val
+				);
+		}
+		
+		$queryRun = DB::table('gg_order')->whereIn('id', $request->favorite)->update($data);
+		
+		
+		if($queryRun)
+		{
+			 $output = ['class' => 'alert-position-success',
+				'msg' => __("Order Deleted")
+				];
+			return 'yes';
+		}else{
+			 $output = ['class' => 'alert-position-danger',
+				'msg' => __("Order not Deleted")
+				];
+			return 'no';
+		}
+	}
+	
 }

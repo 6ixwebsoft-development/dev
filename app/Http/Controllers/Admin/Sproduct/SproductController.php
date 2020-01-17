@@ -19,14 +19,18 @@ class SproductController extends Controller
 	{
 		if ($request->ajax())
 			{
-				$data = Sproduct::all();
+				$data = Sproduct::where('status','!=','3')->get();
 				return Datatables::of($data)
 				->addIndexColumn()
-				->editColumn('status', function($row) {
-				if($row->status == 1) {
-				$s_btn = '<span class="badge badge-success">Active</span>';
+				->editColumn('typeid', function($row) {
+				if($row->typeid == 1) {
+				$s_btn = '<span class="badge badge-success">Ongoing monthly subscription</span>';
+				}else if($row->typeid == 2){
+				$s_btn = '<span class="badge badge-success">Stora Fondboken</span>';
+				}else if($row->typeid == 3){
+					$s_btn = '<span class="badge badge-success">Lists</span>';
 				}else {
-				$s_btn = '<span class="badge badge-danger">Inactive</span>';
+					$s_btn = '<span class="badge badge-success">Services</span>';
 				}
 				return  $s_btn;
 				})
@@ -40,7 +44,15 @@ class SproductController extends Controller
 					return $btn;
 				})
 				->rawColumns(['action'])
-				->make(true);
+                    ->escapeColumns([])
+					->addColumn('checkbox', function($row){
+
+						$btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
+
+						return $btn;
+						})
+					->rawColumns(['checkbox']) 
+					->make(true);
 			}
 
 		return view('admin.sproduct.index');
@@ -177,5 +189,36 @@ class SproductController extends Controller
         }
         return back()->with('message', $output);
     }
+	
+	public function changestatus(Request $request)
+	{
+
+		if($request->txt == 'sts')
+		{
+			$data = array(
+			'status'=>$request->val
+			);
+		}else{
+			$data = array(
+				'orderstatus'=>$request->val
+				);
+		}
+		
+		$queryRun = DB::table('sproduct')->whereIn('id', $request->favorite)->update($data);
+		
+		
+		if($queryRun)
+		{
+			 $output = ['class' => 'alert-position-success',
+				'msg' => __("Product Deleted")
+				];
+			return 'yes';
+		}else{
+			 $output = ['class' => 'alert-position-danger',
+				'msg' => __("Product not Deleted")
+				];
+			return 'no';
+		}
+	}
 	
 }

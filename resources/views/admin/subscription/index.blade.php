@@ -51,6 +51,7 @@
           <table class="table table-bordered subscription-table">
             <thead>
                 <tr>
+					<th><input type="checkbox" id="selectAll"></th>
                     <th>No</th>
                     <th>Name</th>
                     <th>Start Date</th>
@@ -64,6 +65,38 @@
             <tbody>
             </tbody>
           </table>
+		 <div class="row container">
+			  <button class="btn btn-danger" onClick="getsubsStatus(3,'sts');">Delete</button>
+			  <div id="pendig_ind" style="display:none;">
+			  <button class="btn btn-success" onClick="getsubsStatus(16,'psts');">Paid</button>
+			  <button class="btn btn-dark" onClick="getsubsStatus(17,'psts');">Expired/Deactive</button>
+			  </div>
+			  
+			  <div id="paid_ind" style="display:none;">
+			  <button class="btn btn-warning" onClick="getsubsStatus(15,'psts');">Pending Payment</button>
+			  <button class="btn btn-dark" onClick="getsubsStatus(17,'psts');">Expired/Deactive</button>
+			  </div>
+			  
+			  <div id="expire_ind" style="display:none;">
+			  <button class="btn btn-info" onClick="getsubsStatus(1,'sts');">Active</button>
+			  <button class="btn btn-warning" onClick="getsubsStatus(0,'sts');">Inactive</button>
+			  </div>
+			  
+			  <div id="pendig_lib" style="display:none;">
+			   <button class="btn btn-success" onClick="getsubsStatus(123,'psts');">Paid</button>
+			  <button class="btn btn-dark" onClick="getsubsStatus(124,'psts');">Expired/Deactive</button>
+			  </div>
+			  
+			  <div id="paid_lib" style="display:none;">
+			 <button class="btn btn-warning" onClick="getsubsStatus(128,'psts');">Pending Payment</button>
+			  <button class="btn btn-dark" onClick="getsubsStatus(124,'psts');">Expired/Deactive</button>
+			  </div>
+			  
+			  <div id="expire_lib" style="display:none;">
+			  <button class="btn btn-info" onClick="getsubsStatus(1,'sts');">Active</button>
+			  <button class="btn btn-warning" onClick="getsubsStatus(0,'sts');">Inactive</button>
+			  </div>
+		  </div>
         </div>
       </div>
     </div>

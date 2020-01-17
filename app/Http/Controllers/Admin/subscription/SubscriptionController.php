@@ -41,7 +41,7 @@ class SubscriptionController extends Controller
 						'srdt.eng_name',
 						'gg_subscription.paymentstatus',
 						'gmf.value'
-                    )->get();
+                    )->where('gg_subscription.status','!=','3')->get();
 				return Datatables::of($data)
                     ->addIndexColumn()
                     ->editColumn('paiddate', function($row) {
@@ -82,8 +82,16 @@ class SubscriptionController extends Controller
      
                             return $btn;
                     })
-                    ->rawColumns(['action'])
-                    ->make(true);
+					->rawColumns(['action'])
+					->escapeColumns([])
+					->addColumn('checkbox', function($row){
+
+						$btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
+
+						return $btn;
+						})
+					->rawColumns(['checkbox']) 
+					->make(true);
         }
 		$subscriptionstatusr = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
@@ -423,7 +431,7 @@ class SubscriptionController extends Controller
 						'srdt.eng_name',
 						'gg_subscription.paymentstatus',
 						'gmf.value'
-                    )->where('paymentstatus',$request->cid)->get();
+                    )->where('paymentstatus',$request->cid)->where('gg_subscription.status','!=','3')->get();
 				return Datatables::of($data)
                     ->addIndexColumn()
                     ->editColumn('paiddate', function($row) {
@@ -450,8 +458,6 @@ class SubscriptionController extends Controller
 							  {
 								 $color = 'dark';
 							  }
-						  
-						  
 							   $s_btn = '<label class="badge badge-'.$color.'">'.$row->value .'</label>';
 						  }
                         return  $s_btn;
@@ -465,8 +471,46 @@ class SubscriptionController extends Controller
                             return $btn;
                     })
                     ->rawColumns(['action'])
-                    ->make(true);
+                    ->escapeColumns([])
+					->addColumn('checkbox', function($row){
+
+						$btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
+
+						return $btn;
+						})
+					->rawColumns(['checkbox']) 
+					->make(true);
         }
+	}
+	
+	public function changestatus(Request $request)
+	{
+		
+		
+		if($request->txt == 'sts')
+		{
+			$data = array(
+			'status'=>$request->val
+			);
+		}else{
+			$data = array(
+				'paymentstatus'=>$request->val
+				);
+		}
+		$queryRun = DB::table('gg_subscription')->whereIn('id', $request->favorite)->update($data);
+		
+		if($queryRun)
+		{
+			 $output = ['class' => 'alert-position-success',
+				'msg' => __("Subscription Deleted")
+				];
+			return 'yes';
+		}else{
+			 $output = ['class' => 'alert-position-danger',
+				'msg' => __("Subscription not Deleted")
+				];
+			return 'no';
+		}
 	}
 	
 }

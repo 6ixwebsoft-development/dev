@@ -474,6 +474,7 @@ $(function () {
         serverSide: true,
         ajax: APP_URL+"/admin/subscription",
         columns: [
+			{data: 'checkbox', name: 'checkbox'},
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
             {data: 'start_date', name: 'start date'},
@@ -569,12 +570,14 @@ $(function () {
         serverSide: true,
         ajax: APP_URL+"/admin/products",
         columns: [
+			{data: 'checkbox', name: 'checkbox'},
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'productname', name: 'productname'},
             {data: 'description', name: 'description'},
 			{data: 'typeid', name: 'typeid'},
 			{data: 'price', name: 'price'},
 			{data: 'totalprice', name: 'totalprice'},
+			{data: 'tstatus', name: 'tstatus'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -701,10 +704,12 @@ $(function () {
         serverSide: true,
         ajax: APP_URL+"/admin/hitlist",
         columns: [
+			{data: 'checkbox', name: 'checkbox'},
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
             {data: 'keyword', name: 'keyword'},
 			{data: 'description', name: 'description'},
+			{data: 'tstatus', name: 'tstatus'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -1039,12 +1044,14 @@ $(function () {
         serverSide: true,
         ajax: APP_URL+"/admin/subscriptiontype",
         columns: [
+			{data: 'checkbox', name: 'checkbox'},
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'eng_name', name: 'eng_name'},
             {data: 'usertype', name: 'usertype'},
 			{data: 'duration', name: 'duration'},
 			{data: 'price', name: 'price'},
 			{data: 'totalprice', name: 'totalprice'},
+			{data: 'tstatus', name: 'tstatus'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -1517,6 +1524,7 @@ $(function () {
         serverSide: true,
         ajax: APP_URL+"/admin/order",
         columns: [
+			{data: 'checkbox', name: 'checkbox'},
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
 			{data: 'userid', name: 'userid'},
             {data: 'id', name: 'id'},
@@ -1540,6 +1548,37 @@ function getorderbystatus()
 {
 	var cid = $("#orderstatus").val();
 	
+	$("#pending").hide();
+	$("#paid_not_delivered").hide();
+	$("#paid_and_delivered").hide();
+	$("#Delivered").hide();
+	$("#canclled").hide();
+	
+	if(cid == 10)
+	{
+		$("#pending").show();
+	}
+	if(cid == 11)
+	{
+		$("#paid_not_delivered").show();
+	}
+	if(cid == 12)
+	{
+		$("#paid_and_delivered").show();
+	}
+	if(cid == 121)
+	{
+		$("#Delivered").show();
+	}
+/* 	if(cid == 13)
+	{
+		$("#paid_ind").show();
+	} */
+	if(cid == 14)
+	{
+		$("#canclled").show();
+	}
+	
 	$.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1560,6 +1599,7 @@ function getorderbystatus()
 				$('.order-table').DataTable({
 				data: data.data,
 			  columns: [
+			 {data: 'checkbox', name: 'checkbox'},
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
 			{data: 'userid', name: 'userid'},
             {data: 'id', name: 'id'},
@@ -1581,7 +1621,38 @@ function getorderbystatus()
 function getsubsbystatus()
 {
 	var cid = $("#orderstatus").val();
+	$("#pendig_lib").hide();
+	$("#paid_lib").hide();
+	$("#expire_lib").hide();
+	$("#pendig_ind").hide();
+	$("#paid_ind").hide();
+	$("#expire_ind").hide();
 	
+	if(cid == 15)
+	{
+		$("#pendig_lib").show();
+	}
+	if(cid == 16)
+	{
+		$("#paid_lib").show();
+	}
+	if(cid == 17)
+	{
+		$("#expire_lib").show();
+	}
+	if(cid == 123)
+	{
+		$("#pendig_ind").show();
+	}
+	if(cid == 124)
+	{
+		$("#paid_ind").show();
+	}
+	if(cid == 128)
+	{
+		$("#expire_ind").show();
+	}
+
 	$.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1602,6 +1673,7 @@ function getsubsbystatus()
 				$('.subscription-table').DataTable({
 				data: data.data,
 			  columns: [
+				{data: 'checkbox', name: 'checkbox'},
 				{data: 'DT_RowIndex', name: 'DT_RowIndex'},
 				{data: 'name', name: 'name'},
 				{data: 'start_date', name: 'start date'},
@@ -1965,6 +2037,178 @@ function getLibGrpStatus(val,id=''){
 
 }
 
+function getorderStatus(val,txt){
+	
+	var favorite = [];
+	$.each($("input[name='userslistIds']:checked"), function(){
+	favorite.push($(this).val());
+	});
+
+		if(favorite == '')
+		{
+			alert("please select one or more records");
+			return false;
+		}
+	
+	//alert(favorite);
+	$.ajax({
+			type:'POST',
+			url: APP_URL+"/admin/order/changestatus",
+			data:{val:val,favorite:favorite,txt:txt},
+			success:function(data){
+			//alert(data);
+				if(data == 'yes')
+				{
+					location.reload();
+				}else{
+					alert('There is some problem');
+				}
+
+			}
+
+		});
+	
+
+}
+
+function getsubstypeStatus(val,txt){
+	
+	var favorite = [];
+	$.each($("input[name='userslistIds']:checked"), function(){
+	favorite.push($(this).val());
+	});
+
+		if(favorite == '')
+		{
+			alert("please select one or more records");
+			return false;
+		}
+	
+	//alert(favorite);
+	$.ajax({
+			type:'POST',
+			url: APP_URL+"/admin/subscriptiontype/changestatus",
+			data:{val:val,favorite:favorite,txt:txt},
+			success:function(data){
+			//alert(data);
+				if(data == 'yes')
+				{
+					location.reload();
+				}else{
+					alert('There is some problem');
+				}
+
+			}
+
+		});
+	
+
+}
+
+function getproductStatus(val,txt){
+	
+	var favorite = [];
+	$.each($("input[name='userslistIds']:checked"), function(){
+	favorite.push($(this).val());
+	});
+
+		if(favorite == '')
+		{
+			alert("please select one or more records");
+			return false;
+		}
+	
+	//alert(favorite);
+	$.ajax({
+			type:'POST',
+			url: APP_URL+"/admin/product/changestatus",
+			data:{val:val,favorite:favorite,txt:txt},
+			success:function(data){
+			//alert(data);
+				if(data == 'yes')
+				{
+					location.reload();
+				}else{
+					alert('There is some problem');
+				}
+
+			}
+
+		});
+	
+
+}
+
+function gethitlistStatus(val,txt){
+	
+	var favorite = [];
+	$.each($("input[name='userslistIds']:checked"), function(){
+	favorite.push($(this).val());
+	});
+
+		if(favorite == '')
+		{
+			alert("please select one or more records");
+			return false;
+		}
+	
+	//alert(favorite);
+	$.ajax({
+			type:'POST',
+			url: APP_URL+"/admin/hitlist/changestatus",
+			data:{val:val,favorite:favorite,txt:txt},
+			success:function(data){
+			//alert(data);
+				if(data == 'yes')
+				{
+					location.reload();
+				}else{
+					alert('There is some problem');
+				}
+
+			}
+
+		});
+	
+
+}
+
+
+
+function getsubsStatus(val,txt){
+	
+	var favorite = [];
+	$.each($("input[name='userslistIds']:checked"), function(){
+	favorite.push($(this).val());
+	});
+
+		if(favorite == '')
+		{
+			alert("please select one or more records");
+			return false;
+		}
+	
+	//alert(favorite);
+	$.ajax({
+			type:'POST',
+			url: APP_URL+"/admin/subscription/changestatus",
+			data:{val:val,favorite:favorite,txt:txt},
+			success:function(data){
+			//alert(data);
+				if(data == 'yes')
+				{
+					location.reload();
+				}else{
+					alert('There is some problem');
+				}
+
+			}
+
+		});
+	
+
+}
+
 /* Password Genrate  */
 
 function randomPassword(length) {
@@ -2014,3 +2258,8 @@ function saveactivepassword(id)
 	});
 	$('#password').val('');
 }
+
+$('#selectAll').click(function(e){
+    var table= $(e.target).closest('table');
+    $('td input:checkbox',table).prop('checked',this.checked);
+});

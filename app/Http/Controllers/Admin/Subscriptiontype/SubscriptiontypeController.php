@@ -12,7 +12,7 @@ class SubscriptiontypeController extends Controller
 {
     public function index(Request $request) {
         if ($request->ajax()) {
-            $data = Subscriptiontype::get();
+            $data = Subscriptiontype::where('status','!=','3')->get();
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
@@ -23,7 +23,15 @@ class SubscriptiontypeController extends Controller
                             return $btn;
                     })
                     ->rawColumns(['action'])
-                    ->make(true);
+                    ->escapeColumns([])
+					->addColumn('checkbox', function($row){
+
+						$btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
+
+						return $btn;
+						})
+					->rawColumns(['checkbox']) 
+					->make(true);
         }
         return view('admin.subscriptionttype.index');
     }
@@ -165,6 +173,37 @@ class SubscriptiontypeController extends Controller
 		}
 
 		return redirect('admin/subscriptiontype')->with('message', $output);
+	}
+	
+	public function changestatus(Request $request)
+	{
+
+		if($request->txt == 'sts')
+		{
+			$data = array(
+			'status'=>$request->val
+			);
+		}else{
+			$data = array(
+				'orderstatus'=>$request->val
+				);
+		}
+		
+		$queryRun = DB::table('subscriptiontype')->whereIn('id', $request->favorite)->update($data);
+		
+		
+		if($queryRun)
+		{
+			 $output = ['class' => 'alert-position-success',
+				'msg' => __("subscriptiontype Deleted")
+				];
+			return 'yes';
+		}else{
+			 $output = ['class' => 'alert-position-danger',
+				'msg' => __("subscriptiontype not Deleted")
+				];
+			return 'no';
+		}
 	}
 	
 }

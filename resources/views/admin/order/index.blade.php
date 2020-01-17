@@ -53,6 +53,7 @@
           <table class="table table-bordered order-table">
             <thead>
                 <tr>
+					<th><input type="checkbox" id="selectAll"></th>
                     <th>No</th>
                     <th>CID</th>
                     <th>Order ID</th>
@@ -69,6 +70,40 @@
             <tbody>
             </tbody>
           </table>
+		  <div class="row container">
+			  <div id="pending" style="display:none;">
+				<button class="btn btn-success" onClick="getorderStatus(11,'psts');">Active</button>
+				<button class="btn btn-warning" onClick="getorderStatus(14,'psts');">Inactive</button>
+				<button class="btn btn-light" onClick="getorderStatus(16,'psts');">Reminded</button>
+				<button class="btn btn-danger" onClick="getorderStatus(3,'sts');">Delete</button>
+			  </div>
+			  
+			  <div id="paid_not_delivered" style="display:none;">
+				 <button class="btn btn-success" onClick="getorderStatus(1,'sts');">Active</button>
+				  <button class="btn btn-warning" onClick="getorderStatus(14,'psts');">Inactive</button>
+				  <button class="btn btn-danger" onClick="getorderStatus(14,'psts');">Cancel</button>
+			  </div>
+			  
+			  <div id="paid_and_delivered" style="display:none;">
+					<button class="btn btn-success" onClick="getorderStatus(11,'psts');">Active</button>
+					<button class="btn btn-warning" onClick="getorderStatus(14,'psts');">Inactive</button>
+			  </div>
+			  
+			  <div id="Delivered" style="display:none;">
+					<button class="btn btn-success" onClick="getorderStatus(11,'psts');">Active</button>
+					<button class="btn btn-warning" onClick="getorderStatus(14,'psts');">Inactive</button>
+					<button class="btn btn-danger" onClick="getorderStatus(14,'psts');">cancel</button>
+					<button class="btn btn-light" onClick="getorderStatus(13,'psts');">Reminded</button>
+					<button class="btn btn-primary" onClick="getorderStatus(12,'psts');">Paid & Delivered</button>
+			  </div>
+			  
+			  <div id="canclled" style="display:none;">
+					<button class="btn btn-success" onClick="getorderStatus(11,'psts');">Active</button>
+					<button class="btn btn-warning" onClick="getorderStatus(14,'psts');">Inactive</button>
+					<button class="btn btn-danger" onClick="getorderStatus(3,'sts');">Delete</button>
+			  </div>
+
+		  </div>
         </div>
       </div>
     </div>

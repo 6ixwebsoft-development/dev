@@ -40,7 +40,7 @@
         <table class="table table-bordered library-table">
           <thead>
             <tr>
-			<th><input type="checkbox"></th>
+			<th><input type="checkbox" id="selectAll"></th>
               <th>No</th>
               <th>Library</th>
 			  <th>Remote Name</th>

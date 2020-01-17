@@ -197,9 +197,9 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('subscription/userlist', 'SubscriptionController@userlist');
 		Route::post('subscription/getsubscriptiontype','SubscriptionController@getsubscriptiontype');
 		
-		Route::post('subscription/getsubsbystatus', 'SubscriptionController@getsubsbystatus');
+		Route::post('subscription/getsubsbystatus','SubscriptionController@getsubsbystatus');
 		Route::get('subscription/create/{id}/{type}', 'SubscriptionController@create');
-		
+		Route::post('subscription/changestatus', 'SubscriptionController@changestatus');
     });
 	
 	Route::group(array('namespace' => 'Admin\Payment', 'prefix' => 'admin'),function() {
@@ -230,6 +230,8 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('product/{id}/edit', 'SproductController@edit');
 		Route::post('product/update/{id}', 'SproductController@update')->name('admin.product.update');
 		Route::get('product/delete/{id}', 'SproductController@delete');
+		
+		Route::post('product/changestatus', 'SproductController@changestatus');
     });
 	
 	Route::group(array('namespace' => 'Admin\Hitlist', 'prefix' => 'admin'),function() {
@@ -240,6 +242,8 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('hitlist/{id}/edit', 'HitlistController@edit');
 		Route::post('hitlist/update/{id}', 'HitlistController@update')->name('admin.hitlist.update');
 		Route::get('hitlist/delete/{id}', 'HitlistController@delete');
+		
+		Route::post('hitlist/changestatus', 'HitlistController@changestatus');
     });
 	
 	Route::group(array('namespace' => 'Admin\Purpose', 'prefix' => 'admin'),function() {
@@ -306,6 +310,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('subscriptiontype/{id}/edit', 'SubscriptiontypeController@edit');
 		Route::post('subscriptiontype/update/{id}', 'SubscriptiontypeController@update')->name('admin.subscriptiontype.update');
 		Route::get('subscriptiontype/delete/{id}', 'SubscriptiontypeController@delete');
+		Route::post('subscriptiontype/changestatus', 'SubscriptiontypeController@changestatus');
 		
     });
 	
@@ -343,6 +348,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::post('order/getorderbystatus', 'OrderController@getorderbystatus');
 		
 		Route::get('order/create/{id}/{type}', 'OrderController@create');
+		Route::post('order/changestatus', 'OrderController@changestatus');
 		
     });
 	

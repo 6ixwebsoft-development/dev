@@ -46,18 +46,27 @@
           <table class="table table-bordered subs-table">
             <thead>
                 <tr>
+					<th><input type="checkbox" id="selectAll"></th>
                     <th>No</th>
                     <th>Name</th>
                     <th>Type</th>
                     <th>Duration (in month)</th>
                     <th>Price w/o Tax</th>
                     <th>Display Price</th>
+					<th>Status</th>
                     <th width="100px">Action</th>
                 </tr>
             </thead>
             <tbody>
             </tbody>
           </table>
+		  <div class="row container">
+			  <div id="pending">
+				<button class="btn btn-success" onClick="getsubstypeStatus(1,'sts');">Active</button>
+				<button class="btn btn-warning" onClick="getsubstypeStatus(0,'sts');">Inactive</button>
+				<button class="btn btn-danger" onClick="getsubstypeStatus(3,'sts');">Delete</button>
+			  </div>
+		</div>
         </div>
       </div>
     </div>
