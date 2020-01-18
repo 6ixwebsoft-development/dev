@@ -245,7 +245,7 @@
 								  <select class="form-control" name="userrole">
 									<option value="">Select Roles</option>
 									@foreach($roles as $role)
-										<option value="{{$role->id}}">{{$role->name}}</option>
+										<option value="{{$role->id}}"@if($userroles == $role->id) selected @endif>{{$role->name}}</option>
 									@endforeach
 									</select>
 									
@@ -273,7 +273,7 @@
 								 <label for="input" class="col-sm-4 col-form-label">Password</label>
 								
 								<div class="col-sm-8">								 
-								   <input type="text" class="form-control" id="password" placeholder="" name="login[password]" required>
+								   <input type="text" class="form-control" id="password" placeholder="" name="login[password]" >
 								</div> 
 
 							  </div>

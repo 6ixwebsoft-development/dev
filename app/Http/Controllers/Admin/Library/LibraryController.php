@@ -94,7 +94,9 @@ class LibraryController extends Controller
 				);
 				
 				$user_id = User::insertGetId($userLog);
-				
+				DB::table('model_has_roles')->insert(
+					['role_id' => $result['userrole'], 'model_type' => 'App\User','model_id' => $user_id]
+				);
 				
 				$basic = array(
                     "userid" => $user_id,
@@ -203,6 +205,8 @@ class LibraryController extends Controller
 	{
 		$basic = Library::where('userid',$uid)->first();
 		$user = User::where('id',$uid)->first();
+		$userroles = $user->roles->pluck('id','name')->first();
+		//print_r($userroles);exit;
 		$id = $basic->id;
 		$contact = LibraryContact::where('libraryid',$id)->first();
 		//$roles = Role::pluck('name','id')->all();
@@ -235,7 +239,11 @@ class LibraryController extends Controller
 				"updated_at"  => Now(),
 				);
 				DB::table('users')->where('id', $uid)->update($userLog); 
-				
+				//DB::enableQueryLog();
+				DB::table('model_has_roles')->where('model_id', $uid)->update(
+					['role_id' => $result['userrole']]
+				);
+				//dd(DB::getQueryLog());
 				$basic = array(
                    
                     "name"  => $result['library'],
@@ -351,12 +359,12 @@ class LibraryController extends Controller
 		return redirect('admin/library')->with('status', $output);
 	}
 	
-	public function delete($id)
+	public function delete($uid)
 	{
 		try {
 			$basic = Library::where('userid',$uid)->first();
-			
 			$id = $basic->id;
+			//print_r($id);exit;
 			User::where('id', $uid)->delete();
 			Library::where('id', $id)->delete();
 			LibraryContact::where('libraryid', $id)->delete();
@@ -368,7 +376,7 @@ class LibraryController extends Controller
 						'msg' => __("Module Field Deleted")
 						];
 		} catch (\Exception $e) {
-		
+			//echo $e;
 			$output = ['success' => false,
 						'msg' => __("messages.something_went_wrong")
 					];

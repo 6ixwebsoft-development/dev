@@ -14,5 +14,6 @@ class Language extends Model
      *
      * @var array
      */
+	
     protected $dates = ['deleted_at'];
 }

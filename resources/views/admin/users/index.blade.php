@@ -101,7 +101,7 @@
                       <label for="exampleFormControlSelect1">User Type</label>
                       <select multiple class="form-control" id="userRole" name="userRole[]">
 						@foreach($roles as $role)
-							<option value="{{$role->name}}">{{$role->name}}</option>
+							<option value="{{$role->id}}">{{$role->name}}</option>
 						@endforeach	
                       </select>
                     </div>

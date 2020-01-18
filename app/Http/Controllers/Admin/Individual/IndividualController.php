@@ -449,7 +449,8 @@ class IndividualController extends Controller
 		$language = Language::where('status','1')->pluck('language', 'id')->all();
 		$individual = Individual::where('userid',$id)->first();
 		$user = User::where('id',$id)->first();
-		$userRole = $user->roles->pluck('name','id')->all();
+		$userroles = $user->roles->pluck('id','name')->first();
+		
 		$roles = Role::pluck('name','name')->all();
 		$contact = IndividualContact::where('userid',$id)->first();
 		$personal = IndividualPersonal::where('userid',$id)->first();
@@ -472,7 +473,7 @@ class IndividualController extends Controller
 		$roles = Role::select('name','id')->whereIn('id', ["5","6","7"])->get(); 
 		
 		/* echo $userRole['7']; exit; */
-        return view('admin.Individual.edit',compact('roles','language','country','purpose','individual','user','contact','personal','purpose','purposeId','study','care','walfare','research','project','video','childern','userRole','civilstatus','gender'));
+        return view('admin.Individual.edit',compact('roles','language','country','purpose','individual','user','contact','personal','purpose','purposeId','study','care','walfare','research','project','video','childern','userRole','civilstatus','gender','userroles'));
 	}
 
 public function update(Request $request, $id) 

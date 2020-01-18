@@ -43,7 +43,7 @@ class LanguageController extends Controller
                     ->addColumn('action', function($row){
    
                           $btn  = '<a href="'.url('admin').'/language/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a href="'.url('admin').'/language/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+                                   <a href="'.url('admin').'/language/forcedelete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
      
                             return $btn;
                     })
@@ -140,10 +140,10 @@ class LanguageController extends Controller
         }
         return back()->with('message', $output);
     }
+	
     public function deleted(Request $request) { 
         if ($request->ajax()) {
             $data = DB::table('gg_languages')->whereNotNull('deleted_at')->get();
-
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){

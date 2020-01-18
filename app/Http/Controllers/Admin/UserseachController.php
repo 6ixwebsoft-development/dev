@@ -297,7 +297,7 @@ class UserseachController extends Controller
 					$query = $query->where('status',$data['statususer']);
 				} */
 
-		return $query->get();
+		return $query->where('status','!=','3')->get();
 		
 		/* foreach($query as $libg)
 		{	

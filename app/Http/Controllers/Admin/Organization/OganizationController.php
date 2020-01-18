@@ -88,7 +88,7 @@ class OganizationController extends Controller
 		//$roles = Role::pluck('name','id')->all();
 		$country = Country::pluck('country_name','id')->all();
 		$purpose = Purpose::pluck('purpose','id')->all();
-		$userroles = Role::all();
+
 		$language = Language::where('status','1')->pluck('language', 'id')->all();
 		$group  =  Library::where('type','2')->pluck('name', 'id')->all();
 		$rolesIds = Usertyperole::where('type','TESt')->first();		
@@ -271,6 +271,8 @@ class OganizationController extends Controller
 		
 		$basic = Library::where('userid',$uid)->first();
 		$user = User::where('id',$uid)->first();
+		$userroles = $user->roles->pluck('id','name')->first();
+		//print_r($userroles);exit;
 		$id = $basic->id;
 		$contact = LibraryContact::where('libraryid',$id)->first();
 		//$roles = Role::pluck('name','id')->all();
@@ -294,6 +296,7 @@ class OganizationController extends Controller
 		$dataids = $roleid['role_ids'];
 		$roles = Role::select('name','id')->whereIn('id', ["8","9"])->get(); 
 		
+		 
         return view('admin.organization.edit',compact('roles','userroles','language','country','purpose','group','basic','contact','details','ips','remoteips','purposeId','user','logo','doc','photo'));
 	}
 	
@@ -442,9 +445,7 @@ class OganizationController extends Controller
 					);
 					Documents::insert($datalogo);
 				} 
-				
-				
-				
+
 				if ($documents = $request->file('documents')) {
 					$i = 0;
 					foreach ($documents as $files) {
