@@ -94,20 +94,37 @@ ul.dropdown-menu.multi-level {
 				@endphp
 				@endif	
 				<li style="color:#fff;" class="{{$class}}"  data-toggle="{{$drop}}">
-					<a href="{{ url(geturlbyPageId($links['page'])) }}">		{{ucwords(strtolower($links['name']))}}</a>
+
+					@if(!empty($links['link']))
+						<a href="{{ $links['link']}}"> {{ucwords(strtolower($links['name']))}}</a>
+					@else
+						<a href="{{ url(geturlbyPageId($links['page'])) }}"> {{ucwords(strtolower($links['name']))}}</a>
+					@endif
 				</li>	
 				@if(!empty($links['child']))
 					<span class="caret"></span>
 						<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
 							@foreach($links['child'] as $links_child)
 								<li style="color:#000;" class="dropdown-submenu">
+								
+								@if(!empty($links_child['link']))
+									<a href="{{ $links_child['link']}}"> {{ucwords(strtolower($links_child['link']))}}</a>
+								@else
 									<a href="{{ url(geturlbyPageId($links_child['page'])) }}"> {{ucwords(strtolower($links_child['name']))}}</a>
+								@endif
 								
 										@if(!empty($links_child['child']))
 											<span class="caret"></span>
 											<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
 												@foreach($links_child['child'] as $links_child_child)
-												<li><a tabindex="-1" href="{{ url(geturlbyPageId($links_child_child['page'])) }}" style="background:#000;color:#fff;">{{ucwords(strtolower($links_child_child['name']))}}</a></li><br>
+												<li>
+												
+												@if(!empty($links['link']))
+												<a tabindex="-1" href="{{ url(geturlbyPageId($links_child_child['link'])) }}" style="background:#000;color:#fff;">{{ucwords(strtolower($links_child_child['name']))}}</a>
+											@else
+												<a tabindex="-1" href="{{ url(geturlbyPageId($links_child_child['page'])) }}" style="background:#000;color:#fff;">{{ucwords(strtolower($links_child_child['name']))}}</a>
+											@endif
+												</li><br>
 												@endforeach
 											</ul>
 										@endif

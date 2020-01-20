@@ -121,7 +121,7 @@
 							  <div class="form-group row">
 								  {!! Form::label('Library Group', __( 'Library Group' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">
-								   {!! Form::text('library', $basic->library, ['class' => 'form-control', '', 'placeholder' => __( 'Enter Last name' ) ]); !!}
+								   {!! Form::text('library', $basic->name, ['class' => 'form-control', '', 'placeholder' => __( 'Enter Last name' ) ]); !!}
 								</div>
 							  </div>
 

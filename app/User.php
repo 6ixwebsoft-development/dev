@@ -62,16 +62,22 @@ class User extends Authenticatable
     public function getTstatusAttribute()
     {
         switch ($this->status) {
-            case 1:
+            case 12:
                 return '<label class="badge badge-success">Active</label>';
                 break;
-            case 0:
+            case 121:
                 return '<label class="badge badge-danger">Inactive</label>';
                 break;
-            case 2:
+            case 10:
                 return '<label class="badge badge-warning">Banned</label>';
                 break;
-			case 3:
+			case 11:
+                return '<label class="badge badge-warning">Delete</label>';
+                break;
+			case 10:
+                return '<label class="badge badge-warning">Banned</label>';
+                break;
+			case 11:
                 return '<label class="badge badge-warning">Delete</label>';
                 break;	
             default:

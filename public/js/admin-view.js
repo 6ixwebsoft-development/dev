@@ -2059,7 +2059,8 @@ function getorderStatus(val,txt){
 			//alert(data);
 				if(data == 'yes')
 				{
-					location.reload();
+					getorderbystatus(val,txt);
+					//location.reload();
 				}else{
 					alert('There is some problem');
 				}
@@ -2197,7 +2198,8 @@ function getsubsStatus(val,txt){
 			//alert(data);
 				if(data == 'yes')
 				{
-					location.reload();
+					getsubsbystatus();
+					//location.reload();
 				}else{
 					alert('There is some problem');
 				}
@@ -2244,7 +2246,7 @@ function saveactivepassword(id)
   $.ajax({
 		type:'POST',
 		url: APP_URL+"/admin/user/passwordactive",
-		data:{id:id},
+		data:{id:id,password:password},
 		success:function(data){
 			if(data == 1)
 			{

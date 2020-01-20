@@ -53,26 +53,8 @@ class SubscriptionController extends Controller
 					 ->addIndexColumn()
                     ->editColumn('status', function($row) {
                         
-                          $s_btn = '';  
-						  $color = '';
-						  if(!empty($row->value)){
-							  if($row->paymentstatus == 16 ||$row->paymentstatus == 123 )
-							  {
-								 $color = 'success';
-							  }
-							  if($row->paymentstatus == 15 ||$row->paymentstatus == 128 )
-							  {
-								 $color = 'warning';
-							  }
-							  if($row->paymentstatus == 17 ||$row->paymentstatus == 124 )
-							  {
-								 $color = 'dark';
-							  }
-						  
-						  
-							   $s_btn = '<label class="badge badge-'.$color.'">'.$row->value .'</label>';
-						  }
-                        return  $s_btn;
+                         
+                        return  $row->pstatus;
                     })
                     ->escapeColumns([])
                     ->addColumn('action', function($row){

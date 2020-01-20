@@ -180,7 +180,16 @@ class FoundationController extends Controller
     }
 
     public function store(Request $request)
-    { DB::beginTransaction();
+    { 
+		$this->validate($request, [
+					'sort_name' => 'required',
+					'name' => 'required',
+					'availability' => 'required',
+					'source' => 'required',
+					'status' => 'required',
+					'purpose_ids' => 'required',
+				]);
+		DB::beginTransaction();
         try {
             $result = $request->all();
            // print_r($result);exit;
@@ -460,7 +469,16 @@ class FoundationController extends Controller
     }
 
     public function update(Request $request, $id) 
-    {	DB::beginTransaction();
+    {	
+			$this->validate($request, [
+					'sort_name' => 'required',
+					'name' => 'required',
+					'availability' => 'required',
+					'source' => 'required',
+					'status' => 'required',
+					'purpose_ids' => 'required',
+				]);
+		DB::beginTransaction();
         try {
 			
                 $result = $request->all();

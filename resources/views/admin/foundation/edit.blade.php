@@ -40,6 +40,19 @@
                 </div>
                 <!--row-->
                 <hr>
+				@if (count($errors) > 0)
+				<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					<ul id="login-validation-errors" class="validation-errors">
+						@foreach ($errors->all() as $error)
+							<li class="validation-error-item">{{ $error }}</li>
+						@endforeach
+					</ul>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div><hr>
+				@endif
+				
                 {!! Form::open(array('route' => array('admin.foundation.update', $foundation->id))) !!}
                     
                     <div class="row">
@@ -369,7 +382,13 @@
 														</div>
 													</div>
 													@endforeach
-												@endif
+													@else
+													{!! Form::label('Age', __( 'Age' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
+													<div class="col-sm-8">
+													  
+													  {!! Form::text('age', null, ['class' => 'form-control', 'id' => 'age', 'readonly', 'placeholder' => __( '' ) ]); !!}
+													</div>
+													@endif
 													
 													<div class="field_wrapperage "></div>	
 												</div>

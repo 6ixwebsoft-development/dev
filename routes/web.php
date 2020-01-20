@@ -36,6 +36,8 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
     Route::get('admin/users/delete/{id}', 'Auth\UserController@delete');
 	
 	Route::post('admin/searchvikashuser','Auth\UserController@searchvikashuser');
+	Route::get('admin/passwordhash','Auth\UserController@passwordhash');
+	
 	Route::post('admin/user/store','Auth\UserController@store');
 	Route::post('admin/user/update/{id}', 'Auth\UserController@update');
 	
@@ -43,8 +45,8 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 
     Route::get('/home', 'HomeController@index')->name('admin.index');
     Route::group(array('namespace' => 'Admin', 'prefix' => 'admin'), function() {
-        Route::get('/', 'AdminController@index');
-        Route::resource('/', 'AdminController');
+    Route::get('/', 'AdminController@index');
+    Route::resource('/', 'AdminController');
 		
 		
 		
@@ -409,3 +411,5 @@ Route::post('fund-search-mail-send','MailController@foundationSearchSendMail');
 Route::get('getFoundationDetailAjax','FoundationSearchController@getFoundationDetailAjax');
 //Pages dynamic route
 Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
+	
+Route::get('sendemail', 'SendEmailController@sendmail');

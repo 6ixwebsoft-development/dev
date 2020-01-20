@@ -58,13 +58,7 @@
 @endif -->
 @section('content')  
 
-@if (count($errors) > 0)
-<ul id="login-validation-errors" class="validation-errors">
-    @foreach ($errors->all() as $error)
-    <li class="validation-error-item">{{ $error }}</li>
-    @endforeach
-</ul>
-@endif
+
   {!! Form::open(array('route' => array('admin.individual.update', $user->id))) !!}
   <div class="row">
 
@@ -99,6 +93,18 @@
             </div><!--row-->
 
         <hr>
+		@if (count($errors) > 0)
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			<ul id="login-validation-errors" class="validation-errors">
+				@foreach ($errors->all() as $error)
+					<li class="validation-error-item">{{ $error }}</li>
+				@endforeach
+			</ul>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		@endif
 
 			<div class="row">
 			  <div class="col-2">
@@ -954,14 +960,22 @@
 							<table class="table table-bordered">
 							  <thead>
 								<tr>
-								  <th scope="col">#</th>
-								  <th scope="col">First</th>
-								  <th scope="col">Last</th>
-								  <th scope="col">Handle</th>
+								  <th scope="col">ID</th>
+								  <th scope="col">Foundsation</th>
+								  <th scope="col">Sort</th>
+								  <th scope="col">Status</th>
+								  
 								</tr>
 							  </thead>
 							  <tbody>
-								
+								@foreach($myfoundList as $list)
+								<tr>
+								   <td>{{$list->id}}</td>
+								   <td>{{$list->name}}</td>
+								   <td>{{$list->sort}}</td>
+								   <td>{!!$list->tstatus!!}</td>
+								  </tr>
+								@endforeach
 							  </tbody>
 						  
 							</table>
@@ -991,14 +1005,23 @@
 					  <table class="table table-bordered">
 						  <thead>
 							<tr>
-							  <th scope="col">#</th>
-							  <th scope="col">First</th>
-							  <th scope="col">Last</th>
-							  <th scope="col">Handle</th>
+							  <th scope="col">Order ID</th>
+							  <th scope="col">Order Date</th>
+							 <!-- <th scope="col">Order Type</th> -->
+							  <th scope="col">Order Status</th>
 							</tr>
 						  </thead>
 						  <tbody>
 							
+						   @foreach($orderList as $mylist)
+							<tr>
+							
+							  <th scope="row">{{$mylist->id}}</th>
+							  <td>{{$mylist->orderdate}}</td>
+							   <!-- <td>{{$mylist->id}}</td> -->
+							  <td>{!!$mylist->pstatus!!}</td>
+							</tr>
+						   @endforeach
 						  </tbody>
 					</table>
 					 </div>
@@ -1008,14 +1031,23 @@
 					   <table class="table table-bordered">
 						  <thead>
 							<tr>
-							  <th scope="col">#</th>
-							  <th scope="col">First</th>
-							  <th scope="col">Last</th>
-							  <th scope="col">Handle</th>
+							  <th scope="col">ID</th>
+							  <th scope="col">Subscription</th>
+							  <th scope="col">Start</th>
+							  <th scope="col">Expiry</th>
+							  <th scope="col">Status</th>
 							</tr>
 						  </thead>
 						  <tbody>
-							
+							@foreach($subsList as $mylist)
+							<tr>
+							  <td>{{$mylist->id}}</td>
+							  <td>{{$mylist->subtypename}}</td>
+							  <td>{{$mylist->start_date}}</td>
+							  <td>{{$mylist->end_date}}</td>
+							  <td>{!!$mylist->pstatus!!}</td>
+							</tr>
+						   @endforeach
 						  </tbody>
 					  
 						</table>

@@ -165,17 +165,17 @@
 									  <select class="form-control" onChange="getProduct();" name="productids" id="productids">
 									  <option value="">Select</option>
 									  @foreach($product as $products)
-										<option value="{{$products->id}}">{{$products->productname}}</option>
+										<option value="{{$products->id}}" @if($orderdata->productid == $products->id) @php echo 'selected';@endphp @endif>{{$products->productname}}</option>
 									  @endforeach
 									  </select>
 								  </th>
 								  <td><input type="text" class="form-control" name="type"></td>
-								  <td><input type="text" class="form-control" onkeyup="calculateorderprice();" name="quantity" id="quantity"></td>
-								  <td><input type="text" onkeyup="calculateorderprice();" class="form-control" name="price" id="price"></td>
-								  <td><input type="text" onkeyup="calculateorderprice();" class="form-control" name="misc" id="misc"></td>
-								  <td><input type="text" onkeyup="calculateorderprice();" class="form-control" name="vat" id="vat" value="25"></td>
-								  <td><input type="text" onkeyup="calculateorderprice();" class="form-control" name="freight" id="freight"></td>
-								  <td><input type="text" onkeyup="calculateorderprice();" class="form-control" name="freighttax" id="freighttax" value="25"></td>
+								  <td><input type="text" class="form-control" onkeyup="calculateorderprice();" name="quantity" id="quantity"value="{{$orderdata->quantity}}"></td>
+								  <td><input type="text" onkeyup="calculateorderprice();" class="form-control" name="price" id="price" value="{{$orderdata->price}}"></td>
+								  <td><input type="text" onkeyup="calculateorderprice();" class="form-control" name="misc" id="misc" value="{{$orderdata->misc}}"></td>
+								  <td><input type="text" onkeyup="calculateorderprice();" class="form-control" name="vat" id="vat" value="{{$orderdata->vat}}" ></td>
+								  <td><input type="text" onkeyup="calculateorderprice();" class="form-control" name="freight" id="freight" value="{{$orderdata->freightcost}}"></td>
+								  <td><input type="text" onkeyup="calculateorderprice();" class="form-control" name="freighttax" id="freighttax" value="{{$orderdata->freighttax}}" ></td>
 								</tr>
 								</tbody>
 							</table>

@@ -11,8 +11,8 @@ function getName()
 {
 	$result = DB::table('gg_menu')->select('id', 'links')->first(); 
 	$data = json_decode($result->links,true);
-	/* echo "<pre>";
-	print_r($data);exit; */
+	/*  echo "<pre>";
+	print_r($data);exit;  */
 	$mydata = array();
 	foreach($data as $Data)
 	{	
@@ -86,7 +86,7 @@ function getName()
 		}
 		$mydata[] = array(
 				'name' =>$Data['text'],
-				'link' =>$link1,
+				'link' =>$Data['href'],
 				'page' =>$page1,
 				'target' =>$Data['target'],
 				'childone' =>$childone,

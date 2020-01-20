@@ -11,6 +11,11 @@ use App\Models\ModuleFieldValue;
 use App\Models\Usertyperole;
 //Individual models
 
+use App\Models\FoundationPurpose;
+use App\Models\Foundation;
+use App\Models\UserSearchSave;
+use App\Models\Subscription;
+use App\Models\Order;
 use App\Models\Individual;
 use App\Models\IndividualContact;
 use App\Models\IndividualPersonal;
@@ -382,8 +387,8 @@ class IndividualController extends Controller
                             'msg' => __("Individual Not create".$e)
                             ];
 		DB::rollBack();
-		echo $e;
-		//return redirect('admin/individual/create')->with('message', $output);
+		//echo $e;
+		return redirect('admin/individual/create')->with('message', $output);
         }
 		
 	}
@@ -469,11 +474,24 @@ class IndividualController extends Controller
 		print_r($user);exit; */
 		$rolesIds = Usertyperole::where('type','TESt')->first();		
 		$roleid = json_decode($rolesIds,TRUE);
+
 		$dataids = $roleid['role_ids'];
 		$roles = Role::select('name','id')->whereIn('id', ["5","6","7"])->get(); 
 		
-		/* echo $userRole['7']; exit; */
-        return view('admin.Individual.edit',compact('roles','language','country','purpose','individual','user','contact','personal','purpose','purposeId','study','care','walfare','research','project','video','childern','userRole','civilstatus','gender','userroles'));
+		
+		$orderList = Order::where('userid', $id)->get();
+		$subsList  = Subscription::where('userid', $id)->get();
+		$foundationList = UserSearchSave::where('user_id',$id)->get(); 
+		$foundsids = array();
+		foreach($foundationList as $foundids)
+		{
+			$foundsids[] = $foundids['foundation_id'];
+		}
+		
+		$myfoundList = Foundation::whereIn('id',$foundsids)->get();
+		
+		//print_r($myfoundList);exit;
+        return view('admin.Individual.edit',compact('roles','language','country','purpose','individual','user','contact','personal','purpose','purposeId','study','care','walfare','research','project','video','childern','userRole','civilstatus','gender','userroles','orderList','subsList','myfoundList'));
 	}
 
 public function update(Request $request, $id) 

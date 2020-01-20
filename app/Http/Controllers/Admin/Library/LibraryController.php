@@ -31,7 +31,8 @@ class LibraryController extends Controller
      public function index(Request $request) {
         if ($request->ajax()) {
             $data = User::where('user_type','LIB')->where('status','!=','3')
-			->leftjoin('librarylogin as llog', 'users.id', '=', 'llog.libraryid')
+			->leftjoin('library_contact as lc', 'users.id', '=', 'lc.userid')
+			->leftjoin('librarylogin as llog', 'lc.id', '=', 'llog.libraryid')
 			
 			->select(
 					'users.*',

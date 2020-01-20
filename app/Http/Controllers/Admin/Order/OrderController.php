@@ -19,7 +19,13 @@ use Hash;
 class OrderController extends Controller
 {
    public function index(Request $request) {
-
+	
+			/* $data = Order::orderBy('id', 'DESC')->pstatus()->
+					get();
+					echo "<pre>";
+					print_r($data);exit; */
+					
+					
     	if ($request->ajax()) {
 
             $data = Order::orderBy('id', 'DESC')
@@ -49,34 +55,8 @@ class OrderController extends Controller
 					 ->addIndexColumn()
                     ->editColumn('status', function($row) {
                         
-                          $s_btn = '';  
-						  $color = '';
-						  if(!empty($row->value)){
-							  if($row->orderstatus == 12 ||$row->orderstatus == 121  )
-							  {
-								 $color = 'success';
-							  }
-							  if($row->orderstatus == 10)
-							  {
-								 $color = 'warning';
-							  }
-							  if($row->orderstatus == 14)
-							  {
-								 $color = 'dark';
-							  }
-							  if($row->orderstatus == 13)
-							  {
-								 $color = 'light';
-							  }
-							  if($row->orderstatus == 11)
-							  {
-								 $color = 'primary';
-							  }
-						  
-							   $s_btn = '<label class="badge badge-'.$color.'">'.$row->value .'</label>';
-						  }
-							return  $s_btn; 
-                        return  $s_btn;
+						
+                        return  $row->pstatus;
                     })
                     ->escapeColumns([])
                     ->addColumn('action', function($row){

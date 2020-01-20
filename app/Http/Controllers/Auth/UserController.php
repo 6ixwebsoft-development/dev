@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\Language;
 use DataTables;
 use DB;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
@@ -420,13 +420,22 @@ class UserController extends Controller
 	public function passwordactive(Request $request)
 	{
 		$id = $request->input('id');
+		$password = $request->input('password'); 
+		
+		$pass = Hash::make($password);
 		$userdata = array(
 		'status' => 1,
-		'password' => Hash::make($request->input('password'))
+		'password' => $pass
 		);
  		$query = DB::table('users')->where('id', $id)->update($userdata);
 		return  $query;exit;
 		
+	}
+	
+	public function passwordhash()
+	{
+		$password = "11223344";
+		echo $pass = Hash::make($password);
 	}
 	
 }
