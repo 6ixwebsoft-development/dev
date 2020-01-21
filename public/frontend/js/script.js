@@ -171,6 +171,7 @@ function getAdvanceFoundations() {
 	var table =	$('.searchFOUND-table').DataTable({
 		destroy: true,
 		data: data.data,
+		"iDisplayLength": 25,
 		rowId: 'id',
 		columns: [
 			 {data: 'DT_RowIndex', name: 'DT_RowIndex'}, 
