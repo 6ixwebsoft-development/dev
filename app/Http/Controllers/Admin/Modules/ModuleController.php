@@ -25,6 +25,17 @@ class ModuleController extends Controller
             $data = Modules::all();
             
             return Datatables::of($data)
+					->editColumn('status', function($row) {
+                       if($row->status == '1')
+						   {
+							 $btn = '<span class="badge badge-success">Active</span>';  
+						   }else{
+							   $btn = '<span class="badge badge-danger">Inactive</span>';
+						   }
+     
+                            return $btn;
+                    })
+                    ->escapeColumns([])
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
    

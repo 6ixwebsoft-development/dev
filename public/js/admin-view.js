@@ -1295,7 +1295,7 @@ $(function () {
 			{data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
-            {data: 'tstatus', name: 'status'},
+            {data: 'status', name: 'status'},
             {data: 'roles', name: 'roles'},
             /* {data: 'action', name: 'action', orderable: false, searchable: false}, */
 					]

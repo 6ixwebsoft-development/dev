@@ -33,6 +33,30 @@ class ModuleFieldValueController extends Controller
                                 ->get();
 
             return Datatables::of($data)
+					->addIndexColumn()
+                    ->editColumn('language', function($row) {
+                         if($row->language == '1')
+						   {
+							 $btn = 'English';  
+						   }else{
+							   $btn = 'Sweden';
+						   }
+     
+                            return $btn;
+                    })
+                    ->escapeColumns([])
+					->addIndexColumn()
+                    ->editColumn('status', function($row) {
+                       if($row->status == '1')
+						   {
+							 $btn = '<span class="badge badge-success">Active</span>';  
+						   }else{
+							   $btn = '<span class="badge badge-danger">Inactive</span>';
+						   }
+     
+                            return $btn;
+                    })
+                    ->escapeColumns([])
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
    

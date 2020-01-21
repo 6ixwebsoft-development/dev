@@ -47,9 +47,12 @@ class RoleController extends Controller
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
+						$btn = '';
+						if($row->main_role != '1')
+						{
                           $btn = '<a href="'.url('admin').'/roles/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
                                    <a href="'.url('admin').'/roles/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
-     
+						}
                             return $btn;
                     })
                     ->rawColumns(['action'])

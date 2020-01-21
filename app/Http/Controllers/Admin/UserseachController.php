@@ -356,6 +356,24 @@ class UserseachController extends Controller
                             return $btn;
                     })
                     ->rawColumns(['checkbox']) 
+					->escapeColumns([])
+                     ->addColumn('status', function($row){
+							
+							if($row->status == 1)
+							{
+								$btn = '<span class="badge badge-success">Active</span>';
+							}else if($row->status == 0){
+								$btn = '<span class="badge badge-danger">Inactive</span>';
+							}
+							else if($row->status == 2){
+								$btn = '<span class="badge badge-warning">Banned</span>';
+							}else{
+								$btn = '<span class="badge badge-danger">Delete</span>';
+							}   
+                            return $btn;
+                    })
+                    ->rawColumns(['status']) 
+					
                     ->make(true);
         }
 
@@ -401,7 +419,7 @@ class UserseachController extends Controller
 		}
 		
 		//DB::enableQueryLog();
-		 return $query->where('user_type','=',null)->get();
+		 return $query->where('status','!=','3')->get();
 		//dd(DB::getQueryLog());
 	}
 	
