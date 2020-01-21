@@ -960,8 +960,9 @@
 							<table class="table table-bordered">
 							  <thead>
 								<tr>
+								<th><input type="checkbox" id="selectAll"></th>
 								  <th scope="col">ID</th>
-								  <th scope="col">Foundsation</th>
+								  <th scope="col">Foundation</th>
 								  <th scope="col">Sort</th>
 								  <th scope="col">Status</th>
 								  
@@ -970,6 +971,7 @@
 							  <tbody>
 								@foreach($myfoundList as $list)
 								<tr>
+									<td><input type="checkbox" name="usersfoundlistIds"  id="usersfoundlistIds" value="{{$list->id}}"></td>
 								   <td>{{$list->id}}</td>
 								   <td>{{$list->name}}</td>
 								   <td>{{$list->sort}}</td>
@@ -979,6 +981,7 @@
 							  </tbody>
 						  
 							</table>
+							 <button class="btn btn-danger" onClick="getfoundlistcheckboxval(3);">Delete</button>
 						</div>
 					</div>				
 				  </div>
@@ -1016,7 +1019,7 @@
 						   @foreach($orderList as $mylist)
 							<tr>
 							
-							  <th scope="row">{{$mylist->id}}</th>
+							  <th scope="row"><a href="{{ url('admin/order/'.$mylist->id.'/edit') }}">order-{{$mylist->id}}</a></th>
 							  <td>{{$mylist->orderdate}}</td>
 							   <!-- <td>{{$mylist->id}}</td> -->
 							  <td>{!!$mylist->pstatus!!}</td>
@@ -1031,17 +1034,17 @@
 					   <table class="table table-bordered">
 						  <thead>
 							<tr>
-							  <th scope="col">ID</th>
-							  <th scope="col">Subscription</th>
-							  <th scope="col">Start</th>
-							  <th scope="col">Expiry</th>
-							  <th scope="col">Status</th>
+							  <th scope="row">ID</th>
+							  <th>Subscription</th>
+							  <th>Start</th>
+							  <th>Expiry</th>
+							  <th>Status</th>
 							</tr>
 						  </thead>
 						  <tbody>
 							@foreach($subsList as $mylist)
 							<tr>
-							  <td>{{$mylist->id}}</td>
+							  <td><a href="{{ url('admin/subscription/'.$mylist->id.'/edit') }}">subscription-{{$mylist->id}}</a></td>
 							  <td>{{$mylist->subtypename}}</td>
 							  <td>{{$mylist->start_date}}</td>
 							  <td>{{$mylist->end_date}}</td>

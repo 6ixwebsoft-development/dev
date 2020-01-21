@@ -269,6 +269,8 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::post('individual/getregion','IndividualController@getregion');
 		Route::post('individual/getcity','IndividualController@getcity');
 		
+		Route::post('individual/updateaction','IndividualController@updateaction');
+		
 	});
 	
 	Route::group(array('namespace' => 'Admin\Library', 'prefix' => 'admin'),function() {
@@ -409,6 +411,9 @@ Route::get('saveSearch','UserSearchSaveController@saveSearch');
 Route::get('fund-search-mail','MailController@fundSearchEmail');
 Route::post('fund-search-mail-send','MailController@foundationSearchSendMail');
 Route::get('getFoundationDetailAjax','FoundationSearchController@getFoundationDetailAjax');
+
+Route::get('profile','HomeController@profile');
+
 //Pages dynamic route
 Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
 	

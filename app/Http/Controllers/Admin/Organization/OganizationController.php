@@ -13,8 +13,10 @@ use App\Models\Modules;
 use App\Models\ModuleField;
 use App\Models\ModuleFieldValue;
 
+use App\Models\UserSearchSave;
 use App\Models\Usertyperole;
 use App\User;
+use App\Models\Foundation;
 use App\Models\orgpurpose;
 use App\Models\LibraryContact;
 use App\Models\Library;
@@ -297,8 +299,16 @@ class OganizationController extends Controller
 		$dataids = $roleid['role_ids'];
 		$roles = Role::select('name','id')->whereIn('id', ["8","9"])->get(); 
 		
+		$foundationList = UserSearchSave::where('user_id',$uid)->get(); 
+		$foundsids = array();
+		foreach($foundationList as $foundids)
+		{
+			$foundsids[] = $foundids['foundation_id'];
+		}
+		
+		$myfoundList = Foundation::whereIn('id',$foundsids)->get();
 		 
-        return view('admin.organization.edit',compact('roles','userroles','language','country','purpose','group','basic','contact','details','ips','remoteips','purposeId','user','logo','doc','photo'));
+        return view('admin.organization.edit',compact('roles','userroles','language','country','purpose','group','basic','contact','details','ips','remoteips','purposeId','user','logo','doc','photo','myfoundList'));
 	}
 	
 	public function update(Request $request, $uid) 

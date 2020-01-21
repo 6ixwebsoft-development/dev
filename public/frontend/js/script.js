@@ -193,12 +193,12 @@ function getAdvanceFoundations() {
 
 function getFoundationDetailajax(id,val) {
 	//alert(val);
+	$('#loaderarea').show();
 	var showbtn = '';
 	var nextid = '';
 	var previd = '';
 	if(val == 0)
 	{
-		$('#loaderarea').show();
 		$('.modal').toggleClass('is-visible');
 	}
 	
@@ -426,4 +426,8 @@ $(document).ready(function(){
     e.stopPropagation();
     e.preventDefault();
   });
+});
+
+$( document ).ready(function() {
+     getAdvanceFoundations();
 });

@@ -555,17 +555,28 @@
 							<table class="table table-bordered">
 							  <thead>
 								<tr>
-								  <th scope="col">#</th>
-								  <th scope="col">First</th>
-								  <th scope="col">Last</th>
-								  <th scope="col">Handle</th>
+								<th><input type="checkbox" id="selectAll"></th>
+								  <th scope="col">ID</th>
+								  <th scope="col">Foundation</th>
+								  <th scope="col">Sort</th>
+								  <th scope="col">Status</th>
+								  
 								</tr>
 							  </thead>
 							  <tbody>
-								
+								@foreach($myfoundList as $list)
+								<tr>
+									<td><input type="checkbox" name="usersfoundlistIds"  id="usersfoundlistIds" value="{{$list->id}}"></td>
+								   <td>{{$list->id}}</td>
+								   <td>{{$list->name}}</td>
+								   <td>{{$list->sort}}</td>
+								   <td>{!!$list->tstatus!!}</td>
+								  </tr>
+								@endforeach
 							  </tbody>
 						  
 							</table>
+							 <button class="btn btn-danger" onClick="getfoundlistcheckboxval(3);">Delete</button>
 						</div>
 					</div>				
 				  </div>

@@ -78,6 +78,19 @@ class IndividualController extends Controller
                             return $btn;
                     })
                     ->rawColumns(['checkbox']) 
+					->escapeColumns([])
+                     ->addColumn('status', function($row){
+							if($row->status == 1)
+							{
+								$btn = '<label class="badge badge-success">Active</label>';
+							}else{
+								$btn = '<label class="badge badge-danger">Inactive</label>';
+							}
+                          
+                                   
+                            return $btn;
+                    })
+                    ->rawColumns(['status']) 
                     ->make(true);
         }
 
@@ -489,8 +502,8 @@ class IndividualController extends Controller
 		}
 		
 		$myfoundList = Foundation::whereIn('id',$foundsids)->get();
-		
-		//print_r($myfoundList);exit;
+		/* echo"<pre>";
+		print_r($subsList);exit; */
         return view('admin.Individual.edit',compact('roles','language','country','purpose','individual','user','contact','personal','purpose','purposeId','study','care','walfare','research','project','video','childern','userRole','civilstatus','gender','userroles','orderList','subsList','myfoundList'));
 	}
 
@@ -767,6 +780,23 @@ public function update(Request $request, $id)
 			}
 		}
 		echo $data;
+	}
+	
+	public function updateaction(Request $request)
+	{
+
+		$foundation = array(
+		'deleted'=>$request->val
+		);
+		
+		$queryRun = UserSearchSave::whereIn('foundation_id', $request->favorite)->delete();
+		
+		if($queryRun)
+		{
+			return 'yes';
+		}else{
+			return 'no';
+		}
 	}
 	
 	

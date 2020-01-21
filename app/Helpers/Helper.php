@@ -108,4 +108,21 @@ function geturlbyPageId($id)
 	{return false;}
 }
 
+function getfrontuserdata($id,$type='')
+{
+	if($type == 'IND')
+	{
+		$result = DB::table('individual_contact')->where('userid',$id)->first(); 
+	}
+	else
+	{
+		$result = DB::table('library_contact')->where('userid',$id)->first(); 
+	}
+	
+	if(!empty($result))
+	{return $result;}
+	else
+	{return false;}
+}
+
 

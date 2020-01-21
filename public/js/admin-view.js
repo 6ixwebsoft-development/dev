@@ -891,7 +891,7 @@ $(function () {
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
-            {data: 'tstatus', name: 'status'},
+            {data: 'status', name: 'status'},
             {data: 'roles', name: 'roles'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
@@ -1943,8 +1943,6 @@ function getalllistcheckboxval(val,id=''){
 			return false;
 		}
 	}
-	
-	//alert(favorite);
 	$.ajax({
 			type:'POST',
 			url: APP_URL+"/admin/updateaction",
@@ -1957,14 +1955,39 @@ function getalllistcheckboxval(val,id=''){
 				}else{
 					alert('There is some problem');
 				}
-
 			}
-
 		});
-	
-
 }
 
+function getfoundlistcheckboxval(val,id=''){
+	
+	var favorite = [];
+	$.each($("input[name='usersfoundlistIds']:checked"), function(){
+	favorite.push($(this).val());
+	});
+	if(id == '')
+	{
+		if(favorite == '')
+		{
+			alert("please select one or more records");
+			return false;
+		}
+	}
+	$.ajax({
+			type:'POST',
+			url: APP_URL+"/admin/individual/updateaction",
+			data:{val:val,favorite:favorite,id:id},
+			success:function(data){
+			//alert(data);
+				if(data == 'yes')
+				{
+					location.reload();
+				}else{
+					alert('There is some problem');
+				}
+			}
+		});
+}
 
 function deletefoundation(val){
 	

@@ -1,6 +1,7 @@
 @extends('layouts.mainlayout')
 @section('content')
 
+
 <div class="slider_area">
     <div class="f-search">
         {{ Form::open(array('url' => '/')) }}

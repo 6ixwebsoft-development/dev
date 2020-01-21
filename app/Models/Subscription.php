@@ -17,7 +17,7 @@ class Subscription extends Model
 	 public function getPstatusAttribute()
     {
 		$data= '';
-	   if(!empty($this->orderstatus))
+	   if(!empty($this->paymentstatus))
 	   {
 			$data = DB::table('gg_module_fields_values') ->where('id',$this->paymentstatus)->first();
 	   
@@ -45,7 +45,7 @@ class Subscription extends Model
 	public function getSubtypenameAttribute()
 	{
 		$data= '';
-	   if(!empty($this->orderstatus))
+	   if(!empty($this->subscriptiontype_id))
 	   {
 		 $data = DB::table('subscriptiontype') ->where('id',$this->subscriptiontype_id)->first();
 		return $data->eng_name;

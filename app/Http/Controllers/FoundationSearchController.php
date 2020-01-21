@@ -424,10 +424,10 @@ class FoundationSearchController extends Controller
                             ->get();
         }
 		/* print_r($foundation_details);exit; */
-		$ajax =array(
+		$ajax = array(
 			'ajax' => true,
 		);
-        return view('foundation-detail')->with(compact('foundation_details','ajax','nextid','previd'));
+        return view('foundation-detailajax')->with(compact('foundation_details','ajax','nextid','previd'));
     }
 
 
