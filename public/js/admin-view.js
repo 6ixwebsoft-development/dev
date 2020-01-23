@@ -633,7 +633,7 @@ $('input.myprice,input.mymisc,input.myvat,input.myfrch,input.myfrtx').on('change
 	var Freighttax = parseFloat($('.myfrtx').val()); 
 	
 	
-	
+	var total = price;
 	if(misc > 0)
 	{
 		//var priced = price+discount;

@@ -61,7 +61,7 @@
 
                   <h4 class="card-title mb-0">
 
-                      Payment Management <small class="text-muted">Payment Add</small>
+                      Office Management <small class="text-muted">Office Add</small>
 
 
                   </h4>

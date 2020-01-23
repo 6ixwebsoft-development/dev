@@ -10,7 +10,9 @@
 
 		<!-- <script src="frontend/js/script.js"></script> -->
 		{!! Html::script('frontend/js/script.js') !!}
-
+	    <script type="text/javascript">
+	        var APP_URL = {!! json_encode(url('/')) !!}
+	    </script>
 		<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>

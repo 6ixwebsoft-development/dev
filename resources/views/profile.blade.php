@@ -84,11 +84,12 @@ body {font-family: "Lato", sans-serif;}
 		<p><b>Zipcode</b> :  {{ $data->zipcode }}</p>
 		<p><b>Mobile</b> :  {{ $data->mobile }}</p>
 		<p><b>Phone</b> :  {{ $data->phone }}</p>
-	 @else
+	 @elseif($data->contactname )
 		<p><b>Contact Name</b> :  {{ $data->contactname }}</p>
 		<p><b>Email</b> :  {{ $data->email }}</p>
 		<p><b>Mobile</b> :  {{ $data->mobile }}</p>
 		<p><b>Phone</b> :  {{ $data->phone }}</p>
+	@else
 	@endif
 	  
 	</div>

@@ -16,10 +16,10 @@ $(document).ready(function() {
         event.preventDefault();
         if($("input[name=fund_search]:checked").val() == 1) {
           //http://test.globalgrant.com/newcode/public/
-          location.href = "http://127.0.0.1:8000/search-foundation";
+          location.href = APP_URL+"/search-foundation";
         } else {
           //http://test.globalgrant.com/newcode/public/
-          location.href = "http://127.0.0.1:8000/advance-search";
+          location.href = APP_URL+"/advance-search";
         }
     });
 
@@ -354,7 +354,7 @@ function saveSearchData(id) {
         //alert(data.message);
         if(data.status == 0) {
           //http://test.globalgrant.com/newcode/public/          
-          location.href = "http://127.0.0.1:8000/login";
+          location.href = APP_URL+"/login";
         } else {
           $.confirm(data.message); 
         }

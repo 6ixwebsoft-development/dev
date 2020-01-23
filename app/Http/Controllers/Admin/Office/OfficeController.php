@@ -53,11 +53,15 @@ class OfficeController extends Controller
 	{
 		//print_r($request->all());exit;
 		 $this->validate($request, [
-            'country' => 'required',
+			'country' => 'required',
 			'countrycode' => 'required',
 			'office' => 'required',
 			'tag' => 'required',
-        ]); 
+			'address1' => 'required',
+			'phonenumber' => 'required',
+			'city' => 'required',
+			'email' => 'required',
+        ]);
 		
 		
 		if(empty($request->input('status')))
@@ -113,6 +117,10 @@ class OfficeController extends Controller
 			'countrycode' => 'required',
 			'office' => 'required',
 			'tag' => 'required',
+			'address1' => 'required',
+			'phonenumber' => 'required',
+			'city' => 'required',
+			'email' => 'required',
         ]);
 		
 		if(empty($request->input('status')))
