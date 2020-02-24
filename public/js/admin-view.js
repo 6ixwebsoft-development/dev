@@ -362,6 +362,7 @@ $(function () {
 
 /* User Search table */
 function searchuserdata() {
+	$('#loaderareafront').show();
 	var emailcheck = '';
     var searchtext = $('#search').val();
 	var userRole = $('#userRole').val();
@@ -406,6 +407,7 @@ function searchuserdata() {
            data:{searchtext:searchtext,userRole:userRole,statususer:statususer,createdFrom:createdFrom,createdTo:createdTo,modifiesFrom:modifiesFrom,modifiesTo:modifiesTo,emailcheck:emailcheck,usertytype:usertytype,languageid:languageid},
            success:function(data){
 			//alert(data);
+			$('#loaderareafront').hide();
 			$('.user-table').dataTable().fnDestroy()
 
 				data.draw = 1;

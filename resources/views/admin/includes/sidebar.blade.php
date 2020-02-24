@@ -186,14 +186,37 @@
 							<a class="nav-link " href="{!! url('/admin/pages'); !!}"></i>Pages</a>
 						</li>
 						
-                        <li class="nav-item">
+                       <!-- <li class="nav-item">
                             <a class="nav-link " href="{!! url('/admin/menu/create'); !!}">
                             Menu
                             </a>
-                        </li>
-                    </ul>
+                        </li> -->
+                 </ul>
 					
-                </li>
+             </li>
+			 
+			 
+			 <li class="nav-item nav-dropdown">
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                    <i class="nav-icon fas fa-language"></i>Menu
+                </a>
+
+                <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/menu/create'); !!}">
+                           Header Menu
+                            </a>
+                        </li>
+						
+						 <li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/menu/createfooter'); !!}">
+                           Footer Menu
+                            </a>
+                        </li>
+						
+                 </ul>
+					
+             </li>
 			
            
 			

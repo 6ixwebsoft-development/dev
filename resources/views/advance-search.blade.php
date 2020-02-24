@@ -277,7 +277,7 @@ div#loaderarea {
                             <label><input type="checkbox" id="only_active" name="only_active" checked="checked" value="1"> Show only active funds&nbsp;&nbsp;</label>
                         </div>            
                         <div class="checkbox">
-                            <label><input type="checkbox" id="hide_records" name="hide_records" value="0"> Hide funds in non-English language</label>
+                            <label><input type="checkbox" id="hide_records" name="hide_records" value="1"> Hide funds in non-English language</label>
                         </div>
 
 
@@ -339,14 +339,14 @@ div#loaderarea {
 						        </div>
 						    </div>
 						</div>
-						<div  class="fund-detail" id="loaderarea" style="display:none">
+						<div  class="fund-detail loaderarea" id="loaderareafront" style="display:none">
 							<img src="{{url('frontend/images/loader.gif ')}}" />
 						</div>
 						<div class="table-responsive">
 						<table class="table table-bordered searchFOUND-table" border="1" width="" id="">
 							<thead>
 								<tr>
-									<th>No.</th>
+									<th></th>
 									<th>ID</th>
 									<th>NAME</th>
 									<th>SORT</th>

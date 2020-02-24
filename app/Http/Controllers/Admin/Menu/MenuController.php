@@ -66,16 +66,34 @@ class MenuController extends Controller
                         ->get();
         return view('admin.menu.create')->with(compact('languages','pages'));
     }
+	
+	public function createfooter() 
+    {
+		  $language_id = Config::get('constants.settings.LANGUAGE_ID');
+        $languages = Language::where('status', '1')->get();
+		$pages =CmsPages::leftjoin('gg_page_translation as pt', 'gg_cms_pages.id', 'pt.page_id')
+                        ->where('pt.language_id', $language_id)
+                        ->select('gg_cms_pages.id', 'gg_cms_pages.status', 'pt.title')
+                        ->get();
+        return view('admin.menu.createfooter')->with(compact('languages','pages'));
+    }
 
     public function store(Request $request) 
     {
          
         try {
             $result = $request->all();
-			//print_r($result);exit;
+			//print_r($result);
+			//echo $result['menuplace'];
+			//exit;
+			if($result['menuplace'] == 'footer'){
+				$menuid = 2;
+			}else{
+				$menuid = 1;
+			}
 			$data = array("links"=>$result['urldata']);
             
-			DB::table('gg_menu')->where('id', '1')->update($data);		
+			DB::table('gg_menu')->where('id', $menuid)->update($data);		
            
             
             $output = ['class' => 'alert-position-success',
@@ -88,14 +106,23 @@ class MenuController extends Controller
                         ];
 			//echo $e;
         }
-
-        return redirect('admin/menu/create')->with('message', $output);
+			if($result['menuplace'] == 'footer'){
+				 return redirect('admin/menu/createfooter')->with('message', $output);
+			}else{
+				 return redirect('admin/menu/create')->with('message', $output);
+			}
+       
         
     }
 	
-	public function getdatamenu()
+	public function getdatamenu(Request $request)
 	{
-		$data = DB::table('gg_menu')->where('id', '1')->first();	
+		if($request->get('menu_place') == 'footer'){
+			$menuid = 2;
+		}else{
+			$menuid = 1;
+		}
+		$data = DB::table('gg_menu')->where('id', $menuid)->first();	
 		return $data->links; exit;
 	}
 }

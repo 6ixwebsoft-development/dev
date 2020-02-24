@@ -34,7 +34,7 @@
 					</div>
 					<div class="fundContacts">
 						<h4>Contacts</h4>
-						<p>{{$foundation_detail->address1}}</p>
+						<!--<p>{{$foundation_detail->address1}}</p> -->
 						<p>{{$foundation_detail->address2}}</p>
 						<p>{{$foundation_detail->address3}}</p>
 						<br>

@@ -19,11 +19,26 @@
 							<div class="widget">
 								<h3 class="widget-title">Company</h3>
 								<ul class="no-bullet">
-									<li><a href="#">About us</a></li>
-									<li><a href="#">Infoline</a></li>
-									<li><a href="#">Team</a></li>
+									<li><a href="{{ url('/about') }}">About us</a></li>
+									@php
+									$result = getName('footer');
+									//echo "<pre>";
+									//print_r($result);exit;
+									//@endphp
+									@foreach($result as $links)
+									<li>
+									@if(!empty($links['link']))
+										<a href="{{ $links['link']}}"> {{ucwords(strtolower($links['name']))}}</a>
+									@else
+										<a href="{{ url(geturlbyPageId($links['page'])) }}"> {{ucwords(strtolower($links['name']))}}</a>
+									@endif
+									
+									</li>
+									@endforeach
+									
+									<!-- <li><a href="#">Team</a></li>
 									<li><a href="#">Join us</a></li>
-									<li><a href="#">Cooperation</a></li>
+									<li><a href="#">Cooperation</a></li> -->
 								</ul>
 							</div>
 						</div>
@@ -82,11 +97,11 @@
 			<div class="bottom-footer">
 				<div class="container">
 					<nav class="footer-navigation">
-						<a href="#">Home</a>
-						<a href="#">About us</a>
+						<a href="{{ url('') }}">Home</a>
+						<a href="{{ url('/about') }}">About us</a>
 						<!-- <a href="#">Insurance plans</a>
 						<a href="#">Resources</a> -->
-						<a href="#">Contact</a>
+						<a href="{{ url('/contact-us') }}">Contact</a>
 					</nav>
 
 					<div class="colophon">Copyright 2019 Global Grant. Designed by Tecnotch team. All rights reserved.</div>

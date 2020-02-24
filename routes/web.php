@@ -366,6 +366,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('menu/delete/{id}', 'MenuController@delete');
 		
 		Route::get('menu/getdatamenu', 'MenuController@getdatamenu');
+		Route::get('menu/createfooter', 'MenuController@createfooter');
 		
     });
 	
@@ -401,7 +402,7 @@ Route::get('access-denied', function () {
 Route::get('search-foundation','FoundationSearchController@index');
 Route::get('autocomplete','FoundationSearchController@autocomplete');
 Route::get('advance-search','FoundationSearchController@advanceSearch');
-Route::get('getAdvanceFoundations','FoundationSearchController@getAdvanceFoundations');
+Route::post('getAdvanceFoundations','FoundationSearchController@getAdvanceFoundations');
 //Route::post('simple-search-result','FoundationSearchController@simpleSearchResult');
 Route::get('simple-search-result','FoundationSearchController@simpleSearchResult');
 Route::get('loadMore','FoundationSearchController@loadMore');

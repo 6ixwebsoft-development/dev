@@ -1,4 +1,5 @@
  <style>
+
  .dropdown-submenu {
   position: relative;
    background:#4a4c4e;
@@ -63,6 +64,10 @@ ul.dropdown-menu.multi-level {
     border-top:1px solid #fff
 }
 
+.goog-te-banner {
+    display: none;
+}
+
  </style>
  <div class="bottom-header">
     <div class="container">
@@ -77,7 +82,7 @@ ul.dropdown-menu.multi-level {
           <!-- <li class="menu-item"><a href="/search-foundation">Search Foundation</a></li>
           <li class="menu-item"><a href="/advance-search">Advance Search</a></li> -->
 				@php
-				$result = getName();
+				$result = getName('header');
 				//echo "<pre>";
 				//print_r($result);exit;
 				//@endphp	
@@ -159,7 +164,13 @@ ul.dropdown-menu.multi-level {
                   @csrf
               </form>
             @endif
-            
+            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+
+		
+			<li><a href="#googtrans(en|en)" class="lang-en lang-select" data-lang="en"><img src="{{URL::asset('images/flag-2.jpg')}}" alt="USA"></a></li>
+		  <li><a href="#googtrans(en|sv)" class="lang-es lang-select" data-lang="sv"><img src="{{URL::asset('images/flag-1.jpg')}}" alt="MEXICO"></a></li>
 
           </ul>
         </div> <!-- .main-navigation -->
@@ -173,6 +184,37 @@ ul.dropdown-menu.multi-level {
       
       <div class="mobile-navigation"></div>
     </div>
-  </div>
+  </div> 
+      
+   <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT}, 'google_translate_element');
+    }
+
+	function triggerHtmlEvent(element, eventName) {
+	  var event;
+	  if (document.createEvent) {
+		event = document.createEvent('HTMLEvents');
+		event.initEvent(eventName, true, true);
+		element.dispatchEvent(event);
+	  } else {
+		event = document.createEventObject();
+		event.eventType = eventName;
+		element.fireEvent('on' + event.eventType, event);
+	  }
+	}
+
+	jQuery('.lang-select').click(function() {
+	  var theLang = jQuery(this).attr('data-lang');
+	  jQuery('.goog-te-combo').val(theLang);
+
+	  //alert(jQuery(this).attr('href'));
+	  window.location = jQuery(this).attr('href');
+	  location.reload();
+
+	});
+</script> 
+
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </header> <!-- .site-header -->

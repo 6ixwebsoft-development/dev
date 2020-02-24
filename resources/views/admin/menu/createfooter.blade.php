@@ -34,13 +34,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card mb-3">
-                        <div class="card-header"><h5 class="float-left">Header Menu</h5>
+                        <div class="card-header"><h5 class="float-left">Footer Menu</h5>
                             <div class="float-right">
                                 <button id="btnReload" type="button" class="btn btn-outline-secondary">
                                     <i class="fa fa-play"></i> Load Data</button>
                             </div>
+							<input type="hidden" name="menuplace" id="menuplace" value="footer">
                         </div>
-						<input type="hidden" name="menuplace" id="menuplace" value="header">
                         <div class="card-body">
                             <ul id="myEditor" class="sortableLists list-group">
                             </ul>

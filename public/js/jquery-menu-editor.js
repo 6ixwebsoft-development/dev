@@ -1378,10 +1378,12 @@ $(document).ready(function () {
 	editor.setForm($('#frmEdit'));
 	editor.setUpdateButton($('#btnUpdate'));
 	$('#btnReload').on('click', function () {
+		var menu_place = $('#menuplace').val();
 		/* var menuData = getmenudata(); */
 		$.ajax({
 		type:'GET',
 		url: APP_URL+"/admin/menu/getdatamenu",
+		data:{menu_place:menu_place},
 		success:function(data){
 		editor.setData(data);
 		$("#out").text(data);
@@ -1425,4 +1427,5 @@ $(document).ready(function () {
 		}
 	});
 } */
+  
   

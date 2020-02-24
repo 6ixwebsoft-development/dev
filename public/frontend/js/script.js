@@ -138,7 +138,8 @@ $(document).ready(function() {
 
 
 function getAdvanceFoundations() {
-
+	$('#loaderareafront').show();
+	var data = $('#advaceSearch').serialize();
   var token      = $("input[name=_token]").val();
   var purposeIds = [];
   $.each($("input[name='purpose_ids']:checked"), function(){            
@@ -156,16 +157,18 @@ function getAdvanceFoundations() {
   });
   var location = $("#location").val();
 
-//alert(location);
+  var hide_records = $("#hide_records").val();
+
+	//alert(data); return false;
 
   $.ajax({
+	type:'post',
     url: "getAdvanceFoundations",
-    data: { _token : token, purpose_ids : purposeIds, cityName : location, gender_ids : genderIds, subject_ids : subjectIds},
+    data: { _token : token,data:data,purpose_ids : purposeIds, cityName : location, gender_ids : genderIds, subject_ids : subjectIds,hide_records:hide_records},
     success: function (data) {
-	
 		//$('.searchFOUND-table').DataTable().fnDestroy()
 		//data.draw = 1;
-	
+		$('#loaderareafront').hide();
 		//console.log(data);
 
 	var table =	$('.searchFOUND-table').DataTable({
@@ -174,7 +177,7 @@ function getAdvanceFoundations() {
 		"iDisplayLength": 25,
 		rowId: 'id',
 		columns: [
-			 {data: 'DT_RowIndex', name: 'DT_RowIndex'}, 
+			 {data: 'checkbox', name: 'checkbox'}, 
 			{data: 'id', name: 'id'},
 			{data: 'sort', name: 'sort'},
 			{data: 'name', name: 'name'},
@@ -220,6 +223,7 @@ function getFoundationDetailajax(id,val) {
     $.each($("input[name='foundatoin_check']:checked"), function(){            
         foundationIds.push($(this).val());
     });
+	
     var fund_id = $.grep(foundationIds, function(v) {
         return v== id;
     });

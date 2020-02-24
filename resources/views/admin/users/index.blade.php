@@ -217,6 +217,9 @@
               </div><!--col-->
           </div><!--row-->
           <hr>
+		  <div  class="fund-detail loaderarea" id="loaderareafront" style="display:none">
+			<img src="{{url('frontend/images/loader.gif ')}}" />
+		</div>
           <table class="table table-bordered user-table" id="user-table">
             <thead>
                 <tr>

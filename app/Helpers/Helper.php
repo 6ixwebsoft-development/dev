@@ -7,9 +7,15 @@
 	    }
 	}
 	
-function getName()
+function getName($place)
 {
-	$result = DB::table('gg_menu')->select('id', 'links')->first(); 
+	if($place == 'header')
+	{
+		$result = DB::table('gg_menu')->select('id', 'links')->first(); 
+	}else{
+		$result = DB::table('gg_menu')->select('id', 'links')->OrderBy('id','DESC')->first(); 
+	}
+	
 	$data = json_decode($result->links,true);
 	/*  echo "<pre>";
 	print_r($data);exit;  */

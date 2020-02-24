@@ -493,11 +493,23 @@ class FoundationSearchController extends Controller
     public function getAdvanceFoundations(Request $request)
     {
         if ($request->ajax()) {
-
+			
+			//echo "<pre>";
+			parse_str($request->post('data'), $data);
+			//print_r($data);exit;
             $purposeIds = $request->get('purpose_ids');
             $genderIds  = $request->get('gender_ids');
             $subjectIds = $request->get('subject_ids');
-            $cityName   = $request->get('cityName');
+            $cityName   = $request->get('cityName'); 
+			$hide_records   = "Inactive";
+			if(!empty($data['hide_records'])){
+				$hide_records   = $data['hide_records'];
+			}
+			
+			if(!empty($data['only_active'])){
+				$only_active   = $data['only_active'];
+			}
+			
 
             $foundation = Foundation::leftjoin('gg_foundation_advertise as fa', 'gg_foundation.id', 'fa.foundation_id')
                         ->leftjoin('gg_foundation_location as fl', 'gg_foundation.id', 'fl.foundation_id')
@@ -516,8 +528,8 @@ class FoundationSearchController extends Controller
                             "fa.purpose",
                             "fa.details",
                             "fa.misc",
-                            "ct.city_name",
-                            "cn.country_name"
+                            "ct.city_name"
+                           /*  "cn.country_name" */
                         );
                         //->where('cn.country_name', 'like', 'Sweden%');
             
@@ -538,10 +550,24 @@ class FoundationSearchController extends Controller
             if (!empty($cityName)) {
                 $foundation->where('ct.id', $cityName);
             }
-
+			
+			if(!empty($hide_records)) {
+				if($hide_records == 1){
+					 $foundation->where('gg_foundation.language', 2);
+				}
+			}
+			
+			if(!empty($only_active)) {
+				if($only_active == 1){
+					 $foundation->where('gg_foundation.status', 'Active');
+				}
+			}
+			
             //$data = $foundation->distinct()->get();
-            $data = $foundation->limit(1000)->get();
+			//DB::enableQueryLog();
+            $data = $foundation->distinct()->limit(1000)->get();
             //check user for contact show 
+			//dd(DB::getQueryLog());
             $user = Auth::user();
             $foundation_contacts = array();
 
@@ -585,6 +611,12 @@ class FoundationSearchController extends Controller
 					return $btn;
 				})
 				->rawColumns(['action'])
+				 ->addColumn('checkbox', function($row){
+   
+                          $btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
+                                   
+                            return $btn;
+                    })
 				->make(true);
          /* print_r($data);exit;
         return response()->json(array("foundations" => $data, "foundations_contacts" => $foundation_contacts)); */
