@@ -26,9 +26,7 @@ class UserSearchSaveController extends Controller
                                 "user_id" => $user->id,
                                 "foundation_id" => $foundationId
                         );
-                        $savedSearchResult = UserSearchSave::where('user_id', $user->id)
-                                                ->where('foundation_id', $foundationId)
-                                                ->first();                
+                        $savedSearchResult = UserSearchSave::where('user_id', $user->id)->where('foundation_id', $foundationId)->first();                
                         
                         if(empty($savedSearchResult)) {
                             

@@ -496,10 +496,15 @@ class FoundationSearchController extends Controller
 			
 			//echo "<pre>";
 			parse_str($request->post('data'), $data);
-			//print_r($data);exit;
+			//print_r($data['keywords']);exit;
             $purposeIds = $request->get('purpose_ids');
             $genderIds  = $request->get('gender_ids');
-            $subjectIds = $request->get('subject_ids');
+			$foundids   = $request->get('foundids'); 
+			$keywords   = $data['keywords'];
+			if(!empty($data['subject_ids'])){
+				$subjectIds = $data['subject_ids'];//$request->get('subject_ids');
+			}
+           
             $cityName   = $request->get('cityName'); 
 			$hide_records   = "Inactive";
 			if(!empty($data['hide_records'])){
@@ -518,51 +523,59 @@ class FoundationSearchController extends Controller
                         ->select(
                             "gg_foundation.id",
                             "name",
-                            "sort",
-                            "administrator",
-                            "asset",
-                            "source",
-                            "org_no",
-                            "remarks",
-                            "fa.who_can_apply",
-                            "fa.purpose",
-                            "fa.details",
-                            "fa.misc",
-                            "ct.city_name"
+                            "sort"
                            /*  "cn.country_name" */
                         );
                         //->where('cn.country_name', 'like', 'Sweden%');
             
-            if (!empty($purposeIds)) {
-                $foundation->leftjoin('gg_foundation_purpose as fp', 'gg_foundation.id', 'fp.foundation_id');
-                $foundation->whereIn('fp.param_id', $purposeIds);
-            }
-            
-            if (!empty($genderIds)) {
-                $foundation->leftjoin('gg_foundation_gender as fg', 'gg_foundation.id', 'fg.foundation_id');
-                $foundation->WhereIn('fg.param_id', $genderIds);
-            }
-            if (!empty($subjectIds)) {
-                $foundation->leftjoin('gg_foundation_subject as fs', 'gg_foundation.id', 'fs.foundation_id');
-                $foundation->WhereIn('fs.param_id', $subjectIds);
-            }
+			if(empty($foundids))
+			{
+			   if (!empty($purposeIds)) {
+					$foundation->leftjoin('gg_foundation_purpose as fp', 'gg_foundation.id', 'fp.foundation_id');
+					$foundation->whereIn('fp.param_id', $purposeIds);
+				}
+				
+				if (!empty($genderIds)) {
+					$foundation->leftjoin('gg_foundation_gender as fg', 'gg_foundation.id', 'fg.foundation_id');
+					$foundation->WhereIn('fg.param_id', $genderIds);
+				}
+				if (!empty($subjectIds)) {
+					$foundation->leftjoin('gg_foundation_subject as fs', 'gg_foundation.id', 'fs.foundation_id');
+					$foundation->WhereIn('fs.param_id', $subjectIds);
+				}
 
-            if (!empty($cityName)) {
-                $foundation->where('ct.id', $cityName);
-            }
-			
-			if(!empty($hide_records)) {
-				if($hide_records == 1){
-					 $foundation->where('gg_foundation.language', 2);
+				if (!empty($cityName)) {
+					$foundation->where('ct.id', $cityName);
 				}
-			}
-			
-			if(!empty($only_active)) {
-				if($only_active == 1){
-					 $foundation->where('gg_foundation.status', 'Active');
+				
+				if(!empty($hide_records)) {
+					if($hide_records == 1){
+						$foundation->where('gg_foundation.language', 2);
+					}
 				}
+				
+				if(!empty($keywords)) {
+					$seachtext = explode(",",$keywords);
+					foreach($seachtext as $searchTerm){
+					$foundation->where(function($q) use ($searchTerm){
+						$q->where('gg_foundation.name', 'like', '%'.$searchTerm.'%')
+						->orWhere('gg_foundation.sort', 'like', '%'.$searchTerm.'%')
+						->orWhere('fa.who_can_apply', 'like', '%'.$searchTerm.'%')
+						->orWhere('fa.purpose', 'like', '%'.$searchTerm.'%')
+						->orWhere('fa.details', 'like', '%'.$searchTerm.'%');
+						});
+					}
+				}
+				
+				if(!empty($only_active)) {
+					if($only_active == 1){
+						 $foundation->where('gg_foundation.status', 'Active');
+					}
+				}
+			}else{
+				$foundations = explode(",",$foundids);
+				$foundation->WhereIn('gg_foundation.id', $foundations);
 			}
-			
             //$data = $foundation->distinct()->get();
 			//DB::enableQueryLog();
             $data = $foundation->distinct()->limit(1000)->get();
@@ -611,14 +624,30 @@ class FoundationSearchController extends Controller
 					return $btn;
 				})
 				->rawColumns(['action'])
-				 ->addColumn('checkbox', function($row){
+				->addColumn('checkbox', function($row){
    
                           $btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
                                    
                             return $btn;
                     })
+				->addColumn('Total Saved', function($row){
+						  
+						$btn = UserSearchSave::getFoundationCount($row->id);     
+						return $btn;
+                    })
+				->addColumn('Savedbyuser', function($row){
+						  
+                        $btn = UserSearchSave::countFoundationSavedByUser($row->id);
+                        return $btn;
+                    })
+					
+				->addColumn('Savedbystaff', function($row){
+						  
+                        $btn = UserSearchSave::countFoundationSavedByStaff($row->id,'staff');
+						return $btn;
+                    })
 				->make(true);
-         /* print_r($data);exit;
+        /* print_r($data);exit;
         return response()->json(array("foundations" => $data, "foundations_contacts" => $foundation_contacts)); */
     }
 }

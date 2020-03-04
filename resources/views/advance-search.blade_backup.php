@@ -220,109 +220,72 @@ div#loaderarea {
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-		
+		  <input class="advance_submit btn btn-primary" type="submit" value="Search">
 			<div class="card">
 			  <div class="card-body " border="1">
-				<div class="container">
-				  <ul class="nav nav-tabs">
-					<li class="active"><a data-toggle="tab" href="#Search">Search</a></li>
-					<li><a data-toggle="tab" href="#seabyfdid">Search by Foundation ids</a></li>
-				  </ul>
-
-				  <div class="tab-content">
-				  
-					<div id="Search" class="tab-pane fade in active">
-					  
-					   {!! Form::open(array('url' => '#', 'id' => 'advaceSearch')) !!}
-						
-						 <div class="col-md-12">
-						        <h3 class="title">Purpose</h3>
-						        <div class="checkbox-container"> 
-							        @foreach($purpose as $key => $value) 
-							         <!-- {!! Form::checkbox('purpose_ids[]', $key, ['class' => 'form-control', 'id' => 'purpose_ids', 'checked' => '' ]); !!} -->
-							        <div class="checkboxes">
-							        	<input type="checkbox" id="purpose_ids" name="purpose_ids" value="{{$key}}">
-							        	<label>{{$value}}</label>
-							    	</div>
-							        @endforeach
-						    	</div>
-						    </div>
-							
-							<div class="col-md-12">
-						        <h3 class="title">Gender</h3>
-						        <div class="checkbox-container"> 
-							        @foreach($gender as $key => $value)	
-							        <div class="checkboxes">
-							        	<input type="checkbox" id="gender_ids" name="gender_ids" value="{{$key}}">
-							        	<label>{{$value}}</label>
-							    	</div>
-							        @endforeach
-						    	</div>
-						    </div>
-							
-							<div class="col-md-12">
-						        <h3 class="title">Subject [Ex: Anthropology, Education]</h3>
-						        <div class="city_select">
-									<div class="city_checkbox">
-									{!! Form::select('subject_ids[]',$subject,[], ['class' => 'form-control','multiple','id'=>'subject_ids']) !!}
-									</div>
-								</div>
-						    </div>
-							<hr>
-							<div class="col-md-12">
-						        <h3 class="title">Location [Ex: stockholm, linköping ]</h3>
-						        <div class="city_select">
-									<div class="city_checkbox">
-									{!! Form::select('location[]',$city,[], ['class' => 'form-control','multiple','id'=>'location']) !!}
-									</div>
-								</div>
-						    </div>
-							
-							<div class="col-md-12">
-						        <h3 class="title">Keyword [Ex: Chalmers, Kanada ] [ Only * show all foundation's ids ]</h3>
-						        <div class="city_select">
-									<div class="city_checkbox">
-									{!! Form::text('keywords', null, ['class' => 'form-control', '','id'=>'keywords' ]); !!}
-									</div>
-								</div>
-						    </div>
-						
-							<div class="col-md-12">
-								<div class="checkbox">
-									<label><input type="checkbox" id="only_active" name="only_active" checked="checked" value="1"> Show only active funds&nbsp;&nbsp;</label>
-								</div>  
-							</div>
-							
-						<input class="advance_submit" type="submit" value="Search">
-					{!! Form::close() !!}
-
-					</div>
+					 <h5 class="text-primary"><b>WELCOME, here are all grants and stipends that can help you.<br>
+					Please read the big blue banner first</b><h5><hr>
+					{!! Form::open(array('url' => '#', 'id' => 'advaceSearch')) !!}
+					<!-- <p class="text-primary" data-toggle="collapse" data-target="#demo">IF YOU READ SWEDISH LANGUAGE SELECT THIS.</p>
+					<div id="demo" class="collapse">
+				
+					</div><hr><br> -->
 					
-					<div id="seabyfdid" class="tab-pane fade in">
-					
-						<div class="col-md-12">
-							<h3 class="title">SEARCH BY FOUNDATIONS ID</h3>
-							<div class="city_select">
-								<div class="city_checkbox">
-									{!! Form::text('foundids', null, ['class' => 'form-control', 'id'=>'foundids', ]); !!}
-								</div>
-							</div>
-							
+					<p class="text-primary" data-toggle="collapse" data-target="#demotwo">PURPOSE<br>
+						DESELECT ALL CHECKBOXES FOR MANY HITS</p>
+					  <div id="demotwo" class="collapse scroll show">
+						 @foreach($purpose as $key => $value)
+						<div class="">
+							<input type="checkbox" id="purpose_ids" name="purpose_ids" value="{{$key}}">
+							<label>{{$value}}</label><br>
 						</div>
-						<br>
-					<div class="col-md-12">
-						<input class="advance_submit_ids" type="submit" value="Search">
-					</div>
+						@endforeach
+					  </div><hr><br>
+					  
+					 <p class="text-primary" data-toggle="collapse" data-target="#demothree"><span>GENDER</span></p>
+						<p><span>DESELECT ALL CHECKBOXES FOR MANY HITS</span></p>
+					  <div id="demothree" class="collapse scroll show">
+						 @foreach($gender as $key => $value)			
+						<div class="">
+							<input type="checkbox" id="gender_ids" name="gender_ids" value="{{$key}}">
+							<label>{{$value}}</label>
+						</div>
+						@endforeach
+					  </div><hr><br>
 					
+					<p class="text-primary" data-toggle="collapse" data-target="#demofour">ACADEMIC SUBJECT</p>
+					  <div id="demofour" class="collapse scroll show">
+						@foreach($subject as $key => $value)
+							<div class="">
+								<input type="checkbox" id="subject_ids" name="subject_ids" value="{{$key}}">
+								<label>{{$value}}</label>
+							</div>
+						@endforeach
+					  </div><hr><br>
+					  
+					  
+					  <p class="text-primary" data-toggle="collapse" data-target="#demofive">Location(City Name)</p>
+					  <div id="demofive" class="collapse scroll show">
+						{!! Form::select('location',(['' => 'select'] + $city),[], ['class' => 'form-control','id' => 'location']) !!}
+					  </div><hr><br>
+					  <div id="options1">
 
-					</div>
-					
-					
-				  </div>
-				</div>
-				
-					
-				
+                        <h2 class="le-heading mt10"></h2>
+                        <p></p>
+
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="only_active" name="only_active" checked="checked" value="1"> Show only active funds&nbsp;&nbsp;</label>
+                        </div>            
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="hide_records" name="hide_records" value="1"> Hide funds in non-English language</label>
+                        </div>
+
+
+
+                        
+                    </div>
+					     <input class="advance_submit" type="submit" value="Search">
+					{!! Form::close() !!}
 			  </div>
 			</div>
 
@@ -385,10 +348,8 @@ div#loaderarea {
 								<tr>
 									<th></th>
 									<th>ID</th>
-									<th>Total Saved</th>
 									<th>NAME</th>
-									<th>Saved by User</th>
-									<th>Saved by Staff</th>
+									<th>SORT</th>
 									<th>DETAILS</th>
 								</tr>
 							</thead>

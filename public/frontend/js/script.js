@@ -57,7 +57,11 @@ $(document).ready(function() {
       event.preventDefault();
       seveSearchEmail();
     });
-
+	
+	$(".advance_submit_ids").click(function(event) {
+      event.preventDefault();
+      getAdvanceFoundations();
+    });
     
 
     //$("#saveSearchFoundation").hide();
@@ -159,12 +163,14 @@ function getAdvanceFoundations() {
 
   var hide_records = $("#hide_records").val();
 
-	//alert(data); return false;
+  var foundids = $("#foundids").val();
+	
+	//alert(foundids); return false;
 
   $.ajax({
 	type:'post',
     url: "getAdvanceFoundations",
-    data: { _token : token,data:data,purpose_ids : purposeIds, cityName : location, gender_ids : genderIds, subject_ids : subjectIds,hide_records:hide_records},
+    data: { _token : token,data:data,purpose_ids : purposeIds, cityName : location, gender_ids : genderIds, subject_ids : subjectIds,hide_records:hide_records,foundids:foundids},
     success: function (data) {
 		//$('.searchFOUND-table').DataTable().fnDestroy()
 		//data.draw = 1;
@@ -176,12 +182,15 @@ function getAdvanceFoundations() {
 		data: data.data,
 		"iDisplayLength": 25,
 		rowId: 'id',
+		
 		columns: [
 			 {data: 'checkbox', name: 'checkbox'}, 
 			{data: 'id', name: 'id'},
-			{data: 'sort', name: 'sort'},
+			{data: 'Total Saved', name: 'Total Saved'},	
 			{data: 'name', name: 'name'},
-			 {data: 'action', name: 'action', orderable: false, searchable: false}, 
+			{data: 'Savedbyuser', name: 'Savedbyuser'},
+			{data: 'Savedbystaff', name: 'Savedbystaff'},
+			{data: 'action', name: 'action', orderable: false, searchable: false}, 
 			],
 			createdRow: function( row, data, dataIndex ) {
 				$(row).addClass('myallids');
