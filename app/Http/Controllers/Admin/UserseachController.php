@@ -378,7 +378,7 @@ class UserseachController extends Controller
         }
 
 		$roles = Role::all();
-		return view('admin.users.listalluser',compact('roles','filter','role','data'));
+		return view('admin.users.listalluser',compact('roles','filter','role'));
 	}
 	
 	

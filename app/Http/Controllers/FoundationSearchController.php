@@ -178,9 +178,9 @@ class FoundationSearchController extends Controller
                 $foundation->whereIn('fl.city_id', $cityIds);
             }
 
-            if (!empty($foundation_ids)) {
+             if (!empty($foundation_ids)) {
                 $foundation->whereIn('gg_foundation.id', $foundation_ids);
-            }
+            } 
 
             //$data = $foundation->distinct()->get();
 
@@ -557,7 +557,7 @@ class FoundationSearchController extends Controller
 				if(!empty($keywords)) {
 					$seachtext = explode(",",$keywords);
 					foreach($seachtext as $searchTerm){
-					$foundation->where(function($q) use ($searchTerm){
+					$foundation->orwhere(function($q) use ($searchTerm){
 						$q->where('gg_foundation.name', 'like', '%'.$searchTerm.'%')
 						->orWhere('gg_foundation.sort', 'like', '%'.$searchTerm.'%')
 						->orWhere('fa.who_can_apply', 'like', '%'.$searchTerm.'%')
@@ -644,6 +644,11 @@ class FoundationSearchController extends Controller
 				->addColumn('Savedbystaff', function($row){
 						  
                         $btn = UserSearchSave::countFoundationSavedByStaff($row->id,'staff');
+						return $btn;
+                    })
+					
+				->addColumn('id', function($row){
+                        $btn = '<a onclick="getFoundationDetailajax('.$row->id.',0)">'.$row->id.'</a>';
 						return $btn;
                     })
 				->make(true);

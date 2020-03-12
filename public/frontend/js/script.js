@@ -175,27 +175,46 @@ function getAdvanceFoundations() {
 		//$('.searchFOUND-table').DataTable().fnDestroy()
 		//data.draw = 1;
 		$('#loaderareafront').hide();
+		$('#foundids').val('');
+		
 		//console.log(data);
 
 	var table =	$('.searchFOUND-table').DataTable({
 		destroy: true,
+		dom: 'Bfrtip',
+				buttons: [
+					/* 'copyHtml5',
+					'excelHtml5',
+					'csvHtml5', */
+					'pdf'
+				],
+				buttons: [
+				   { 
+					 extend: 'pdf',
+					 text: 'Export Foundtaion',
+					 title: 'Export Foundtaion Data'
+					  
+				   }
+				],
+			
 		data: data.data,
 		"iDisplayLength": 25,
 		rowId: 'id',
 		
 		columns: [
+			{data: 'DT_RowIndex', name: 'DT_RowIndex'},
 			 {data: 'checkbox', name: 'checkbox'}, 
 			{data: 'id', name: 'id'},
 			{data: 'Total Saved', name: 'Total Saved'},	
 			{data: 'name', name: 'name'},
 			{data: 'Savedbyuser', name: 'Savedbyuser'},
-			{data: 'Savedbystaff', name: 'Savedbystaff'},
-			{data: 'action', name: 'action', orderable: false, searchable: false}, 
+			{data: 'Savedbystaff', name: 'Savedbystaff',orderable: false, searchable: false},
+			/* {data: 'action', name: 'action', orderable: false, searchable: false},  */
 			],
-			createdRow: function( row, data, dataIndex ) {
+			/* createdRow: function( row, data, dataIndex ) {
 				$(row).addClass('myallids');
 				//table.column( 1 ).data().unique();
-			}
+			} */
 			
 		});
     }
@@ -370,6 +389,7 @@ function saveSearchData(id) {
           location.href = APP_URL+"/login";
         } else {
           $.confirm(data.message); 
+		  location.reload();
         }
     }
   });
@@ -444,4 +464,9 @@ $(document).ready(function(){
 
 $( document ).ready(function() {
      getAdvanceFoundations();
+});
+
+$('#selectAll').click(function(e){
+    var table= $(e.target).closest('table');
+    $('td input:checkbox',table).prop('checked',this.checked);
 });

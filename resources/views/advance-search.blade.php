@@ -383,18 +383,19 @@ div#loaderarea {
 						<table class="table table-bordered searchFOUND-table" border="1" width="" id="">
 							<thead>
 								<tr>
-									<th></th>
+								<th>Row</th>
+									<th><input type="checkbox" id="selectAll"></th>
 									<th>ID</th>
 									<th>Total Saved</th>
 									<th>NAME</th>
 									<th>Saved by User</th>
 									<th>Saved by Staff</th>
-									<th>DETAILS</th>
+									<!-- <th>DETAILS</th> -->
 								</tr>
 							</thead>
 							<tbody id="advanceFoundations">
 								<tr>
-									<td colspan="5" style="text-align: center;">Search Funds/Foundations</td>
+									<td colspan="7" style="text-align: center;">Search Funds/Foundations</td>
 								</tr>
 							</tbody>
 						</table>

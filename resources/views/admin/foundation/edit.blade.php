@@ -138,7 +138,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-                                                {!! Form::label('language', __( 'Language' ) . ':*') !!}
+                                                {!! Form::label('language', __( 'Language' ) . '') !!}
                                             </div>
 
                                             <div class="col-md-9">
@@ -148,7 +148,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-                                                {!! Form::label('admin', __( 'Admin' ) . ':*') !!}
+                                                {!! Form::label('admin', __( 'Admin' ) . '') !!}
                                             </div>
 
                                             <div class="col-md-9">
@@ -160,7 +160,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-                                                {!! Form::label('asset', __( 'Assets' ) . ':*') !!}
+                                                {!! Form::label('asset', __( 'Assets' ) . '') !!}
                                             </div>
 
                                             <div class="col-md-9">
@@ -170,7 +170,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-                                                {!! Form::label('org-no', __( 'Org. No' ) . ':*') !!}
+                                                {!! Form::label('org-no', __( 'Org. No' ) . '') !!}
                                             </div>
 
                                             <div class="col-md-9">
@@ -180,7 +180,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-                                                {!! Form::label('remarks', __( 'Remarks' ) . ':*') !!}
+                                                {!! Form::label('remarks', __( 'Remarks' ) . '') !!}
                                             </div>
 
                                             <div class="col-md-9">
@@ -195,17 +195,17 @@
                                     <div class="col-md-6">
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-                                                {!! Form::label('email', __( 'Email' ) . ':*') !!}
+                                                {!! Form::label('email', __( 'Email' ) . '') !!}
                                             </div>
                                             <!-- !empty($location_printer_type) ? $location_printer_type : 'browser' -->
                                             <div class="col-md-9">
-                                                {!! Form::text('email', !empty($contact->email) ? $contact->email : '', ['class' => 'form-control', '', 'placeholder' => __( 'Email' ) ]); !!}
+                                                {!! Form::email('email', !empty($contact->email) ? $contact->email : '', ['class' => 'form-control', '', 'placeholder' => __( 'Email' ) ]); !!}
                                             </div><!--col-->
                                         </div><!--form-group-->
 
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-                                                {!! Form::label('mobile', __( 'Mobile' ) . ':*') !!}
+                                                {!! Form::label('mobile', __( 'Mobile' ) . '') !!}
                                             </div>
 
                                             <div class="col-md-9">
@@ -216,7 +216,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-                                                {!! Form::label('address-1', __( 'Address 1' ) . ':*') !!}
+                                                {!! Form::label('address-1', __( 'Address 1' ) . '') !!}
                                             </div>
 
                                             <div class="col-md-9">
@@ -248,7 +248,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-                                                {!! Form::label('phone', __( 'Phone' ) . ':*') !!}
+                                                {!! Form::label('phone', __( 'Phone' ) . '') !!}
                                             </div>
 
                                             <div class="col-md-9">
@@ -258,7 +258,7 @@
                                         
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-                                                {!! Form::label('zip-code', __( 'Zip Code' ) . ':*') !!}
+                                                {!! Form::label('zip-code', __( 'Zip Code' ) . '') !!}
                                             </div>
 
                                             <div class="col-md-9">
@@ -268,7 +268,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-                                                {!! Form::label('website', __( 'Website' ) . ':*') !!}
+                                                {!! Form::label('website', __( 'Website' ) . '') !!}
                                             </div>
 
                                             <div class="col-md-9">
@@ -285,17 +285,17 @@
                                     <div class="col-md-6">
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-                                                {!! Form::label('c-email', __( 'Email' ) . ':*') !!}
+                                                {!! Form::label('c-email', __( 'Email' ) . '') !!}
                                             </div>
 
                                             <div class="col-md-9">
-                                                {!! Form::text('c_email', !empty($contact->c_email) ? $contact->c_email : '', ['class' => 'form-control', '', 'placeholder' => __( 'Email' ) ]); !!}
+                                                {!! Form::email('c_email', !empty($contact->c_email) ? $contact->c_email : '', ['class' => 'form-control', '', 'placeholder' => __( 'Email' ) ]); !!}
                                             </div><!--col-->
                                         </div><!--form-group-->
 
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-                                                {!! Form::label('c-phone', __( 'Phone' ) . ':*') !!}
+                                                {!! Form::label('c-phone', __( 'Phone' ) . '') !!}
                                             </div>
 
                                             <div class="col-md-9">
@@ -305,7 +305,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-                                                {!! Form::label('c-address', __( 'Address' ) . ':*') !!}
+                                                {!! Form::label('c-address', __( 'Address' ) . '') !!}
                                             </div>
 
                                             <div class="col-md-9">
@@ -317,7 +317,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-                                                {!! Form::label('c-name', __( 'Name' ) . ':*') !!}
+                                                {!! Form::label('c-name', __( 'Name' ) . '') !!}
                                             </div>
 
                                             <div class="col-md-9">
@@ -327,7 +327,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-                                                {!! Form::label('c-mobile', __( 'Mobile' ) . ':*') !!}
+                                                {!! Form::label('c-mobile', __( 'Mobile' ) . '') !!}
                                             </div>
                                             <div class="col-md-9">
                                                 {!! Form::text('c_mobile', !empty($contact->c_mobile_no) ? $contact->c_mobile_no : '', ['class' => 'form-control', '', 'placeholder' => __( 'Mobile' ) ]); !!}
@@ -363,7 +363,7 @@
 													@foreach($age as $myage)
 													<div class="form-group row">
 														<div class="col-lg-2">
-															{!! Form::label('age-from', __( 'From' ) . ':*') !!}
+															{!! Form::label('age-from', __( 'From' ) . '') !!}
 														</div>
 
 														<div class="col-md-3">
@@ -371,7 +371,7 @@
 														</div><!--col-->
 												   
 														<div class="col-lg-2">
-															{!! Form::label('age-to', __( 'To' ) . ':*') !!}
+															{!! Form::label('age-to', __( 'To' ) . '') !!}
 														</div>
 
 														<div class="col-md-3">
@@ -419,23 +419,23 @@
 															
 															<div class="row">
 																<div class="col-md-2">
-																	{!! Form::label('country-block', __( 'Country Block' ) . ':*') !!}
+																	{!! Form::label('country-block', __( 'Country Block' ) . '') !!}
 																	{!! Form::select('country_block[]', $blocks_arr, '$Location->nation_id', ['class' => 'form-control', 'id' => 'countryBlock']); !!}
 																</div><!--col-->
 																<div class="col-md-2">
-																	{!! Form::label('country', __( 'Country' ) . ':*') !!}
+																	{!! Form::label('country', __( 'Country' ) . '') !!}
 																	{!! Form::select('country[]', $country_arr, '$Location->country_id', ['class' => 'form-control', 'id' => 'countries','onchange' => 'getRegion();']); !!}
 																</div><!--col-->
 																<div class="col-md-2">
-																	{!! Form::label('region', __( 'Region' ) . ':*') !!}
+																	{!! Form::label('region', __( 'Region' ) . '') !!}
 																	{!! Form::select('region[]', $region_arr, '$Location->region_id', ['class' => 'form-control regiondata','id' => 'regionid','onchange' => 'getCity();']); !!}
 																</div><!--col-->
 																<div class="col-md-2">
-																	{!! Form::label('city', __( 'City' ) . ':*') !!}
+																	{!! Form::label('city', __( 'City' ) . '') !!}
 																	{!! Form::select('city[]', $city_arr, '$Location->city_id', ['class' => 'form-control citydata', 'id' => 'cityid']); !!}
 																</div><!--col-->
 																<div class="col-md-2">
-																	{!! Form::label('parish[]', __( 'Parish' ) . ':*') !!}
+																	{!! Form::label('parish[]', __( 'Parish' ) . '') !!}
 																	
 																	{!! Form::text('parish', $Location->parish, ['class' => 'form-control ', '', 'placeholder' => __( 'Parish' ) ]); !!}
 																</div><!--col-->
@@ -463,7 +463,7 @@
                                                 <div class="col-md-6">
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            {!! Form::label('app_start_day', __( 'Application Start' ) . ':*') !!}
+                                                            {!! Form::label('app_start_day', __( 'Application Start' ) . '') !!}
                                                         </div>
                                                         <div class="col-md-3">
                                                             {!! Form::select('apply_start_month',$months, !empty($dates->start_month) ? $dates->start_month : '', ['class' => 'form-control']); !!}
@@ -478,7 +478,7 @@
                                                 <div class="col-md-6">
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            {!! Form::label('app_end_day', __( 'Application End' ) . ':*') !!}
+                                                            {!! Form::label('app_end_day', __( 'Application End' ) . '') !!}
                                                         </div>
                                                         <div class="col-md-3">
                                                             {!! Form::select('apply_end_month',$months, !empty($dates->end_month) ? $dates->end_month : '', ['class' => 'form-control']); !!}

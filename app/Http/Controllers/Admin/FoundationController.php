@@ -49,7 +49,7 @@ class FoundationController extends Controller
 
         if ($request->ajax()) {
 
-            $data = Foundation::where('deleted','0')->get();
+            $data = Foundation::where('deleted','0')->orderBy('id','DESC')->get();
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
@@ -205,6 +205,7 @@ class FoundationController extends Controller
                     "language"  => $result['language_id'],
                     "type"  => $result['type'],
                     "org_no"  => $result['org_no'],
+					"deleted"  => 0,
                     "remarks"  => $result['remarks']
             );
 
