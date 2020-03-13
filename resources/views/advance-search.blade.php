@@ -380,11 +380,12 @@ div#loaderarea {
 							<img src="{{url('frontend/images/loader.gif ')}}" />
 						</div>
 						<div class="table-responsive">
-						<table class="table table-bordered searchFOUND-table" border="1" width="" id="">
+						<table class="table table-bordered searchFOUND-table display" border="1" width="" id="">
 							<thead>
 								<tr>
-								<th>Row</th>
-									<th><input type="checkbox" id="selectAll"></th>
+								
+									<th></th>
+									<th>Row</th>
 									<th>ID</th>
 									<th>Total Saved</th>
 									<th>NAME</th>

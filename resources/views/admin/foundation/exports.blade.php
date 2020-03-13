@@ -80,11 +80,11 @@
 				   <option value="1" selected="selected">English</option>
 				</select>
 			</div>
-			<div class="col-sm-4">
+			<!--<div class="col-sm-4">
 				<a href="#" onclick="action_print();" class="btn btn-info">Export Funds</a>
 				<a href="#" onclick="action_print_sort();" class="btn btn-info">Export Sort</a>
 				<a href="#" onclick="action_print_ids();" class="btn btn-info">Export ID's</a>
-			</div>
+			</div>-->
         </div>
 		<br>
 		
@@ -302,9 +302,10 @@
 											  <thead>
 												<tr>
 												  <!-- <th><input type="checkbox">select</th> -->
+												   <th width="5%"></th>
 												  <th width="5%">ID</th>
 												  <th width="45%">Foundation Name</th>
-												  <th width="50%">Purpose</th>
+												  <th width="45%">Purpose</th>
 												</tr>
 											  </thead>
 											  <tbody></tbody>

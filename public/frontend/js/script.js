@@ -179,7 +179,7 @@ function getAdvanceFoundations() {
 		
 		//console.log(data);
 
-	var table =	$('.searchFOUND-table').DataTable({
+	table =	$('.searchFOUND-table').DataTable({
 		destroy: true,
 		dom: 'Bfrtip',
 				buttons: [
@@ -188,27 +188,36 @@ function getAdvanceFoundations() {
 					'csvHtml5', */
 					'pdf'
 				],
-				buttons: [
-				   { 
-					 extend: 'pdf',
+				
+				  buttons: [
+					{
+						extend: 'pdf',
 					 text: 'Export Foundtaion',
-					 title: 'Export Foundtaion Data'
-					  
-				   }
+					 title: 'Export Foundtaion Data',
+						exportOptions: {
+							columns: ':visible'
+						}
+					},
+					'colvis'
 				],
+				columnDefs: [ {
+					//targets: -2,
+					visible: false
+				} ],
+			//select: true,
 			
 		data: data.data,
 		"iDisplayLength": 25,
-		rowId: 'id',
+		//rowId: 'id',
 		
 		columns: [
+			 {data: 'checkbox',onclick:"newselect()" ,name: 'checkbox',class:'select-checkbox',orderable: false, searchable: false},
 			{data: 'DT_RowIndex', name: 'DT_RowIndex'},
-			 {data: 'checkbox', name: 'checkbox'}, 
 			{data: 'id', name: 'id'},
 			{data: 'Total Saved', name: 'Total Saved'},	
 			{data: 'name', name: 'name'},
 			{data: 'Savedbyuser', name: 'Savedbyuser'},
-			{data: 'Savedbystaff', name: 'Savedbystaff',orderable: false, searchable: false},
+			{data: 'Savedbystaff', name: 'Savedbystaff'},
 			/* {data: 'action', name: 'action', orderable: false, searchable: false},  */
 			],
 			/* createdRow: function( row, data, dataIndex ) {
@@ -222,7 +231,47 @@ function getAdvanceFoundations() {
 
 }
 
+/*  $('.searchFOUND-table tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+    } ); */
+	
+	
+$('.searchFOUND-table tbody').on( 'click', 'tr', function () {
+	//global table;
+	//table.row(":eq(1)", { page: 'current' }).select();
+	//table.row(":eq(2)", { page: 'current' }).select();
+	//table.row(":eq(3)", { page: 'current' }).select();
+	
+	
+	var t = ":eq("+$(this).index()+")";
+	
+	if($(this).hasClass( "selected" )){
+	
+	table.row(t, { page: 'current' }).deselect();
+	}else{
+	table.row(t, { page: 'current' }).select();
+	}
+	console.log("sasassa",":eq("+$(this).index()+")");
+});
 
+/* $(document).ready(function() {
+    $('.searchFOUND-table').DataTable( {
+        dom: 'Bfrtip',
+				buttons: [
+					'pdf'
+				],
+				buttons: [
+				   { 
+					 extend: 'pdf',
+					 text: 'Export Foundtaion',
+					 title: 'Export Foundtaion Data'
+					  
+				   }
+				],
+				select: true
+      
+    } );
+} );  */
 function getFoundationDetailajax(id,val) {
 	//alert(val);
 	$('#loaderarea').show();

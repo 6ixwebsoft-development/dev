@@ -38,5 +38,5 @@
       <link href="{{ asset('css/pace.min.css') }}" rel="stylesheet">
       <script src="https://cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
 	   <script src="{{ asset('js/jquery-ui.js') }}" defer></script>
-      
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
   </head>

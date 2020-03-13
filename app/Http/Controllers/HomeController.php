@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Session;
 
 class HomeController extends Controller
 {
@@ -30,6 +31,14 @@ class HomeController extends Controller
 	{
 
 		return view('profile');
+	}
+	
+	public function language($lan)
+	{
+		//echo $lan;
+		Session::put('language', $lan);
+		/* echo Session::get('language'); */
+		
 	}
 	
 }

@@ -383,21 +383,8 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 
 
 
-Route::get('about', function () {
-    return view('about');
-});
-Route::get('insurance', function () {
-    return view('insurance');
-});
-Route::get('resource', function () {
-    return view('resource');
-});
-Route::get('contact-us', function () {
-    return view('contact-us');
-});
-Route::get('access-denied', function () {
-    return view('access-denied');
-});
+
+
 //search foundation
 Route::get('search-foundation','FoundationSearchController@index');
 Route::get('autocomplete','FoundationSearchController@autocomplete');
@@ -415,7 +402,28 @@ Route::get('getFoundationDetailAjax','FoundationSearchController@getFoundationDe
 
 Route::get('profile','HomeController@profile');
 
+Route::get('language/{lan}','HomeController@language');
+
 //Pages dynamic route
-Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
+
 	
 Route::get('sendemail', 'SendEmailController@sendmail');
+
+Route::group(['prefix' => '{locale}'], function() {
+
+    Route::get('/', function () {
+        return view('welcome');
+    }); 
+	
+	Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
+	
+});
+
+Route::get('/', function () {
+    return redirect(app()->getLocale());
+});
+
+/* Route::get('/{slug}', function () {
+    return redirect(app()->getLocale());
+}); */
+

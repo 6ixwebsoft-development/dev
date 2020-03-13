@@ -23,20 +23,20 @@
       </ul>
       <ul class="nav navbar-nav ml-auto">
         <li class="nav-item d-md-down-none">
-          <a class="nav-link" href="#">
+         <!-- <a class="nav-link" href="#">
             <i class="icon-bell"></i>
             <span class="badge badge-pill badge-danger">5</span>
-          </a>
+          </a> -->
         </li>
         <li class="nav-item d-md-down-none">
-          <a class="nav-link" href="#">
+          <!--<a class="nav-link" href="#">
             <i class="icon-list"></i>
-          </a>
+          </a> -->
         </li>
         <li class="nav-item d-md-down-none">
-          <a class="nav-link" href="#">
+         <!-- <a class="nav-link" href="#">
             <i class="icon-location-pin"></i>
-          </a>
+          </a> -->
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -46,7 +46,7 @@
             <div class="dropdown-header text-center">
               <strong>Account</strong>
             </div>
-            <a class="dropdown-item" href="#">
+          <!--  <a class="dropdown-item" href="#">
               <i class="fa fa-bell-o"></i> Updates
               <span class="badge badge-info">42</span>
             </a>
@@ -79,7 +79,7 @@
             </a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">
-              <i class="fa fa-shield"></i> Lock Account</a>
+              <i class="fa fa-shield"></i> Lock Account</a> -->
              
               <a class="dropdown-item" href="{{ route('logout') }}"
                  onclick="event.preventDefault();
@@ -95,12 +95,12 @@
           </div>
         </li>
       </ul>
-      <button class="navbar-toggler aside-menu-toggler d-md-down-none" type="button" data-toggle="aside-menu-lg-show">
+      <!-- <button class="navbar-toggler aside-menu-toggler d-md-down-none" type="button" data-toggle="aside-menu-lg-show">
         <span class="navbar-toggler-icon"></span>
       </button>
       <button class="navbar-toggler aside-menu-toggler d-lg-none" type="button" data-toggle="aside-menu-show">
         <span class="navbar-toggler-icon"></span>
-      </button>
+      </button> -->
       @if ($message = Session::get('message'))
       <div class="alert {{$message['class']}}" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

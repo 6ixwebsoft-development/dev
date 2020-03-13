@@ -1372,7 +1372,7 @@ function get_exportlist() {
 				data.draw = 1;
 				//console.log(data);	
 				
-			$('.exportdata-table').DataTable({
+			exporttable =  $('.exportdata-table').DataTable({
 				dom: 'Bfrtip',
 				buttons: [
 					/* 'copyHtml5',
@@ -1380,16 +1380,35 @@ function get_exportlist() {
 					'csvHtml5', */
 					'pdf'
 				],
-				buttons: [
-				   { 
-					 extend: 'pdf',
+				
+				  buttons: [
+					{
+						extend: 'pdf',
 					 text: 'Export Foundtaion',
-					 title: 'Export Foundtaion Data'
-					  
-				   }
+					 title: 'Export Foundtaion Data',
+						exportOptions: {
+							columns: ':visible'
+						}
+					},
+					'colvis'
+				],
+				columnDefs: [ {
+					//targets: -2,
+					visible: false
+				},
+				{
+				// This works fine, but I want col1 to be the 'empty' col ...
+				"targets": 0,
+				 "data": null,
+				 "defaultContent": '',
+				},
+				 
+				
 				],
 				data: data,
+				"iDisplayLength": 25,
 				columns: [
+				{data: '', name: '',class:'select-checkbox'},
 				{data: 'id', name: 'id'},
 				{data: 'name', name: 'name'},
 				{data: 'param_id', name: 'param_id'}
@@ -1404,6 +1423,17 @@ function get_exportlist() {
 			});
     
 }
+
+$('.exportdata-table tbody').on( 'click', 'tr', function () {
+	var t = ":eq("+$(this).index()+")";
+	
+	if($(this).hasClass( "selected" )){
+	exporttable.row(t, { page: 'current' }).deselect();
+	}else{
+	exporttable.row(t, { page: 'current' }).select();
+	}
+	console.log("sasassa",":eq("+$(this).index()+")");
+});
 
 function searchtransdata()
 {

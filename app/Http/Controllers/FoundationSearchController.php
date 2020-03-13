@@ -619,17 +619,17 @@ class FoundationSearchController extends Controller
 		 return Datatables::of($data)
 				->addIndexColumn()
 				->escapeColumns([])
-				->addColumn('action', function($row){
+				/* ->addColumn('action', function($row){
 				   $btn = '<button onclick="getFoundationDetailajax('.$row->id.',0)">Details</button>';
 					return $btn;
 				})
-				->rawColumns(['action'])
+				->rawColumns(['action']) */
 				->addColumn('checkbox', function($row){
    
-                          $btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
+                          //$btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
                                    
-                            return $btn;
-                    })
+                            return $btn='';
+                    }) 
 				->addColumn('Total Saved', function($row){
 						  
 						$btn = UserSearchSave::getFoundationCount($row->id);     
