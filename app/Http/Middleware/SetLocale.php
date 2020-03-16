@@ -14,13 +14,26 @@ class SetLocale
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {
-		if(Session::get('language') == 'en'){
-			app()->setLocale(Session::get('language'));
-		}else{
-			app()->setLocale('');
-		}
+    {   
+        echo "_______1";
+		if($request->segment(1) == 'en'){
+            echo "_______en";
+			$this->setLoc('en');
+		}elseif($request->segment(1) != 'se'){
+            echo "_______se";
+            $this->setLoc('se');
+        }
+
+        echo "_______2";
+
         return $next($request);
     }
-	
+	public function setLoc($val)
+    {
+        Session::put('language',$val);
+    }
+    public function getLoc()
+    {
+        Session::get('language');
+    }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Session;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -411,10 +413,18 @@ Route::get('language/{lan}','HomeController@language');
 	
 Route::get('sendemail', 'SendEmailController@sendmail');
 
+
+    // Route::get('profile','HomeController@profile');
+    
+    // Route::get('/{slugs}/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
+
+
+
 Route::group([
-  'prefix' => '{locale}', 
-  'where' => ['locale' => '[a-zA-Z]{2}'], 
-  'middleware' => 'setlocale'], function() {
+    'prefix' => '{local}', 
+    'where' => ['locale' => '[a-zA-Z]{2}'], 
+    'middleware' => 'setlocale'
+    ], function() {
 
     Route::get('/', function () {
         return view('welcome');
@@ -422,10 +432,10 @@ Route::group([
 	
 	Route::get('profile','HomeController@profile');
 	
-	Route::get('/{slugs}/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
+	Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
 	
 });
-
+/*
 Route::get('/', function () {
     return redirect(app()->getLocale());
 });
@@ -435,7 +445,7 @@ Route::get('/', function () {
 });
 
 
- Route::get('profile', function () {
+Route::get('profile', function () {
     return redirect(app()->getLocale());
 }); 
 
