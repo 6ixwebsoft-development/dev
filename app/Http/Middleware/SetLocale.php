@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Middleware;
-
+use Session;
 use Closure;
 
 class SetLocale
@@ -15,7 +15,12 @@ class SetLocale
      */
     public function handle($request, Closure $next)
     {
-		app()->setLocale($request->segment(1));
+		if(Session::get('language') == 'en'){
+			app()->setLocale(Session::get('language'));
+		}else{
+			app()->setLocale('');
+		}
         return $next($request);
     }
+	
 }

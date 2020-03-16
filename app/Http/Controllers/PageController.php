@@ -18,7 +18,7 @@ class PageController extends Controller
 
     public function show($slug)
     {
-        //echo $slug;
+        echo $slug;exit;
         if($slug) {
             
             $page_data = PageTranslation::where('gg_page_translation.url', 'like', $slug.'%')->where('language_id','1')

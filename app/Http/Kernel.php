@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'SetSessionData' => \App\Http\Middleware\SetSessionData::class,
         'Access' => \App\Http\Middleware\Access::class,
         'CheckLogin' => \App\Http\Middleware\CheckLogin::class,
+		'setlocale' => \App\Http\Middleware\SetLocale::class,
     ];
 
     /**

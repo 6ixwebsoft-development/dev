@@ -74,14 +74,23 @@ ul.dropdown-menu.multi-level {
       <div class="main-navigation">
         <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
         <ul class="menu">
-			
-          <li class="menu-item"><a href="{{ url('/about') }}">About us</a></li>
+			@if(Session::get('language') == 'en')
+					@php
+						$lan = Session::get('language');
+					@endphp
+				@else if
+					@php
+						$lan = '';
+					@endphp
+				@endif
+          <li class="menu-item"><a href="{{ url($lan.'/about') }}">About us</a></li>
           <!-- <li class="menu-item"><a href="/insurance">Insurance plans</a></li>
           <li class="menu-item"><a href="/resource">Resources</a></li> -->
-          <li class="menu-item"><a href="{{ url('/contact-us') }}">Contact Us</a></li>
+          <li class="menu-item"><a href="{{ url($lan.'/contact-us') }}">Contact Us</a></li>
           <!-- <li class="menu-item"><a href="/search-foundation">Search Foundation</a></li>
           <li class="menu-item"><a href="/advance-search">Advance Search</a></li> -->
 				@php
+				
 				$result = getName('header');
 				//echo "<pre>";
 				//print_r($result);exit;
@@ -98,12 +107,15 @@ ul.dropdown-menu.multi-level {
 				$drop = 'dropdown';
 				@endphp
 				@endif	
+
 				<li style="color:#fff;" class="{{$class}}"  data-toggle="{{$drop}}">
 
 					@if(!empty($links['link']))
 						<a href="{{ $links['link']}}"> {{ucwords(strtolower($links['name']))}}</a>
 					@else
-						<a href="{{ url(geturlbyPageId($links['page'])) }}"> {{ucwords(strtolower($links['name']))}}</a>
+						<a href="{{ url($lan."/".geturlbyPageId($links['page'])) }}"> {{ucwords(strtolower($links['name']))}}</a>
+					
+					
 					@endif
 				</li>	
 				@if(!empty($links['child']))
@@ -115,7 +127,7 @@ ul.dropdown-menu.multi-level {
 								@if(!empty($links_child['link']))
 									<a href="{{ $links_child['link']}}"> {{ucwords(strtolower($links_child['link']))}}</a>
 								@else
-									<a href="{{ url(geturlbyPageId($links_child['page'])) }}"> {{ucwords(strtolower($links_child['name']))}}</a>
+									<a href="{{ url($lan."/".geturlbyPageId($links_child['page'])) }}"> {{ucwords(strtolower($links_child['name']))}}</a>
 								@endif
 								
 										@if(!empty($links_child['child']))
@@ -125,7 +137,7 @@ ul.dropdown-menu.multi-level {
 												<li>
 												
 												@if(!empty($links['link']))
-												<a tabindex="-1" href="{{ url(geturlbyPageId($links_child_child['link'])) }}" style="background:#000;color:#fff;">{{ucwords(strtolower($links_child_child['name']))}}</a>
+												<a tabindex="-1" href="{{ url($lan."/".geturlbyPageId($links_child_child['link'])) }}" style="background:#000;color:#fff;">{{ucwords(strtolower($links_child_child['name']))}}</a>
 											@else
 												<a tabindex="-1" href="{{ url(geturlbyPageId($links_child_child['page'])) }}" style="background:#000;color:#fff;">{{ucwords(strtolower($links_child_child['name']))}}</a>
 											@endif
@@ -151,10 +163,10 @@ ul.dropdown-menu.multi-level {
           <ul class="menu">
 
             @if (Auth::guest())
-                <li class="menu-item"><a href="{{ url('/login') }}">Login</a></li>
-                <li class="menu-item"><a href="{{ url('/register') }}">Register</a></li>
+                <li class="menu-item"><a href="{{ url($lan.'/login') }}">Login</a></li>
+                <li class="menu-item"><a href="{{ url($lan.'/register') }}">Register </a></li>
             @else
-               <a href="{{url('/profile')}}"> {{ Auth::user()->email }}</a>
+               <a href="{{url($lan.'/profile')}}"> {{ Auth::user()->email }}</a>
                 <a class="dropdown-item" href="{{ route('logout') }}"
                  onclick="event.preventDefault();
                                document.getElementById('logout-form').submit();">
@@ -169,8 +181,8 @@ ul.dropdown-menu.multi-level {
 
 
 		
-			<li><a href="#googtrans(en|en)" class="lang-en lang-select" data-lang="en"><img src="{{URL::asset('images/flag-2.jpg')}}" alt="USA"></a></li>
-		  <li><a href="#googtrans(en|sv)" class="lang-es lang-select" data-lang="sv"><img src="{{URL::asset('images/flag-1.jpg')}}" alt="SWEDISH"></a></li>
+			<li><a href="{{ url('/language/en') }}" class="lang-en lang-select" data-lang="en"><img src="{{URL::asset('images/flag-2.jpg')}}" alt="USA"></a></li>
+		  <li><a href="{{ url('/language/se') }}" class="lang-es lang-select" data-lang="sv"><img src="{{URL::asset('images/flag-1.jpg')}}" alt="SWEDISH"></a></li>
 
           </ul>
         </div> <!-- .main-navigation -->
