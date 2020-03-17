@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Middleware;
-use Session;
 use Closure;
+use Illuminate\Http\url;
+use Session;
 
 class SetLocale
 {

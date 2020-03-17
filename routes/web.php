@@ -422,7 +422,7 @@ Route::get('sendemail', 'SendEmailController@sendmail');
 
 Route::group([
     'prefix' => '{local}', 
-    'where' => ['locale' => '[a-zA-Z]{2}'], 
+    //'where' => ['locale' => '[a-zA-Z]{2}'], 
     'middleware' => 'setlocale'
     ], function() {
 
@@ -448,4 +448,4 @@ Route::get('/', function () {
 Route::get('profile', function () {
     return redirect(app()->getLocale());
 }); 
-
+*/
