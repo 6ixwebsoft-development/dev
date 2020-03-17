@@ -63,27 +63,46 @@ class PageController extends Controller
         if(!empty($request->segment(2))){
             $slug = $request->segment(2);    
         }
+        // print_r($slug);
+        // die();
+        if(!empty($slug)){
+            $pages = ['contact-us','/','en'];
+            if(in_array($slug,$pages)){
+                switch ($slug) {
+                    case 'contact-us':
+                            return view('contact-us');
+                        break;
 
-        if($slug) {
+                    case 'en':
+                            return view('welcome');
+                        break;
+                    case '/':
+                            return view('welcome');
+                        break;    
+                }
+            }else{
             
-            $page_data = PageTranslation::where('gg_page_translation.url', 'like', $slug.'%')->where('language_id',$lang)
-                                    ->get();
-            /*leftjoin('gg_page_blocks as pb', function($join) {
-                            $join->on('pb.page_id', '=', 'gg_page_translation.page_id')
-                                ->on('pb.language_id', '=', 'gg_page_translation.language_id');
-                    })*/
-            // print_r($page_data);
-            // die();        
-            foreach ($page_data as $page) {
-                $page_blocks = PageBlocks::where('page_id', $page->page_id)
-                                        ->where('language_id', $page->language_id)
+                $page_data = PageTranslation::where('gg_page_translation.url', 'like', $slug.'%')->where('language_id',$lang)
                                         ->get();
+                /*leftjoin('gg_page_blocks as pb', function($join) {
+                                $join->on('pb.page_id', '=', 'gg_page_translation.page_id')
+                                    ->on('pb.language_id', '=', 'gg_page_translation.language_id');
+                        })*/
+                // print_r($page_data);
+                // die();        
+                    
+                foreach ($page_data as $page) {
+                    $page_blocks = PageBlocks::where('page_id', $page->page_id)
+                                            ->where('language_id', $page->language_id)
+                                            ->get();
 
-                $page_meta_data = PageMeta::where('page_id', $page->page_id)
-                                        ->where('language_id', $page->language_id)
-                                        ->get();
+                    $page_meta_data = PageMeta::where('page_id', $page->page_id)
+                                            ->where('language_id', $page->language_id)
+                                            ->get();
+                }
+                return view('pages')->with(compact('page_data', 'page_blocks', 'page_meta_data'));
             }
-            return view('pages')->with(compact('page_data', 'page_blocks', 'page_meta_data'));
+            
         }else{
             return false;
         }

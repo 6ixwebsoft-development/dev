@@ -420,7 +420,7 @@ Route::get('sendemail', 'SendEmailController@sendmail');
 
 Route::group([
     'prefix' => '{local}', 
-    
+
     /* 'where' => ['locale' => '[a-zA-Z]{2}'], */ 
 
     'middleware' => 'setlocale'
@@ -429,12 +429,11 @@ Route::group([
 	Route::get('/','PageController@home');
    
 	Route::get('profile','HomeController@profile');
-	
-	Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
-	Route::get('advance-search','FoundationSearchController@advanceSearch');
-	
+
+	Route::get('advance-search','FoundationSearchController@advanceSearch');	
 	Route::get('contact-us','PageController@contactus');
-	
+
+	Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
 });
 
 Route::group([
@@ -443,7 +442,7 @@ Route::group([
 
 	Route::get('profile','HomeController@profile');
 	
-	Route::get('{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
+	//Route::get('{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
 	
 	Route::get('/','PageController@home');
 	
