@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Session;
 use App\Http\Controllers\Redirect;
+use Illuminate\Http\Url;
 
 class HomeController extends Controller
 {
@@ -34,12 +35,6 @@ class HomeController extends Controller
 		return view('profile');
 	}
 	
-	public function language($lan)
-	{
-		//echo $lan;exit;
-		Session::put('language', $lan);
-		//echo Session::get('language'); 
-		return redirect()->back();
-	}
+	
 	
 }

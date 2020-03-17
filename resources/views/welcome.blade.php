@@ -8,18 +8,19 @@
             <div class="row">
                 <div class="col-md-7 text-center">
                     <!-- {{ Form::checkbox('simple_search', '1') }} -->
-                    <input type="radio" name="fund_search" value="1" checked>Economically needy, sick or disabled</input>
+                    <input type="radio" name="fund_search" value="1" checked>{{ __('word.'.strtolower('Economically needy, sick or disabled'))}}</input>
                     
                 </div>
                 <div class="col-md-5 text-center">
                     <!-- {{ Form::checkbox('advance_search', '2') }} -->
-                    <input type="radio" name="fund_search" value="2">Another purpose</input>
+                    <input type="radio" name="fund_search" value="2">
+					{{ __('word.'.strtolower('Another purpose'))}}</input>
                     
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    {{ Form::submit('Search', ['class'=>'foundationSearch', '']) }}
+                    {{ Form::submit(__('search'), ['class'=>'foundationSearch', '']) }}
                 </div>
             </div>
         {{ Form::close() }} 
@@ -141,35 +142,35 @@
 <main class="main-content">
     <div class="fullwidth-block greet-section">
         <div class="container">
-            <h2 class="section-title">Welcome to our website</h2>
+            <h2 class="section-title">{{ __('word.'.strtolower('Welcome to our website'))}}</h2>
             <small class="section-subtitle">Etiam suscipit leo tincidunt risus dignissim quisque semper mollis</small>
 
             <div class="row">
                 <div class="col-md-3">
                     <div class="feature">
                         <i class="icon-phone-24"></i>
-                        <h3 class="feature-title">24 hours Service</h3>
+                        <h3 class="feature-title">24 {{ __('word.'.strtolower('hours Service'))}}</h3>
                         <p>Lorem ipsum dolor amet consectetur adipiscing elit do eiusmod tempor incididunt labore dolore magna aliqua.</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="feature">
                         <i class="icon-hotel"></i>
-                        <h3 class="feature-title">Hospitality</h3>
+                        <h3 class="feature-title">{{ __('word.'.strtolower('hospitality'))}}</h3>
                         <p>Lorem ipsum dolor amet consectetur adipiscing elit do eiusmod tempor incididunt labore dolore magna aliqua.</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="feature">
                         <i class="icon-luggage"></i>
-                        <h3 class="feature-title">Praesent pellentesque </h3>
+                        <h3 class="feature-title">{{ __('word.'.strtolower('praesent pellentesque'))}} </h3>
                         <p>Lorem ipsum dolor amet consectetur adipiscing elit do eiusmod tempor incididunt labore dolore magna aliqua.</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="feature">
                         <i class="icon-credit-card-hand"></i>
-                        <h3 class="feature-title">Consectetur interdum</h3>
+                        <h3 class="feature-title">{{ __('word.'.strtolower('consectetur interdum'))}}</h3>
                         <p>Lorem ipsum dolor amet consectetur adipiscing elit do eiusmod tempor incididunt labore dolore magna aliqua.</p>
                     </div>
                 </div>
@@ -183,7 +184,7 @@
 
     <div class="fullwidth-block" data-bg-color="#f1f1f1">
         <div class="container">
-            <h2 class="section-title">Our insurance offer</h2>
+            <h2 class="section-title">{{ __('word.'.strtolower('our insurance offer'))}}</h2>
             <small class="section-subtitle">Phasellus vel felis in nulla mollis posuere eget rutrum eros</small>
 
             <div class="row">
@@ -254,7 +255,7 @@
 
     <div class="fullwidth-block">
         <div class="container">
-            <h2 class="section-title">Latest news</h2>
+            <h2 class="section-title">{{ __('word.'.strtolower('latest news'))}}</h2>
             <div class="row news-list">
                 <div class="col-md-4">
                     <div class="news">
@@ -301,7 +302,7 @@
 
     <div class="fullwidth-block">
         <div class="container">
-            <h2 class="section-title">Our partners</h2>
+            <h2 class="section-title">{{ __('word.'.strtolower('Our partners'))}}</h2>
 
             <div class="partners">
                 <a href="#"><img src="frontend/dummy/money-logo.png" alt=""></a>

@@ -13,27 +13,42 @@ class SetLocale
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handlesssss($request, Closure $next)
     {   
-        echo "_______1";
-		if($request->segment(1) == 'en'){
-            echo "_______en";
+	
+		echo "asasasasas";
+		die();
+       // echo "_______1";
+		if(Session::put('language') == 'en'){
+           // echo "_______en";
 			$this->setLoc('en');
-		}elseif($request->segment(1) != 'se'){
-            echo "_______se";
+		}elseif(Session::put('language') != 'en'){
+           // echo "_______se";
             $this->setLoc('se');
         }
 
-        echo "_______2";
+       // echo "_______2";
 
         return $next($request);
     }
 	public function setLoc($val)
     {
+		
         Session::put('language',$val);
+		\App::setlocale(\Session::put('locale',$val));
     }
     public function getLoc()
     {
         Session::get('language');
     }
+	
+	public function handle($request, Closure $next)
+    {
+       if(\Session::has('locale'))
+       {
+           \App::setlocale(\Session::get('locale'));
+       }
+       return $next($request);
+    }
+	
 }

@@ -83,10 +83,10 @@ ul.dropdown-menu.multi-level {
 						$lan = '';
 					@endphp
 				@endif
-          <li class="menu-item"><a href="{{ url($lan.'/about') }}">About us</a></li>
+          <li class="menu-item"><a href="{{ url($lan.'/about') }}">{{ __('word.About us') }}</a></li>
           <!-- <li class="menu-item"><a href="/insurance">Insurance plans</a></li>
           <li class="menu-item"><a href="/resource">Resources</a></li> -->
-          <li class="menu-item"><a href="{{ url($lan.'/contact-us') }}">Contact Us</a></li>
+          <li class="menu-item"><a href="{{ url($lan.'/contact-us') }}">{{__('word.Contact Us') }}</a></li>
           <!-- <li class="menu-item"><a href="/search-foundation">Search Foundation</a></li>
           <li class="menu-item"><a href="/advance-search">Advance Search</a></li> -->
 				@php
@@ -113,8 +113,8 @@ ul.dropdown-menu.multi-level {
 					@if(!empty($links['link']))
 						<a href="{{ $links['link']}}"> {{ucwords(strtolower($links['name']))}}</a>
 					@else
-						<a href="{{ url($lan."/".geturlbyPageId($links['page'])) }}"> {{ucwords(strtolower($links['name']))}}</a>
-					
+						<a href="{{ url($lan."/".geturlbyPageId($links['page'])) }}"> {{__('word.'.strtolower($links['name'])) }}</a>
+						
 					
 					@endif
 				</li>	
@@ -163,14 +163,14 @@ ul.dropdown-menu.multi-level {
           <ul class="menu">
 
             @if (Auth::guest())
-                <li class="menu-item"><a href="{{ url($lan.'/login') }}">Login</a></li>
-                <li class="menu-item"><a href="{{ url($lan.'/register') }}">Register </a></li>
+                <li class="menu-item"><a href="{{ url($lan.'/login') }}">{{ __('word.login') }}</a></li>
+                <li class="menu-item"><a href="{{ url($lan.'/register') }}">{{ __('word.register') }} </a></li>
             @else
                <a href="{{url($lan.'/profile')}}"> {{ Auth::user()->email }}</a>
                 <a class="dropdown-item" href="{{ route('logout') }}"
                  onclick="event.preventDefault();
                                document.getElementById('logout-form').submit();">
-                 <i class="fa fa-lock"></i> {{ __('Logout') }}
+                 <i class="fa fa-lock"></i> {{ __('word.Logout') }}
 				</a>
               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                   @csrf
@@ -183,6 +183,8 @@ ul.dropdown-menu.multi-level {
 		
 			<li><a href="{{ url('/language/en') }}" class="lang-en lang-select" data-lang="en"><img src="{{URL::asset('images/flag-2.jpg')}}" alt="USA"></a></li>
 		  <li><a href="{{ url('/language/se') }}" class="lang-es lang-select" data-lang="sv"><img src="{{URL::asset('images/flag-1.jpg')}}" alt="SWEDISH"></a></li>
+		  
+		  
 
           </ul>
         </div> <!-- .main-navigation -->
@@ -227,7 +229,7 @@ ul.dropdown-menu.multi-level {
 	}); */
 
 
-function setCookie(b, h, c, f, e) {
+/* function setCookie(b, h, c, f, e) {
     var a;
     if (c === 0) {
         a = ""
@@ -308,10 +310,10 @@ function downloadJSAtOnload() {
         element.src = paths[i];
         document.body.appendChild(element);
     }
-}
+} */
 
 </script> 
 
-<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!--<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>-->
 
 </header> <!-- .site-header -->

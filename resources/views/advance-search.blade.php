@@ -213,8 +213,8 @@ div#loaderarea {
  <main class="main-content">
 				<div class="breadcrumbs">
 					<div class="container">
-						<a href="/">Home</a>
-						<span>Foundation Search</span>
+						<a href="/">{{__('word.'.strtolower('home'))}}</a>
+						<span>{{__('word.'.strtolower('foundation'))}} {{__('word.'.strtolower('search'))}}</span>
 					</div>
 				</div><br><br><br>
 <div class="container">
@@ -225,8 +225,8 @@ div#loaderarea {
 			  <div class="card-body " border="1">
 				<div class="container">
 				  <ul class="nav nav-tabs">
-					<li class="active"><a data-toggle="tab" href="#Search">Search</a></li>
-					<li><a data-toggle="tab" href="#seabyfdid">Search by Foundation ids</a></li>
+					<li class="active"><a data-toggle="tab" href="#Search">{{__('word.'.strtolower('search'))}}</a></li>
+					<li><a data-toggle="tab" href="#seabyfdid">{{__('word.'.strtolower('search by foundation ids'))}}</a></li>
 				  </ul>
 
 				  <div class="tab-content">
@@ -236,7 +236,7 @@ div#loaderarea {
 					   {!! Form::open(array('url' => '#', 'id' => 'advaceSearch')) !!}
 						
 						 <div class="col-md-12">
-						        <h3 class="title">Purpose</h3>
+						        <h3 class="title">{{__('word.'.strtolower('purpose'))}}</h3>
 						        <div class="checkbox-container"> 
 							        @foreach($purpose as $key => $value) 
 							         <!-- {!! Form::checkbox('purpose_ids[]', $key, ['class' => 'form-control', 'id' => 'purpose_ids', 'checked' => '' ]); !!} -->
@@ -249,7 +249,7 @@ div#loaderarea {
 						    </div>
 							
 							<div class="col-md-12">
-						        <h3 class="title">Gender</h3>
+						        <h3 class="title">{{__('word.'.strtolower('gender'))}}</h3>
 						        <div class="checkbox-container"> 
 							        @foreach($gender as $key => $value)	
 							        <div class="checkboxes">
@@ -261,7 +261,7 @@ div#loaderarea {
 						    </div>
 							
 							<div class="col-md-12">
-						        <h3 class="title">Subject [Ex: Anthropology, Education]</h3>
+						        <h3 class="title">{{__('word.'.strtolower('subject'))}} [{{__('word.'.strtolower('ex: anthropology, education'))}}]</h3>
 						        <div class="city_select">
 									<div class="city_checkbox">
 									{!! Form::select('subject_ids[]',$subject,[], ['class' => 'form-control','multiple','id'=>'subject_ids']) !!}
@@ -270,7 +270,7 @@ div#loaderarea {
 						    </div>
 							<hr>
 							<div class="col-md-12">
-						        <h3 class="title">Location [Ex: stockholm, linköping ]</h3>
+						        <h3 class="title">{{__('word.'.strtolower('location'))}}  [{{__('word.'.strtolower('ex: stockholm, linköping'))}}]</h3>
 						        <div class="city_select">
 									<div class="city_checkbox">
 									{!! Form::select('location[]',$city,[], ['class' => 'form-control','multiple','id'=>'location']) !!}
@@ -279,7 +279,8 @@ div#loaderarea {
 						    </div>
 							
 							<div class="col-md-12">
-						        <h3 class="title">Keyword [Ex: Chalmers, Kanada ] [ Only * show all foundation's ids ]</h3>
+						        <h3 class="title">{{__('word.'.strtolower('keyword'))}}  
+								[{{__('word.'.strtolower('ex: chalmers, kanada'))}}] [{{__('word.'.strtolower('only * show all foundation id'))}}]</h3>
 						        <div class="city_select">
 									<div class="city_checkbox">
 									{!! Form::text('keywords', null, ['class' => 'form-control', '','id'=>'keywords' ]); !!}
@@ -289,11 +290,11 @@ div#loaderarea {
 						
 							<div class="col-md-12">
 								<div class="checkbox">
-									<label><input type="checkbox" id="only_active" name="only_active" checked="checked" value="1"> Show only active funds&nbsp;&nbsp;</label>
+									<label><input type="checkbox" id="only_active" name="only_active" checked="checked" value="1"> {{__('word.'.strtolower('show only active funds'))}}  &nbsp;&nbsp;</label>
 								</div>  
 							</div>
 							
-						<input class="advance_submit" type="submit" value="Search">
+						<input class="advance_submit" type="submit" value="{{__('word.'.strtolower('search'))}}">
 					{!! Form::close() !!}
 
 					</div>
@@ -301,7 +302,7 @@ div#loaderarea {
 					<div id="seabyfdid" class="tab-pane fade in">
 					
 						<div class="col-md-12">
-							<h3 class="title">SEARCH BY FOUNDATIONS ID</h3>
+							<h3 class="title">{{__('word.'.strtolower('search by foundation ids'))}}</h3>
 							<div class="city_select">
 								<div class="city_checkbox">
 									{!! Form::text('foundids', null, ['class' => 'form-control', 'id'=>'foundids', ]); !!}
@@ -311,7 +312,7 @@ div#loaderarea {
 						</div>
 						<br>
 					<div class="col-md-12">
-						<input class="advance_submit_ids" type="submit" value="Search">
+						<input class="advance_submit_ids" type="submit" value="{{__('word.'.strtolower('search'))}}">
 					</div>
 					
 
@@ -330,7 +331,7 @@ div#loaderarea {
 		<div class="col-md-12">
 			<div class="" style="margin-top: 00px;">
 
-						<h1>Foundations</h1>
+						<h1>{{__('word.'.strtolower('foundations'))}}</h1>
 						
 						<div class="foundation-detail" style="position: relative;">
 							<div class="modal">
@@ -338,7 +339,7 @@ div#loaderarea {
 						        <div class="modal-wrapper modal-transition">
 						            <div class="modal-header">
 										<p class="model-title">
-											Foundations Details
+										{{__('word.'.strtolower('foundations details'))}}
 										</p>
 						                <button class="modal-close modal-toggle">
 						                    <i class="fa fa-times"></i>
@@ -385,10 +386,10 @@ div#loaderarea {
 								<tr>
 								
 									<th></th>
-									<th>Row</th>
-									<th>ID</th>
+									<th>{{__('word.'.strtolower('row'))}}</th>
+									<th>{{__('word.'.strtolower('id'))}}</th>
 									<th>Total Saved</th>
-									<th>NAME</th>
+									<th>{{__('word.'.strtolower('name'))}}</th>
 									<th>Saved by User</th>
 									<th>Saved by Staff</th>
 									<!-- <th>DETAILS</th> -->

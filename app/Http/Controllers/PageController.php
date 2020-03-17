@@ -16,11 +16,38 @@ class PageController extends Controller
     {
         $this->middleware('auth');
     }*/
-
+	
+	public function language(Request $request,$lan)
+	{
+		Session::put('language', $lan);
+		session()->put('locale', $lan);
+		if(\Session::has('locale'))
+		   {
+			\App::setlocale(\Session::get('locale'));
+		   }
+		$backurl = url()->previous();
+		/* echo $backurl;exit; */
+		$urldata = explode("/",$backurl);
+		//echo str_replace('/en', '', $backurl);exit;
+		
+		if($lan != 'en'){
+			$url = str_replace('/en', '', $backurl);
+			return redirect($url);
+		}else{
+			if($urldata[3] == 'en'){
+				return redirect()->back();
+			}else{
+				$url = str_replace($urldata[2], $urldata[2].'/en', $backurl);
+				return redirect($url);
+			}
+		}
+		
+	}
+	
+	
     public function show(Request $request,$slug)
     {
-
-        print_r(Session::get('language'));
+       // print_r(Session::get('language'));
         switch (Session::get('language')) {
             case 'en':
                  $lang = 1;
@@ -61,4 +88,14 @@ class PageController extends Controller
             return false;
         }
     }
+	
+	public function contactus()
+	{
+		 return view('contact-us');
+	}
+	public function home()
+	{
+		 return view('welcome');
+	}
+	
 }
