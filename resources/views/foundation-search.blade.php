@@ -3,8 +3,8 @@
 <main class="main-content">
 				<div class="breadcrumbs">
 					<div class="container">
-						<a href="/">Home</a>
-						<span>Foundation Search</span>
+						<a href="/">{{__('word.'.strtolower('home'))}}</a>
+						<span>{{__('word.'.strtolower('foundation'))}} {{__('word.'.strtolower('search'))}}</span>
 					</div>
 				</div>
 
@@ -15,8 +15,8 @@
 						{!! Form::open(array('url' => 'simple-search-result', 'class' => 'regform', 'method' => 'GET')) !!}
 						    <div class="row">
 						    	<div class="col-md-12 text-center ">
-						    		<h3 class="title">To find out which funds are right for you, we will now ask some questions </h3>
-						    		<strong>Select Municipality you live</strong>
+						    		<h3 class="title">{{__('word.'.strtolower('to find out which funds are right for you, we will now ask some questions'))}}  </h3>
+						    		<strong>{{__('word.'.strtolower('select municipality you live'))}}</strong>
 						    	</div>
 						    </div>
 						    <div class="row">
@@ -31,7 +31,7 @@
 								    	</div>
 								   
 							        </div>
-							        <input class="submit_btn" type="submit" value="Search" style="width: 100%;">
+							        <input class="submit_btn" type="submit" value="{{__('word.'.strtolower('search'))}}" style="width: 100%;">
 							    </div>
 							    <div class="col-md-4">
 							    </div>

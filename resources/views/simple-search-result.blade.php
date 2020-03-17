@@ -3,8 +3,8 @@
 <main class="main-content">
 				<div class="breadcrumbs">
 					<div class="container">
-						<a href="/">Home</a>
-						<span>Foundation Search</span>
+						<a href="/">{{__('word.'.strtolower('home'))}}</a>
+						<span>{{__('word.'.strtolower('foundation'))}} {{__('word.'.strtolower('search'))}}</span>
 					</div>
 				</div>
 
@@ -44,15 +44,15 @@
 						<table border="1"  class="table table-bordered" style="width:100%" id="f_table">
 							<thead>
 								<tr>
-									<th>Row</th>
+									<th>{{__('word.'.strtolower('row'))}}</th>
 									<th><input type="checkbox" name=""></th>
 									@if (!Auth::guest())
 									<th></th>
 									@endif
-									<th>Id</th>
-									<th>Name</th>
-									<th>Sort</th>
-									<th>View</th>
+									<th>{{__('word.'.strtolower('id'))}}</th>
+									<th>{{__('word.'.strtolower('name'))}}</th>
+									<th>{{__('word.'.strtolower('sort'))}}</th>
+									<th>{{__('word.'.strtolower('view'))}}</th>
 								</tr>
 							</thead>
 							<tbody id="fundsTable">
@@ -113,7 +113,7 @@
 								<div class="col-md-10">
 									<div class="bulk-action">
 										<ul>
-											<li>Bulk actions: <a href="#" id="search_email">E-mail selected</a></li>
+											<li>{{__('word.'.strtolower('bulk actions'))}}: <a href="#" id="search_email">{{__('word.'.strtolower('e-mail selected'))}}</a></li>
 											<li>|</li>
 											@if (!Auth::guest())
 											<li>
@@ -121,7 +121,7 @@
 											</li>
 											@endif
 											<!-- /newcode/public/ -->
-											<li><a href="/search-foundation" class="s-again">search again</a></li>
+											<li><a href="/search-foundation" class="s-again">{{__('word.'.strtolower('search again'))}}</a></li>
 											<!-- <li><a href="#" id="saveSearchFoundation">Save Foundations</a></li> -->
 											
 										</ul>
@@ -129,15 +129,17 @@
 									@if (Auth::guest())
 									<div class="f-total-info text-center">
 										@if($fund_count > 0)
-										<h3>The list contains {{$fund_count}} more funds. Do you want to see more funds?</h3>
+										<h3>{{__('word.'.strtolower('the list contains'))}} {{$fund_count}} {{__('word.'.strtolower('more funds. do you want to see more funds'))}}?</h3>
 										@endif
 									</div>
 									<div class="row">
 										<div class="col-md-6 subs-btn text-center">
-											<a href="#" class="acc-btn" >Login with your library card</a>
+											<a href="#" class="acc-btn" >
+											{{__('word.'.strtolower('login with your library card'))}}
+											</a>
 										</div>
 										<div class="col-md-6 subs-btn text-center">
-											<a href="#" class="acc-btn" >Buy a subscription for only</a>
+											<a href="#" class="acc-btn" >{{__('word.'.strtolower('buy a subscription for only'))}}</a>
 										</div>
 									</div>
 									@else
@@ -153,14 +155,14 @@
 										</div> -->
 										@endif
 										<div class="f-total-info text-center">
-											<h3>The list contains more funds. Do you want to see more funds?</h3>
+											<h3>{{__('word.'.strtolower('the list contains'))}} {{$fund_count}} {{__('word.'.strtolower('more funds. do you want to see more funds'))}}?</h3>
 										</div>
 										<div class="row">
 											<div class="col-md-6 subs-btn text-center">
-												<a href="#" class="acc-btn" >Login with your library card</a>
+												<a href="#" class="acc-btn" >{{__('word.'.strtolower('login with your library card'))}}</a>
 											</div>
 											<div class="col-md-6 subs-btn text-center">
-												<a href="#" class="acc-btn" >Buy a subscription for only</a>
+												<a href="#" class="acc-btn" >{{__('word.'.strtolower('buy a subscription for only'))}}</a>
 											</div>
 										</div>
 									@endif

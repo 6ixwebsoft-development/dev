@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\Session;
 |
 */
 Auth::routes();
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('welcome');
-});
+}); */
 
-Route::get('profile', function () {
+/* Route::get('profile', function () {
     return view('profile');
-});
+}); */
 
 Route::get('register-organization', function () {
     return view('register-organization');
@@ -400,17 +400,15 @@ Route::get('getFoundationDetailAjax','FoundationSearchController@getFoundationDe
 
 Route::get('profile','HomeController@profile');
 
-Route::get('language/{lan}','HomeController@language');
+Route::get('language/{lan}','PageController@language');
+
+Route::get('contact-us','PageController@contactus');
 
 //Pages dynamic route
- Route::get('/', function () {
-        return view('welcome');
-    }); 
-	
-	Route::get('profile','HomeController@profile');
-	
-	Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
-	
+
+Route::get('/','PageController@home');
+
+Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
 Route::get('sendemail', 'SendEmailController@sendmail');
 
 
@@ -422,24 +420,42 @@ Route::get('sendemail', 'SendEmailController@sendmail');
 
 Route::group([
     'prefix' => '{local}', 
-    //'where' => ['locale' => '[a-zA-Z]{2}'], 
+    
+    /* 'where' => ['locale' => '[a-zA-Z]{2}'], */ 
+
     'middleware' => 'setlocale'
     ], function() {
 
-    Route::get('/', function () {
-        return view('welcome');
-    }); 
-	
+	Route::get('/','PageController@home');
+   
 	Route::get('profile','HomeController@profile');
 	
 	Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
+	Route::get('advance-search','FoundationSearchController@advanceSearch');
+	
+	Route::get('contact-us','PageController@contactus');
 	
 });
-/*
-Route::get('/', function () {
-    return redirect(app()->getLocale());
+
+Route::group([
+    'middleware' => 'setlocale'
+    ], function() {
+
+	Route::get('profile','HomeController@profile');
+	
+	Route::get('{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
+	
+	Route::get('/','PageController@home');
+	
+	Route::get('search-foundation','FoundationSearchController@index');
+	Route::get('simple-search-result','FoundationSearchController@simpleSearchResult');
+	Route::get('advance-search','FoundationSearchController@advanceSearch');
+	Route::get('foundation-detail/{id}','FoundationSearchController@getFoundationDetail');
+	Route::get('contact-us','PageController@contactus');
 });
 
+
+/*
  Route::get('/{request}/{slug}', function () {
     return redirect(app()->getLocale());
 });

@@ -82,12 +82,9 @@ return [
     |
     */
 
-    'locale' => '',
+    'locale' => 'en',
 	
-	'available_locales' => [
-    'en',
-    'se'
-	],
+	
 
     /*
     |--------------------------------------------------------------------------
@@ -184,6 +181,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+		
+		App\Extended\ExtendedTranslationServiceProvider::class,
 
     ],
 

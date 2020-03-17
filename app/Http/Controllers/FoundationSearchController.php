@@ -44,14 +44,14 @@ class FoundationSearchController extends Controller
     protected $guard_name = 'web';
 
     public function __construct()
-    {
+    {		
         //$this->middleware('SetSessionData');
     }
 
 
     public function index(Request $request) {        
         //$userId = $request->session()->get('user.userId');
-        
+		
         $purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Purpose')
