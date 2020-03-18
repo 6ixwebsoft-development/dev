@@ -545,7 +545,7 @@ class FoundationSearchController extends Controller
 				}
 
 				if (!empty($cityName)) {
-					$foundation->where('ct.id', $cityName);
+					$foundation->WhereIn('ct.id', $cityName);
 				}
 				
 				if(!empty($hide_records)) {

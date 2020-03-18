@@ -13,11 +13,20 @@
 								<a href="mailto:INFO@GLOBALGRANT.COM">INFO@GLOBALGRANT.COM</a>
 							</div>
 						</div>
+						@if(Session::get('language') == 'en')
+							@php
+								$lang = Session::get('language');
+							@endphp
+						@else
+							@php
+								$lang = '';
+							@endphp
+						@endif
 						<div class="col-xs-12 col-sm-4 col-md-6 text-center">
 							<div class="widget">
 								<h3 class="widget-title">Company</h3>
 								<ul class="no-bullet">
-									<li><a href="{{ url('/about') }}">About us</a></li>
+									<li><a href="{{ url($lang.'/about') }}">{{ __('word.About us') }}</a></li>
 									@php
 									$result = getName('footer');
 									//echo "<pre>";
@@ -28,7 +37,7 @@
 									@if(!empty($links['link']))
 										<a href="{{ $links['link']}}"> {{ucwords(strtolower($links['name']))}}</a>
 									@else
-										<a href="{{ url(geturlbyPageId($links['page'])) }}"> {{ucwords(strtolower($links['name']))}}</a>
+										<a href="{{ url($lang."/".geturlbyPageId($links['page'])) }}"> {{__('word.'.strtolower($links['name'])) }}</a>
 									@endif
 									
 									</li>
@@ -95,11 +104,11 @@
 			<div class="bottom-footer">
 				<div class="container">
 					<nav class="footer-navigation">
-						<a href="{{ url('') }}">Home</a>
-						<a href="{{ url('/about') }}">About us</a>
+						<a href="{{ url('/'.$lang) }}">{{ __('word.home') }}</a>
+						<a href="{{ url($lang.'/about') }}">{{ __('word.About us') }}</a>
 						<!-- <a href="#">Insurance plans</a>
 						<a href="#">Resources</a> -->
-						<a href="{{ url('/contact-us') }}">Contact</a>
+						<a href="{{ url($lang.'/contact-us') }}">{{__('word.Contact Us') }}</a>
 					</nav>
 
 					<div class="colophon">Copyright 2019 Global Grant. Designed by Tecnotch team. All rights reserved.</div>

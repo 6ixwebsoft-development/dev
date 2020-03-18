@@ -17,19 +17,21 @@
 					{{ __('word.'.strtolower('Another purpose'))}}</input>
                     
                 </div>
+				<input type="hidden" name="lan" id="lan" value="{{Session::get('language')}}">
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    {{ Form::submit(__('search'), ['class'=>'foundationSearch', '']) }}
+				<input type="submit" class="foundationSearch" value="{{ __('word.search')}}">
+                  
                 </div>
             </div>
         {{ Form::close() }} 
     </div>
     <div class="hero hero-slider">
     <ul class="slides">
-        <li data-bg-image="frontend/images/banner-img-0.jpg"></li>
-        <li data-bg-image="frontend/images/banner-img-1.jpg"></li>
-        <li data-bg-image="frontend/images/banner-img-0.jpg"></li>
+        <li data-bg-image="{{ url('/frontend/images/banner-img-0.jpg')}}"></li>
+        <li data-bg-image="{{ url('/frontend/images/banner-img-1.jpg')}}"></li>
+        <li data-bg-image="{{ url('/frontend/images/banner-img-0.jpg')}}"></li>
     </ul>       
 </div> <!-- .hero-slider -->
     <!-- <div class="search_form">
@@ -190,7 +192,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="offer caption-top">
-                        <img src="frontend/dummy/offer-tall.jpg" alt="offer 1">
+                        <img src="{{ url('/frontend/dummy/offer-tall.jpg')}}" alt="offer 1">
                         <div class="caption">
                             <h3 class="offer-title">Massa augue</h3>
                             <small>Conubia nostra per inceptos</small>
@@ -201,7 +203,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="offer caption-bottom">
-                                <img src="frontend/dummy/offer-1.jpg" alt="offer 2">
+                                <img src="{{ url('/frontend/dummy/offer-1.jpg')}}" alt="offer 2">
                                 <div class="caption">
                                     <h3 class="offer-title">Curabitur vehicula</h3>
                                     <small>Conubia nostra per inceptos</small>  
@@ -210,7 +212,7 @@
                         </div>
                         <div class="col-md-8">
                             <div class="offer caption-bottom">
-                        <img src="frontend/dummy/offer-wide.jpg" alt="offer 3">
+                        <img src="{{ url('/frontend/dummy/offer-wide.jpg')}}" alt="offer 3">
                         <div class="caption">
                             <h3 class="offer-title">Vivamus rhoncus porttitor</h3>
                             <small>Conubia nostra per inceptos</small>
@@ -221,7 +223,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="offer caption-bottom">
-                                <img src="frontend/dummy/offer-2.jpg" alt="offer 2">
+                                <img src="{{ url('/frontend/dummy/offer-2.jpg')}}" alt="offer 2">
                                 <div class="caption">
                                     <h3 class="offer-title">Curabitur vehicula</h3>
                                     <small>Conubia nostra per inceptos</small>  
@@ -230,7 +232,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="offer caption-bottom">
-                                <img src="frontend/dummy/offer-3.jpg" alt="offer 2">
+                                <img src="{{ url('/frontend/dummy/offer-3.jpg')}}" alt="offer 2">
                                 <div class="caption">
                                     <h3 class="offer-title">Curabitur vehicula</h3>
                                     <small>Conubia nostra per inceptos</small>  
@@ -239,7 +241,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="offer caption-bottom">
-                                <img src="frontend/dummy/offer-4.jpg" alt="offer 2">
+                                <img src="{{ url('/frontend/dummy/offer-4.jpg')}}" alt="offer 2">
                                 <div class="caption">
                                     <h3 class="offer-title">Curabitur vehicula</h3>
                                     <small>Conubia nostra per inceptos</small>  
@@ -259,22 +261,22 @@
             <div class="row news-list">
                 <div class="col-md-4">
                     <div class="news">
-                        <figure><img src="frontend/dummy/featured-image-1.jpg" alt=""></figure>
-                        <div class="date"><img src="frontend/images/icon-calendar.png" alt="">03/09/2014</div>
+                        <figure><img src="{{ url('/frontend/dummy/featured-image-1.jpg')}}" alt=""></figure>
+                        <div class="date"><img src="{{ url('/frontend/images/icon-calendar.png')}}" alt="">03/09/2014</div>
                         <h2 class="entry-title"><a href="#">Donec laoreet non nec aliquam pellentesque interdum</a></h2>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="news">
-                        <figure><img src="frontend/dummy/featured-image-2.jpg" alt=""></figure>
-                        <div class="date"><img src="frontend/images/icon-calendar.png" alt="">03/09/2014</div>
+                        <figure><img src="{{ url('/frontend/dummy/featured-image-2.jpg')}}" alt=""></figure>
+                        <div class="date"><img src="{{ url('/frontend/images/icon-calendar.png')}}" alt="">03/09/2014</div>
                         <h2 class="entry-title"><a href="#">Donec laoreet non nec aliquam pellentesque interdum</a></h2>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="news">
-                        <figure><img src="frontend/dummy/featured-image-3.jpg" alt=""></figure>
-                        <div class="date"><img src="frontend/images/icon-calendar.png" alt="">03/09/2014</div>
+                        <figure><img src="{{ url('/frontend/dummy/featured-image-3.jpg')}}" alt=""></figure>
+                        <div class="date"><img src="{{ url('/frontend/images/icon-calendar.png')}}" alt="">03/09/2014</div>
                         <h2 class="entry-title"><a href="#">Donec laoreet non nec aliquam pellentesque interdum</a></h2>
                     </div>
                 </div>
@@ -305,11 +307,11 @@
             <h2 class="section-title">{{ __('word.'.strtolower('Our partners'))}}</h2>
 
             <div class="partners">
-                <a href="#"><img src="frontend/dummy/money-logo.png" alt=""></a>
-                <a href="#"><img src="frontend/dummy/nyt-logo.png" alt=""></a>
-                <a href="#"><img src="frontend/dummy/forbes-logo.png" alt=""></a>
-                <a href="#"><img src="frontend/dummy/wsj-logo.png" alt=""></a>
-                <a href="#"><img src="frontend/dummy/bbs-logo.png" alt=""></a>
+                <a href="#"><img src="{{ url('/frontend/dummy/money-logo.png')}}" alt=""></a>
+                <a href="#"><img src="{{ url('/frontend/dummy/nyt-logo.png')}}" alt=""></a>
+                <a href="#"><img src="{{ url('/frontend/dummy/forbes-logo.png')}}" alt=""></a>
+                <a href="#"><img src="{{ url('/frontend/dummy/wsj-logo.png')}}" alt=""></a>
+                <a href="#"><img src="{{ url('/frontend/dummy/bbs-logo.png')}}" alt=""></a>
             </div> <!-- .partners -->
         </div> <!-- .container -->
     </div> <!-- .fullwidth-block -->

@@ -7,15 +7,20 @@ use App\Models\PageBlocks;
 use App\Models\PageMeta;
 use App\Models\PageTranslation;
 use Illuminate\Http\Request;
+use App\Models\Foundation;
 use Illuminate\Support\Facades\Session;
 
 class PageController extends Controller
 {
-
-    /*public function __construct()
+	public function __construct()
     {
-        $this->middleware('auth');
-    }*/
+		if(empty(Session::get('language')))
+		{
+			Session::put('language', 'se');
+			session()->put('locale', 'se');
+		}
+		
+    }
 	
 	public function language(Request $request,$lan)
 	{
@@ -115,6 +120,12 @@ class PageController extends Controller
 	public function home()
 	{
 		 return view('welcome');
+	}
+	
+	public function pagination_data()
+	{
+		$found = Foundation::paginate(50);
+		return view('tetstt')->with(compact('found'));
 	}
 	
 }

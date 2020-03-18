@@ -78,7 +78,7 @@ ul.dropdown-menu.multi-level {
 					@php
 						$lan = Session::get('language');
 					@endphp
-				@else if
+				@else
 					@php
 						$lan = '';
 					@endphp
@@ -125,7 +125,7 @@ ul.dropdown-menu.multi-level {
 								<li style="color:#000;" class="dropdown-submenu">
 								
 								@if(!empty($links_child['link']))
-									<a href="{{ $links_child['link']}}"> {{ucwords(strtolower($links_child['link']))}}</a>
+									<a href="{{ $links_child['link']}}"> {{__('word.'.strtolower($links_child['link'])) }}</a>
 								@else
 									<a href="{{ url($lan."/".geturlbyPageId($links_child['page'])) }}"> {{ucwords(strtolower($links_child['name']))}}</a>
 								@endif
@@ -137,7 +137,8 @@ ul.dropdown-menu.multi-level {
 												<li>
 												
 												@if(!empty($links['link']))
-												<a tabindex="-1" href="{{ url($lan."/".geturlbyPageId($links_child_child['link'])) }}" style="background:#000;color:#fff;">{{ucwords(strtolower($links_child_child['name']))}}</a>
+												<a tabindex="-1" href="{{ url($lan."/".geturlbyPageId($links_child_child['link'])) }}" style="background:#000;color:#fff;">{{__('word.'.strtolower($links_child_child['name'])) }}</a>
+											
 											@else
 												<a tabindex="-1" href="{{ url(geturlbyPageId($links_child_child['page'])) }}" style="background:#000;color:#fff;">{{ucwords(strtolower($links_child_child['name']))}}</a>
 											@endif
@@ -163,8 +164,8 @@ ul.dropdown-menu.multi-level {
           <ul class="menu">
 
             @if (Auth::guest())
-                <li class="menu-item"><a href="{{ url($lan.'/login') }}">{{ __('word.login') }}</a></li>
-                <li class="menu-item"><a href="{{ url($lan.'/register') }}">{{ __('word.register') }} </a></li>
+                <li class="menu-item"><a href="{{ url('/login') }}">{{ __('word.login') }}</a></li>
+                <li class="menu-item"><a href="{{ url('/register') }}">{{ __('word.register') }} </a></li>
             @else
                <a href="{{url($lan.'/profile')}}"> {{ Auth::user()->email }}</a>
                 <a class="dropdown-item" href="{{ route('logout') }}"

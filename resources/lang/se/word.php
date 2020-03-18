@@ -10,7 +10,7 @@ return [
 	'another purpose'		  => 'ett annat syfte',
 	'search'     	 		  => 'Sök',
 	'welcome to our website'  => 'Välkommen till vår hemsida',
-	'hours Service'           => 'timmar Service',
+	'hours service'           => 'timmar Service',
 	'hospitality'  			  => 'gästfrihet',
 	'praesent pellentesque'   => 'praesent pellentesque',
 	'consectetur interdum'    => 'consectetur interdum',
@@ -58,4 +58,6 @@ return [
 	'message'				  => 'Meddelande',
 	'login'				 	  => 'Logga in',
 	'register'				  => 'Registrera',
+	'disclaimer'			  => 'varning',
+	'help'       			  => 'Hjälp',
 ];

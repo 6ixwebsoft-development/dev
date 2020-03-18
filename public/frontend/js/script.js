@@ -13,13 +13,20 @@ $(document).ready(function() {
     });
 
     $(".foundationSearch").click(function(event) {
+		 var lan = $('#lan').val();
+		 if($('#lan').val() == 'en')
+		 {
+			  var lan = "/"+lan;
+		 }else{
+			 var lan = '';
+		 }
         event.preventDefault();
         if($("input[name=fund_search]:checked").val() == 1) {
           //http://test.globalgrant.com/newcode/public/
-          location.href = APP_URL+"/search-foundation";
+          location.href = APP_URL+""+lan+"/search-foundation";
         } else {
           //http://test.globalgrant.com/newcode/public/
-          location.href = APP_URL+"/advance-search";
+          location.href = APP_URL+""+lan+"/advance-search";
         }
     });
 

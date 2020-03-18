@@ -412,11 +412,7 @@ Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'
 Route::get('sendemail', 'SendEmailController@sendmail');
 
 
-    // Route::get('profile','HomeController@profile');
-    
-    // Route::get('/{slugs}/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
-
-
+Route::get('pagination_data','PageController@pagination_data');
 
 Route::group([
     'prefix' => '{local}', 
@@ -426,14 +422,30 @@ Route::group([
     'middleware' => 'setlocale'
     ], function() {
 
-	Route::get('/','PageController@home');
-   
-	Route::get('profile','HomeController@profile');
+Route::get('pagination_data','PageController@pagination_data');
 
-	Route::get('advance-search','FoundationSearchController@advanceSearch');	
-	Route::get('contact-us','PageController@contactus');
+Route::get('/','PageController@home');
+Route::get('search-foundation','FoundationSearchController@index');
+Route::get('autocomplete','FoundationSearchController@autocomplete');
+Route::get('advance-search','FoundationSearchController@advanceSearch');
+Route::post('getAdvanceFoundations','FoundationSearchController@getAdvanceFoundations');
 
-	Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
+Route::get('simple-search-result','FoundationSearchController@simpleSearchResult');
+Route::get('loadMore','FoundationSearchController@loadMore');
+Route::get('getFoundationDetails','FoundationSearchController@getFoundationDetails');
+Route::get('foundation-detail/{id}','FoundationSearchController@getFoundationDetail');
+Route::get('saveSearch','UserSearchSaveController@saveSearch');
+Route::get('fund-search-mail','MailController@fundSearchEmail');
+Route::post('fund-search-mail-send','MailController@foundationSearchSendMail');
+Route::get('getFoundationDetailAjax','FoundationSearchController@getFoundationDetailAjax');
+
+Route::get('sendemail', 'SendEmailController@sendmail');
+
+Route::get('profile','HomeController@profile');
+Route::get('contact-us','PageController@contactus');
+
+Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
+
 });
 
 Route::group([
@@ -442,15 +454,28 @@ Route::group([
 
 	Route::get('profile','HomeController@profile');
 	
+	Route::get('pagination_data','PageController@pagination_data');
+
 	//Route::get('{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
 	
 	Route::get('/','PageController@home');
-	
 	Route::get('search-foundation','FoundationSearchController@index');
-	Route::get('simple-search-result','FoundationSearchController@simpleSearchResult');
-	Route::get('advance-search','FoundationSearchController@advanceSearch');
-	Route::get('foundation-detail/{id}','FoundationSearchController@getFoundationDetail');
-	Route::get('contact-us','PageController@contactus');
+Route::get('autocomplete','FoundationSearchController@autocomplete');
+Route::get('advance-search','FoundationSearchController@advanceSearch');
+Route::post('getAdvanceFoundations','FoundationSearchController@getAdvanceFoundations');
+//Route::post('simple-search-result','FoundationSearchController@simpleSearchResult');
+Route::get('simple-search-result','FoundationSearchController@simpleSearchResult');
+Route::get('loadMore','FoundationSearchController@loadMore');
+Route::get('getFoundationDetails','FoundationSearchController@getFoundationDetails');
+Route::get('foundation-detail/{id}','FoundationSearchController@getFoundationDetail');
+Route::get('saveSearch','UserSearchSaveController@saveSearch');
+Route::get('fund-search-mail','MailController@fundSearchEmail');
+Route::post('fund-search-mail-send','MailController@foundationSearchSendMail');
+Route::get('getFoundationDetailAjax','FoundationSearchController@getFoundationDetailAjax');
+Route::get('sendemail', 'SendEmailController@sendmail');
+Route::get('profile','HomeController@profile');
+Route::get('contact-us','PageController@contactus');
+	Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
 });
 
 

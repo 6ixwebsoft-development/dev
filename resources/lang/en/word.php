@@ -10,7 +10,7 @@ return [
 	'another purpose'		  => 'Another purpose',
 	'search'     	 		  => 'Search',
 	'welcome to our website'  => 'Welcome to our website',
-	'hours Service'           => 'hours Service',
+	'hours service'           => 'hours Service',
 	'search'     	 		  => 'Search',
 	'hospitality'  			  => 'Hospitality',
 	'praesent pellentesque'   => 'Praesent pellentesque',
@@ -60,4 +60,7 @@ return [
 	'message'				  => 'Message',
 	'login'				 	  => 'Login',
 	'register'				  => 'Register',
+	'disclaimer'			  => 'Disclaimer',
+	'help'       			  => 'Help',
+	
 ];
