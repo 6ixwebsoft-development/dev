@@ -62,5 +62,6 @@ return [
 	'register'				  => 'Register',
 	'disclaimer'			  => 'Disclaimer',
 	'help'       			  => 'Help',
+	'email has been sent successfully' => 'Email has been sent successfully',
 	
 ];

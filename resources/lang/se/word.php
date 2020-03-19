@@ -60,4 +60,5 @@ return [
 	'register'				  => 'Registrera',
 	'disclaimer'			  => 'varning',
 	'help'       			  => 'Hjälp',
+	'email has been sent successfully' => 'E-postmeddelandet har skickats',
 ];

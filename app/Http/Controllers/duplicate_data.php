@@ -755,8 +755,8 @@ class FoundationSearchController extends Controller
 			  $foundation = Foundation::leftjoin('gg_foundation_advertise as fa', 'gg_foundation.id', 'fa.foundation_id')
 				->select(
 					"gg_foundation.id",
-					"name",
-					"sort"               
+					"gg_foundation.name"
+					/* "sort"   */             
 				);     
 				
 			if(empty($foundids))
@@ -772,14 +772,9 @@ class FoundationSearchController extends Controller
 						->orWhere('fa.details', 'like', '%'.$searchTerm.'%');
 						});
 					}
-				} elseif(!empty($cityName)) {
-						if (!empty($cityName)) {
-							$foundation->leftjoin('gg_foundation_location as fl', 'gg_foundation.id', 'fl.foundation_id')
-							 ->leftjoin('gg_city as ct', 'fl.city_id', 'ct.id');
-							$foundation->WhereIn('ct.id', $cityName);
-						}
+				} //elseif(!empty($cityName)) {
 				
-				}else {
+				//}else {
 						if (!empty($purposeIds)) {
 							$foundation->leftjoin('gg_foundation_purpose as fp', 'gg_foundation.id', 'fp.foundation_id');
 							$foundation->whereIn('fp.param_id', $purposeIds);
@@ -795,11 +790,11 @@ class FoundationSearchController extends Controller
 						}
 
 						if (!empty($cityName)) {
-							$foundation->leftjoin('gg_foundation_location as fl', 'gg_foundation.id', 'fl.foundation_id')
-							 ->leftjoin('gg_city as ct', 'fl.city_id', 'ct.id');
-							$foundation->WhereIn('ct.id', $cityName);
+							$foundation->leftjoin('gg_foundation_location as fl', 'gg_foundation.id', 'fl.foundation_id');
+							 /* ->leftjoin('gg_city as ct', 'fl.city_id', 'ct.id'); */
+							$foundation->WhereIn('fl.city_id', $cityName);
 						}
-				}
+				//}
 			}else{
 				$foundations = explode(",",$foundids);
 				$foundation->WhereIn('gg_foundation.id', $foundations);

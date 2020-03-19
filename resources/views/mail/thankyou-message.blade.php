@@ -4,7 +4,7 @@
 
 	<div class="page">
 		<div class="container">
-			<h1>Email has been sent successfully</h1>
+			<h1>{{ __('word.email has been sent successfully')}}</h1>
 		</div>
 	</div> <!-- .page -->
 </main>

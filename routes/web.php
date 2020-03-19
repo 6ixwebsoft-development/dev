@@ -406,13 +406,18 @@ Route::get('contact-us','PageController@contactus');
 
 //Pages dynamic route
 
+
+Route::get('pagination_data','FoundationSearchController@pagination_data');
+Route::get('advanceSearchdata','FoundationSearchController@advanceSearchdata');
+
 Route::get('/','PageController@home');
 
 Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
 Route::get('sendemail', 'SendEmailController@sendmail');
 
 
-Route::get('pagination_data','PageController@pagination_data');
+
+
 
 Route::group([
     'prefix' => '{local}', 
@@ -422,7 +427,10 @@ Route::group([
     'middleware' => 'setlocale'
     ], function() {
 
-Route::get('pagination_data','PageController@pagination_data');
+Route::get('pagination_data','FoundationSearchController@pagination_data');
+Route::get('advanceSearchdata','FoundationSearchController@advanceSearchdata');
+
+Route::post('fund-search-mail-send','MailController@foundationSearchSendMail');
 
 Route::get('/','PageController@home');
 Route::get('search-foundation','FoundationSearchController@index');
@@ -454,12 +462,13 @@ Route::group([
 
 	Route::get('profile','HomeController@profile');
 	
-	Route::get('pagination_data','PageController@pagination_data');
+Route::get('pagination_data','FoundationSearchController@pagination_data');
+Route::get('advanceSearchdata','FoundationSearchController@advanceSearchdata');
 
-	//Route::get('{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
-	
-	Route::get('/','PageController@home');
-	Route::get('search-foundation','FoundationSearchController@index');
+Route::post('fund-search-mail-send','MailController@foundationSearchSendMail');
+
+Route::get('/','PageController@home');
+Route::get('search-foundation','FoundationSearchController@index');
 Route::get('autocomplete','FoundationSearchController@autocomplete');
 Route::get('advance-search','FoundationSearchController@advanceSearch');
 Route::post('getAdvanceFoundations','FoundationSearchController@getAdvanceFoundations');

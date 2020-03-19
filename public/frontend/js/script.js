@@ -217,6 +217,8 @@ function getAdvanceFoundations() {
 		"iDisplayLength": 25,
 		//rowId: 'id',
 		
+		
+		
 		columns: [
 			 {data: 'checkbox',onclick:"newselect()" ,name: 'checkbox',class:'select-checkbox',orderable: false, searchable: false},
 			{data: 'DT_RowIndex', name: 'DT_RowIndex'},
@@ -526,3 +528,71 @@ $('#selectAll').click(function(e){
     var table= $(e.target).closest('table');
     $('td input:checkbox',table).prop('checked',this.checked);
 });
+
+
+
+		
+$(document).ready(function() {
+   tablepg = $('#mypaggination').DataTable({
+		destroy: true,
+		dom: 'Bfrtip',
+				buttons: [
+					/* 'copyHtml5',
+					'excelHtml5',
+					'csvHtml5', */
+					'pdf'
+				],
+				
+				  buttons: [
+					{
+						extend: 'pdf',
+					 text: 'Export Foundtaion',
+					 title: 'Export Foundtaion Data',
+						exportOptions: {
+							columns: ':visible'
+						}
+					},
+					'colvis'
+				],
+				columnDefs: [ {
+					//targets: -2,
+					visible: false
+				} ],
+			//select: true,
+			
+		//data: data.data,
+		"iDisplayLength": 50,
+		//rowId: 'id',
+		
+			});
+} );  
+
+function myselectdata(v){
+//$('#mypaggination tbody .my__select').change( function () {
+	//this = v;
+	var t = ":eq("+v+")";
+	console.log(t);
+	
+	if($("#userslistIds_"+v).parent().parent().hasClass( "selected" )){	
+		tablepg.row(t, { page: 'current' }).deselect();
+	}else{
+		tablepg.row(t, { page: 'current' }).select();
+	}
+	
+	//console.log("sasassa",":eq("+$(this).index()+")");
+	
+//});
+}
+
+$('#selectAllsheck').click(function(e){
+   // var table= $(e.target).closest('table');
+   var check = this.checked;
+   console.log(this.checked);
+		$( ".my__select" ).each(function( index ) {
+			  console.log( index + ": " + $( this ).text() );
+			  if(this.checked != check){
+				$(this).click();
+		   }
+			});
+});
+//}
