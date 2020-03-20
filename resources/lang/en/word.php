@@ -1,8 +1,8 @@
 <?php 
 return [
     'Logout'       	 => 'Logout',
-	'About us'     	 => 'About us',
-	'Contact Us'     => 'Contact Us',
+	'aboutus'     	 => 'About us',
+	'contactus'     => 'Contact Us',
 	'faq'  					  => 'faq',
 	'privacy policy'          => 'privacy Policy',
 	'terms of use'            => 'terms Of Use',

@@ -815,6 +815,7 @@ function getCity()
 		url: APP_URL+"/admin/individual/getcity",
 		data:{cid:cid},
 		success:function(data){
+			
 			$(".citydata").empty();
 			$(".citydata").append(data);
 		}
