@@ -1,8 +1,8 @@
 <?php
 return [
     'Logout'       		=> 'Logga ut',
-	'aboutus'     		=> 'Om oss', 
-	'contactus'   		=> 'Kontakta oss',
+	'About us'     		=> 'Om oss', 
+	'Contact Us'   		=> 'Kontakta oss',
 	'faq'  		   		=> 'faq',
 	'privacy policy'  	=> 'integritetspolicy',
 	'terms of use'  	=> 'villkor',

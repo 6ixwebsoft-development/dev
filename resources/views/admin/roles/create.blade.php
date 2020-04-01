@@ -60,7 +60,25 @@
                     {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                 </div>
             </div>
-            <div class="form-group row">
+			
+			<div class="form-group row">
+
+                <div class="col-lg-2">
+
+                  {!! Form::label('User Type', __( 'User Type' ) . ':*', [ 'class' => 'col-form-label']) !!}
+
+                </div>
+
+                <div class="col-lg-10">
+                    {!! Form::radio('usertype', 1,false, array('placeholder' => 'Name')) !!} Admin/staff
+					{!! Form::radio('usertype', 0,false, array('placeholder' => 'Name')) !!} User
+                </div>
+            </div>
+			
+			
+			
+
+           <!-- <div class="form-group row">
 
                 <div class="col-lg-2">
 
@@ -75,7 +93,51 @@
                     <br/>
                     @endforeach
                 </div>
+            </div>-->
+			@foreach($controllers as $key => $value)
+			<div class="form-group row">
+			
+                <div class="col-lg-4">
+
+                  {!! Form::label($key, __( $key ), [ 'class' => 'col-form-label']) !!}
+
+                </div>
+				
+                <div class="col-lg-2">
+                        <label>{{ Form::checkbox('permission[]', get_permission_id($value.'-index'), false, array('class' => 'name')) }}
+                       View</label>
+                </div>
+				<div class="col-lg-2">
+                        <label>{{ Form::checkbox('permission[]', get_permission_id($value.'-create'), false, array('class' => 'name')) }}
+                       Create</label>
+                </div>
+				<div class="col-lg-2">
+                        <label>{{ Form::checkbox('permission[]', get_permission_id($value.'-edit'), false, array('class' => 'name')) }}
+                        Update</label>
+                </div>
+				<div class="col-lg-2">
+                        <label>{{ Form::checkbox('permission[]', get_permission_id($value.'-delete'), false, array('class' => 'name')) }}
+                        Delete</label>
+                </div>
             </div>
+			 @endforeach
+			 
+			<hr>
+			<h5>Extra Permissions</h5>
+			<hr>
+			<div class="form-group row">
+			
+				 @foreach($extraPermission as $key => $value)
+                <div class="col-lg-3">
+                        <label>{{ Form::checkbox('permission[]', get_permission_id($value), false, array('class' => 'name')) }}
+						{{$key}}</label>
+                </div>
+				@endforeach
+            </div>
+			 
+			 
+			 
+			 
     <div class="card-footer clearfix">
 
             <div class="row">

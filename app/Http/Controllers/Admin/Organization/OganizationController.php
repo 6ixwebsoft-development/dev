@@ -99,7 +99,7 @@ class OganizationController extends Controller
 		$dataids = $roleid['role_ids'];
 		$roles = Role::select('name','id')->whereIn('id', ["8","9"])->get(); 
 		
-        return view('admin.organization.create',compact('roles','userroles','language','country','purpose','group'));
+        return view('admin.organization.create',compact('roles','language','country','purpose','group'));
     }
 	
 	 public function store(Request $request)

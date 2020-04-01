@@ -31,32 +31,29 @@ Route::get('subscription', function () {
 Route::post('/subscription/store', 'SubscriptionController@store');
 
 
-Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
-    Route::resource('admin/roles','Auth\RoleController');
-    Route::get('admin/roles/delete/{id}', 'Auth\RoleController@delete');
-    Route::resource('admin/users','Auth\UserController');
-    Route::get('admin/users/delete/{id}', 'Auth\UserController@delete');
+Route::middleware(['auth', 'CheckLogin'])->group(function () {
+	 Route::get('/home', 'HomeController@index')->name('admin.index');
+   Route::group(['middleware'=>'Access'], function () { 
+		Route::resource('admin/roles','Auth\RoleController');
+		Route::get('admin/roles/delete/{id}', 'Auth\RoleController@delete');
+		Route::post('admin/roles/store','Auth\RoleController@store');
+	}); 
 	
-	Route::post('admin/searchvikashuser','Auth\UserController@searchvikashuser');
-	Route::get('admin/passwordhash','Auth\UserController@passwordhash');
+	Route::group(['middleware'=>'Access'], function () {
+		Route::post('admin/user/passwordactive', 'Auth\UserController@passwordactive');
+		
+		Route::post('admin/searchvikashuser','Auth\UserController@searchvikashuser');
+		Route::get('admin/passwordhash','Auth\UserController@passwordhash');
+		
+		Route::resource('admin/users','Auth\UserController');
+		Route::post('admin/user/store','Auth\UserController@store');
+		Route::post('admin/user/update/{id}', 'Auth\UserController@update');
+		Route::get('admin/users/delete/{id}', 'Auth\UserController@delete');
+	});
 	
-	Route::post('admin/user/store','Auth\UserController@store');
-	Route::post('admin/user/update/{id}', 'Auth\UserController@update');
+   
 	
-	Route::post('admin/user/passwordactive', 'Auth\UserController@passwordactive');
-
-    Route::get('/home', 'HomeController@index')->name('admin.index');
-    Route::group(array('namespace' => 'Admin', 'prefix' => 'admin'), function() {
-    Route::get('/', 'AdminController@index');
-    Route::resource('/', 'AdminController');
-		
-		
-		
-        Route::get('/settings', 'SettingsController@index');
-        Route::get('/settings/getSettings','SettingsController@getSettings');
-        Route::post('/settings/store', 'SettingsController@store');
-
-        Route::group(['namespace' => 'Modules', 'prefix' => 'modules'], function () {
+	 Route::group(['namespace' => 'Modules', 'prefix' => 'modules','middleware'=>'Access'], function () {
             //Module Routes
             Route::get('module', 'ModuleController@index');
             Route::get('module/create', 'ModuleController@create');
@@ -82,6 +79,16 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
             Route::get('fieldvalue/delete/{id}', 'ModuleFieldValueController@delete');
 
         });
+	
+    Route::group(array('namespace' => 'Admin', 'prefix' => 'admin','middleware'=>'Access'), function() {
+			Route::get('/', 'AdminController@index');
+			//Route::resource('/', 'AdminController');
+		
+		
+		
+        Route::get('/settings', 'SettingsController@index');
+        Route::get('/settings/getSettings','SettingsController@getSettings');
+        Route::post('/settings/store', 'SettingsController@store');
 
         //Foundation routes
         Route::get('foundation', 'FoundationController@index');
@@ -90,6 +97,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
         Route::get('foundation/{id}/edit', 'FoundationController@edit');
         Route::post('/foundation/update/{id}', 'FoundationController@update')->name('admin.foundation.update');
         Route::get('foundation/delete/{id}', 'FoundationController@delete');
+		
 		Route::get('foundation/exports', 'FoundationController@exports');
 		// Search user data for admin
 		Route::post('foundation/searchexportfoundation','FoundationController@search_export_foundation');
@@ -137,7 +145,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 
         });
     });
-    Route::group(array('namespace' => 'Admin\Language', 'prefix' => 'admin'), function() {
+    Route::group(array('namespace' => 'Admin\Language', 'prefix' => 'admin','middleware'=>'Access'), function() {
     
         Route::get('language','LanguageController@index');
         Route::get('language/create', 'LanguageController@create');
@@ -150,7 +158,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
         Route::get('language/restore/{id}', 'LanguageController@restore');
 
     });
-    Route::group(array('namespace' => 'Admin\Label', 'prefix' => 'admin'), function() {
+    Route::group(array('namespace' => 'Admin\Label', 'prefix' => 'admin','middleware'=>'Access'), function() {
         
         Route::get('/{id}/label','LabelController@index');
         Route::get('label/create', 'LabelController@create');
@@ -160,7 +168,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
         Route::get('label/delete/{id}', 'LabelController@delete');
 
     });
-    Route::group(array('namespace' => 'Admin\Pages', 'prefix' => 'admin'), function() {
+    Route::group(array('namespace' => 'Admin\Pages', 'prefix' => 'admin','middleware'=>'Access'), function() {
         
         Route::get('pages','PagesController@index');
         Route::get('pages/create', 'PagesController@create');
@@ -170,7 +178,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
         Route::get('pages/delete/{id}', 'PagesController@delete');
 
     });
-    Route::group(array('namespace' => 'Admin\Translation', 'prefix' => 'admin'), function() {
+    Route::group(array('namespace' => 'Admin\Translation', 'prefix' => 'admin','middleware'=>'Access'), function() {
         
         Route::get('translation','TranslationController@index');
         Route::get('translation/create', 'TranslationController@create');
@@ -180,7 +188,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
         Route::get('translation/delete/{id}', 'TranslationController@delete');
 
     });
-    Route::group(array('namespace' => 'Admin\Permission', 'prefix' => 'admin'), function() {
+    Route::group(array('namespace' => 'Admin\Permission', 'prefix' => 'admin','middleware'=>'Access'), function() {
         
         Route::get('permission','PermissionController@index');
         Route::get('permission/create', 'PermissionController@create');
@@ -190,23 +198,25 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
         Route::get('permission/delete/{id}', 'PermissionController@delete');
 
     }); 
-    Route::group(array('namespace' => 'Admin\subscription', 'prefix' => 'admin'),function() {
+    Route::group(array('namespace' => 'Admin\subscription', 'prefix' => 'admin','middleware'=>'Access'),function() {
         
         Route::get('subscription','SubscriptionController@index');
         Route::get('subscription/create', 'SubscriptionController@create');
         Route::post('subscription/store', 'SubscriptionController@store');
         Route::get('subscription/{id}/edit', 'SubscriptionController@edit');
         Route::post('subscription/update/{id}', 'SubscriptionController@update')->name('admin.subscription.update');
-        Route::get('subscription/delete/{id}', 'SubscriptionController@delete');
-		Route::get('subscription/userlist', 'SubscriptionController@userlist');
-		Route::post('subscription/getsubscriptiontype','SubscriptionController@getsubscriptiontype');
+        Route::get('subscription/delete/{id}', 'SubscriptionController@delete');		
 		
 		Route::post('subscription/getsubsbystatus','SubscriptionController@getsubsbystatus');
 		Route::get('subscription/create/{id}/{type}', 'SubscriptionController@create');
 		Route::post('subscription/changestatus', 'SubscriptionController@changestatus');
-    });
+    
+		Route::get('subscription/userlist', 'SubscriptionController@userlist');
+		Route::post('subscription/getsubscriptiontype','SubscriptionController@getsubscriptiontype');
+	});
 	
-	Route::group(array('namespace' => 'Admin\Payment', 'prefix' => 'admin'),function() {
+	
+	Route::group(array('namespace' => 'Admin\Payment', 'prefix' => 'admin','middleware'=>'Access'),function() {
         
         Route::get('paymentmood','PaymentController@index');
 		Route::get('paymentmood/create', 'PaymentController@create');
@@ -216,7 +226,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('paymentmood/delete/{id}', 'PaymentController@delete'); 
     });
 	
-	Route::group(array('namespace' => 'Admin\Office', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Office', 'prefix' => 'admin','middleware'=>'Access'),function() {
         
         Route::get('Office','OfficeController@index');
 		Route::get('Office/create', 'OfficeController@create');
@@ -226,7 +236,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('Office/delete/{id}', 'OfficeController@delete');
     });
 	
-	Route::group(array('namespace' => 'Admin\Sproduct', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Sproduct', 'prefix' => 'admin','middleware'=>'Access'),function() {
         
         Route::get('products','SproductController@index');
 		Route::get('product/create', 'SproductController@create');
@@ -238,7 +248,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::post('product/changestatus', 'SproductController@changestatus');
     });
 	
-	Route::group(array('namespace' => 'Admin\Hitlist', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Hitlist', 'prefix' => 'admin','middleware'=>'Access'),function() {
         
         Route::get('hitlist','HitlistController@index');
 		Route::get('hitlist/create', 'HitlistController@create');
@@ -250,7 +260,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::post('hitlist/changestatus', 'HitlistController@changestatus');
     });
 	
-	Route::group(array('namespace' => 'Admin\Purpose', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Purpose', 'prefix' => 'admin','middleware'=>'Access'),function() {
         
         Route::get('purpose','PurposeController@index');
 		Route::get('purpose/create', 'PurposeController@create');
@@ -261,21 +271,22 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
     });
 	
 	//Individual routes
-	Route::group(array('namespace' => 'Admin\Individual', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Individual', 'prefix' => 'admin','middleware'=>'Access'),function() {
         Route::get('individual', 'IndividualController@index');
         Route::get('individual/create/', 'IndividualController@create');
         Route::post('/individual/store', 'IndividualController@store');
         Route::get('individual/{id}/edit', 'IndividualController@edit');
         Route::post('/individual/update/{id}', 'IndividualController@update')->name('admin.individual.update');
         Route::get('individual/delete/{id}', 'IndividualController@delete');
-		Route::post('individual/getregion','IndividualController@getregion');
-		Route::post('individual/getcity','IndividualController@getcity');
+		
 		
 		Route::post('individual/updateaction','IndividualController@updateaction');
 		
 	});
+	Route::post('individual/getregion','IndividualController@getregion');
+	Route::post('individual/getcity','IndividualController@getcity');
 	
-	Route::group(array('namespace' => 'Admin\Library', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Library', 'prefix' => 'admin','middleware'=>'Access'),function() {
         
         Route::get('library','LibraryController@index');
 		Route::get('library/create', 'LibraryController@create');
@@ -285,7 +296,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('library/delete/{id}', 'LibraryController@delete');
     });
 	
-	Route::group(array('namespace' => 'Admin\Library', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Library', 'prefix' => 'admin','middleware'=>'Access'),function() {
         
         Route::get('librarygroup','LibraryGroupController@index');
 		Route::get('librarygroup/create', 'LibraryGroupController@create');
@@ -297,7 +308,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::post('librarygroup/changestatus', 'LibraryGroupController@changestatus');
     });
 	
-	Route::group(array('namespace' => 'Admin\Organization', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Organization', 'prefix' => 'admin','middleware'=>'Access'),function() {
         
         Route::get('organization','OganizationController@index');
 		Route::get('organization/create', 'OganizationController@create');
@@ -305,10 +316,11 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('organization/{id}/edit', 'OganizationController@edit');
 		Route::post('organization/update/{id}', 'OganizationController@update')->name('admin.organization.update');
 		Route::get('organization/delete/{id}', 'OganizationController@delete');
-		Route::post('organization/document', 'OganizationController@deleteDataImg');
+		
     });
+	Route::post('organization/document', 'OganizationController@deleteDataImg');
 	
-	Route::group(array('namespace' => 'Admin\Subscriptiontype', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Subscriptiontype', 'prefix' => 'admin','middleware'=>'Access'),function() {
         
         Route::get('subscriptiontype','SubscriptiontypeController@index');
 		Route::get('subscriptiontype/create', 'SubscriptiontypeController@create');
@@ -320,7 +332,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		
     });
 	
-	Route::group(array('namespace' => 'Admin\Subject', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Subject', 'prefix' => 'admin','middleware'=>'Access'),function() {
         
         Route::get('subject','SubjectController@index');
 		Route::get('subject/create', 'SubjectController@create');
@@ -330,7 +342,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('subject/delete/{id}', 'SubjectController@delete');
     });
 	
-	Route::group(array('namespace' => 'Admin\Transaction', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Transaction', 'prefix' => 'admin','middleware'=>'Access'),function() {
         
         Route::get('transaction','TransactionController@index');
 		Route::get('transaction/create', 'TransactionController@create');
@@ -342,7 +354,7 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::post('transaction/searchtransactiondata', 'TransactionController@searchtransactiondata');
     });
 	
-	Route::group(array('namespace' => 'Admin\Order', 'prefix' => 'admin'),function() {
+	Route::group(array('namespace' => 'Admin\Order', 'prefix' => 'admin','middleware'=>'Access'),function() {
         
         Route::get('order','OrderController@index');
 		Route::get('order/create', 'OrderController@create');
@@ -350,15 +362,17 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::get('order/{id}/edit', 'OrderController@edit');
 		Route::post('order/update/{id}', 'OrderController@update')->name('admin.order.update');
 		Route::get('order/delete/{id}', 'OrderController@delete');
-		Route::post('order/getproduct', 'OrderController@getproduct');
+		
 		Route::post('order/getorderbystatus', 'OrderController@getorderbystatus');
 		
 		Route::get('order/create/{id}/{type}', 'OrderController@create');
 		Route::post('order/changestatus', 'OrderController@changestatus');
+		Route::post('order/getproduct', 'OrderController@getproduct');
 		
     });
 	
-	Route::group(array('namespace' => 'Admin\Menu', 'prefix' => 'admin'),function() {
+	
+	Route::group(array('namespace' => 'Admin\Menu', 'prefix' => 'admin','middleware'=>'Access'),function() {
         
         Route::get('menu','MenuController@index');
 		Route::get('menu/create', 'MenuController@create');
@@ -367,10 +381,11 @@ Route::middleware(['auth', 'CheckLogin', 'Access'])->group(function () {
 		Route::post('menu/update/{id}', 'MenuController@update')->name('admin.menu.update');
 		Route::get('menu/delete/{id}', 'MenuController@delete');
 		
-		Route::get('menu/getdatamenu', 'MenuController@getdatamenu');
-		Route::get('menu/createfooter', 'MenuController@createfooter');
 		
+		Route::get('menu/createfooter', 'MenuController@createfooter');
+		Route::get('menu/getdatamenu', 'MenuController@getdatamenu');
     });
+	
 	
 	Route::group(array('namespace' => 'Admin\Report', 'prefix' => 'admin'),function() {
         

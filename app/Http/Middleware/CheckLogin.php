@@ -25,7 +25,7 @@ class CheckLogin
         if(!empty($current_user_role[0])){
 
             $link = Role::where('name', $current_user_role[0])->select('link')->get();
-            
+            //print_r($link);exit;
             if(empty($link[0]->link)) {
                 return redirect()->guest('/');
             }elseif($link[0]->link == '/admin'){

@@ -21,12 +21,9 @@ class RoleController extends Controller
      */
     function __construct()
     {
-      //  $this->middleware('permission:role-list', ['only' => ['create','store','destroy']]);
-       /* $this->middleware('permission:role-list');
-        $this->middleware('permission:role-create', ['only' => ['create','store']]);
-        $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:role-delete', ['only' => ['destroy']]);
-*/    }
+		
+		
+	}
 
 
     /**
@@ -43,15 +40,14 @@ class RoleController extends Controller
     public function index(Request $request) {
 
         if ($request->ajax()) {
-            $data = Role::all();
+            $data = Role::where('deleted','!=','1')->get();
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-						$btn = '';
+						$btn = '<a href="'.url('admin').'/roles/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>';
 						if($row->main_role != '1')
 						{
-                          $btn = '<a href="'.url('admin').'/roles/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a href="'.url('admin').'/roles/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+                          $btn .= '<a href="'.url('admin').'/roles/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
 						}
                             return $btn;
                     })
@@ -70,8 +66,59 @@ class RoleController extends Controller
      */
     public function create()
     {
+		$controllers = array(
+			'Role' => 'RoleController',
+			'Users' => 'UserController',
+			'Foundation'=>'FoundationController',
+			'Settings' => 'SettingsController',
+			'Module' => 'ModuleController',
+			'Module Field' => 'ModuleFieldController',
+			'Module Field Value' => 'ModuleFieldValueController',
+			'Country Block' => 'CountryBlockController',
+			'Country' => 'CountryController',
+			'Region' => 'RegionController',
+			'City' => 'CityController',
+			'Language' => 'LanguageController',
+			'Label' => 'LabelController',
+			'Pages' => 'PagesController',
+			'Translation' => 'TranslationController',
+			'Permission' => 'PermissionController',
+			'Subscription' => 'SubscriptionController',
+			'Payment' => 'PaymentController',
+			'Office' => 'OfficeController',
+			'Product' => 'SproductController',
+			'Hitlist' => 'HitlistController',
+			'Purpose' => 'PurposeController',
+			'Individual' => 'IndividualController',
+			'Library' => 'LibraryController',
+			'Library Group' => 'LibraryGroupController',
+			'Oganization' => 'OganizationController',
+			'Subscription Type' => 'SubscriptiontypeController',
+			'Subject' => 'SubjectController',
+			'Transaction' => 'TransactionController',
+			'Order' => 'OrderController',
+			'Menu' => 'MenuController'
+		
+		);
+		$extraPermission = array(
+			'User List' => 'UserseachController-listalluser',
+			'Foundation Export' => 'FoundationController-exports',
+			'Footer Menu' => 'MenuController-createfooter',
+			'Order Search' => 'OrderController-getorderbystatus',
+			'Order Change Status' => 'OrderController-changestatus',
+			'Transaction Search' => 'TransactionController-searchtransactiondata',
+			'Subscription Change Status' => 'SubscriptiontypeController-changestatus',
+			'LibraryGroup Change Status' => 'LibraryGroupController-changestatus',
+			'Individual Change Status' => 'IndividualController-updateaction',
+			'Hitlist Change Status' => 'HitlistController-changestatus',
+			'Hitlist Change Status' => 'SproductController-changestatus',
+			'Subscription Search' => 'SubscriptionController-getsubsbystatus',
+			'Subscription Change Status' => 'SubscriptionController-changestatus',
+			'Foundation Export Search' =>'FoundationController-search_export_foundation',
+			'foundation Multidelete' => 'FoundationController-multidelete'
+		); 
         $permission = Permission::get();
-        return view('admin.roles.create',compact('permission'));
+        return view('admin.roles.create',compact('permission','controllers','extraPermission'));
     }
 
 
@@ -86,10 +133,18 @@ class RoleController extends Controller
         $this->validate($request, [
             'name' => 'required|unique:roles,name',
             'permission' => 'required',
+			'usertype' => 'required',
         ]);
-
-
-        $role = Role::create(['name' => $request->input('name'),'link' => "/profile"]);
+		
+		//print_r($request->all());exit;
+		
+		if($request->input('usertype') == 1){
+			$link = "/admin";
+		}else{
+			$link = "/profile";
+		}
+		//echo $link;exit;
+        $role = Role::create(['name' => $request->input('name'),'link' => $link]);
         $role->syncPermissions($request->input('permission'));
 
 
@@ -122,12 +177,65 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
+		$controllers = array(
+			'Role' => 'RoleController',
+			'Users' => 'UserController',
+			'Foundation' =>'FoundationController',
+			'Settings' => 'SettingsController',
+			'Module' => 'ModuleController',
+			'Module Field' => 'ModuleFieldController',
+			'Module Field Value' => 'ModuleFieldValueController',
+			'Country Block' => 'CountryBlockController',
+			'Country' => 'CountryController',
+			'Region' => 'RegionController',
+			'City' => 'CityController',
+			'Language' => 'LanguageController',
+			'Label' => 'LabelController',
+			'Pages' => 'PagesController',
+			'Translation' => 'TranslationController',
+			'Permission' => 'PermissionController',
+			'Subscription' => 'SubscriptionController',
+			'Payment' => 'PaymentController',
+			'Office' => 'OfficeController',
+			'Product' => 'SproductController',
+			'Hitlist' => 'HitlistController',
+			'Purpose' => 'PurposeController',
+			'Individual' => 'IndividualController',
+			'Library' => 'LibraryController',
+			'Library Group' => 'LibraryGroupController',
+			'Oganization' => 'OganizationController',
+			'Subscription Type' => 'SubscriptiontypeController',
+			'Subject' => 'SubjectController',
+			'Transaction' => 'TransactionController',
+			'Order' => 'OrderController',
+			'Menu' => 'MenuController'
+		
+		);
+		$extraPermission = array(
+			'User List' => 'UserseachController-listalluser',
+			'Foundation Export' => 'FoundationController-exports',
+			'Footer Menu' => 'MenuController-createfooter',
+			'Order Search' => 'OrderController-getorderbystatus',
+			'Order Change Status' => 'OrderController-changestatus',
+			'Transaction Search' => 'TransactionController-searchtransactiondata',
+			'Subscription Change Status' => 'SubscriptiontypeController-changestatus',
+			'LibraryGroup Change Status' => 'LibraryGroupController-changestatus',
+			'Individual Change Status' => 'IndividualController-updateaction',
+			'Hitlist Change Status' => 'HitlistController-changestatus',
+			'Hitlist Change Status' => 'SproductController-changestatus',
+			'Subscription Search' => 'SubscriptionController-getsubsbystatus',
+			'Subscription Change Status' => 'SubscriptionController-changestatus',
+			'Foundation Export Search' =>'FoundationController-search_export_foundation',
+			'foundation Multidelete' => 'FoundationController-multidelete',
+			'Orgnization Change Status' => 'UserseachController-updateaction'
+		); 
+		
         $role = Role::find($id);
         $permission = Permission::get();
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->all();
-        return view('admin.roles.edit',compact('role','permission','rolePermissions'));
+        return view('admin.roles.edit',compact('role','permission','rolePermissions','controllers','extraPermission'));
     }
 
 
@@ -144,8 +252,8 @@ class RoleController extends Controller
             'name' => 'required',
             'permission' => 'required',
         ]);
-
-
+		//print_r($request->input());exit;
+		$request->input('name');
         $role = Role::find($id);
         $role->name = $request->input('name');
         $role->save();

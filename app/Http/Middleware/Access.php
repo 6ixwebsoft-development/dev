@@ -25,19 +25,34 @@ class Access
        $route = explode("\\", $route_path);
        $route = end($route);
        $controller_action = explode('@', $route);
-       $controller_action = implode('-', $controller_action);
-
+	   if($controller_action[1] == 'store'){
+		   $controller_action[1] = 'create';
+		   $controller_action = implode('-', $controller_action);
+	   }else if($controller_action[1] == 'update'){
+		   $controller_action[1] = 'edit';
+		   $controller_action = implode('-', $controller_action);
+	   }else{
+		   $controller_action = implode('-', $controller_action);
+	   }
+	   
+       
+		//print_r($controller_action);
        $allowed = false;
+	  
        try {
           $allowed = $user->hasPermissionTo($controller_action);
-
+		
        } catch (PermissionDoesNotExist $e) {
          //permission doesn't exist in db
-         $allowed = true;
+         $allowed = false;
        }
-
+		//echo $allowed;exit;
        if (!$allowed) {
-          return redirect()->guest('/access-denied');
+         // return redirect()->guest('/access-denied');
+			 $output	= ['class' => 'alert-position-danger',
+                            'msg' => __("Access no allowed...!")
+                            ];
+			return redirect('/home')->with('message', $output);
        }
        return $next($request);
     }

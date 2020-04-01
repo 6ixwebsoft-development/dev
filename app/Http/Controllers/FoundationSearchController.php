@@ -756,7 +756,7 @@ class FoundationSearchController extends Controller
 				->select(
 					"gg_foundation.id",
 					"name",
-					"sort"				
+					"sort"               
 				);     
 				
 			if(empty($foundids))
@@ -772,14 +772,14 @@ class FoundationSearchController extends Controller
 						->orWhere('fa.details', 'like', '%'.$searchTerm.'%');
 						});
 					}
-				 } /* elseif(!empty($cityName)) { */
-						/* if (!empty($cityName)) {
+				} elseif(!empty($cityName)) {
+						if (!empty($cityName)) {
 							$foundation->leftjoin('gg_foundation_location as fl', 'gg_foundation.id', 'fl.foundation_id')
 							 ->leftjoin('gg_city as ct', 'fl.city_id', 'ct.id');
 							$foundation->WhereIn('ct.id', $cityName);
-						} */
+						}
 				
-				/* }else { */
+				}else {
 						if (!empty($purposeIds)) {
 							$foundation->leftjoin('gg_foundation_purpose as fp', 'gg_foundation.id', 'fp.foundation_id');
 							$foundation->whereIn('fp.param_id', $purposeIds);
@@ -799,7 +799,7 @@ class FoundationSearchController extends Controller
 							 ->leftjoin('gg_city as ct', 'fl.city_id', 'ct.id');
 							$foundation->WhereIn('ct.id', $cityName);
 						}
-				/* } */
+				}
 			}else{
 				$foundations = explode(",",$foundids);
 				$foundation->WhereIn('gg_foundation.id', $foundations);
@@ -811,17 +811,14 @@ class FoundationSearchController extends Controller
 				}
 			}
 			
-			$foundation->where('gg_foundation.deleted','0')->groupBy('gg_foundation.id');
-			
-			$countdata = $foundation->get()->count();
-		
+			$foundation->where('gg_foundation.deleted','0')->orderBy('id','desc');
+			$countdata = $foundation->count();
+			//DB::enableQueryLog();
             $data = $foundation->paginate(50);
-			
-			// echo $data->total();exit; 
+
 			//dd(DB::getQueryLog());
 			
-			//$data->appends(request()->except('page'))->render();
-			
+			$data->appends(request()->except('page'))->render();
 			$founddata = array();
 			foreach($data as $fdata){
 				$founddata[] = array(
@@ -832,9 +829,9 @@ class FoundationSearchController extends Controller
 					'savedbystaff' => UserSearchSave::countFoundationSavedByStaff($fdata->id),
 				);
 			}
-			/* echo $data->total();exit; */
+
 			$all_data['data']=$founddata;
-			$all_data['links']=$data->appends(request()->except('page'))->links();
+			$all_data['links']=$data->appends(request()->except('page'))->render();;
 			$all_data['postdata']=$post_data;
 			$all_data['countdata']=$countdata;
 			/*  echo "<pre>";

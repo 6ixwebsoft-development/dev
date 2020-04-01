@@ -19,6 +19,7 @@ class PermissionTableSeeder extends Seeder
            'role-create',
            'role-edit',
            'role-delete'
+		   'TranslationController-create'
         ];
 
 

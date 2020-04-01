@@ -131,4 +131,16 @@ function getfrontuserdata($id,$type='')
 	{return false;}
 }
 
+function get_permission_id($name)
+{
+	
+	$result = DB::table('permissions')->where('name',$name)->first(); 
+	if(!empty($result->id))
+	{return $result->id;}
+	else
+	{return false;}
+} 
+
+
+
 

@@ -165,9 +165,10 @@ class UserController extends Controller
 				} */
 
          $input = $request->all(); 
-        /* $login['password'] = Hash::make($login['password']);
-		$userinfo['fname'] = $login['name'];
-		 */
+		 //print_r($input);exit;
+         $input['password'] = Hash::make($input['password']);
+		//$userinfo['fname'] = $login['name'];
+		 
 		$user= User::Create($input);
 		$user->assignRole($input['roles']);
 		$userId = $user->id;

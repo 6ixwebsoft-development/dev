@@ -504,7 +504,7 @@ class IndividualController extends Controller
 		$myfoundList = Foundation::whereIn('id',$foundsids)->get();
 		/* echo"<pre>";
 		print_r($subsList);exit; */
-        return view('admin.Individual.edit',compact('roles','language','country','purpose','individual','user','contact','personal','purpose','purposeId','study','care','walfare','research','project','video','childern','userRole','civilstatus','gender','userroles','orderList','subsList','myfoundList'));
+        return view('admin.Individual.edit',compact('roles','language','country','purpose','individual','user','contact','personal','purpose','purposeId','study','care','walfare','research','project','video','childern','civilstatus','gender','userroles','orderList','subsList','myfoundList'));
 	}
 
 public function update(Request $request, $id) 
