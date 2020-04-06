@@ -83,6 +83,17 @@ class LibraryController extends Controller
 	
 	 public function store(Request $request)
     {
+		$this->validate($request, [
+					'library' => 'required',
+					'email' => 'required|email|',
+					'userrole' => 'required',
+					/* 'availability' => 'required', */
+					'useremail' => 'required|email|unique:users,email',
+					'mobile' => 'numeric',
+					'phone' => 'numeric',
+				]);
+				DB::beginTransaction();
+		
         try {
             $result = $request->all(); 
 				
@@ -185,20 +196,23 @@ class LibraryController extends Controller
 					Libraryremoteip::insert($ips);
 					$i++; }
 				}
-				
-				
-
-		$output = ['success' => true,
-                            'class' => __("Library added successfully")
-                        ];
+		
+				$output	= ['class' => 'alert-position-success',
+                            'msg' => __("Library added successfully")
+                            ];
+			 DB::commit();
+			 return redirect('admin/library')->with('message', $output);
+			 
         } catch (\Exception $e) {
-            $output = ['success' => false,
-                            'class' => __("Something went wrong")
-                        ];
-			
+            $output	= ['class' => 'alert-position-danger',
+                            'msg' => __("Library Not create".$e)
+                            ];
+			DB::rollBack();
+			echo $e;
+			//return redirect('admin/library/create')->with('message', $output);
         }
 
-       return redirect('admin/library')->with('status', $output);
+     //  return redirect('admin/library')->with('status', $output);
 
     }
 	

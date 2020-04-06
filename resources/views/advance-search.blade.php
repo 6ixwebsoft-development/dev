@@ -423,10 +423,21 @@ div#loaderarea {
 								<tr>
 									<td><input type="checkbox" class='select-checkbox my__select' name="checkbox"  id="userslistIds_{{$i}}" data-id="{{$i}}" onchange="myselectdata({{$i}});"></td>	
 									<td>
+									@if(!empty($checkip))
 									<a onclick="getFoundationDetailajax('{{$mydata['id']}}',0)">{{$mydata['id']}}</a>
+									@else
+									{{$mydata['id']}}
+									@endif
 									</td>
 									<td>{{$mydata['totalsaved']}}</td>
-									<td>{{$mydata['name']}}</td>
+									<td>
+									@if(!empty($checkip))
+									{{$mydata['name']}}
+									@else
+									
+									@endif
+									
+									</td>
 									<td>{{$mydata['savedbyuser']}}</td>
 									<td>{{$mydata['savedbystaff']}}</td>
 								</tr>

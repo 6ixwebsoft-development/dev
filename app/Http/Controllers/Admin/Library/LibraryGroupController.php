@@ -161,7 +161,7 @@ class LibraryGroupController extends Controller
 		$country = Country::pluck('country_name','id')->all();
 		$purpose = Purpose::pluck('purpose','id')->all();
 		$language = Language::where('status','1')->pluck('language', 'id')->all();
-		return view('admin.librarygroup.edit',compact('roles','userroles','language','country','purpose','basic','contact'));
+		return view('admin.librarygroup.edit',compact('roles','language','country','purpose','basic','contact'));
 	}
 	
 	public function update(Request $request, $id) 

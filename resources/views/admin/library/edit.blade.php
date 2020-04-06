@@ -521,7 +521,7 @@
 											
 												{!! Form::label('Remote ID', __( 'Remote ID' ) . ':', [ 'class' => 'col-sm-3 col-form-label']) !!}
 												<div class="col-sm-3">								 
-												  {!! Form::text('remoteid[]', $data->remoteid, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);','id'=>"remoteid",'readonly' ,'placeholder' => __( '' ) ]); !!}
+												  {!! Form::text('remoteid[]', $data->remoteid, ['class' => 'form-control','id'=>"remoteid",'readonly' ,'placeholder' => __( '' ) ]); !!}
 												</div>
 											</div>
 											

@@ -428,6 +428,7 @@ class UserController extends Controller
 		'status' => 1,
 		'password' => $pass
 		);
+		
  		$query = DB::table('users')->where('id', $id)->update($userdata);
 		return  $query;exit;
 		

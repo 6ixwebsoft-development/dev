@@ -115,7 +115,8 @@ class RoleController extends Controller
 			'Subscription Search' => 'SubscriptionController-getsubsbystatus',
 			'Subscription Change Status' => 'SubscriptionController-changestatus',
 			'Foundation Export Search' =>'FoundationController-search_export_foundation',
-			'foundation Multidelete' => 'FoundationController-multidelete'
+			'foundation Multidelete' => 'FoundationController-multidelete',
+			'User Password' => 'UserController-passwordactive'
 		); 
         $permission = Permission::get();
         return view('admin.roles.create',compact('permission','controllers','extraPermission'));

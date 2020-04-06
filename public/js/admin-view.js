@@ -955,11 +955,21 @@ $(document).ready(function(){
 function maxLengthFunction()
 {
 
-   var ddl = document.getElementById("remotedigit");
-  
-   var strOption = ddl.options[ddl.selectedIndex].text
-		document.getElementById("remoteid").removeAttribute('readonly');
-       document.getElementById("remoteid").maxLength=strOption;
+	var count = $('#remotedigit').val();
+	$('#remoteid').attr('maxlength', count);
+	$('#remoteid').removeAttr('readonly');
+	var i;
+	var mydata = '';
+	for (i = 1; i <= count; i++) {
+	  mydata += '#';
+	}
+	//alert(mydata);
+	$('#remoteid').val(mydata);
+	
+	/* var ddl = document.getElementById("remotedigit");
+	var strOption = ddl.options[ddl.selectedIndex].text
+	document.getElementById("remoteid").removeAttribute('readonly');
+	document.getElementById("remoteid").maxLength=strOption; */
 }
 
 												
@@ -2303,6 +2313,7 @@ function saveactivepassword(id)
 		url: APP_URL+"/admin/user/passwordactive",
 		data:{id:id,password:password},
 		success:function(data){
+			//alert(data);return false;
 			if(data == 1)
 			{
 				alert('Password has been activated successfully');

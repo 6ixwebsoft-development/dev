@@ -440,7 +440,7 @@
 											
 												{!! Form::label('Remote ID', __( 'Remote ID' ) . ':', [ 'class' => 'col-sm-3 col-form-label']) !!}
 												<div class="col-sm-3">								 
-												  {!! Form::text('remoteid[]', null, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);','id'=>"remoteid",'readonly' ,'placeholder' => __( '' ) ]); !!}
+												  {!! Form::text('remoteid[]', null, ['class' => 'form-control','id'=>"remoteid",'readonly' ,'placeholder' => __( '' ) ]); !!}
 												</div>
 												<div class="col-sm-2">
 													<a class="btn btn-success add_buttonremote">Add</a>

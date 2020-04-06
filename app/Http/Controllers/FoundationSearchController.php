@@ -36,6 +36,8 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
 use App\User;
+use Session;
+
 
 class FoundationSearchController extends Controller
 {
@@ -725,11 +727,12 @@ class FoundationSearchController extends Controller
         foreach ($cities as $citi) {
             $city[$citi->id] = $citi->city_name;
         }
-		
+		//echo Session::get('checkip');exit;
+		$checkip = Session::get('checkip'); 
 		/* echo "<pre>";
 		print_r($all_data['postdata']);exit;  */
 		
-		return view('advance-search')->with(compact('purpose', 'gender', 'subject','city','all_data'));
+		return view('advance-search')->with(compact('purpose', 'gender', 'subject','city','all_data','checkip'));
     }
 
     public function advanceSearchdata(Request $request)

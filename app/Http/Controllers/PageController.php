@@ -128,4 +128,10 @@ class PageController extends Controller
 		return view('tetstt')->with(compact('found'));
 	}
 	
+	public function remote_login()
+	{
+		 return view('remote_login');
+	}
+	
+	
 }
