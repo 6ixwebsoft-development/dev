@@ -26,7 +26,7 @@
 							    	<div class="city_select">
 							       
 								        <div class="city_checkbox">
-											{!! Form::select('city_ids[]',$city,[], ['class' => 'form-control','multiple']) !!}
+											{!! Form::select('city_ids[]',$city,[], ['class' => 'form-control','multiple','id'=>'cityDataFound']) !!}
 								    	
 								    	</div>
 								   

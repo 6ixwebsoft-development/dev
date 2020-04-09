@@ -167,7 +167,7 @@ ul.dropdown-menu.multi-level {
                 <li class="menu-item"><a href="{{ url('/login') }}">{{ __('word.login') }}</a></li>
                 <li class="menu-item"><a href="{{ url('/register') }}">{{ __('word.register') }} </a></li>
             @else
-               <a href="{{url($lan.'/profile')}}"> {{ Auth::user()->email }}</a>
+               <a href="{{url($lan.'/manage')}}"> {{ Auth::user()->email }}</a>
                 <a class="dropdown-item" href="{{ route('logout') }}"
                  onclick="event.preventDefault();
                                document.getElementById('logout-form').submit();">

@@ -596,3 +596,18 @@ $('#selectAllsheck').click(function(e){
 			});
 });
 //}
+
+function maxLengthFunction(val)
+{
+	
+	var count = $('#remotedigit_'+val+'').val();
+	$('#remoteid_'+val+'').attr('maxlength', count);
+	$('#remoteid_'+val+'').removeAttr('readonly');
+	var i;
+	var mydata = '';
+	for (i = 1; i <= count; i++) {
+	  mydata += '*';
+	}
+	//alert(mydata);
+	$('#remoteid_'+val+'').val(mydata);
+}

@@ -174,7 +174,7 @@
 		<script>
 
 		$(function() {
-		  $("select").select2({
+		  $("#cityDataFound").select2({
 			placeholder: "Select a word",
 			width: "100%"
 		  });

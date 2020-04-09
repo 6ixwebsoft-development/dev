@@ -144,6 +144,31 @@ function get_permission_id($name)
 	{return false;}
 } 
 
+function get_language_name($id)
+{
+	$result = DB::table('gg_languages')->where('id',$id)->first(); 
+	if(!empty($result->language))
+	{return $result->language;}
+	else
+	{return false;}
+}
 
+function get_country_name($id)
+{
+	$result = DB::table('gg_country')->where('id',$id)->first(); 
+	if(!empty($result->country_name))
+	{return $result->country_name;}
+	else
+	{return false;}
+}
+
+function get_city_name($id)
+{
+	$result = DB::table('gg_city')->where('id',$id)->first(); 
+	if(!empty($result->city_name))
+	{return $result->city_name;}
+	else
+	{return false;}
+}
 
 

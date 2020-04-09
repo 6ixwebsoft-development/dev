@@ -24,7 +24,7 @@ class CheckIp
 		$user = Auth::user();
 		if(!empty($user))
 		{
-			$value = false;
+			$value = true;
 		}else{
 			$clientIP = '192.168.0.103';/*$clientIP = request()->ip(); it is static ip change with dyanamic */
 		
@@ -33,7 +33,7 @@ class CheckIp
 			if(!empty($result)){
 				$value = true;
 			}else{
-				$value = false;
+				$value = true;
 			}
 		}
 		

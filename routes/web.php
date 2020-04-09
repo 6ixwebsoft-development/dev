@@ -397,6 +397,32 @@ Route::middleware(['auth', 'CheckLogin'])->group(function () {
 	
 });
 
+
+/* Front User check Login */
+
+Route::get('/user_login','front\FrontLoginCheckController@user_login');
+Route::get('/manage','front\FrontLoginCheckController@user_login');
+
+/* Library Front Panel Route */
+Route::get('/library','front\LibraryController@index');
+Route::get('/library/manage/information','front\LibraryController@information');
+Route::get('/library/manage/login','front\LibraryController@library_login');
+Route::get('/library/manage/contact','front\LibraryController@contact');
+Route::get('/library/manage/ip-setting','front\LibraryController@ip_setting');
+Route::get('/library/manage/remote-access','front\LibraryController@remote_access');
+Route::get('/library/manage/remote-arena','front\LibraryController@remote_arena');
+Route::get('/library/manage/static-report','front\LibraryController@static_report');
+Route::get('/library/manage/account-history','front\LibraryController@account_history');
+
+/* Library edit route */
+
+Route::post('/library/manage/information_edit/{id}','front\LibraryController@information_edit');
+Route::post('/library/manage/contact_edit/{id}','front\LibraryController@contact_edit');
+Route::post('/library/manage/library_login_edit/{id}','front\LibraryController@library_login_edit');
+Route::post('/library/manage/ip_setting_edit/{id}','front\LibraryController@ip_setting_edit');
+Route::post('/library/manage/remote_access_edit/{id}','front\LibraryController@remote_access_edit');
+Route::post('/library/manage/remote_arena_edit/{id}','front\LibraryController@remote_arena_edit');
+
 Route::get('/remote','PageController@remote_login');
 //search foundation
 Route::get('search-foundation','FoundationSearchController@index');
