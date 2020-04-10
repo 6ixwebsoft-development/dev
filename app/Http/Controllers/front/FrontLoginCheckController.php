@@ -19,7 +19,7 @@ class FrontLoginCheckController extends Controller
 			if($current_user_role[0] == 'User40 - Paid Library/University/Organization' || $current_user_role[0] == 'User30 - Library/University/Organization'){
 				return redirect()->guest('/library'); 
 			}else{
-				return redirect()->guest('/profile'); 
+				return redirect()->guest('/customer'); 
 			}
 				
 		}

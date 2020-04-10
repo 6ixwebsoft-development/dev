@@ -170,39 +170,19 @@ class UserController extends Controller
 		//$userinfo['fname'] = $login['name'];
 		 
 		$user= User::Create($input);
-		$user->assignRole($input['roles']);
+		if(!empty($input['roles'])){
+			$role = $input['roles'];
+		}else{
+			$role = 'User10 - Registered Free User';
+		}
+		$user->assignRole($role);
 		$userId = $user->id;
 		
-		/* $userdata = array(
+		 $userdata = array(
                     "userid" => $userId,
-                    "fname"  => $userinfo['fname'],
-                    "mname"  => $userinfo['middlename'],
-                    "lname"  => $userinfo['lastname'],
-					"age"   =>  $userinfo['age'],
-                    "dateofbirth"  => $userinfo['birthdate'],
-                    "language"  => $userinfo['language'],
-					"availability" => $userinfo['availability'],
-                    "streetaddress"  => $userinfo['streetaddress'],
-                    "zipcode"  => $userinfo['zipcode'],
-                    "country"  => $userinfo['country'],
-                    "personal"  => $userinfo['personal'],
-                    "mobile"  => $userinfo['mobile'],
-					"phone" => $userinfo['phone'],
-                    "librarycity"  => $userinfo['librarycity'],
-					"librarycard"  => $userinfo['librarycard'],
-                    "librarynumber"  => $userinfo['language'],
-					"comment" =>  $userinfo['comment'],
-                    "purpose"  => $userinfo['purpose'],
-                    "studymajor"  => $userinfo['studymajor'],
-                    "degree"  => $userinfo['degree'],
-					"school" => $userinfo['school'],
-                    "location"  => $userinfo['location'],
-                    "startdate"  => $userinfo['startdate'],
-                    "enddate"  => $userinfo['enddate'],
-                    "govtsupport"  => $userinfo['govtsupport'],
-                    
+                    "fname"  => $input['name'],  
             );
-		$userinfo = Userinfo::insert($userdata); */
+		$userinfo = Userinfo::insert($userdata); 
 		
 		
 		return Redirect::to('admin/users')->with('success','User created successfully');

@@ -495,10 +495,10 @@ function seveSearchEmail() {
   });
   //console.log(foundationIds);
   $.ajax({
-    url: "fund-search-mail",
+    url: "/fund-search-mail",
     data: { _token : token, foundation_ids : foundationIds},
     success: function (data) {
-        //console.log(data.email_details); 
+        console.log(data.email_details); 
         if(data.details.length > 0) {
           $('.mail-body').empty();
           for(var i in data.details) {
