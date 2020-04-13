@@ -27,14 +27,28 @@ class customerController extends Controller
 	public function get_foundation()
 	{
 		$user = Auth::user();
-
+		$current_user_role = $user->getRoleNames(); 
+		/* echo Session::get('checkip');exit; */
+		if($current_user_role[0] == 'User10 - Registered Free User')
+		{
+			if(!empty(Session::get('checkip')))
+			{
+				$limited_data = false;
+			}else{
+				$limited_data = true;
+			}
+			
+		}else{
+			$limited_data = false;
+		}
+		
 		$foundation = Foundation::leftjoin('gg_user_search_save as us', 'gg_foundation.id', 'us.foundation_id')
 		->select(
 			"gg_foundation.id",
 			"name",           
 		)->where('us.user_id',$user->id)->orderBy('gg_foundation.id','desc')->get();
 		
-		return view('customer.foundation',compact('foundation'));
+		return view('customer.foundation',compact('foundation','limited_data'));
 	}
 	
 	public function get_basicinfo()
@@ -171,6 +185,22 @@ class customerController extends Controller
 					];
 		}
 		return redirect('customer/edit/cardnumber')->with('message', $output);
+	}
+	
+	public function delete_save_found($id)
+	{
+		$user = Auth::user();
+		$query = DB::table('gg_user_search_save')->where('foundation_id', $id)->where('user_id', $user->id)->delete();
+		if($query){
+			$output	= ['class' => 'alert-success',
+					'msg' => __("Foundation deleted")
+					];
+		}else{
+			$output	= ['class' => 'alert-danger',
+					'msg' => __("Foundation not deleted")
+					];
+		}
+		return redirect('customer/edit/foundations')->with('message', $output);
 	}
 	
 }

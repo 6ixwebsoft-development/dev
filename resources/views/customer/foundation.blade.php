@@ -77,9 +77,14 @@
 							<tr>
 								<td><input type="checkbox" name="foundatoin_check" id="checked_foundation" value="{{$found->id}}"></td>
 								<td>{{$found->id}}</td>
-								<td>{{$found->name}}</td>
-								<td><span class="glyphicon glyphicon-trash"></span></td>
+								@if(!empty($limited_data))
+									<td></td>
+								@else
+									<td>{{$found->name}}{{$limited_data}}</td>
+								@endif
+								<td><a onclick="return confirm('Are you want to delete?')" href="{{ url('delete-save-found').'/'.$found->id }}"><span class="glyphicon glyphicon-trash" ></span></a></td>
 							</tr>
+							
 						@endforeach
 					@else
 					<tbody>
@@ -105,6 +110,8 @@
 		$(".formBox").hide();
 		$(".datashow").show();
 	}
+	
+	
 </script>
 @endsection
 

@@ -76,13 +76,22 @@ class MailController extends Controller
 
             $html = '';
             foreach ($foundations as $key => $foundation) {
-                $html = '<p><b>Purpose: </b>'.$foundation->purpose.'</p>
+				$user = Auth::user();
+				$current_user_role = $user->getRoleNames(); 
+				
+				if($current_user_role[0] == 'User10 - Registered Free User')
+				{
+					 $contact_details[$key] = $html = '<p><b>foundation Id#: </b>'.$foundation->id.'</p>';
+				}else{
+					$html = '<p><b>Purpose: </b>'.$foundation->purpose.'</p>
                         <p><b>Who Can Apply: </b>'.$foundation->who_can_apply.'</p>
                         <p><b>Applications: </b>'.$foundation->details.'</p>
                         <p><b>Contact Details:</b></p>
                         <p>'.$foundation->address1.'</p><p>'.$foundation->address2.'</p><p>'.$foundation->address3.'</p><br>
                         <p>PHONE: '.$foundation->phone_no.'</p><p>MOBILE: '.$foundation->mobile_no.'</p><p>E_MAIL: '.$foundation->email.'</p><p>Website: <a href="'.$foundation->website.'" target="blank">'.$foundation->website.'</a></p><p class="border"></p>';
-                $contact_details[$key] = $html;
+					$contact_details[$key] = $html;	
+				}
+                
             }
         } 
             return response()->json(array("details" => $contact_details, "email_details" => $foundations));
