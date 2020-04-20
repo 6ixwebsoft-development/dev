@@ -29,26 +29,14 @@ class customerController extends Controller
 		$user = Auth::user();
 		$current_user_role = $user->getRoleNames(); 
 		/* echo Session::get('checkip');exit; */
-		if($current_user_role[0] == 'User10 - Registered Free User')
-		{
-			if(!empty(Session::get('checkip')))
-			{
-				$limited_data = false;
-			}else{
-				$limited_data = true;
-			}
-			
-		}else{
-			$limited_data = false;
-		}
-		
 		$foundation = Foundation::leftjoin('gg_user_search_save as us', 'gg_foundation.id', 'us.foundation_id')
 		->select(
 			"gg_foundation.id",
-			"name",           
+			"name", 
+			"us.display"			
 		)->where('us.user_id',$user->id)->orderBy('gg_foundation.id','desc')->get();
 		
-		return view('customer.foundation',compact('foundation','limited_data'));
+		return view('customer.foundation',compact('foundation'));
 	}
 	
 	public function get_basicinfo()

@@ -162,21 +162,34 @@ ul.dropdown-menu.multi-level {
       <div style="float:right">
         <div class="main-navigation">
           <ul class="menu">
-
-            @if (Auth::guest())
-                <li class="menu-item"><a href="{{ url('/login') }}">{{ __('word.login') }}</a></li>
-                <li class="menu-item"><a href="{{ url('/register') }}">{{ __('word.register') }} </a></li>
-            @else
-               <a href="{{url($lan.'/manage')}}"> {{ Auth::user()->email }}</a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                 onclick="event.preventDefault();
-                               document.getElementById('logout-form').submit();">
-                 <i class="fa fa-lock"></i> {{ __('word.Logout') }}
-				</a>
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                  @csrf
-              </form>
-            @endif
+			
+			@if(!empty(Session::get('remote_name')))
+				<a> {{ Session::get('remote_name') }}</a>
+					<a class="dropdown-item" href="{{ route('logout') }}"
+					 onclick="event.preventDefault();
+								   document.getElementById('logout-form').submit();">
+					 <i class="fa fa-lock"></i> {{ __('word.Logout') }}
+					</a>
+				  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+					  @csrf
+				  </form>
+			@else
+				
+				@if (Auth::guest())
+					<li class="menu-item"><a href="{{ url('/login') }}">{{ __('word.login') }}</a></li>
+					<li class="menu-item"><a href="{{ url('/register') }}">{{ __('word.register') }} </a></li>
+				@else
+				   <a href="{{url($lan.'/manage')}}"> {{ Auth::user()->email }}</a>
+					<a class="dropdown-item" href="{{ route('logout') }}"
+					 onclick="event.preventDefault();
+								   document.getElementById('logout-form').submit();">
+					 <i class="fa fa-lock"></i> {{ __('word.Logout') }}
+					</a>
+				  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+					  @csrf
+				  </form>
+				@endif
+			@endif
             <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 

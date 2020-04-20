@@ -470,7 +470,7 @@ Route::get('/','PageController@home');
 Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
 Route::get('sendemail', 'SendEmailController@sendmail');
 
-
+Route::post('/libararycard_login','Auth\RemoteLoginController@index');
 
 
 
@@ -490,10 +490,12 @@ Route::group(array('middleware'=>'CheckIp'),function() {
 	Route::get('/','PageController@home');
 	Route::get('/remote','PageController@remote_login');
 	
-	Route::get('search-foundation','FoundationSearchController@index');
-	Route::get('autocomplete','FoundationSearchController@autocomplete');
-	Route::get('advance-search','FoundationSearchController@advanceSearch');
-	Route::post('getAdvanceFoundations','FoundationSearchController@getAdvanceFoundations');
+	//Route::group(array('middleware'=>'FrontAccess'),function() {
+		Route::get('search-foundation','FoundationSearchController@index');
+		Route::get('autocomplete','FoundationSearchController@autocomplete');
+		Route::get('advance-search','FoundationSearchController@advanceSearch');
+		Route::post('getAdvanceFoundations','FoundationSearchController@getAdvanceFoundations');
+	//});
 
 	Route::get('simple-search-result','FoundationSearchController@simpleSearchResult');
 	Route::get('loadMore','FoundationSearchController@loadMore');
@@ -563,6 +565,7 @@ Route::group([
     ], function() {
 
 	Route::get('profile','HomeController@profile');
+	Route::get('/remote','PageController@remote_login');
 	
 Route::get('pagination_data','FoundationSearchController@pagination_data');
 Route::get('advanceSearchdata','FoundationSearchController@advanceSearchdata');
@@ -573,10 +576,12 @@ Route::group(array('middleware'=>'CheckIp'),function() {
 	Route::get('/','PageController@home');
 	Route::get('/remote','PageController@remote_login');
 	
-	Route::get('search-foundation','FoundationSearchController@index');
-	Route::get('autocomplete','FoundationSearchController@autocomplete');
-	Route::get('advance-search','FoundationSearchController@advanceSearch');
-	Route::post('getAdvanceFoundations','FoundationSearchController@getAdvanceFoundations');
+	//Route::group(array('middleware'=>'FrontAccess'),function() {
+		Route::get('search-foundation','FoundationSearchController@index');
+		Route::get('autocomplete','FoundationSearchController@autocomplete');
+		Route::get('advance-search','FoundationSearchController@advanceSearch');
+		Route::post('getAdvanceFoundations','FoundationSearchController@getAdvanceFoundations');
+	//});
 	//Route::post('simple-search-result','FoundationSearchController@simpleSearchResult');
 	Route::get('simple-search-result','FoundationSearchController@simpleSearchResult');
 	Route::get('loadMore','FoundationSearchController@loadMore');

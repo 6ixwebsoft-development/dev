@@ -133,15 +133,19 @@
 										@endif
 									</div>
 									<div class="row">
+									@if(empty(Session::get('remote_name')))
 										<div class="col-md-6 subs-btn text-center">
-											<a href="#" class="acc-btn" >
+											<a href="{{ url('en/remote') }}" class="acc-btn" >
 											{{__('word.'.strtolower('login with your library card'))}}
 											</a>
 										</div>
+										
 										<div class="col-md-6 subs-btn text-center">
 											<a href="#" class="acc-btn" >{{__('word.'.strtolower('buy a subscription for only'))}}</a>
 										</div>
+										@endif
 									</div>
+									
 									@else
 										@if($fund_count > 10)
 										<!-- <div class="row">
@@ -159,7 +163,7 @@
 										</div>
 										<div class="row">
 											<div class="col-md-6 subs-btn text-center">
-												<a href="#" class="acc-btn" >{{__('word.'.strtolower('login with your library card'))}}</a>
+												<a href="/remote" class="acc-btn" >{{__('word.'.strtolower('login with your library card'))}}</a>
 											</div>
 											<div class="col-md-6 subs-btn text-center">
 												<a href="#" class="acc-btn" >{{__('word.'.strtolower('buy a subscription for only'))}}</a>

@@ -57,7 +57,7 @@
 		<h4 class="text-primary">If you don't see the names of the funds you saved,<br>register your library card number<br>under tab REGISTER YOUR LIBRARY CARD.</h4>
 		
 		<div class="col-sm-6 pull-left">
-			<a href="#" id="search_email" class="btn btn-primary">{{__('word.'.strtolower('e-mail selected'))}}</a>
+			<a href="#" id="search_email" class="btn btn-primary">{{__('word.'.strtolower('e-mail'))}}</a>
 		</div>
 		<div class="col-sm-6 ">
 			<a href="/search-foundation" id="search_email" class="btn btn-primary pull-right">Seaech foundation</a>
@@ -77,10 +77,10 @@
 							<tr>
 								<td><input type="checkbox" name="foundatoin_check" id="checked_foundation" value="{{$found->id}}"></td>
 								<td>{{$found->id}}</td>
-								@if(!empty($limited_data))
+								@if($found->display == 0)
 									<td></td>
 								@else
-									<td>{{$found->name}}{{$limited_data}}</td>
+									<td>{{$found->name}}</td>
 								@endif
 								<td><a onclick="return confirm('Are you want to delete?')" href="{{ url('delete-save-found').'/'.$found->id }}"><span class="glyphicon glyphicon-trash" ></span></a></td>
 							</tr>

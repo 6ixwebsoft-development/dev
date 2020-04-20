@@ -67,6 +67,7 @@ class Kernel extends HttpKernel
         'CheckLogin' => \App\Http\Middleware\CheckLogin::class,
 		'setlocale' => \App\Http\Middleware\SetLocale::class,
 		'CheckIp' => \App\Http\Middleware\CheckIp::class,
+		'FrontAccess' => \App\Http\Middleware\FrontAccess::class,
     ];
 
     /**

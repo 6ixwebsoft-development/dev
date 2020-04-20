@@ -8,6 +8,8 @@ use App\Models\PageMeta;
 use App\Models\PageTranslation;
 use Illuminate\Http\Request;
 use App\Models\Foundation;
+use App\Models\Library;
+
 use Illuminate\Support\Facades\Session;
 
 class PageController extends Controller
@@ -130,8 +132,7 @@ class PageController extends Controller
 	
 	public function remote_login()
 	{
-		 return view('remote_login');
+		$library = $LibraryId = Library::where('type','1')->get();
+		return view('remote_login')->with(compact('library'));
 	}
-	
-	
 }

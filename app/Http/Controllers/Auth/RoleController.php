@@ -116,7 +116,10 @@ class RoleController extends Controller
 			'Subscription Change Status' => 'SubscriptionController-changestatus',
 			'Foundation Export Search' =>'FoundationController-search_export_foundation',
 			'foundation Multidelete' => 'FoundationController-multidelete',
-			'User Password' => 'UserController-passwordactive'
+			'User Password' => 'UserController-passwordactive',
+			'Simple Search' => 'FoundationSearchController-index',
+			'Adavnced Search' => 'FoundationSearchController-advanceSearch'
+			
 		); 
         $permission = Permission::get();
         return view('admin.roles.create',compact('permission','controllers','extraPermission'));
@@ -228,7 +231,9 @@ class RoleController extends Controller
 			'Subscription Change Status' => 'SubscriptionController-changestatus',
 			'Foundation Export Search' =>'FoundationController-search_export_foundation',
 			'foundation Multidelete' => 'FoundationController-multidelete',
-			'Orgnization Change Status' => 'UserseachController-updateaction'
+			'Orgnization Change Status' => 'UserseachController-updateaction',
+			'Simple Search' => 'FoundationSearchController-index',
+			'Adavnced Search' => 'FoundationSearchController-advanceSearch'
 		); 
 		
         $role = Role::find($id);

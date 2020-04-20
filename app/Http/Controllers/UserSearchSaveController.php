@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use App\User;
 use DB;
-//use Hash;
+use Session;
 class UserSearchSaveController extends Controller
 {
     
@@ -17,6 +17,12 @@ class UserSearchSaveController extends Controller
         if($request->ajax()) {
 
             $user = Auth::user();
+			if(!empty(Session::get('checkip')))
+			{
+				$display = 1;
+			}else{
+				$display = 0;
+			}
             if($user) {
                 
                 $foundationIds = $request->get('foundation_ids');
@@ -24,7 +30,8 @@ class UserSearchSaveController extends Controller
                     foreach ($foundationIds as $foundationId) {
                         $data = array(
                                 "user_id" => $user->id,
-                                "foundation_id" => $foundationId
+                                "foundation_id" => $foundationId,
+								"display" => $display
                         );
                         $savedSearchResult = UserSearchSave::where('user_id', $user->id)->where('foundation_id', $foundationId)->first();                
                         

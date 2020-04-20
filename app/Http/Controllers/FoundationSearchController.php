@@ -230,7 +230,9 @@ class FoundationSearchController extends Controller
 
             $all_foundations = $foundation->get()->unique();       
 
-        } else {
+        } elseif(!empty(Session::get('remote_name'))){
+			 $all_foundations = $foundation->get()->unique();  
+		}else {
 
             if($limit > 0) {
 
@@ -249,6 +251,8 @@ class FoundationSearchController extends Controller
 		
 		
         //return response()->json(array("foundations" => $all_foundations, "foundations_contacts" => $foundation_contacts));
+		
+		//print_r($all_foundations);exit;
         return view('simple-search-result')->with(compact('all_foundations', 'fund_count', 'save_count'));
     }
 

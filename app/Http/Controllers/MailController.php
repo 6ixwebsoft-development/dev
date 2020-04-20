@@ -35,6 +35,7 @@ use Spatie\Permission\Traits\HasRoles;
 use App\User;
 use Mail;
 use App\Mail\sendEmail;
+use Session;
 
 class MailController extends Controller
 {
@@ -77,19 +78,32 @@ class MailController extends Controller
             $html = '';
             foreach ($foundations as $key => $foundation) {
 				$user = Auth::user();
-				$current_user_role = $user->getRoleNames(); 
-				
-				if($current_user_role[0] == 'User10 - Registered Free User')
-				{
-					 $contact_details[$key] = $html = '<p><b>foundation Id#: </b>'.$foundation->id.'</p>';
-				}else{
-					$html = '<p><b>Purpose: </b>'.$foundation->purpose.'</p>
-                        <p><b>Who Can Apply: </b>'.$foundation->who_can_apply.'</p>
-                        <p><b>Applications: </b>'.$foundation->details.'</p>
-                        <p><b>Contact Details:</b></p>
-                        <p>'.$foundation->address1.'</p><p>'.$foundation->address2.'</p><p>'.$foundation->address3.'</p><br>
-                        <p>PHONE: '.$foundation->phone_no.'</p><p>MOBILE: '.$foundation->mobile_no.'</p><p>E_MAIL: '.$foundation->email.'</p><p>Website: <a href="'.$foundation->website.'" target="blank">'.$foundation->website.'</a></p><p class="border"></p>';
-					$contact_details[$key] = $html;	
+				if(!empty($user)){
+					$current_user_role = $user->getRoleNames(); 
+					
+					$check_display = UserSearchSave::where('user_id',$user->id)->where('foundation_id',$foundation->id)->first();
+					if($check_display->display == 0)
+					{
+						 $contact_details[$key] = $html = '<p><b>foundation Id#: </b>'.$foundation->id.'</p>';
+					}else{
+						$html = '<p><b>Purpose: </b>'.$foundation->purpose.'</p>
+							<p><b>Who Can Apply: </b>'.$foundation->who_can_apply.'</p>
+							<p><b>Applications: </b>'.$foundation->details.'</p>
+							<p><b>Contact Details:</b></p>
+							<p>'.$foundation->address1.'</p><p>'.$foundation->address2.'</p><p>'.$foundation->address3.'</p><br>
+							<p>PHONE: '.$foundation->phone_no.'</p><p>MOBILE: '.$foundation->mobile_no.'</p><p>E_MAIL: '.$foundation->email.'</p><p>Website: <a href="'.$foundation->website.'" target="blank">'.$foundation->website.'</a></p><p class="border"></p>';
+						$contact_details[$key] = $html;	
+					}
+				} elseif(!empty(Session::get('remote_name'))){
+					 $html = '<p><b>Purpose: </b>'.$foundation->purpose.'</p>
+							<p><b>Who Can Apply: </b>'.$foundation->who_can_apply.'</p>
+							<p><b>Applications: </b>'.$foundation->details.'</p>
+							<p><b>Contact Details:</b></p>
+							<p>'.$foundation->address1.'</p><p>'.$foundation->address2.'</p><p>'.$foundation->address3.'</p><br>
+							<p>PHONE: '.$foundation->phone_no.'</p><p>MOBILE: '.$foundation->mobile_no.'</p><p>E_MAIL: '.$foundation->email.'</p><p>Website: <a href="'.$foundation->website.'" target="blank">'.$foundation->website.'</a></p><p class="border"></p>';
+						$contact_details[$key] = $html;	  
+				}else {
+					$contact_details[$key] = "No Record...";
 				}
                 
             }
