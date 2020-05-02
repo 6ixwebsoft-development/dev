@@ -78,7 +78,31 @@ class SproductController extends Controller
 			'typeid' => 'required',
 			'price' => 'required',
         ]);
-		
+		if(empty($request->discountamount))
+		{
+			$discount = 0;
+		}else{
+			$discount = $request->discountamount;
+		}
+		if(empty($request->vatamount))
+		{
+			$vatamount = 0;
+		}else{
+			$vatamount = $request->vatamount;
+		}
+		if(empty($request->freightamount))
+		{
+			$freightamount = 0;
+		}else{
+			$freightamount = $request->freightamount;
+		}
+		if(empty($request->freighttax))
+		{
+			$freighttax = 0;
+		}else{
+			$freighttax = $request->freighttax;
+		}
+
 		$data = array(
 			"productname" => $request->productname,
 			"languageid"  => $request->languageid,
@@ -89,14 +113,14 @@ class SproductController extends Controller
 			"display" => $request->display,
 			"paymentmood"  =>$request->paymentmood,
 			"discountlabel"  => $request->discountlabel,
-			"discountamount"  => $request->discountamount,
+			"discountamount"  => $discount,
 			"vatlabel"  => $request->vatlabel,
-			"vatamount"   =>  $request->vatamount,
+			"vatamount"   => $vatamount,
 			"freightlabel"  => $request->freightlabel,
-			"freightamount" => $request->freightamount,
+			"freightamount" => $freightamount,
 			"freighttaxlabel"  =>$request->freighttaxlabel,
-			"freighttax"  => $request->freighttax,
-			"totalprice"  => 100,
+			"freighttax"  => $freighttax,
+			"totalprice"  => $request->totalprice,
 			"description"  => $request->description,
 			"created_at"  => now(),
 		);
@@ -133,7 +157,30 @@ class SproductController extends Controller
 			'typeid' => 'required',
 			'price' => 'required',
         ]);
-		
+		if(empty($request->discountamount))
+		{
+			$discount = 0;
+		}else{
+			$discount = $request->discountamount;
+		}
+		if(empty($request->vatamount))
+		{
+			$vatamount = 0;
+		}else{
+			$vatamount = $request->vatamount;
+		}
+		if(empty($request->freightamount))
+		{
+			$freightamount = 0;
+		}else{
+			$freightamount = $request->freightamount;
+		}
+		if(empty($request->freighttax))
+		{
+			$freighttax = 0;
+		}else{
+			$freighttax = $request->freighttax;
+		}
 		
 		$product = Sproduct::find($id);
 		
@@ -146,13 +193,13 @@ class SproductController extends Controller
 		$product->display = $request->input('display');
 		$product->paymentmood = $request->input('paymentmood');
 		$product->discountlabel = $request->input('discountlabel');
-		$product->discountamount = $request->input('discountamount');		
+		$product->discountamount = $discount;		
 		$product->vatlabel = $request->input('vatlabel');
-		$product->vatamount = $request->input('vatamount');
+		$product->vatamount = $vatamount;
 		$product->freightlabel = $request->input('freightlabel');
-		$product->freightamount = $request->input('freightamount');
+		$product->freightamount =$freightamount;
 		$product->freighttaxlabel = $request->input('freighttaxlabel');
-		$product->freighttax = $request->input('freighttax');
+		$product->freighttax = $freighttax;
 		$product->totalprice = $request->input('totalprice');
 		$product->description = $request->input('description');	
 		$product->updated_at = now();

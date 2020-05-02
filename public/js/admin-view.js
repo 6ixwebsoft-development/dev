@@ -783,42 +783,32 @@ function getRegion()
 {
 	var cid = $("#countryid").val();
 	//alert(cid);return false;
-	
- 	  $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-  $.ajax({
-		type:'POST',
-		url: APP_URL+"/admin/individual/getregion",
-		data:{cid:cid},
-		success:function(data){
-			$(".regiondata").empty();
-			$(".regiondata").append(data);
-		}
-	});
-}
+	$.ajax({
+			type:'GET',
+			url: APP_URL+"/customer/edit/getregion",
+			data:{cid:cid},
+			success:function(data){
+				$(".regiondata").empty();
+				$(".regiondata").append(data);
+			}
 
+		});
+}
+cid:cid
 function getCity()
 {
 	var cid = $("#regionid").val();
 	//alert(cid);return false;
-	
- 	  $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-  $.ajax({
-		type:'POST',
-		url: APP_URL+"/admin/individual/getcity",
-		data:{cid:cid},
-		success:function(data){
-			$(".citydata").empty();
-			$(".citydata").append(data);
-		}
-	});
+	$.ajax({
+			type:'GET',
+			url: APP_URL+"/customer/edit/getcity",
+			data:{cid:cid},
+			success:function(data){
+				$(".citydata").empty();
+				$(".citydata").append(data);
+			}
+
+		});
 }
 
 
@@ -1306,9 +1296,10 @@ $(function () {
 			{data: 'checkbox', name: 'checkbox'},
 			{data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
-            {data: 'email', name: 'email'},
-            {data: 'status', name: 'status'},
+            {data: 'email', name: 'email'}, 
             {data: 'roles', name: 'roles'},
+			{data: 'last_login_at', name: 'last_login_at'},
+			{data: 'status', name: 'status'},
             /* {data: 'action', name: 'action', orderable: false, searchable: false}, */
 					]
 				} );
@@ -2331,3 +2322,26 @@ $('#selectAll').click(function(e){
     var table= $(e.target).closest('table');
     $('td input:checkbox',table).prop('checked',this.checked);
 });
+
+function varify_librarycard()
+{
+    var library_city = $('#librarycity').val();
+	var library_card = $('#librarycard').val();
+	$.ajax({
+			type:'GET',
+			url: APP_URL+"/customer/edit/varify_card",
+			data:{library_city:library_city,library_card:library_card},
+			success:function(data){
+			//alert(data);
+				if(data == '1')
+				{
+					alert('Library card is valid');
+				}else{
+					alert('Library card is not valid');
+				}
+
+			}
+
+		});
+	
+}

@@ -12,7 +12,7 @@
 </style>
 
 <div class="container">
-  <h3 class="text-primary">Library Admin</h3>
+  <h3 class="text-primary">{{ __('word.library') }} {{ __('word.admin') }}</h3>
   
   <div class="row">
    @include('library.sidebar')
@@ -25,7 +25,7 @@
 			</div>
 		 @endif
 		<div class="col-sm-12">
-			<h3 class="text-primary">ACCOUNT STATEMENT</h3>
+			<h3 class="text-primary">{{ __('word.account') }} {{ __('word.statement') }}</h3>
 		</div>
 		
 		<br>
@@ -34,18 +34,18 @@
 		<table class="table table-bordered " id="">
                 	<thead>
                     <tr>
-                        <th>Subscription Type</th>
-                        <th>Start Date</th>
-                        <th>Expiry Date</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                        <th>Payment</th>
-                        <th>Action</th>
+                        <th>{{ __('word.subscription') }} {{ __('word.type') }} </th>
+                        <th>{{ __('word.start') }} {{ __('word.date') }}</th>
+                        <th>{{ __('word.expiry') }} {{ __('word.date') }} </th>
+                        <th>{{ __('word.price') }}</th>
+                        <th>{{ __('word.status') }}</th>
+                        <th>{{ __('word.payment') }}</th>
+                        <th>{{ __('word.action') }}</th>
                     </tr>
                     </thead>
                     <tbody>
 					<tr>
-						<td colspan="8">No transactions found.</td>
+						<td colspan="8">{{ __('word.no') }} {{ __('word.transactions') }} {{ __('word.fund') }}.</td>
 					</tr>
                     </tbody>
                 </table>

@@ -59,7 +59,7 @@
 @section('content')  
 
 
-  {!! Form::open(array('route' => array('admin.individual.update', $user->id))) !!}
+  {!! Form::open(array('route' => array('admin.individual.update', $user->id),'files' => true)) !!}
   <div class="row">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -113,6 +113,8 @@
 				  <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Purpose</a>
 				  <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Foundations</a>
 				  <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Transaction</a>
+				  
+				   <a class="nav-link" id="v-pills-photos-tab" data-toggle="pill" href="#v-pills-photos" role="tab" aria-controls="v-pills-photos" aria-selected="false">Documents and photos</a>
 				</div>
 			  </div>
 			  
@@ -323,7 +325,12 @@
 						
 						{!! Form::label('Library(City or University only)', __( 'Library(City or University only)' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 						<div class="col-sm-8">								 
-						   {!! Form::select('officeid', (['0' => 'Select a city']),[], ['class' => 'form-control','' ]  ); !!}
+						<select class="form-control formBox" name="librarycity" id="librarycity">
+						<option value="">select libarary</option>
+						@foreach($library as $Library)
+							<option value="{{$Library->id}}" <?php if($IndividualLibrary->librarycity == $Library->id){echo 'selected';}?>>{{$Library->name}}</option>
+						@endforeach
+					  </select>
 						</div>
 					</div>
 					
@@ -331,10 +338,10 @@
 						
 						{!! Form::label('Library Card Number', __( 'Library Card Number' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 						<div class="col-sm-5">								 
-						  {!! Form::text('', null, ['class' => 'form-control', '', 'placeholder' => __( 'Enter Library Card Number' ) ]); !!}
+						  {!! Form::text('librarycard', $IndividualLibrary->librarycardnumber, ['class' => 'form-control', '', 'placeholder' => __( 'Enter Library Card Number' ) ,'id'=>'librarycard']); !!}
 						</div>
 						<div class="col-sm-3">								 
-						  <button type="button" class="btn btn-secondary float-right"><i class="fa fa-check-square-o" aria-hidden="true"></i> Verify</button>
+						  <button type="button" class="btn btn-primary float-right" id="check_card_valid" onClick="varify_librarycard();"> Verify</button>
 						</div>
 					</div>
 					
@@ -342,7 +349,7 @@
 						{!! Form::label('Comment', __( 'Comment' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 						<div class="col-sm-8">								 
 						 
-						  {!! Form::textarea('', null, ['class' => 'form-control', '', 'placeholder' => __( 'Enter Library Card Number' ) ]); !!}
+						  {!! Form::textarea('library_comment', null, ['class' => 'form-control', '', 'placeholder' => __( 'Enter Library Card Number' ) ]); !!}
 						</div>
 					</div>
 				
@@ -985,7 +992,64 @@
 						</div>
 					</div>				
 				  </div>
-				  
+				  <div class="tab-pane fade" id="v-pills-photos" role="tabpanel" aria-labelledby="v-pills-photos-tab">
+						
+						<h5>My Profile Photo</h5>
+						<input type="file" name="logoImg" id="logoImg" accept="image/x-png,image/gif,image/jpeg" >
+						<br><br>
+						@if(!empty($logo))
+							<div class="row">
+								<div class="col-md-4">
+									<img src="{{URL::asset('uploads/images/'.$logo->name)}}" height="120" width="200">
+									<div class="col-md-12" target="_blank"><br>
+									<a href="{{URL::asset('uploads/images/'.$logo->name)}}" class="btn btn-info">View</a>
+								
+									<a onClick="deleteDataImg({{$logo->id}},'ORG');" class="btn btn-danger">Delete</a>
+									</div>
+								</div>
+							</div>
+						@endif
+						<hr>
+						<br>
+						<h5>My Documents</h5>
+						<input type="file" name="documents[]" id="Documents" accept="application/pdf,application/vnd.ms-excel" multiple>
+						<br><br>
+						@if(!empty($doc))
+							@foreach($doc as $Docs)
+							<div class="col-md-12">
+								<div class="col-md-4">
+									<a href="{{URL::asset('uploads/images/'.$Docs->name)}}" target="_blank"><i class="far fa-file-pdf fa-lg"></i></a>
+									<div class="col-md-12" ><br>
+									<a href="{{URL::asset('uploads/images/'.$Docs->name)}}" class="btn btn-info" target="_blank">View</a>
+								
+									<a onClick="deleteDataImg({{$Docs->id}},'ORG');" class="btn btn-danger">Delete</a>
+									</div><br>
+								</div>
+							</div>
+							@endforeach
+						@endif
+						<hr>
+						<br>
+						<h5>My Photo</h5>
+						<input type="file" name="photos[]" id="photos" accept="image/x-png,image/gif,image/jpeg" multiple>
+						<br><br>
+						@if(!empty($photo))
+							@foreach($photo as $Photo)
+							<div class="col-md-12">
+								<div class="col-md-4">
+									<img src="{{URL::asset('uploads/images/'.$Photo->name)}}" target="_blank" height="120" width="200">
+									<div class="col-md-12" ><br>
+									<a href="{{URL::asset('uploads/images/'.$Photo->name)}}" class="btn btn-info" target="_blank">View</a>
+								
+									<a  onClick="deleteDataImg({{$Photo->id}},'ORG');" class="btn btn-danger">Delete</a>
+									</div><br>
+								</div>
+							</div>
+							@endforeach
+						@endif
+						<hr>
+							
+					</div>
 				  
 				  
 				  
@@ -1055,7 +1119,6 @@
 					  
 						</table>
 					  </div>
-					  
 					</div>
 				  
 				  

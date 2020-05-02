@@ -12,7 +12,7 @@
 </style>
 
 <div class="container">
-  <h3 class="text-primary">Library Admin</h3>
+  <h3 class="text-primary">{{ __('word.library') }} {{ __('word.admin') }}</h3>
   
   <div class="row">
    @include('library.sidebar')
@@ -24,24 +24,24 @@
 			</div>
 		 @endif
 		<div class="col-sm-8">
-			<h3 class="text-primary">IP LOGIN</h3>
+			<h3 class="text-primary">{{ __('word.ip') }} {{ __('word.login') }}</h3>
 		</div>
 		<div class="col-sm-4">
-			<button class="pull-right btn btn-primary formBox" onClick="hideFromBox();" style="display:none; margin-top: 10px;">Cancel</button>
-			<button class="pull-right btn btn-primary datashow" onClick="showFromBox();" style="margin-top: 10px;">EDIT</button>
+			<button class="pull-right btn btn-primary formBox" onClick="hideFromBox();" style="display:none; margin-top: 10px;">{{ __('word.cancel') }}</button>
+			<button class="pull-right btn btn-primary datashow" onClick="showFromBox();" style="margin-top: 10px;">{{ __('word.edit') }}</button>
 		</div>
 		<br>
 		<hr style="width: 100%; border-bottom: 2px dotted #108cca;">
 		
-			<p>Shows list of IPs access for users to log in.<br>
-			<span class="text-primary">IP range ( 0 . 0 . 0 . 0 - 191 . 255 . 255 . 255 )</span></p>
+			<p>{{ __('word.show') }} {{ __('word.list') }} {{ __('word.of') }} {{ __('word.ip') }} {{ __('word.access') }} {{ __('word.for') }} {{ __('word.users') }} {{ __('word.to') }} {{ __('word.login') }}.<br>
+			<span class="text-primary">{{ __('word.ip') }} {{ __('word.range') }} ( 0 . 0 . 0 . 0 - 191 . 255 . 255 . 255 )</span></p>
 			<form class="form-horizontal" action="{{ url('/library/manage/ip_setting_edit/'.$user->id) }}" method="post">
 			@csrf
 				<table class="table table-condensed">
 					<thead>
 					  <tr>
-						<th>From</th>
-						<th>To</th>
+						<th>{{ __('word.from') }}</th>
+						<th>{{ __('word.to') }}</th>
 					  </tr>
 					</thead>
 					<tbody>
@@ -62,7 +62,7 @@
 					?>
 					<div class="row formBox" style="display:none;">
 					<div class="form-group row">
-						<label for="From" class="col-sm-1 col-form-label">from:</label>
+						<label for="From" class="col-sm-1 col-form-label">{{ __('word.from') }}:</label>
 
 						<div class="col-sm-1">
 						<input class="form-control" maxlength="3" onkeypress="return alphaOnly(event);" placeholder="" value="<?=$ipdata[0]?>" name="from1[]" type="text">
@@ -77,7 +77,7 @@
 						<input class="form-control" onkeypress="return alphaOnly(event);" maxlength="3" placeholder="" value="<?=$ipdata[3]?>" name="from4[]" type="text">
 						</div>
 
-						<label for="To" class="col-sm-1 col-form-label">to:</label>
+						<label for="To" class="col-sm-1 col-form-label">{{ __('word.to') }}:</label>
 						
 						<div class="col-sm-1">
 						<input class="form-control" maxlength="3" onkeypress="return alphaOnly(event);" placeholder="" value="<?=$ipto[0]?>" name="to1[]" type="text">
@@ -98,10 +98,10 @@
 				</div>
 					<?php }  } ?>
 				<div class="input_fields_wrap formBox" style="display:none;">
-					<a class="add_field_button"><span class="glyphicon glyphicon-plus"></span> Add</a><hr>
+					<a class="add_field_button"><span class="glyphicon glyphicon-plus"></span> {{ __('word.add') }}</a><hr>
 				</div>
 				
-				 <button type="submit" onClick="return validate();" class="pull-right btn btn-primary formBox" style="display:none;">Save</button>
+				 <button type="submit" onClick="return validate();" class="pull-right btn btn-primary formBox" style="display:none;">{{ __('word.save') }}</button>
 			</form>
 			</div>
     </div>

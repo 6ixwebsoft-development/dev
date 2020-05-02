@@ -10,7 +10,7 @@ use App\Models\ModuleField;
 use App\Models\ModuleFieldValue;
 use App\Models\Usertyperole;
 //Individual models
-
+use App\Models\IndividualLibrary;
 use App\Models\FoundationPurpose;
 use App\Models\Foundation;
 use App\Models\UserSearchSave;
@@ -27,11 +27,13 @@ use App\Models\IndividualResearch;
 use App\Models\IndividualProject;
 use App\Models\IndividualChildern;
 use App\Models\IndividualVideo;
+use App\Models\Documents;
 
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Redirect;
 use App\User;
 
+use App\Models\Library;
 use App\Models\CountryBlock;
 use App\Models\Country;
 use App\Models\Region;
@@ -94,15 +96,12 @@ class IndividualController extends Controller
                     ->make(true);
         }
 
-        return view('admin.Individual.index');
-    }
-	
-	
+        return view('admin.individual.index');
+    }	
 	
 	
 	public function create()
     {
-		
 		$civilstatuss = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Civil Status')
@@ -160,11 +159,12 @@ class IndividualController extends Controller
 		
 		//DB::enableQueryLog();
 		$roles = Role::select('name','id')->whereIn('id', ["5","6","7"])->get(); 
+		$library = Library::select('name','id')->where('type','1')->get();
 		//dd(DB::getQueryLog());
 		//echo "<pre>";
 		//print_r($roles);exit;
 		
-        return view('admin.Individual.create',compact('roles','userroles','language','country','purpose','civilstatus','gender'));
+        return view('admin.individual.create',compact('roles','userroles','language','country','purpose','civilstatus','gender','library'));
     }
 	
 	public function store(Request $request)
@@ -388,6 +388,18 @@ class IndividualController extends Controller
 					IndividualChildern::insert($childern);
 					$j++; }
 				}
+				
+				if(!empty($result['librarycard']))
+				{
+					$libraryinfo = array(
+					"userid"  => $id,
+					"librarycity"  => $result['librarycity'],
+					"librarycardnumber"  => $result['librarycard'],
+					"librarycomment"  => $result['library_comment'],
+					"updated_at"  => Now(),
+					);
+					IndividualLibrary::insertGetId($libraryinfo);
+				}
 
 			$output	= ['class' => 'alert-position-success',
                             'msg' => __("Individual created")
@@ -495,6 +507,8 @@ class IndividualController extends Controller
 		$orderList = Order::where('userid', $id)->get();
 		$subsList  = Subscription::where('userid', $id)->get();
 		$foundationList = UserSearchSave::where('user_id',$id)->get(); 
+		$library = Library::select('name','id')->where('type','1')->get();
+		$IndividualLibrary = IndividualLibrary::where('userid',$user->id)->first();
 		$foundsids = array();
 		foreach($foundationList as $foundids)
 		{
@@ -502,9 +516,14 @@ class IndividualController extends Controller
 		}
 		
 		$myfoundList = Foundation::whereIn('id',$foundsids)->get();
+		
+		$logo = Documents::where('userid',$id)->where('filetype',1)->where('type','IND')->first();
+		$doc = Documents::where('userid',$id)->where('filetype',2)->where('type','IND')->get();
+		$photo = Documents::where('userid',$id)->where('filetype',3)->where('type','IND')->get();
+		
 		/* echo"<pre>";
 		print_r($subsList);exit; */
-        return view('admin.Individual.edit',compact('roles','language','country','purpose','individual','user','contact','personal','purpose','purposeId','study','care','walfare','research','project','video','childern','civilstatus','gender','userroles','orderList','subsList','myfoundList'));
+        return view('admin.individual.edit',compact('roles','language','country','purpose','individual','user','contact','personal','purpose','purposeId','study','care','walfare','research','project','video','childern','civilstatus','gender','userroles','orderList','subsList','myfoundList','library','IndividualLibrary','logo','doc','photo'));
 	}
 
 public function update(Request $request, $id) 
@@ -520,7 +539,10 @@ public function update(Request $request, $id)
 				DB::beginTransaction();
 	try {
 			$result = $request->all();
-			
+				//print_r($_FILES);
+				//echo $request->file('logoImg');
+				//echo $result['logoImg'];
+				//exit;
 				$userLog = array(
 				"email"  => $result['email'],
 				"name"  => $result['firstname'].' '.$result['lastname'],
@@ -591,7 +613,6 @@ public function update(Request $request, $id)
 				$sdate = date("Y-m-d", strtotime($result['sdate']));
 				$edate = date("Y-m-d", strtotime($result['enddate']));
 				$study = array(
-					
 					"studyfield"  => $result['studyfield'],
 					"studydegree"  => $result['degree'],
 					"studyschool"  => $result['school'],
@@ -707,18 +728,83 @@ public function update(Request $request, $id)
 					IndividualChildern::insert($childern);
 					$j++; }
 				}
+				
+				if(!empty($result['librarycard']))
+				{
+					IndividualLibrary::where('userid', $id)->delete();
+					$libraryinfo = array(
+					"userid"  => $id,
+					"librarycity"  => $result['librarycity'],
+					"librarycardnumber"  => $result['librarycard'],
+					"librarycomment"  => $result['library_comment'],
+					"updated_at"  => Now(),
+					);
+					IndividualLibrary::insertGetId($libraryinfo);
+					
+				}
+				
+				 if(!empty($request->file('logoImg')))
+				{
+					$imageName = time().'.'.request()->logoImg->getClientOriginalExtension();
+					request()->logoImg->move(public_path('uploads/images'), $imageName);
+					$datalogo = array(
+						'userid'=> $id,
+						'name'=> $imageName,
+						'type'=> 'IND',
+						'filetype'=>1,
+						'created_at'=>now(),
+					);
+					Documents::insert($datalogo);
+				} 
+
+				if ($documents = $request->file('documents')) {
+					$i = 0;
+					foreach ($documents as $files) {
+					$destinationPath = 'uploads/images'; // upload path
+					
+					$profileImage = md5(microtime().$i)."Photo." . $files->getClientOriginalExtension();					
+					$files->move($destinationPath, $profileImage);
+						 $datadoc = array(
+							'userid'=> $id,
+							'name'=> $profileImage,
+							'type'=> 'IND',
+							'filetype'=>2,
+							'created_at'=>now(),
+						);
+						Documents::insert($datadoc);
+					}
+				}
+				
+				if ($photos = $request->file('photos')) {
+					$i = 0;
+					foreach ($photos as $files) {
+					$destinationPath = 'uploads/images'; // upload path
+					
+					$profileImage = md5(microtime().$i)."Photo." . $files->getClientOriginalExtension();					
+					$files->move($destinationPath, $profileImage);
+						$dataphoto = array(
+							'userid'=> $id,
+							'name'=> $profileImage,
+							'type'=> 'IND',
+							'filetype'=>3,
+							'created_at'=>now(),
+						);
+						Documents::insert($dataphoto);
+					}
+				}
+
 			$output	= ['class' => 'alert-position-success',
 						'msg' => __("Individual updated")
 						];
 			DB::commit();
-		return redirect('admin/individual')->with('status', $output);
+		return redirect('admin/individual')->with('message', $output);
 		} catch (\Exception $e) {
             $output	= ['class' => 'alert-position-danger',
-                            'msg' => __("Individual Not updated".$e)
+                            'msg' => __("Individual Not updated")
                             ];
 		DB::rollBack();
 		//echo $e;
-		return redirect('admin/individual')->with('status', $output);
+		return redirect('admin/individual')->with('message', $output);
 		}
 }
 
@@ -769,7 +855,7 @@ public function update(Request $request, $id)
 	
 	public function getcity(Request $request)
 	{
-		$city = City::where('region_id',$request->cid)->get();
+		$city = City::where('region_id',$request->get('cid'))->get();
 		$data = '';
 		$data .= '<option value="0">select city</option>';
 		if($city)
@@ -798,6 +884,7 @@ public function update(Request $request, $id)
 			return 'no';
 		}
 	}
+	
 	
 	
 }

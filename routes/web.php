@@ -30,9 +30,9 @@ Route::get('subscription', function () {
 });
 Route::post('/subscription/store', 'SubscriptionController@store');
 
-
 Route::middleware(['auth', 'CheckLogin'])->group(function () {
 	 Route::get('/home', 'HomeController@index')->name('admin.index');
+
    Route::group(['middleware'=>'Access'], function () { 
 		Route::resource('admin/roles','Auth\RoleController');
 		Route::get('admin/roles/delete/{id}', 'Auth\RoleController@delete');
@@ -53,7 +53,7 @@ Route::middleware(['auth', 'CheckLogin'])->group(function () {
 	
    
 	
-	 Route::group(['namespace' => 'Modules', 'prefix' => 'modules','middleware'=>'Access'], function () {
+	 Route::group(['namespace' => 'Admin\Modules', 'prefix' => 'admin/modules','middleware'=>'Access'], function () {
             //Module Routes
             Route::get('module', 'ModuleController@index');
             Route::get('module/create', 'ModuleController@create');
@@ -278,14 +278,10 @@ Route::middleware(['auth', 'CheckLogin'])->group(function () {
         Route::get('individual/{id}/edit', 'IndividualController@edit');
         Route::post('/individual/update/{id}', 'IndividualController@update')->name('admin.individual.update');
         Route::get('individual/delete/{id}', 'IndividualController@delete');
-		
-		
-		Route::post('individual/updateaction','IndividualController@updateaction');
-		
+
+		Route::post('individual/updateaction','IndividualController@updateaction');	
 	});
-	Route::post('individual/getregion','IndividualController@getregion');
-	Route::post('individual/getcity','IndividualController@getcity');
-	
+
 	Route::group(array('namespace' => 'Admin\Library', 'prefix' => 'admin','middleware'=>'Access'),function() {
         
         Route::get('library','LibraryController@index');
@@ -626,6 +622,9 @@ Route::group(array('middleware'=>'CheckIp'),function() {
 	Route::get('/customer/edit/cardnumber','front\customerController@get_cardnumber');
 	/* Coustomer Panel Edit Route */
 
+	Route::get('/customer/edit/varify_card','front\customerController@varify_card');
+	Route::get('customer/edit/getregion','front\customerController@getregion');
+	Route::get('customer/edit/getcity','front\customerController@getcity');
 	Route::post('/customer/edit/edit_basicinfo/{id}','front\customerController@edit_basicinfo');
 	Route::post('/customer/edit/edit_contactinfo/{id}','front\customerController@edit_contactinfo');
 	Route::post('/customer/edit/edit_login/{id}','front\customerController@edit_login');

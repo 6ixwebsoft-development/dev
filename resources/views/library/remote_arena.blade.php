@@ -12,7 +12,7 @@
 </style>
 
 <div class="container">
-  <h3 class="text-primary">Library Admin</h3>
+  <h3 class="text-primary">{{ __('word.library') }} {{ __('word.admin') }}</h3>
   
   <div class="row">
     @include('library.sidebar')
@@ -24,11 +24,11 @@
 			</div>
 		 @endif
 		<div class="col-sm-8">
-			<h3 class="text-primary">DOMAIN NAME PIN</h3>
+			<h3 class="text-primary">{{ __('word.domain') }} {{ __('word.name') }} {{ __('word.pin') }}</h3>
 		</div>
 		<div class="col-sm-4">
-			<button class="pull-right btn btn-primary formBox" onClick="hideFromBox();" style="display:none; margin-top: 10px;">Cancel</button>
-			<button class="pull-right btn btn-primary datashow" onClick="showFromBox();" style="margin-top: 10px;">EDIT</button>
+			<button class="pull-right btn btn-primary formBox" onClick="hideFromBox();" style="display:none; margin-top: 10px;">{{ __('word.cancel') }}</button>
+			<button class="pull-right btn btn-primary datashow" onClick="showFromBox();" style="margin-top: 10px;">{{ __('word.edit') }}</button>
 		</div>
 		<br>
 		<hr style="width: 100%; border-bottom: 2px dotted #108cca;">
@@ -36,13 +36,13 @@
 			<form class="form-horizontal" action="{{ url('/library/manage/remote_arena_edit/'.$user->id) }}" method="post">
 			@csrf
 			  <div class="form-group">
-				<label class="col-sm-3" for="email">Library:</label>
+				<label class="col-sm-3" for="email">{{ __('word.library') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$contact->remotearena}}</span>
 				  <input type="text" class="form-control formBox" id="remotearena" placeholder="Enter email" name="remotearena" style="display:none;" value="{{$contact->remotearena}}">
 				</div>
 			  </div>
-			  <button type="submit" onClick="return validate();" class="pull-right btn btn-primary formBox" style="display:none;">Save</button>
+			  <button type="submit" onClick="return validate();" class="pull-right btn btn-primary formBox" style="display:none;">{{ __('word.save') }}</button>
 			</form>
     </div>
   </div>

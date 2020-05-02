@@ -185,7 +185,7 @@ class UserController extends Controller
 		$userinfo = Userinfo::insert($userdata); 
 		
 		
-		return Redirect::to('admin/users')->with('success','User created successfully');
+		return Redirect::to('admin/listalluser')->with('success','User created successfully');
        // return redirect()->route('admin.users.index')->with('success','User created successfully');
     }
 
@@ -299,7 +299,7 @@ class UserController extends Controller
 		
 		//DB::table('userinfo')->where('userid', $id)->update($userdata);
 
-			return Redirect::to('admin/users')->with('success','User updated successfully');
+			return Redirect::to('admin/listalluser')->with('success','User updated successfully');
 			// return redirect()->route('admin.users.index')
            //return view('admin.users.index')->with('success','User updated successfully');
     }

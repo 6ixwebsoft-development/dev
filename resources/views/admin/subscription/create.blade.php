@@ -98,16 +98,16 @@
 				
 					<div class="form-group row">
 						<div class="col-lg-4">
-						  {!! Form::label('name', __( 'Name' ) . ':') !!}
+						  {!! Form::label('name', __( 'Name' ) . ':*') !!}
 						</div>
 						<div class="col-lg-8">
-						  {!! Form::text('name', $uname, ['class' => 'form-control','id'=>'name',$readonly,'required' => 'required', 'placeholder' => __( '' ) ]); !!}
+						  {!! Form::text('name', $uname, ['class' => 'form-control','id'=>'name',$readonly, 'placeholder' => __( '' ) ]); !!}
 						</div>
 					</div>	
 				
 					<div class="form-group row">
 						<div class="col-lg-4">
-						  {!! Form::label('Type', __( 'Type' ) . ':') !!}
+						  {!! Form::label('Type', __( 'Type' ) . ':*') !!}
 						</div>
 						<div class="col-lg-8">
 						  {!! Form::text('type', $utype, ['class' => 'form-control',$readonly,'id'=>'type', 'placeholder' => __( '' ) ]); !!}
@@ -142,13 +142,13 @@
 					<div class="form-group row">
 						{!! Form::label('Payment Method', __( 'Payment Method' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 						<div class="col-sm-8">								 						 
-						  {!! Form::select('paymentmood', (['0' => 'Select a payment']+$payment),[], ['class' => 'form-control','' ]  ); !!}
+						  {!! Form::select('paymentmood', (['' => 'Select a payment']+$payment),[], ['class' => 'form-control','' ]  ); !!}
 						</div>
 					</div>
 					<div class="form-group row">
 						{!! Form::label('Payment Status', __( 'Payment Status' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 						<div class="col-sm-8">								 						 
-						  {!! Form::select('paymentstatus', (['0' => 'Select a payment status']+$subscriptionstatus),[], ['class' => 'form-control','' ]  ); !!}
+						  {!! Form::select('paymentstatus', (['' => 'Select a payment status']+$subscriptionstatus),[], ['class' => 'form-control','' ]  ); !!}
 						</div>
 					</div>
 				</div>

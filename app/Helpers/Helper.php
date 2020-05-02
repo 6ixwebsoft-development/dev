@@ -171,4 +171,13 @@ function get_city_name($id)
 	{return false;}
 }
 
+function get_Library_name($id)
+{
+	$result = DB::table('library_basic')->where('id',$id)->first(); 
+	if(!empty($result->name))
+	{return $result->name;}
+	else
+	{return false;}
+}
+
 

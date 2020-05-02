@@ -357,7 +357,32 @@ class UserseachController extends Controller
                     })
                     ->rawColumns(['checkbox']) 
 					->escapeColumns([])
-                     ->addColumn('status', function($row){
+					
+					 ->addColumn('name', function($row){
+							
+							if($row->status == 3)
+							{
+								$btn = 'DELETE_'.$row->id.'@globalgrant.com';
+							}else{
+								$btn = $row->name;
+							}   
+                            return $btn;
+                    })
+                    ->rawColumns(['name']) 
+					
+					->addColumn('email', function($row){
+							
+							if($row->status == 3)
+							{
+								$btn = 'DELETE_'.$row->id.'@globalgrant.com';
+							}else{
+								$btn = $row->name;
+							}   
+                            return $btn;
+                    })
+                    ->rawColumns(['email'])
+					
+                    ->addColumn('status', function($row){
 							
 							if($row->status == 1)
 							{
@@ -373,6 +398,19 @@ class UserseachController extends Controller
                             return $btn;
                     })
                     ->rawColumns(['status']) 
+					->addColumn('last_login_at', function($row){
+							
+							if(!empty($row->last_login_at))
+							{
+								 $datefor = date('F d Y, h:i A', strtotime($row->last_login_at))
+;
+								$btn = '<span class="badge badge-primary">'.$datefor.'</span>';
+							}else{
+								$btn = '----';
+							}
+                            return $btn;
+                    })
+                    ->rawColumns(['last_login_at']) 
 					
                     ->make(true);
         }
@@ -419,7 +457,12 @@ class UserseachController extends Controller
 		}
 		
 		//DB::enableQueryLog();
-		 return $query->where('status','!=','3')->get();
+		if($filter != 'deleted')
+		{
+			$query = User::where('status','!=','3');
+		}
+		
+		 return $query->get();
 		//dd(DB::getQueryLog());
 	}
 	

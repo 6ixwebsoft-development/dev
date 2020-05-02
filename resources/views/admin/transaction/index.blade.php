@@ -135,14 +135,14 @@
 					  <div class="col-sm-4">
 					  
 							<div class="checkbox">
-							  <label><input type="checkbox" value="filter_exact_match" id="filter_exact_match"> Exact Match</label>
+							  <label><input type="checkbox" value="1" id="filter_exact_match" name="filter_exact_match"> Exact Match</label>
 							</div>                                    
 							                                   
 							<div class="checkbox">                    
-							  <label><input type="checkbox" value=""> Filtered Date Created</label>
+							  <label><input type="checkbox" value="1" name="filter_date_created"> Filtered Date Created</label>
 							</div>                                    
 							<div class="checkbox">                    
-							  <label><input type="checkbox" value=""> Filtered Date Last Edited</label>
+							  <label><input type="checkbox" value="1" name="filter_date_edited"> Filtered Date Last Edited</label>
 							</div> 	
 							
 							<div class="radio">
@@ -166,7 +166,7 @@
 					  </div>
 					  <div class="col-sm-4">
 						<a href="{!! url('/admin/order/create'); !!}" type="button" class="btn btn-success col-sm-12">Add New Order</a>
-						<button type="button" class="btn btn-success col-sm-12">Add New Subscription</button>
+						<a href="{!! url('/admin/subscription/create'); !!}" type="button" class="btn btn-success col-sm-12">Add New Subscription</a>
 						<button type="button" class="btn btn-info col-sm-12">Print Invoices</button>
 					  </div>         
 					</div>         

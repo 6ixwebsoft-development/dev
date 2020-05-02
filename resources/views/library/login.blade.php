@@ -12,7 +12,7 @@
 </style>
 
 <div class="container">
-  <h3 class="text-primary">Library Admin</h3>
+  <h3 class="text-primary">{{ __('word.library') }} {{ __('word.admin') }}</h3>
   
   <div class="row">
    @include('library.sidebar')
@@ -24,11 +24,11 @@
 			</div>
 		 @endif
 		<div class="col-sm-8">
-			<h3 class="text-primary">YOUR LOGIN DETAILS</h3>
+			<h3 class="text-primary">{{ __('word.your') }} {{ __('word.login') }} {{ __('word.details') }}</h3>
 		</div>
 		<div class="col-sm-4">
-			<button class="pull-right btn btn-primary formBox" onClick="hideFromBox();" style="display:none; margin-top: 10px;">Cancel</button>
-			<button class="pull-right btn btn-primary datashow" onClick="showFromBox();" style="margin-top: 10px;">EDIT</button>
+			<button class="pull-right btn btn-primary formBox" onClick="hideFromBox();" style="display:none; margin-top: 10px;">{{ __('word.cancel') }}</button>
+			<button class="pull-right btn btn-primary datashow" onClick="showFromBox();" style="margin-top: 10px;">{{ __('word.edit') }}</button>
 		</div>
 		<br>
 		<hr style="width: 100%; border-bottom: 2px dotted #108cca;">
@@ -37,34 +37,34 @@
 			@csrf
 			
 				<div class="form-group">
-				<label class=" col-sm-3 datashow" for="email">Email:</label>
+				<label class=" col-sm-3 datashow" for="email">{{ __('word.email') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$user->email}}</span>
 				</div>
 			  </div>
 			
 			  <div class="form-group">
-				<label class="col-sm-3 datashow" for="email">Change Password:</label>
+				<label class="col-sm-3 datashow" for="email">{{ __('word.change') }} {{ __('word.password') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">*****************</span>
 				</div>
 			  </div>
 			  
 			  <div class="form-group">
-				<label class="col-sm-3 formBox" for="email" style="display:none;">New Password </label>
+				<label class="col-sm-3 formBox" for="email" style="display:none;">{{ __('word.new') }} {{ __('word.password') }} </label>
 				<div class="col-sm-9">
 				  <input type="password" class="form-control formBox" id="library" placeholder="Enter password" name="password" style="display:none;" value="">
 				</div>
 			</div>
 			  
 			  <div class="form-group">
-				<label class="col-sm-3 formBox" for="email" style="display:none;">Confirm New Password:</label>
+				<label class="col-sm-3 formBox" for="email" style="display:none;">{{ __('word.confirm') }} {{ __('word.new') }} {{ __('word.password') }}:</label>
 				<div class="col-sm-9">
 				  <input type="password" class="form-control formBox" id="library" placeholder="Enter password" name="confirm-password" style="display:none;" value="">
 				</div>
 			  </div>
 			  
-			  <button type="submit" class="pull-right btn btn-primary formBox" style="display:none;">Save</button>
+			  <button type="submit" class="pull-right btn btn-primary formBox" style="display:none;">{{ __('word.save') }}</button>
 			</form>
     </div>
   </div>

@@ -85,16 +85,16 @@
 				
 					<div class="form-group row">
 						<div class="col-lg-4">
-						  {!! Form::label('name', __( 'Name' ) . ':') !!}
+						  {!! Form::label('name', __( 'Name' ) . ':*') !!}
 						</div>
 						<div class="col-lg-8">
-						  {!! Form::text('name', $subscription->name, ['class' => 'form-control','id'=>'name','required' => 'required', 'placeholder' => __( '' ) ]); !!}
+						  {!! Form::text('name', $subscription->name, ['class' => 'form-control','id'=>'name','placeholder' => __( '' ) ]); !!}
 						</div>
 					</div>	
 				
 					<div class="form-group row">
 						<div class="col-lg-4">
-						  {!! Form::label('Type', __( 'Type' ) . ':') !!}
+						  {!! Form::label('Type', __( 'Type' ) . ':*') !!}
 						</div>
 						<div class="col-lg-8">
 						  {!! Form::text('type', $subscription->user_type, ['class' => 'form-control','id'=>'type', 'placeholder' => __( '' ) ]); !!}
@@ -129,7 +129,7 @@
 					<div class="form-group row">
 						{!! Form::label('Payment Method', __( 'Payment Method' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 						<div class="col-sm-8">								 						 
-						  {!! Form::select('paymentmood', (['0' => 'Select a payment']+$payment), $subscription->paymenttype, ['class' => 'form-control','' ]  ); !!}
+						  {!! Form::select('paymenttype', (['0' => 'Select a payment']+$payment), $subscription->paymenttype, ['class' => 'form-control','' ]  ); !!}
 						</div>
 					</div>
 					<div class="form-group row">

@@ -13,7 +13,7 @@
 
      
 <div class="container">
-  <h3 class="text-primary">Member Page</h3>
+  <h3 class="text-primary">{{ __('word.member') }} {{ __('word.page') }}</h3>
   
   <div class="row">
    
@@ -40,40 +40,40 @@
 			</div><hr>
 		@endif
 		<div class="col-sm-8">
-			<h3 class="text-primary">YOUR NAME</h3>
+			<h3 class="text-primary">{{ __('word.your') }} {{ __('word.name') }}</h3>
 		</div>
 		<div class="col-sm-4">
-			<button class="pull-right btn btn-primary formBox" onClick="hideFromBox();" style="display:none; margin-top: 10px;">Cancel</button>
-			<button class="pull-right btn btn-primary datashow" onClick="showFromBox();" style="margin-top: 10px;">EDIT</button>
+			<button class="pull-right btn btn-primary formBox" onClick="hideFromBox();" style="display:none; margin-top: 10px;">{{ __('word.cancel') }}</button>
+			<button class="pull-right btn btn-primary datashow" onClick="showFromBox();" style="margin-top: 10px;">{{ __('word.edit') }}</button>
 		</div>
-		<br>
+		<br><br>
 		<hr style="width: 100%; border-bottom: 2px dotted #108cca;">
 
 			<form class="form-horizontal" action="{{ url('/customer/edit/edit_basicinfo/'.$user->id) }}" method="post">
 			@csrf
 			
 			<div class="form-group">
-				<label class="col-sm-3" for="email">First Name*:</label>
+				<label class="col-sm-3" for="email">{{ __('word.first') }} {{ __('word.name') }}*:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">
-					@if(!empty($userinfo->fname)){{$userinfo->fname}}
+					@if(!empty($userinfo->firstname)){{$userinfo->firstname}}
 					@else --
 					@endif
 				  </span>
-				  <input type="text" class="form-control formBox" id="fname" placeholder="Enter email" name="fname" style="display:none;" value="{{$userinfo->fname}}">
+				  <input type="text" class="form-control formBox" id="fname" placeholder="Enter email" name="fname" style="display:none;" value="{{$userinfo->firstname}}">
 				</div>
 			  </div>
 			  
 			  <div class="form-group">
-				<label class="col-sm-3" for="email">Last Name*:</label>
+				<label class="col-sm-3" for="email">{{ __('word.last') }} {{ __('word.name') }}*:</label>
 				<div class="col-sm-9">
-				  <span class="datashow">{{$userinfo->lname}}</span>
-				  <input type="text" class="form-control formBox" id="lname" placeholder="Enter email" name="lname" style="display:none;" value="{{$userinfo->lname}}">
+				  <span class="datashow">{{$userinfo->lastname}}</span>
+				  <input type="text" class="form-control formBox" id="lname" placeholder="Enter email" name="lname" style="display:none;" value="{{$userinfo->lastname}}">
 				</div>
 			  </div>
 			  
 			  <div class="form-group">
-				<label class=" col-sm-3" for="email">Language*:</label>
+				<label class=" col-sm-3" for="email">{{ __('word.language') }}*:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{get_language_name($userinfo->language)}}</span>
 					<select class="form-control formBox" style="display:none;" name="language">
@@ -83,7 +83,7 @@
 					</select>
 				</div>
 			  </div>
-			 <button type="submit" class="pull-right btn btn-primary formBox" style="display:none;">Save</button>
+			 <button type="submit" class="pull-right btn btn-primary formBox" style="display:none;">{{ __('word.save') }}</button>
 			</form>
     </div>
   </div>

@@ -131,10 +131,10 @@ class SubscriptionController extends Controller
 					'type' => 'required',
 					'start_date' => 'required',
 					'end_date' => 'required',
-					/* 'paymenttype' => 'required',
-					'paymentstatus' => 'required', */
+					'paymentmood' => 'required',
+					'paymentstatus' => 'required', 
 				]); 
-				DB::beginTransaction();
+		DB::beginTransaction();
         try {
              $result = $request->all();
 			 $diff = '';
@@ -205,11 +205,11 @@ class SubscriptionController extends Controller
 			return redirect('admin/subscription')->with('message', $output);
             } catch (\Exception $e) {
 				DB::rollBack();
-				//echo $e;
+				echo $e;
 				$output	= ['class' => 'alert-position-danger',
 					'msg' => __("Subscription Not create")
 					];
-			return redirect('admin/subscription')->with('message', $output);
+			//return redirect('admin/subscription')->with('message', $output);
         }
 
         
@@ -249,8 +249,8 @@ class SubscriptionController extends Controller
 					'type' => 'required',
 					'start_date' => 'required',
 					'end_date' => 'required',
-					/* 'paymenttype' => 'required',
-					'paymentstatus' => 'required', */
+					'paymenttype' => 'required',
+					'paymentstatus' => 'required', 
 				]); 
 				DB::beginTransaction();
         try {
@@ -274,7 +274,7 @@ class SubscriptionController extends Controller
 					"start_date"  => $sdate,
 					"end_date"  => $edate,
 					"status"  => 1,
-					"paymenttype"  => $result['paymentmood'],
+					"paymenttype"  => $result['paymenttype'],
 					"paymentstatus"  => $result['paymentstatus'], 
 					"price"  => $result['newprice'],
 					"misc"  => $result['newmisc'],
@@ -295,7 +295,7 @@ class SubscriptionController extends Controller
 					"customerid" => $result['cid'],
 					"customername" =>$result['name'],
 					"productid" => $result['subscId'],
-					"paymentmood" => $result['paymentmood'],
+					"paymentmood" => $result['paymenttype'],
 					"status" => $result['paymentstatus'],
 					"address" => null,
 					"selesperson" => null,

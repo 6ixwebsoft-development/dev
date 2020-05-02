@@ -13,7 +13,7 @@
 
      
 <div class="container">
-  <h3 class="text-primary">Library Admin</h3>
+  <h3 class="text-primary">{{ __('word.library') }} {{ __('word.admin') }}</h3>
   
   <div class="row">
    
@@ -27,11 +27,11 @@
 	 @endif
 	
 		<div class="col-sm-8">
-			<h3 class="text-primary">YOUR NAME</h3>
+			<h3 class="text-primary">{{ __('word.your') }} {{ __('word.name') }}</h3>
 		</div>
 		<div class="col-sm-4">
-			<button class="pull-right btn btn-primary formBox" onClick="hideFromBox();" style="display:none; margin-top: 10px;">Cancel</button>
-			<button class="pull-right btn btn-primary datashow" onClick="showFromBox();" style="margin-top: 10px;">EDIT</button>
+			<button class="pull-right btn btn-primary formBox" onClick="hideFromBox();" style="display:none; margin-top: 10px;">{{ __('word.cancel') }}</button>
+			<button class="pull-right btn btn-primary datashow" onClick="showFromBox();" style="margin-top: 10px;">{{ __('word.edit') }}</button>
 		</div>
 		<br>
 		<hr style="width: 100%; border-bottom: 2px dotted #108cca;">
@@ -39,7 +39,7 @@
 			<form class="form-horizontal" action="{{ url('/library/manage/information_edit/'.$basic->userid) }}" method="post">
 			@csrf
 			  <div class="form-group">
-				<label class="col-sm-3" for="email">Library:</label>
+				<label class="col-sm-3" for="email">{{ __('word.library') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$basic->name}}</span>
 				  <input type="text" class="form-control formBox" id="library" placeholder="Enter email" name="library" style="display:none;" value="{{$basic->name}}">
@@ -47,7 +47,7 @@
 			  </div>
 			  
 			  <div class="form-group">
-				<label class=" col-sm-3" for="email">Language :</label>
+				<label class=" col-sm-3" for="email">{{ __('word.language') }} :</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{get_language_name($basic->languageid)}}</span>
 					<select class="form-control formBox" style="display:none;" name="language">
@@ -58,7 +58,7 @@
 				</div>
 			  </div>
 			  <div class="form-group">
-				<label class=" col-sm-3" for="email">Show in list:</label>
+				<label class=" col-sm-3" for="email">{{ __('word.show') }} {{ __('word.in') }} {{ __('word.list') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">Yes</span>
 				  <select class="form-control formBox" style="display:none;" name="showList">
@@ -69,7 +69,7 @@
 			  </div>
 			  
 			  <div class="form-group">
-				<label class=" col-sm-3" for="email">Login Type:</label>
+				<label class=" col-sm-3" for="email">{{ __('word.login') }} {{ __('word.type') }}:</label>
 				<div class="col-sm-9">
 				  <span class="">
 					<?php
@@ -102,27 +102,27 @@
 			  </div>
 			  
 			  <div class="form-group">
-				<label class=" col-sm-3" for="email">Number of users :</label>
+				<label class=" col-sm-3" for="email">{{ __('word.number') }} {{ __('word.of') }} {{ __('word.users') }} :</label>
 				<div class="col-sm-9">
 				  <span class="">{{$basic->usernumber}}</span>
 				</div>
 			  </div>
 			  
 			  <div class="form-group">
-				<label class=" col-sm-3" for="email">Availability:</label>
+				<label class=" col-sm-3" for="email">{{ __('word.availability') }}:</label>
 				<div class="col-sm-9">
 				  <span class="">Sweden (lars@globalgrant.com)</span>
 				</div>
 			  </div>
 			  
 			  <div class="form-group">
-				<label class=" col-sm-3" for="email">Remarks:</label>
+				<label class=" col-sm-3" for="email">{{ __('word.remarks') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$basic->remark}}</span>
 				  <textarea class="form-control formBox" style="display:none;" name="remark" rows="5">{{$basic->remark}}</textarea>
 				</div>
 			  </div>
-			 <button type="submit" class="pull-right btn btn-primary formBox" style="display:none;">Save</button>
+			 <button type="submit" class="pull-right btn btn-primary formBox" style="display:none;">{{ __('word.save') }}</button>
 			</form>
     </div>
   </div>

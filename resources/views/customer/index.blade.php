@@ -19,7 +19,7 @@
       @endif
 
 <div class="container">
-  <h3 class="text-primary">Member Page</h3>
+  <h3 class="text-primary">{{ __('word.member') }} {{ __('word.page') }}</h3>
   
   <div class="row">
     @include('customer.sidebar')
@@ -32,7 +32,7 @@
 			</div>
 		 @endif
 		<div class="col-sm-8">
-			<h3 class="text-primary">Welcome : {{$user->name}}</h3>
+			<h3 class="text-primary">{{ __('word.welcome') }} : {{$user->name}}</h3>
 		</div>
 		<div class="col-sm-4">
 		</div>

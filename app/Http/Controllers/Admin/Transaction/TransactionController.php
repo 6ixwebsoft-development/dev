@@ -38,6 +38,7 @@ class TransactionController extends Controller
 	public function searchtransactiondata(Request $request)
 	{
 		$input = $request->all();
+		//print_r($input);exit;
 		if(!empty($input['usertype']))
 		{
 		$userTypes = $input['usertype'];
@@ -59,10 +60,10 @@ class TransactionController extends Controller
 				}
 			    if($usertyp == 'SUB')
 				{
-					$mydatasub = $this->subscriptionseach($usertyp,$input);
+					$mydatasub = $this->subscriptionseach($input,$usertyp);
 					$json = json_encode($mydatasub);
 					$subsc = json_decode($json);
-					//print_r($users);exit;
+					//print_r($subsc);exit;
 				}
 				
 			}
@@ -77,19 +78,24 @@ class TransactionController extends Controller
 			$subsc = json_decode($json);
 			
 		}
-		/*  echo "<pre>";
-		print_r($order);exit; */
-		$mydata = array_merge($order, $subsc);
+		
+		if(empty($order) && empty($subsc))
+		{
+			$mydata = array();
+		}else{
+			$mydata = array_merge($order, $subsc);
+		}
 		if(!empty($mydata))
 		{
 			$data = $mydata;
 		}
 		if(empty($data))
 		{
-			$data = '';
+			$data = array();
 		}
 		
 		if ($request->ajax()) {
+			
             return Datatables::of($data)
 					->addIndexColumn()
                     ->editColumn('sname', function($row) {
@@ -181,14 +187,15 @@ class TransactionController extends Controller
 		{
 			$query = $query->where('paymentstatus',$data['status']);
 		}
-		if(!empty($data['startdate']) || !empty($data['expiry_date']))
-		{
-			$query = $query->whereBetween('created_at', array(date("Y-m-d", strtotime($data['startdate'])), date("Y-m-d", strtotime($data['expiry_date']))));
-		}
+		 if(!empty($data['startdate']) || !empty($data['expiry_date']))
+			{
+				$query = $query->where('gg_subscription.start_date','>=',date("Y-m-d 00:00:00", strtotime($data['startdate'])));
+				$query = $query->where('gg_subscription.start_date','<=',date("Y-m-d 00:00:00", strtotime($data['expiry_date'])));
+			}
 		if(!empty($data['paid_date_from']) || !empty($data['paid_date_to']))
 		{
-			$query = $query->whereBetween('start_date', array(date("Y-m-d", strtotime($data['paid_date_from'])), date("Y-m-d", strtotime($data['paid_date_to']))));
-		}
+			$query = $query->whereBetween('gg_subscription.start_date', array(date("Y-m-d", strtotime($data['paid_date_from'])), date("Y-m-d", strtotime($data['paid_date_to']))));
+		} 
 		
 		if(!empty($data['optuser']))
 		{
@@ -196,11 +203,16 @@ class TransactionController extends Controller
 		}	
 		if(!empty($data['search']))
 		{
-			$query = $query->where('gg_subscription.name','LIKE',$data['search'].'%');
+			if(!empty($data['filter_exact_match']))
+			{
+				$query = $query->where('gg_subscription.name',$data['search']);
+			}else{
+				$query = $query->where('gg_subscription.name','LIKE',$data['search'].'%');
+			}
 		}	
 		
 		
-		return $datas = $query->select(
+		 return $datas = $query->select(
 						'gg_subscription.id', 
 						'sty.eng_name',
 						'gg_subscription.name', 
@@ -213,6 +225,7 @@ class TransactionController extends Controller
 						'gg_subscription.updated_at',
 						'gmf.value'
                     )->get();
+					
 	}
 	
 	public function ordersearch($data)
@@ -235,7 +248,12 @@ class TransactionController extends Controller
 					}
 					if(!empty($data['search']))
 					{
-						$query = $query->where('gg_order.name','LIKE',$data['search'].'%');
+						if(!empty($data['filter_exact_match']))
+						{
+							$query = $query->where('gg_order.name',$data['search']);
+						}else{
+							$query = $query->where('gg_order.name','LIKE',$data['search'].'%');
+						}			
 					}	
 					if(!empty($data['startdate']) || !empty($data['expiry_date']))
 					{

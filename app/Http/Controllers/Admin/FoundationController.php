@@ -318,19 +318,19 @@ class FoundationController extends Controller
             );
             FoundationAdvertise::insert($f_advertise);
 			DB::commit();
-            $output = ['class' => 'alert-position-danger',
+            $output = ['class' => 'alert-position-success',
                             'msg' => __("Foundation Created")
                             ];
 				DB::commit();
-				return redirect('admin/foundation')->with('status', $output);
+				return redirect('admin/foundation')->with('message', $output);
             } catch (\Exception $e) {
 				
 				$output = ['class' => 'alert-position-danger',
-                            'msg' => __("messages.something_went_wrong")
+                            'msg' => __("something_went_wrong")
                             ];
 		DB::rollBack();
 		//echo $e;
-		return redirect('admin/foundation')->with('status', $output);
+		return redirect('admin/foundation')->with('message', $output);
         }
 
         
@@ -466,7 +466,7 @@ class FoundationController extends Controller
 		$subject = Subject::pluck('name', 'id')->all();	 */
 		$language = Language::where('status','1')->pluck('language', 'id')->all();
 		
-        return view('admin.foundation.edit')->with(compact('foundation', 'contact', 'advertise', 'purpose', 'selectedPurpose', 'gender', 'selectedGender', 'subject', 'selectedSubject', 'age', 'location', 'dates', 'months', 'blocks_arr', 'country_arr', 'region_arr', 'city_arr','purposeId','language'));
+        return view('admin.foundation.edit')->with(compact('foundation', 'contact', 'advertise', 'purpose', 'selectedPurpose', 'gender', 'selectedGender', 'subject', 'selectedSubject', 'age', 'location', 'dates', 'months', 'blocks_arr', 'country_arr', 'region_arr', 'city_arr','language'));
     }
 
     public function update(Request $request, $id) 
@@ -577,16 +577,15 @@ class FoundationController extends Controller
                 );
                 DB::table('gg_foundation_dates')->where('foundation_id', $id)->update($dates);
 
-                FoundationPurpose::where('foundation_id', $id)->delete();
-				
 				if(!empty($result['purpose_ids'])){
-				foreach ($result['purpose_ids'] as $purpose_id) {
-					$purpose = array(
-							"foundation_id" => $id,
-							"param_id" => $purpose_id
-					);
-					FoundationPurpose::insert($purpose);
-				}
+					FoundationPurpose::where('foundation_id', $id)->delete();
+					foreach ($result['purpose_ids'] as $purpose_id) {
+						$purpose = array(
+								"foundation_id" => $id,
+								"param_id" => $purpose_id
+						);
+						FoundationPurpose::insert($purpose);
+					}
 			}
                 
                 //Foundation Gender
@@ -602,8 +601,9 @@ class FoundationController extends Controller
 				}
 
                 //Foundation Subject
-                FoundationSubject::where('foundation_id', $id)->delete();
-				if(!empty($result['gender_ids'])){
+              
+				if(!empty($result['subject_ids'])){
+					 FoundationSubject::where('foundation_id', $id)->delete();
 					foreach ($result['subject_ids'] as $subject_id) {
 						$subject = array(
 								"foundation_id" => $id,
@@ -613,20 +613,20 @@ class FoundationController extends Controller
 					}
 				}
 
-               $output = ['class' => 'alert-position-danger',
+               $output = ['class' => 'alert-position-success',
                             'msg' => __("Foundation updated")
                             ];
 				DB::commit();
-				return redirect('admin/foundation')->with('status', $output);
+				return redirect('admin/foundation')->with('message', $output);
             } catch (\Exception $e) {
 				
 				$output = ['class' => 'alert-position-danger',
-                            'msg' => __("messages.something_went_wrong")
+                            'msg' => __("something_went_wrong")
                             ];
                
 				DB::rollBack();
-				//echo $e;
-				return redirect('admin/foundation')->with('status', $output);
+				echo $e;
+				//return redirect('admin/foundation')->with('message', $output);
             }
 
            
@@ -657,7 +657,7 @@ class FoundationController extends Controller
                             ];
         }
 
-        return redirect('admin/foundation')->with('status', $output);
+        return redirect('admin/foundation')->with('message', $output);
     }
 	
 	public function exports()

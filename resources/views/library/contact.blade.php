@@ -12,7 +12,7 @@
 </style>
 
 <div class="container">
-  <h3 class="text-primary">Library Admin</h3>
+  <h3 class="text-primary">{{ __('word.library') }} {{ __('word.admin') }}</h3>
   
   <div class="row">
     @include('library.sidebar')
@@ -25,11 +25,11 @@
 			</div>
 		 @endif
 		<div class="col-sm-8">
-			<h3 class="text-primary">YOUR CONTACT DETAILS</h3>
+			<h3 class="text-primary">{{ __('word.your') }} {{ __('word.contact') }} {{ __('word.details') }}</h3>
 		</div>
 		<div class="col-sm-4">
-			<button class="pull-right btn btn-primary formBox" onClick="hideFromBox();" style="display:none; margin-top: 10px;">Cancel</button>
-			<button class="pull-right btn btn-primary datashow" onClick="showFromBox();" style="margin-top: 10px;">EDIT</button>
+			<button class="pull-right btn btn-primary formBox" onClick="hideFromBox();" style="display:none; margin-top: 10px;">{{ __('word.cancel') }}</button>
+			<button class="pull-right btn btn-primary datashow" onClick="showFromBox();" style="margin-top: 10px;">{{ __('word.edit') }}</button>
 		</div>
 		<br>
 		<hr style="width: 100%; border-bottom: 2px dotted #108cca;">
@@ -39,7 +39,7 @@
 			@csrf
 			
 			<div class="form-group">
-				<label class="col-sm-3" for="email">Contact Name:</label>
+				<label class="col-sm-3" for="email">{{ __('word.contact') }} {{ __('word.name') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$contact->contactname}}</span>
 				  <input type="text" class="form-control formBox" id="library" placeholder="Enter email" name="contactname" style="display:none;" value="{{$contact->contactname}}">
@@ -47,7 +47,7 @@
 			</div>
 			  
 			  <div class="form-group">
-				<label class="col-sm-3" for="email">Email:</label>
+				<label class="col-sm-3" for="email">{{ __('word.email') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$contact->email}}</span>
 				  <input type="text" class="form-control formBox" id="library" placeholder="Enter email" name="email" style="display:none;" value="{{$contact->email}}">
@@ -55,7 +55,7 @@
 			  </div>
 			  
 			   <div class="form-group">
-				<label class="col-sm-3" for="email">Phone:</label>
+				<label class="col-sm-3" for="email">{{ __('word.phone') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$contact->phone}}</span>
 				  <input type="text" class="form-control formBox" id="library" placeholder="Enter email" name="phone" style="display:none;" value="{{$contact->phone}}">
@@ -63,17 +63,17 @@
 			  </div>
 			  
 			  <div class="form-group">
-				<label class="col-sm-3" for="email">Mobile Phone:</label>
+				<label class="col-sm-3" for="email">{{ __('word.mobile') }}</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$contact->mobile}}</span>
 				  <input type="text" class="form-control formBox" id="library" placeholder="Enter email" name="mobile" style="display:none;" value="{{$contact->mobile}}">
 				</div>
 			  </div>
 			 
-			<h4 class="text-primary">Billing Address</h4>
+			<h4 class="text-primary">{{ __('word.billing') }} {{ __('word.address') }}</h4>
 			 
 			 <div class="form-group">
-				<label class="col-sm-3" for="email">Not in use:</label>
+				<label class="col-sm-3" for="email">{{ __('word.not') }} {{ __('word.in') }} {{ __('word.use') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$contact->contactaddress}}</span>
 				  
@@ -82,7 +82,7 @@
 			  </div>
 			 
 			 <div class="form-group">
-				<label class="col-sm-3" for="email">Zip code:</label>
+				<label class="col-sm-3" for="email">{{ __('word.zipcode') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$contact->contactzip}}</span>
 				  <input type="text" class="form-control formBox" id="library" placeholder="Enter email" name="bzip" style="display:none;" value="{{$contact->contactzip}}">
@@ -90,7 +90,7 @@
 			  </div>
 			  
 			  <div class="form-group">
-				<label class="col-sm-3" for="email">Country:</label>
+				<label class="col-sm-3" for="email">{{ __('word.country') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{get_country_name($contact->contactcountry)}}</span>
 				 
@@ -104,7 +104,7 @@
 			  </div>
 			  
 			  <div class="form-group">
-				<label class="col-sm-3" for="email">City:</label>
+				<label class="col-sm-3" for="email">{{ __('word.city') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{get_city_name($contact->contactcity)}}</span>
 					
@@ -116,10 +116,10 @@
 				</div>
 			  </div>
 			 
-			 <h4 class="text-primary">Postal Address</h4>
+			 <h4 class="text-primary">{{ __('word.postal') }} {{ __('word.address') }}</h4>
 			 
 			 <div class="form-group">
-				<label class="col-sm-3" for="email">Not in use:</label>
+				<label class="col-sm-3" for="email">{{ __('word.not') }} {{ __('word.in') }} {{ __('word.use') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$contact->postaladdress}}</span>
 				  
@@ -128,7 +128,7 @@
 			  </div>
 			 
 			 <div class="form-group">
-				<label class="col-sm-3" for="email">Zip code:</label>
+				<label class="col-sm-3" for="email">{{ __('word.zipcode') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$contact->postalzip	}}</span>
 				  <input type="text" class="form-control formBox" id="library" placeholder="Enter email" name="pzip" style="display:none;" value="{{$contact->postalzip	}}">
@@ -136,7 +136,7 @@
 			  </div>
 			  
 			  <div class="form-group">
-				<label class="col-sm-3" for="email">Country:</label>
+				<label class="col-sm-3" for="email">{{ __('word.country') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{get_country_name($contact->postalcountry)}}</span>
 				  
@@ -149,7 +149,7 @@
 			  </div>
 			  
 			  <div class="form-group">
-				<label class="col-sm-3" for="email">City:</label>
+				<label class="col-sm-3" for="email">{{ __('word.city') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{get_city_name($contact->contactcity)}}</span>
 				  
@@ -163,7 +163,7 @@
 				</div>
 			  </div>
 			 
-			 <button type="submit" class="pull-right btn btn-primary formBox" style="display:none;">Save</button>
+			 <button type="submit" class="pull-right btn btn-primary formBox" style="display:none;">{{ __('word.save') }}</button>
 			</form>
     </div>
   </div>

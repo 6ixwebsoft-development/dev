@@ -12,7 +12,7 @@
 </style>
 
 <div class="container">
-  <h3 class="text-primary">Library Admin</h3>
+  <h3 class="text-primary">{{ __('word.library') }} {{ __('word.admin') }}</h3>
   
   <div class="row">
     @include('library.sidebar')
@@ -24,7 +24,7 @@
 			</div>
 		 @endif
 		<div class="col-sm-12">
-			<h3 class="text-primary">REPORTS - SHOW DETAILS ABOUT THE REPORT.</h3>
+			<h3 class="text-primary">{{ __('word.reports') }} - {{ __('word.show') }} {{ __('word.details') }} {{ __('word.about') }} {{ __('word.the') }} {{ __('word.reports') }} .</h3>
 		</div>
 		
 		<br>

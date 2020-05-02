@@ -119,9 +119,10 @@
 					<th><input type="checkbox" id="selectAll"></th>
                     <th>No</th>
                     <th>Name</th>
-                    <th>Email</th>
-                    <th>Status</th>
+                    <th>Email</th>       
                     <th>Roles</th>
+					<th>Last Login</th>
+					<th>Status</th>
                   <!--  <th width="150px">Action</th> -->
                 </tr>
 				

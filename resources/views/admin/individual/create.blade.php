@@ -326,7 +326,12 @@
 						
 						{!! Form::label('Library(City or University only)', __( 'Library(City or University only)' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 						<div class="col-sm-8">								 
-						   {!! Form::select('officeid', (['0' => 'Select a city']),[], ['class' => 'form-control','' ]  ); !!}
+						<select class="form-control formBox" name="librarycity" id="librarycity">
+						<option value="">select libarary</option>
+						@foreach($library as $Library)
+							<option value="{{$Library->id}}" >{{$Library->name}}</option>
+						@endforeach
+					  </select>
 						</div>
 					</div>
 					
@@ -334,10 +339,10 @@
 						
 						{!! Form::label('Library Card Number', __( 'Library Card Number' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 						<div class="col-sm-5">								 
-						  {!! Form::text('', null, ['class' => 'form-control', '', 'placeholder' => __( 'Enter Library Card Number' ) ]); !!}
+						  {!! Form::text('librarycard', null, ['class' => 'form-control', '', 'placeholder' => __( 'Enter Library Card Number' ) ,'id'=>'librarycard']); !!}
 						</div>
 						<div class="col-sm-3">								 
-						  <button type="button" class="btn btn-secondary float-right"><i class="fa fa-check-square-o" aria-hidden="true"></i> Verify</button>
+						  <button type="button" class="btn btn-primary float-right" id="check_card_valid" onClick="varify_librarycard();"> Verify</button>
 						</div>
 					</div>
 					

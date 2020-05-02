@@ -83,10 +83,10 @@ ul.dropdown-menu.multi-level {
 						$lan = '';
 					@endphp
 				@endif
-          <li class="menu-item"><a href="{{ url($lan.'/about') }}">{{ __('word.About us') }}</a></li>
+          <li class="menu-item"><a href="{{ url($lan.'/about') }}">{{ __('word.about us') }}</a></li>
           <!-- <li class="menu-item"><a href="/insurance">Insurance plans</a></li>
           <li class="menu-item"><a href="/resource">Resources</a></li> -->
-          <li class="menu-item"><a href="{{ url($lan.'/contact-us') }}">{{__('word.Contact Us') }}</a></li>
+          <li class="menu-item"><a href="{{ url($lan.'/contact-us') }}">{{__('word.contact us') }}</a></li>
           <!-- <li class="menu-item"><a href="/search-foundation">Search Foundation</a></li>
           <li class="menu-item"><a href="/advance-search">Advance Search</a></li> -->
 				@php

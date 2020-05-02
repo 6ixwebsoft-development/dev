@@ -29,7 +29,7 @@ class LibraryController extends Controller
 		$user = Auth::user();
 		$basic = Library::where('userid',$user->id)->first();
 		$language = Language::where('status','1')->get();
-		return view('library.index',compact('basic','language')); 
+		return view('library.index',compact('basic','language','user')); 
     }
 	
 	public function information()

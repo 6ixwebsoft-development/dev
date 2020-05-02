@@ -36,7 +36,7 @@
 	</div >
 </div>
 <div class="container">
-  <h3 class="text-primary">Member Page</h3>
+  <h3 class="text-primary">{{ __('word.member') }} {{ __('word.page') }}</h3>
   
   <div class="row">
    @include('customer.sidebar')
@@ -49,27 +49,27 @@
 			</div>
 		 @endif
 		<div class="col-sm-12">
-			<h3 class="text-primary">YOUR SAVED FUND RECORDS .</h3>
+			<h3 class="text-primary">{{ __('word.your') }} {{ __('word.saved') }} {{ __('word.fund') }} {{ __('word.records') }} .</h3>
 		</div>
 		
-		<br>
+		<br><br>
 		<hr style="width: 100%; border-bottom: 2px dotted #108cca;">
-		<h4 class="text-primary">If you don't see the names of the funds you saved,<br>register your library card number<br>under tab REGISTER YOUR LIBRARY CARD.</h4>
+		<h4 class="text-primary">{{ __('word.if you do not see the names of the funds you saved') }},<br>{{ __('word.register') }} {{ __('word.your') }} {{ __('word.library card') }}<br>{{ __('word.under') }} {{ __('word.tab') }} {{ __('word.register') }} {{ __('word.your') }} {{ __('word.library card') }}.</h4>
 		
 		<div class="col-sm-6 pull-left">
 			<a href="#" id="search_email" class="btn btn-primary">{{__('word.'.strtolower('e-mail'))}}</a>
 		</div>
 		<div class="col-sm-6 ">
-			<a href="/search-foundation" id="search_email" class="btn btn-primary pull-right">Seaech foundation</a>
+			<a href="/search-foundation" id="search_email" class="btn btn-primary pull-right">{{__('word.'.strtolower('search'))}} {{__('word.'.strtolower('foundations'))}}</a>
 		</div>
 		<div class="col-sm-12">
 			<table class="table table-bordered " id="">
 				<thead>
 				<tr>
 					<th><input type="checkbox" name="" id="selectAll"></th>
-					<th>ID#</th>
-					<th>Contact person</th>
-					<th>Action</th>
+					<th>{{__('word.'.strtolower('id'))}}</th>
+					<th>{{__('word.'.strtolower('contact'))}} {{__('word.'.strtolower('person'))}}</th>
+					<th>{{__('word.'.strtolower('action'))}}</th>
 				</tr>
 				</thead>
 					@if(!empty($foundation))
