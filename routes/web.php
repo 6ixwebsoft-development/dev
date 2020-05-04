@@ -392,6 +392,7 @@ Route::middleware(['auth', 'CheckLogin'])->group(function () {
 	
 	
 });
+Route::get('/remote_arena','Auth\remote_arenaController@index');
 //search foundation
 Route::get('search-foundation','FoundationSearchController@index');
 Route::get('autocomplete','FoundationSearchController@autocomplete');
@@ -466,6 +467,8 @@ Route::get('/','PageController@home');
 Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
 Route::get('sendemail', 'SendEmailController@sendmail');
 
+
+Route::get('/remote_arena','Auth\remote_arenaController@index');
 Route::post('/libararycard_login','Auth\RemoteLoginController@index');
 
 

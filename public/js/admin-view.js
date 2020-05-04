@@ -794,7 +794,7 @@ function getRegion()
 
 		});
 }
-cid:cid
+
 function getCity()
 {
 	var cid = $("#regionid").val();

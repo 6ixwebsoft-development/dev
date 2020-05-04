@@ -241,7 +241,7 @@ class LibraryController extends Controller
         return view('admin.library.edit',compact('roles','userroles','language','country','purpose','group','basic','contact','details','ips','remoteips','logo','user'));
 	}
 	
-	public function update(Request $request) 
+	public function update(Request $request,$uid) 
 	{
 		try {
 			$basic = Library::where('userid',$uid)->first();
