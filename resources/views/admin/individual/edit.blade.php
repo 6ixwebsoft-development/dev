@@ -142,7 +142,7 @@
 								</div>
 							  </div>
 							  <div class="form-group row">
-								{!! Form::label('Middle Name', __( 'Middle Name' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
+								{!! Form::label('Middle Name', __( 'Middle Name' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">
 								  {!! Form::text('middlename', $individual->middlename, ['class' => 'form-control', '', 'placeholder' => __( 'Enter Middle name' ) ]); !!}
 								</div>
@@ -157,7 +157,7 @@
 							  </div>
 							  
 							  <div class="form-group row">
-								{!! Form::label('Date Of Birth', __( 'Date Of Birth' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
+								{!! Form::label('Date Of Birth', __( 'Date Of Birth' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">
 								  
 								   {!! Form::text('dob', $individual->dob, ['class' => 'form-control ', 'id' => 'dob','placeholder' => __( 'YYYY/MM/DD' ) ]); !!}
@@ -248,7 +248,7 @@
 							<div class="card-body">
 							
 							<div class="form-group row">
-								{!! Form::label('Role', __( 'Role' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
+								{!! Form::label('Role', __( 'Role' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">								 	  
 								  <select class="form-control" name="userrole">
 									<option value="">Select Roles</option>

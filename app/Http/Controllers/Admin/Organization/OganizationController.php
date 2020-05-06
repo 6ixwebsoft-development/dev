@@ -111,8 +111,7 @@ class OganizationController extends Controller
 					'userrole' => 'required',
 					'availability' => 'required',
 					'useremail' => 'required|email|unique:users,email',
-					'mobile' => 'numeric',
-					'phone' => 'numeric',
+					
 				]);
 				DB::beginTransaction();
 				
@@ -320,9 +319,8 @@ class OganizationController extends Controller
 					'email' => 'required|email',
 					'userrole' => 'required',
 					'availability' => 'required',
-					/* 'useremail' => 'required|email|unique:users,email,'.$basic->userid, */
-					'mobile' => 'numeric',
-					'phone' => 'numeric',
+					 'useremail' => 'required|email|unique:users,email,'.$uid,
+					
 				]);
 				DB::beginTransaction();
 		try {

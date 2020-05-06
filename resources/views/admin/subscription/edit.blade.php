@@ -111,7 +111,7 @@
 					</div>
 					<div class="form-group row">
 					  <div class="col-lg-4">
-						{!! Form::label('start_date', __( 'Start Date' ) . ':*') !!}
+						{!! Form::label('start_date', __( 'Start Date' ) . ':') !!}
 					  </div>
 					  <div class="col-lg-8">
 						{!! Form::text('start_date', $subscription->start_date, array('placeholder' => 'Start Date', 'class' => 'form-control mycustomdate')) !!}
@@ -119,7 +119,7 @@
 					</div>
 					<div class="form-group row">
 					  <div class="col-lg-4">
-						{!! Form::label('end_date', __( 'End Date' ) . ':*') !!}
+						{!! Form::label('end_date', __( 'End Date' ) . ':') !!}
 					  </div>
 					  <div class="col-lg-8">
 						{!! Form::text('end_date', $subscription->end_date, array('placeholder' => 'End Date','class' => 'form-control mycustomdate')) !!}

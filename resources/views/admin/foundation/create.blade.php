@@ -94,7 +94,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-												{!! Form::label('type', __( 'Type' ) . ':*') !!}
+												{!! Form::label('type', __( 'Type' ) . ':') !!}
 											</div>
 
                                             <div class="col-md-9">
@@ -216,7 +216,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-												{!! Form::label('address-2', __( 'Address Line 2' ) . ':*') !!}
+												{!! Form::label('address-2', __( 'Address Line 2' ) . ':') !!}
 											</div>
 
                                             <div class="col-md-9">
@@ -226,7 +226,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-lg-3">
-												{!! Form::label('address-3', __( 'Address line 3' ) . ':*') !!}
+												{!! Form::label('address-3', __( 'Address line 3' ) . ':') !!}
 											</div>
 
                                             <div class="col-md-9">

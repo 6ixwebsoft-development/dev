@@ -57,10 +57,7 @@ class OfficeController extends Controller
 			'countrycode' => 'required',
 			'office' => 'required',
 			'tag' => 'required',
-			'address1' => 'required',
-			'phonenumber' => 'required',
-			'city' => 'required',
-			'email' => 'required',
+			'status' => 'required',
         ]);
 		
 		
@@ -117,10 +114,7 @@ class OfficeController extends Controller
 			'countrycode' => 'required',
 			'office' => 'required',
 			'tag' => 'required',
-			'address1' => 'required',
-			'phonenumber' => 'required',
-			'city' => 'required',
-			'email' => 'required',
+			'status' => 'required',
         ]);
 		
 		if(empty($request->input('status')))

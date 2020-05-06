@@ -128,7 +128,7 @@
 							   <div class="form-group row">
 								{!! Form::label('Group', __( 'Group' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">								 
-								  {!! Form::select('group', (['0' => 'Select a group'] + $group),[], ['class' => 'form-control','' ]  ); !!}
+								  {!! Form::select('group', (['' => 'Select a group'] + $group),[], ['class' => 'form-control','' ]  ); !!}
 								</div>
 							  </div>
 							 
@@ -148,7 +148,7 @@
 							  </div>
 							 
 							 <div class="form-group row">
-								  {!! Form::label('User Number', __( 'User Number' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
+								  {!! Form::label('User Number', __( 'User Number' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">
 								   {!! Form::text('usertype', null, ['class' => 'form-control', '', 'placeholder' => __( '' ) ]); !!}
 								</div>
@@ -156,9 +156,9 @@
 							 
 							  <div class="form-group row">
 								
-								{!! Form::label('Availability', __( 'Availability' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
+								{!! Form::label('Availability', __( 'Availability' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">
-								  {!! Form::select('bavailability[]', (['1' => 'GlobalGrant Sweden']),[], ['class' => 'form-control','multiple' ]  ); !!}
+								  {!! Form::select('availability[]', (['1' => 'GlobalGrant Sweden']),[], ['class' => 'form-control','multiple' ]  ); !!}
 								</div>
 							  </div>
 							   <div class="form-group row">

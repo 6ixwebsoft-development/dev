@@ -55,8 +55,7 @@ class SubscriptiontypeController extends Controller
 			'freightcharge' => 'required|numeric',
 			'freighttax' => 'required|numeric',
 			'eng_name' => 'required',
-			'sv_name' => 'required',
-			'display' => 'required',
+			
         ]);
 		
 		if(!empty($result['display'])){
@@ -115,8 +114,6 @@ class SubscriptiontypeController extends Controller
 			'freightcharge' => 'required|numeric',
 			'freighttax' => 'required|numeric',
 			'eng_name' => 'required',
-			'sv_name' => 'required',
-			'display' => 'required',
         ]);
 		if(!empty($result['display'])){
 			$display = $result['display'];

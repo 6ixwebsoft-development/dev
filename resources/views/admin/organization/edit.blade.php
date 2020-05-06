@@ -151,7 +151,7 @@
 							  </div>
 							 
 							 <div class="form-group row">
-								  {!! Form::label('User Number', __( 'User Number' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
+								  {!! Form::label('User Number', __( 'User Number' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">
 								   {!! Form::text('usertype', $basic->usernumber, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);', 'maxlength'=>'5','placeholder' => __( '' ) ]); !!}
 								</div>
@@ -159,7 +159,7 @@
 							 
 							  <div class="form-group row">
 								
-								{!! Form::label('Availability', __( 'Availability' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
+								{!! Form::label('Availability', __( 'Availability' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">
 								  {!! Form::select('availability', (['1' => 'GlobalGrant Sweden']),$basic->availability, ['class' => 'form-control','' ]  ); !!}
 								</div>

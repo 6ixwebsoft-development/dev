@@ -129,8 +129,6 @@ class SubscriptionController extends Controller
 					'name' => 'required',
 					'cid' => 'required',
 					'type' => 'required',
-					'start_date' => 'required',
-					'end_date' => 'required',
 					'paymentmood' => 'required',
 					'paymentstatus' => 'required', 
 				]); 
@@ -247,8 +245,6 @@ class SubscriptionController extends Controller
 					'name' => 'required',
 					'cid' => 'required',
 					'type' => 'required',
-					'start_date' => 'required',
-					'end_date' => 'required',
 					'paymenttype' => 'required',
 					'paymentstatus' => 'required', 
 				]); 

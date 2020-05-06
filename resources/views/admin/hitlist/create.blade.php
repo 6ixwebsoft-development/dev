@@ -131,7 +131,7 @@
           
 				<div class="col-lg-6">
 					<div class="col-lg-4">
-					  {!! Form::label('Description', __( 'Description' ).':*', [ 'class' => 'col-form-label']) !!}
+					  {!! Form::label('Description', __( 'Description' ).':', [ 'class' => 'col-form-label']) !!}
 					</div>
 					<div class="col-lg-12">
 					  {!! Form::textarea('description', null, ['class' => 'form-control', '', 'placeholder' => __( 'Write Description ' ) ]); !!}

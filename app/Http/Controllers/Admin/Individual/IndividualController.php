@@ -174,8 +174,6 @@ class IndividualController extends Controller
 					'lastname' => 'required',
 					'availability' => 'required',
 					'email' => 'required|email|unique:users,email',
-					'mobile' => 'numeric',
-					'phone' => 'numeric',
 				]);
 				DB::beginTransaction();
 		try
@@ -186,7 +184,7 @@ class IndividualController extends Controller
 				$userLog = array(
 				"email"  => $result['email'],
 				"name"  => $result['firstname'].' '.$result['lastname'],
-				"password"  => $result['dob'],
+				"password"  => $result['email'],
 				"user_type" =>"IND",
 				"created_at"  => Now(),
 				);
@@ -533,8 +531,7 @@ public function update(Request $request, $id)
 					'lastname' => 'required',
 					'availability' => 'required',
 					'email' => 'required|email|unique:users,email,'.$id,
-					'mobile' => 'numeric',
-					'phone' => 'numeric',
+					
 				]);
 				DB::beginTransaction();
 	try {

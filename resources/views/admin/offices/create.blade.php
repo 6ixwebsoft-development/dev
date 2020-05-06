@@ -125,7 +125,7 @@
 				<div class="col-lg-6">
 					<div class="col-lg-4">
 
-					  {!! Form::label('City', __( 'City' ) . ':*', [ 'class' => 'col-form-label']) !!}
+					  {!! Form::label('City', __( 'City' ) . ':', [ 'class' => 'col-form-label']) !!}
 
 					</div>
 
@@ -170,7 +170,7 @@
 				<div class="col-lg-6">
 					<div class="col-lg-4">
 
-					  {!! Form::label('Phone Number', __( 'Phone Number' ) . ':*', [ 'class' => 'col-form-label']) !!}
+					  {!! Form::label('Phone Number', __( 'Phone Number' ) . ':', [ 'class' => 'col-form-label']) !!}
 
 					</div>
 
@@ -188,7 +188,7 @@
 				<div class="col-lg-6">
 					<div class="col-lg-4">
 
-					  {!! Form::label('Fax Number', __( 'Fax Number' ) . ':*', [ 'class' => 'col-form-label']) !!}
+					  {!! Form::label('Fax Number', __( 'Fax Number' ) . ':', [ 'class' => 'col-form-label']) !!}
 
 					</div>
 
@@ -201,7 +201,7 @@
 				<div class="col-lg-6">
 					<div class="col-lg-4">
 
-					  {!! Form::label('Tin Number', __( 'Tin Number' ) . ':*', [ 'class' => 'col-form-label']) !!}
+					  {!! Form::label('Tin Number', __( 'Tin Number' ) . ':', [ 'class' => 'col-form-label']) !!}
 
 					</div>
 
@@ -219,7 +219,7 @@
 				<div class="col-lg-6">
 					<div class="col-lg-4">
 
-					  {!! Form::label('Bank Account', __( 'Bank Account' ) . ':*', [ 'class' => 'col-form-label']) !!}
+					  {!! Form::label('Bank Account', __( 'Bank Account' ) . ':', [ 'class' => 'col-form-label']) !!}
 
 					</div>
 
@@ -232,7 +232,7 @@
 				<div class="col-lg-6">
 					<div class="col-lg-4">
 
-					  {!! Form::label('Bank Code', __( 'Bank Code' ) . ':*', [ 'class' => 'col-form-label']) !!}
+					  {!! Form::label('Bank Code', __( 'Bank Code' ) . ':', [ 'class' => 'col-form-label']) !!}
 
 					</div>
 
@@ -250,7 +250,7 @@
 				<div class="col-lg-6">
 					<div class="col-lg-4">
 
-					  {!! Form::label('Address', __( 'Address' ) . ':*', [ 'class' => 'col-form-label']) !!}
+					  {!! Form::label('Address', __( 'Address' ) . ':', [ 'class' => 'col-form-label']) !!}
 
 					</div>
 
@@ -263,7 +263,7 @@
 				<div class="col-lg-6">
 					<div class="col-lg-4">
 
-					  {!! Form::label('Address', __( 'Address2' ) . ':*', [ 'class' => 'col-form-label']) !!}
+					  {!! Form::label('Address', __( 'Address2' ) . ':', [ 'class' => 'col-form-label']) !!}
 
 					</div>
 
@@ -283,7 +283,7 @@
 				<div class="col-lg-6">
 					<div class="col-lg-4">
 
-					  {!! Form::label('Address', __( 'Address3' ) . ':*', [ 'class' => 'col-form-label']) !!}
+					  {!! Form::label('Address', __( 'Address3' ) . ':', [ 'class' => 'col-form-label']) !!}
 
 					</div>
 
@@ -296,7 +296,7 @@
 				<div class="col-lg-6">
 					<div class="col-lg-4">
 
-					  {!! Form::label('Address', __( 'Address4' ) . ':*', [ 'class' => 'col-form-label']) !!}
+					  {!! Form::label('Address', __( 'Address4' ) . ':', [ 'class' => 'col-form-label']) !!}
 
 					</div>
 
@@ -315,7 +315,7 @@
 				<div class="col-lg-6">
 					<div class="col-lg-4">
 
-					  {!! Form::label('Address', __( 'Address5' ) . ':*', [ 'class' => 'col-form-label']) !!}
+					  {!! Form::label('Address', __( 'Address5' ) . ':', [ 'class' => 'col-form-label']) !!}
 
 					</div>
 
@@ -328,7 +328,7 @@
 				<div class="col-lg-6">
 					<div class="col-lg-4">
 
-					  {!! Form::label('Url Address', __( 'Url Address' ) . ':*', [ 'class' => 'col-form-label']) !!}
+					  {!! Form::label('Url Address', __( 'Url Address' ) . ':', [ 'class' => 'col-form-label']) !!}
 
 					</div>
 
@@ -347,7 +347,7 @@
 				<div class="col-lg-6">
 					<div class="col-lg-4">
 
-					  {!! Form::label('Email', __( 'Email' ) . ':*', [ 'class' => 'col-form-label']) !!}
+					  {!! Form::label('Email', __( 'Email' ) . ':', [ 'class' => 'col-form-label']) !!}
 
 					</div>
 
@@ -360,7 +360,7 @@
 				<div class="col-lg-6">
 					<div class="col-lg-4">
 
-					  {!! Form::label('Google Map', __( 'Google Map' ) . ':*', [ 'class' => 'col-form-label']) !!}
+					  {!! Form::label('Google Map', __( 'Google Map' ) . ':', [ 'class' => 'col-form-label']) !!}
 
 					</div>
 
@@ -377,7 +377,7 @@
 
             <div class="col-lg-2">
 
-              {!! Form::label('status', __( 'Status' ),  [ 'class' => 'col-form-label'] ) !!}
+              {!! Form::label('status', __( 'Status' ). ':*',  [ 'class' => 'col-form-label'] ) !!}
 
             </div>
 

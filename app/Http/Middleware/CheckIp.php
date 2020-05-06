@@ -41,7 +41,7 @@ class CheckIp
 	
 	public function check_ip()
 	{
-		$clientIP = '192.168.0.103';/*$clientIP = request()->ip(); it is static ip change with dyanamic */
+		$clientIP = $clientIP = request()->ip();//'192.168.0.103';/*$clientIP = request()->ip(); it is static ip change with dyanamic */
 		
 		$sqlQuery = "SELECT * FROM `libraryips` WHERE '$clientIP' BETWEEN `from` AND `to`";
 		$result = DB::select(DB::raw($sqlQuery));

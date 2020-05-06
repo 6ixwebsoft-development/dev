@@ -87,10 +87,10 @@ class LibraryController extends Controller
 					'library' => 'required',
 					'email' => 'required|email|',
 					'userrole' => 'required',
-					/* 'availability' => 'required', */
+					'group' => 'required',
+					'availability' => 'required',
 					'useremail' => 'required|email|unique:users,email',
-					'mobile' => 'numeric',
-					'phone' => 'numeric',
+					
 				]);
 				DB::beginTransaction();
 		
@@ -243,6 +243,15 @@ class LibraryController extends Controller
 	
 	public function update(Request $request,$uid) 
 	{
+		$this->validate($request, [
+					'library' => 'required',
+					'email' => 'required|email|',
+					'userrole' => 'required',
+					'availability' => 'required',
+					'group' => 'required',
+					'useremail' => 'required|email|unique:users,email,'.$uid,
+					
+				]);
 		try {
 			$basic = Library::where('userid',$uid)->first();
 			$id = $basic->id;
