@@ -1,0 +1,1 @@
+[02-Mar-2020 11:34:34 UTC] PHP Fatal error:  Cannot use App\SendToAll\ViaMail as ViaMail because the name is already in use in /home/goneapp6ixwebsof/public_html/app/Http/Controllers/SendToAll.php on line 8

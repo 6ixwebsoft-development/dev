@@ -14,11 +14,12 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
+        \App\Http\Middleware\TrustProxies::class,
         \App\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \App\Http\Middleware\TrustProxies::class,
+        \App\Http\Middleware\Cors::class,
     ];
 
     /**
@@ -40,6 +41,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+            'cors'
         ],
     ];
 
@@ -60,14 +62,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
-        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
-        'SetSessionData' => \App\Http\Middleware\SetSessionData::class,
-        'Access' => \App\Http\Middleware\Access::class,
-        'CheckLogin' => \App\Http\Middleware\CheckLogin::class,
-		'setlocale' => \App\Http\Middleware\SetLocale::class,
-		'CheckIp' => \App\Http\Middleware\CheckIp::class,
-		'FrontAccess' => \App\Http\Middleware\FrontAccess::class,
+        'cors' => \App\Http\Middleware\Cors::class,
     ];
 
     /**

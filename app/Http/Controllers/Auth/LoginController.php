@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
-    /* 
+    /*
     |--------------------------------------------------------------------------
     | Login Controller
     |--------------------------------------------------------------------------
@@ -36,14 +37,18 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('SetSessionData');
         $this->middleware('guest')->except('logout');
     }
-	
-	function authenticated(Request $request, $user)
-	{
-		$user->last_login_at = Carbon::now()->toDateTimeString();
-        $user->save();
-	}
-	
+
+    /**
+     * Get the needed authorization credentials from the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    protected function credentials(Request $request)
+    {
+        //return $request->only($this->username(), 'password');
+        return ['email' => $this->username(),'password' => $request->password,'status' => 1];
+    }
 }
