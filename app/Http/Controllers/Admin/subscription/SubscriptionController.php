@@ -7,7 +7,7 @@ use App\Models\Modules;
 use App\Models\ModuleField;
 use App\Models\ModuleFieldValue;
 use App\Models\Payment;
-
+use App\Models\Library;
 use App\Models\Transaction;
 use App\User;
 use App\Http\Controllers\Controller;
@@ -58,9 +58,9 @@ class SubscriptionController extends Controller
                     })
                     ->escapeColumns([])
                     ->addColumn('action', function($row){
-                        
+                        						$txt = "'Are you sure to delete this?'";
                            $btn = '<a href="'.url('admin').'/subscription/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a href="'.url('admin').'/subscription/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+                            <a onclick="return confirm('.$txt.')"  href="'.url('admin').'/subscription/delete/'.$row->id.'" class="delete btn btn-danger btn-sm">Delete</a>';
      
                             return $btn;
                     })
@@ -118,11 +118,20 @@ class SubscriptionController extends Controller
 		$payment = Payment::pluck('paymentmethod','id')->all();
 		if(!empty($id) || !empty($type))
 		{
-			$userdata = User::where('id',$id)->where('user_type',$type)->first();
+			if($type == 'LIBGRP')
+			{
+				$userdata = Library::where('id',$id)->where('user_type',$type)->first();
+				$type="LIB";
+			}else{
+				$userdata = User::where('id',$id)->where('user_type',$type)->first();
+			}
+			
 			$substypedata = Subscriptiontype::where('usertype',$type)->get();
 		}
-
-        return view('admin.subscription.create',compact('subscriptionstatus','payment','userdata','substypedata'));
+		
+		$datauser = User::whereIn('user_type',['IND','LIB','ORG'])->get();
+		
+        return view('admin.subscription.create',compact('subscriptionstatus','payment','userdata','substypedata','datauser'));
     }
     public function store(request $request) {
 		 $this->validate($request, [
@@ -138,12 +147,51 @@ class SubscriptionController extends Controller
 			 $diff = '';
 			 $sdate = '';
 			 $edate = '';
+			 
+			 $user_check =  User::where('id',$result['cid'])->first();
+			 if(empty($user_check)){
+				$user_check = Library::where('id',$result['cid'])->first();
+			 }
+			 if(empty($user_check)){
+				$output	= ['class' => 'alert-position-danger',
+                            'msg' => __("Invalid User Id")
+                            ];
+				return redirect('admin/subscription/create')->with('message', $output); 
+			 }else{
+				 $output='';
+				if($user_check->user_type != $result['type']){
+					$output	= ['class' => 'alert-position-danger',
+                            'msg' => __("Invalid User Type")
+                            ];
+					return redirect('admin/subscription/create')->with('message', $output);
+				}
+				if($user_check->name != $result['name']){
+					$output	= ['class' => 'alert-position-danger',
+                            'msg' => __("Invalid User Name")
+                            ];
+					return redirect('admin/subscription/create')->with('message', $output);
+				}
+				
+			 }
+			 
+			 if(empty($result['subscId'])){
+				  if(empty($user_check)){
+				$output	= ['class' => 'alert-position-danger',
+                            'msg' => __("Please Select Subscription")
+                            ];
+				return redirect('admin/subscription/create')->with('message', $output); 
+			 }
+			 }
 			if(!empty($result['start_date']) && !empty($result['end_date'])){
 				 $sdate = date("Y-m-d", strtotime($result['start_date']));
 				 $edate = date("Y-m-d", strtotime($result['end_date']));
 				 $date1 = strtotime($result['start_date']); 
 				 $date2 = strtotime($result['end_date']);  
 				 $diff = abs($date2 - $date1)/60/60/24;
+				}else{
+					$sdate=null;
+					$edate=null;
+					$diff=null;
 				}
 			 $data = array(
 					"name" => $result['name'],
@@ -203,11 +251,11 @@ class SubscriptionController extends Controller
 			return redirect('admin/subscription')->with('message', $output);
             } catch (\Exception $e) {
 				DB::rollBack();
-				echo $e;
+				//echo $e;
 				$output	= ['class' => 'alert-position-danger',
 					'msg' => __("Subscription Not create")
 					];
-			//return redirect('admin/subscription')->with('message', $output);
+			return redirect('admin/subscription')->with('message', $output);
         }
 
         
@@ -254,12 +302,51 @@ class SubscriptionController extends Controller
 			 $diff = '';
 			 $sdate = '';
 			 $edate = '';
+			 
+			 $user_check =  User::where('id',$result['cid'])->first();
+			 if(empty($user_check)){
+				$user_check = Library::where('id',$result['cid'])->first();
+			 }
+			 if(empty($user_check)){
+				$output	= ['class' => 'alert-position-danger',
+                            'msg' => __("Invalid User Id")
+                            ];
+				return redirect('admin/subscription/'.$id.'/edit')->with('message', $output); 
+			 }else{
+				 $output='';
+				if($user_check->user_type != $result['type']){
+					$output	= ['class' => 'alert-position-danger',
+                            'msg' => __("Invalid User Type")
+                            ];
+					return redirect('admin/subscription/'.$id.'/edit')->with('message', $output);
+				}
+				if($user_check->name != $result['name']){
+					$output	= ['class' => 'alert-position-danger',
+                            'msg' => __("Invalid User Name")
+                            ];
+					return redirect('admin/subscription/'.$id.'/edit')->with('message', $output);
+				}
+				
+			 }
+			 
+			 if(empty($result['subscId'])){
+				  if(empty($user_check)){
+				$output	= ['class' => 'alert-position-danger',
+                            'msg' => __("Please Select Subscription")
+                            ];
+				return redirect('admin/subscription/create')->with('message', $output); 
+			 }
+			 }
 			if(!empty($result['start_date']) && !empty($result['end_date'])){
 				 $sdate = date("Y-m-d", strtotime($result['start_date']));
 				 $edate = date("Y-m-d", strtotime($result['end_date']));
 				 $date1 = strtotime($result['start_date']); 
 				 $date2 = strtotime($result['end_date']);  
 				 $diff = abs($date2 - $date1)/60/60/24;
+				}else{
+					$sdate=null;
+					$edate=null;
+					$diff=null;
 				}
 			 $data = array(
 					"name" => $result['name'],

@@ -282,7 +282,7 @@
 
                 <div class="col">
 
-                    <a class="btn btn-danger btn-sm" href="{!! url('/admin/order'); !!}">Cancel</a>
+                    <a class="btn btn-danger btn-sm" href="{{ url()->previous() }}">Cancel</a>
 
                 </div>
 

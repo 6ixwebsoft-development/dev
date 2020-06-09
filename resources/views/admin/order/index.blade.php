@@ -75,7 +75,7 @@
 				<button class="btn btn-success" onClick="getorderStatus(11,'psts');">Active</button>
 				<button class="btn btn-warning" onClick="getorderStatus(14,'psts');">Inactive</button>
 				<button class="btn btn-light" onClick="getorderStatus(16,'psts');">Reminded</button>
-				<button class="btn btn-danger" onClick="getorderStatus(3,'sts');">Delete</button>
+				<button class="btn btn-danger" onClick="deleteorderStatus(3,'sts');">Delete</button>
 			  </div>
 			  
 			  <div id="paid_not_delivered" style="display:none;">
@@ -100,7 +100,7 @@
 			  <div id="canclled" style="display:none;">
 					<button class="btn btn-success" onClick="getorderStatus(11,'psts');">Active</button>
 					<button class="btn btn-warning" onClick="getorderStatus(14,'psts');">Inactive</button>
-					<button class="btn btn-danger" onClick="getorderStatus(3,'sts');">Delete</button>
+					<button class="btn btn-danger" onClick="deleteorderStatus(3,'sts');">Delete</button>
 			  </div>
 
 		  </div>

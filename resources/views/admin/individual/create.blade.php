@@ -447,7 +447,7 @@
 							<div class="form-group row">
 								{!! Form::label('Region', __( 'Region' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-9">	
-								 {!! Form::select('rregion', (['0' => 'Select a Region']),[], ['class' => 'form-control regiondata','id' => 'regionid','onchange' => 'getCity();', ]) !!}
+								 {!! Form::select('rregion', (['0' => 'Select a Region']),[], ['class' => 'form-control regiondata','id' => 'regionid_resi','onchange' => 'getCity_resi();', ]) !!}
 							
 								</div>
 							</div>
@@ -455,7 +455,7 @@
 								
 								{!! Form::label('City', __( 'City' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-9">								 
-									 {!! Form::select('rcity', (['0' => 'Select a City'] ),[], ['class' => ' form-control citydata','id' => 'cityid',]) !!}
+									 {!! Form::select('rcity', (['0' => 'Select a City'] ),[], ['class' => ' form-control citydata_resi','id' => 'cityid_resi',]) !!}
 								</div>
 							</div>
 							<div class="form-group row">

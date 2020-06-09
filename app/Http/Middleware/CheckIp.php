@@ -7,7 +7,7 @@ use App\Models\Libraryips;
 use DB;
 use Session;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\Visit;
 
 class CheckIp
 {
@@ -34,7 +34,7 @@ class CheckIp
 			
 		}else{
 			$value = $this->check_ip();
-		}
+		}		
 		Session::put('checkip', $value);
         return $next($request);
     }
@@ -45,10 +45,23 @@ class CheckIp
 		
 		$sqlQuery = "SELECT * FROM `libraryips` WHERE '$clientIP' BETWEEN `from` AND `to`";
 		$result = DB::select(DB::raw($sqlQuery));
-		if(!empty($result)){
-			return $value = true;
-		}else{
-			return $value = false;
-		}
+
+		if(!empty($result))
+			{
+				foreach($result as $Res)
+				{
+					$library_id = $Res->libraryid;
+				}
+				if(!Session::get('checkip') )
+				{
+					Session::put('libarary_id', $library_id);
+					$data = Visit::savevisit($library_id,1,1);
+				}
+				//1=for ip login,2=remote,3=pageview
+				//exit;
+				return $value = true;
+			}else{
+				return $value = false;
+			}
 	}
 }

@@ -42,7 +42,7 @@
 				<label class="col-sm-3" for="email">{{ __('word.contact') }} {{ __('word.name') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$contact->contactname}}</span>
-				  <input type="text" class="form-control formBox" id="library" placeholder="Enter email" name="contactname" style="display:none;" value="{{$contact->contactname}}">
+				  <input type="text" class="form-control formBox" id="library" placeholder="" name="contactname" style="display:none;" value="{{$contact->contactname}}">
 				</div>
 			</div>
 			  
@@ -50,7 +50,7 @@
 				<label class="col-sm-3" for="email">{{ __('word.email') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$contact->email}}</span>
-				  <input type="text" class="form-control formBox" id="library" placeholder="Enter email" name="email" style="display:none;" value="{{$contact->email}}">
+				  <input type="text" class="form-control formBox" id="library" placeholder="" name="email" style="display:none;" value="{{$contact->email}}">
 				</div>
 			  </div>
 			  
@@ -58,7 +58,7 @@
 				<label class="col-sm-3" for="email">{{ __('word.phone') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$contact->phone}}</span>
-				  <input type="text" class="form-control formBox" id="library" placeholder="Enter email" name="phone" style="display:none;" value="{{$contact->phone}}">
+				  <input type="text" class="form-control formBox" id="library" placeholder="" name="phone" style="display:none;" value="{{$contact->phone}}">
 				</div>
 			  </div>
 			  
@@ -66,7 +66,7 @@
 				<label class="col-sm-3" for="email">{{ __('word.mobile') }}</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$contact->mobile}}</span>
-				  <input type="text" class="form-control formBox" id="library" placeholder="Enter email" name="mobile" style="display:none;" value="{{$contact->mobile}}">
+				  <input type="text" class="form-control formBox" id="library" placeholder="" name="mobile" style="display:none;" value="{{$contact->mobile}}">
 				</div>
 			  </div>
 			 
@@ -85,7 +85,7 @@
 				<label class="col-sm-3" for="email">{{ __('word.zipcode') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$contact->contactzip}}</span>
-				  <input type="text" class="form-control formBox" id="library" placeholder="Enter email" name="bzip" style="display:none;" value="{{$contact->contactzip}}">
+				  <input type="text" class="form-control formBox" id="library" placeholder="" name="bzip" style="display:none;" value="{{$contact->contactzip}}">
 				</div>
 			  </div>
 			  
@@ -131,7 +131,7 @@
 				<label class="col-sm-3" for="email">{{ __('word.zipcode') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$contact->postalzip	}}</span>
-				  <input type="text" class="form-control formBox" id="library" placeholder="Enter email" name="pzip" style="display:none;" value="{{$contact->postalzip	}}">
+				  <input type="text" class="form-control formBox" id="library" placeholder="" name="pzip" style="display:none;" value="{{$contact->postalzip	}}">
 				</div>
 			  </div>
 			  

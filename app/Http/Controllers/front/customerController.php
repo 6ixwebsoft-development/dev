@@ -14,15 +14,15 @@ use App\Models\Library;
 use App\Models\Individual;
 use App\Models\IndividualContact;
 use App\Models\IndividualLibrary;
+use App\Models\CountryBlock;
 use App\Models\Country;
+use App\Models\Region;
 use App\Models\City;
 use App\Models\UserSearchSave;
 use App\Models\Foundation;
 use App\Models\Language;
 use App\Models\Userinfo;
 
-use App\Models\CountryBlock;
-use App\Models\Region;
 
 class customerController extends Controller
 {
@@ -52,9 +52,8 @@ class customerController extends Controller
 		$user = Auth::user();
 		$userinfo =Individual::where('userid',$user->id)->first();
 		$language = Language::where('status','1')->get();
-		//$userinfo = Userinfo::where('userid',$user->id)->first();
-		
-		return view('customer.basicinfo',compact('user','language','userinfo')); 
+		//$userinfo = Userinfo::where('userid',$user->id)->first();		print_r($userinfo);exit;
+		if(!empty($userinfo))		{			return view('customer.basicinfo',compact('user','language','userinfo')); 		}else{			return redirect('/customer');		}
 	}
 	
 	public function get_contactinfo()
@@ -63,8 +62,7 @@ class customerController extends Controller
 		$language = Language::where('status','1')->get();
 		$userinfo = IndividualContact::where('userid',$user->id)->first();
 		$country = Country::all();
-		$city = City::all();
-		return view('customer.contactinfo',compact('user','language','userinfo','country','city'));
+		$city = City::all();				if(!empty($userinfo))		{			return view('customer.contactinfo',compact('user','language','userinfo','country','city'));		}else{			return redirect('/customer');		}
 	}
 	
 	public function get_admin()
@@ -78,8 +76,8 @@ class customerController extends Controller
 		$user = Auth::user();
 		//$userinfo = Userinfo::where('userid',$user->id)->first();
 		$userinfo = IndividualLibrary::where('userid',$user->id)->first();
-		$library = Library::where('type','1')->get();
-		return view('customer.library',compact('user','userinfo','library')); 
+		$library = Library::where('type','1')->get();						if(!empty($userinfo))		{			return view('customer.library',compact('user','userinfo','library')); 		}else{			return redirect('/customer');		}
+		
 	}
 	
 	public function edit_basicinfo(Request $request,$id)
@@ -292,6 +290,25 @@ class customerController extends Controller
 				$data .= '<option value="'.$reg->id.'">'.$reg->city_name.'</option>';
 			}
 		}
+		echo $data;
+	}
+	
+	public function get_found_location(Request $request)
+	{
+		//country block
+        $blocks = CountryBlock::select('id', 'name')->get();
+		
+        //countries
+        $countries = Country::select('id', 'country_name')->get();
+
+        //region
+        $regions = Region::select('id', 'region_name')->get();
+
+        //city 
+        $cities = City::select('id', 'city_name')->get();
+		
+		$data = view('customer.get_found_location',compact('blocks','countries','regions','cities'));
+		
 		echo $data;
 	}
 	

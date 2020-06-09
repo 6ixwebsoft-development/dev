@@ -84,7 +84,7 @@
             </div><!--row-->
 
         <hr>
-
+@if (count($errors) > 0)			<div class="alert alert-danger alert-dismissible fade show" role="alert">				<ul id="login-validation-errors" class="validation-errors">					@foreach ($errors->all() as $error)						<li class="validation-error-item">{{ $error }}</li>					@endforeach				</ul>				<button type="button" class="close" data-dismiss="alert" aria-label="Close">					<span aria-hidden="true">&times;</span>				</button>			</div><hr>		@endif
 
         {!! Form::open(array('route' => 'users.store','method'=>'POST')) !!}
         <div class="form-group row">
@@ -156,8 +156,8 @@
             </div>
 
             <div class="col-lg-10">
-
-              {!! Form::select('roles[]', $roles,[], array('class' => 'form-control')) !!}
+			<select class="form-control" name="roles">			@foreach($roles as $Role)				<option value="{{$Role->id}}">{{$Role->name}}</option>			@endforeach						</select>
+              
 
             </div>
 

@@ -58,13 +58,7 @@
 @endif -->
 @section('content')  
 
-@if (count($errors) > 0)
-<ul id="login-validation-errors" class="validation-errors">
-    @foreach ($errors->all() as $error)
-    <li class="validation-error-item">{{ $error }}</li>
-    @endforeach
-</ul>
-@endif
+
 {!! Form::open(
 				array('route' => array(
 									'admin.organization.update', 
@@ -107,7 +101,7 @@
             </div><!--row-->
 
         <hr>
-
+			@if (count($errors) > 0)			<div class="alert alert-danger alert-dismissible fade show" role="alert">				<ul id="login-validation-errors" class="validation-errors">					@foreach ($errors->all() as $error)						<li class="validation-error-item">{{ $error }}</li>					@endforeach				</ul>				<button type="button" class="close" data-dismiss="alert" aria-label="Close">					<span aria-hidden="true">&times;</span>				</button>			</div><hr>		@endif
 			<div class="row">
 			   <div class="col-2">
 				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">

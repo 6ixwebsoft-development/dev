@@ -184,7 +184,7 @@ $(function () {
         ajax: APP_URL+"/admin/foundation",
         columns: [
 			{data: 'checkbox', name: 'checkbox'},
-            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'id', name: 'id'},
 			{data: 'sort', name: 'sort'},
             {data: 'name', name: 'name'},
             {data: 'tstatus', name: 'status'},
@@ -320,7 +320,7 @@ $(function () {
 		"bSort":false,
 		"bPaginate":true,
 		"sPaginationType":"full_numbers",
-		"iDisplayLength": 10,
+		"iDisplayLength": 100,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/location/city",
@@ -338,22 +338,43 @@ $(function () {
 
 /* User table */
  $(function () {
-    
-    var table = $('.user-table').DataTable({
-        "bJQueryUI":true,
+    //alert('ddd');
+    var table = $('.user-table-export').DataTable({
+			dom: 'Bfrtip',
+			buttons: [
+				'excel'
+			],
+			buttons: [
+				{
+					extend: 'excel',
+					text: 'Export ',
+					title: 'Export',
+					exportOptions: {
+						columns: ':visible'
+					}
+				},
+			'colvis'
+			],
+		
+		"bJQueryUI":true,
 		"bSort":false,
 		"bPaginate":true,
 		"sPaginationType":"full_numbers",
-		"iDisplayLength": 10,
+		"iDisplayLength": 100,
         processing: true,
         serverSide: true,
+		
         ajax: APP_URL+"/admin/users",
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
             {data: 'tstatus', name: 'status'},
-            {data: 'roles', name: 'roles'},
+			{data: 'roles', name: 'roles'},
+            {data: 'user_type', name: 'user_type'},
+			{data: 'mobile', name: 'mobile'},
+			{data: 'created_at', name: 'created_at'},
+            {data: 'updated_at', name: 'updated_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -368,7 +389,7 @@ function searchuserdata() {
 	var userRole = $('#userRole').val();
 	var statususer = $("input[name='optuser']:checked").val();
 	var usertytype = $('#usertytype').val();
-	 //alert(userRole); 
+	// alert(userRole); 
 	var createdFrom = $('#createdFrom').val();
 	var createdTo = $('#createdTo').val();
 	var modifiesFrom = $('#modifiesFrom').val();
@@ -379,21 +400,7 @@ function searchuserdata() {
 	{
 	  emailcheck = $('#byemail').val();
 	}
-	
-/* 		var table = $('.user-table').DataTable({
-        processing: true,
-        serverSide: true,
-		data:{filter:search,value:searchtext},
-        ajax: APP_URL+"/admin/searchvikashuser",
-        columns: [
-            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-            {data: 'name', name: 'name'},
-            {data: 'email', name: 'email'},
-            {data: 'tstatus', name: 'status'},
-            {data: 'roles', name: 'roles'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
-    }); */
+
 	
  	  $.ajaxSetup({
         headers: {
@@ -408,20 +415,34 @@ function searchuserdata() {
            success:function(data){
 			//alert(data);
 			$('#loaderareafront').hide();
-			$('.user-table').dataTable().fnDestroy()
-
+			$('.user-table-export').dataTable().fnDestroy()
+				
 				data.draw = 1;
 			//console.log(data);	
 				
-				$('.user-table').DataTable({
-					
+				$('.user-table-export').DataTable({
+					dom: 'Bfrtip',
+					buttons: [
+						'excel'
+					],
+					buttons: [
+						{
+							extend: 'excel',
+							text: 'Export ',
+							title: 'Export',
+							exportOptions: {
+								columns: ':visible'
+							}
+						},
+					'colvis'
+					],
 					data: data.data,
 				
 					"bJQueryUI":true,
 					"bSort":false,
 					"bPaginate":true,
 					"sPaginationType":"full_numbers",
-					"iDisplayLength": 10,
+					"iDisplayLength": 100,
 					"bFilter": true,
 					processing: true,
 					
@@ -431,6 +452,10 @@ function searchuserdata() {
 						{data: 'email', name: 'email'},
 						{data: 'tstatus', name: 'status'},
 						{data: 'roles', name: 'roles'},
+						{data: 'user_type', name: 'user_type'},
+						{data: 'mobile', name: 'mobile'},
+						{data: 'created_at', name: 'created_at'},
+						{data: 'updated_at', name: 'updated_at'},
 						{data: 'action', name: 'action', orderable: false, searchable: false},
 					]
 				});
@@ -811,6 +836,22 @@ function getCity()
 		});
 }
 
+function getCity_resi()
+{
+	var cid = $("#regionid_resi").val();
+	//alert(cid);return false;
+	$.ajax({
+			type:'GET',
+			url: APP_URL+"/customer/edit/getcity",
+			data:{cid:cid},
+			success:function(data){
+				$(".citydata_resi").empty();
+				$(".citydata_resi").append(data);
+			}
+
+		});
+}
+
 
 /* Add Fields For Video Link */
 $(document).ready(function(){
@@ -922,15 +963,16 @@ $(document).ready(function(){
     var maxField = 10; //Input fields increment limitation
     var addButton = $('.add_buttonremote'); //Add button selector
     var wrapper = $('.field_wrapperremote'); //Input field wrapper
-    var fieldHTML = '<div class="form-group row"><label for="type" class="col-sm-3 col-form-label">Digits in Remote ID</label><div class="col-sm-1"><select name="remotedigit[]" id="remoteip" class="form-control"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13<option value="14">14</option></option><option value="15">15</option></select></div><label for="type" class="col-sm-3 col-form-label">Remote ID</label><div class="col-sm-3"><input type="" name="remoteid[]" maxlength="" onkeypress = "return alphaOnly(event);" class="form-control"></div><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div><br>'; //New input field html 
-    var x = 1; //Initial field counter is 1
+	var x = 1; //Initial field counter is 1
+    var fieldHTML = ''; //New input field html 
+    
    
     //Once add button is clicked
     $(addButton).click(function(){
         //Check maximum number of input fields
         if(x < maxField){ 
             x++; //Increment field counter
-            $(wrapper).append(fieldHTML); //Add field html
+            $(wrapper).append('<div class="form-group row"><label for="type" class="col-sm-3 col-form-label">Digits in Remote ID</label><div class="col-sm-1"><select name="remotedigit[]" id="remotedigit_'+x+'" onChange="maxLengthFunction('+x+');" class="form-control"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13<option value="14">14</option></option><option value="15">15</option></select></div><label for="type" class="col-sm-3 col-form-label">Remote ID</label><div class="col-sm-3"><input type="text" class="form-control formBox" id="remoteid_'+x+'" placeholder="******" name="remoteid[]"  readonly value="" maxlength=""></div><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div><br>'); //Add field html
         }
     });
     
@@ -942,24 +984,19 @@ $(document).ready(function(){
     });
 });
 
-function maxLengthFunction()
+function maxLengthFunction(val)
 {
-
-	var count = $('#remotedigit').val();
-	$('#remoteid').attr('maxlength', count);
-	$('#remoteid').removeAttr('readonly');
+	
+	var count = $('#remotedigit_'+val+'').val();
+	$('#remoteid_'+val+'').attr('maxlength', count);
+	$('#remoteid_'+val+'').removeAttr('readonly');
 	var i;
 	var mydata = '';
 	for (i = 1; i <= count; i++) {
-	  mydata += '#';
+	  mydata += '*';
 	}
 	//alert(mydata);
-	$('#remoteid').val(mydata);
-	
-	/* var ddl = document.getElementById("remotedigit");
-	var strOption = ddl.options[ddl.selectedIndex].text
-	document.getElementById("remoteid").removeAttribute('readonly');
-	document.getElementById("remoteid").maxLength=strOption; */
+	$('#remoteid_'+val+'').val(mydata);
 }
 
 												
@@ -1226,16 +1263,23 @@ $(document).ready(function(){
     var maxField = 10; //Input fields increment limitation
     var addButton = $('.add_buttonlocation'); //Add button selector
     var wrapper = $('.field_wrapperlocation'); //Input field wrapper
-    var fieldHTML = '<div class="row"><div class="col-md-2"><label for="type" >country-block</label><select class="form-control mycountryblock" name="country_block[]" id="countryBlock"><option></option></select></div><div class="col-md-2"><label for="type" >country</label><select class="form-control mycountries" name="country[]" id="countries" onchange="getRegion();"><option></option></select></div><div class="col-md-2"><label for="type" >Region</label><select class="form-control regiondata" name="region[]" id="regionid" onchange="getCity();"><option></option></select></div><div class="col-md-2"><label for="type" >City</label><select class="form-control citydata" name="city[]" id="cityid"><option></option></select></div><div class="col-md-2"><label for="type" >Parish</label><input type="text" name="parish" class="form-control" placeholder="parish"></div><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div><br>'; //New input field html 
+    var fieldHTML = ''; //New input field html 
     var x = 1; //Initial field counter is 1
    
     //Once add button is clicked
     $(addButton).click(function(){
-        //Check maximum number of input fields
-        if(x < maxField){ 
-            x++; //Increment field counter
-            $(wrapper).append(fieldHTML); //Add field html
-        }
+		$.ajax({
+			type:'GET',
+			url: APP_URL+"/customer/edit/get_found_location",
+			data:{x:x},
+			success:function(data){
+				if(x < maxField){ 
+					x++; //Increment field counter
+					$(wrapper).append(data); //Add field html
+				}
+			}
+
+		});
     });
     
     //Once remove button is clicked
@@ -1255,16 +1299,25 @@ function deleteDataImg(id,txt)
         }
     });
 	//alert(id);return false;
+	if (confirm("Are you sure want to delete record?"))
+	{
 	 $.ajax({
 		   type:'POST',
 		  url: APP_URL+"/admin/organization/document",
 		   data:{id:id,txt:txt},
+		 
 		   success:function(data) {
-			alert("File deleted successfully...!");
+			//alert(data);return false;
+			if(data == 1){
+				alert("File deleted successfully...!");
+			}else{
+				alert("There is some problem...!");
+			}
+			
 			location.reload();
                }
             });
-	
+	}
 }
 
 //user list data
@@ -1285,13 +1338,14 @@ $(function () {
            data:data,
            success:function(data){
 			//alert(data);
-			$('.user-table').dataTable().fnDestroy()
+			$('.userlist-table').dataTable().fnDestroy()
 
 				data.draw = 1;
 				console.log(data);	
 				
-				$('.userlist-table').DataTable({
-				data: data.data,
+			$('.userlist-table').DataTable({
+			data: data.data,
+			"iDisplayLength": 100,
 			columns: [
 			{data: 'checkbox', name: 'checkbox'},
 			{data: 'DT_RowIndex', name: 'DT_RowIndex'},
@@ -1299,6 +1353,7 @@ $(function () {
             {data: 'email', name: 'email'}, 
             {data: 'roles', name: 'roles'},
 			{data: 'last_login_at', name: 'last_login_at'},
+			
 			{data: 'status', name: 'status'},
             /* {data: 'action', name: 'action', orderable: false, searchable: false}, */
 					]
@@ -1379,12 +1434,12 @@ function get_exportlist() {
 					/* 'copyHtml5',
 					'excelHtml5',
 					'csvHtml5', */
-					'pdf'
+					'excel'
 				],
 				
 				  buttons: [
 					{
-						extend: 'pdf',
+						extend: 'excel',
 					 text: 'Export Foundtaion',
 					 title: 'Export Foundtaion Data',
 						exportOptions: {
@@ -2022,7 +2077,7 @@ function getfoundlistcheckboxval(val,id=''){
 		});
 }
 
-function deletefoundation(val){
+function mydeletefoundation(val){
 	
 	var favorite = [];
 	$.each($("input[name='userslistIds']:checked"), function(){
@@ -2162,7 +2217,7 @@ function getsubstypeStatus(val,txt){
 
 }
 
-function getproductStatus(val,txt){
+function mygetproductStatus(val,txt){
 	
 	var favorite = [];
 	$.each($("input[name='userslistIds']:checked"), function(){
@@ -2196,7 +2251,7 @@ function getproductStatus(val,txt){
 
 }
 
-function gethitlistStatus(val,txt){
+function mygethitlistStatus(val,txt){
 	
 	var favorite = [];
 	$.each($("input[name='userslistIds']:checked"), function(){
@@ -2344,4 +2399,82 @@ function varify_librarycard()
 
 		});
 	
+}
+function deletealllistcheckboxval(val,id=''){	var favorite = [];	$.each($("input[name='userslistIds']:checked"), function(){		favorite.push($(this).val());	});	if(id == '')	{		if(favorite == '')		{			alert("please select one or more records");			return false;		}	}		if (confirm("Are you sure want to delete record?")) {				getalllistcheckboxval(val,id='');	}	}
+
+function deletefoundation(val){	var favorite = [];	$.each($("input[name='userslistIds']:checked"), function(){	favorite.push($(this).val());	});		if(favorite == '')		{			alert("please select one or more records");			return false;		}	if (confirm("Are you sure want to delete record?")) {				mydeletefoundation(val);	}}function deletealllistcheckboxval(val,id=''){	var favorite = [];	$.each($("input[name='userslistIds']:checked"), function(){		favorite.push($(this).val());	});	if(id == '')	{		if(favorite == '')		{			alert("please select one or more records");			return false;		}	}		if (confirm("Are you sure want to delete record?")) {				getalllistcheckboxval(val,id='');	}	}
+function deletealllistcheckboxval(val,id=''){	var favorite = [];	$.each($("input[name='userslistIds']:checked"), function(){		favorite.push($(this).val());	});	if(id == '')	{		if(favorite == '')		{			alert("please select one or more records");			return false;		}	}		if (confirm("Are you sure want to delete record?")) {				getalllistcheckboxval(val,id='');	}	}function deleteLibGrpStatus(val,id=''){		var favorite = [];	$.each($("input[name='userslistIds']:checked"), function(){	favorite.push($(this).val());	});	if(id == '')	{		if(favorite == '')		{			alert("please select one or more records");			return false;		}	}	if (confirm("Are you sure want to delete record?")) {				getLibGrpStatus(val,id='');	}}function deletesubsStatus(val,txt){	var favorite = [];	$.each($("input[name='userslistIds']:checked"), function(){	favorite.push($(this).val());	});		if(favorite == '')		{			alert("please select one or more records");			return false;		}		if (confirm("Are you sure want to delete record?")) {			getsubsStatus(val,txt);	}}function deleteorderStatus(val,txt){	var favorite = [];	$.each($("input[name='userslistIds']:checked"), function(){	favorite.push($(this).val());	});		if(favorite == '')		{			alert("please select one or more records");			return false;		}		if (confirm("Are you sure want to delete record?")) {				getorderStatus(val,txt);	}	}function getproductStatus(val,txt){	var favorite = [];	$.each($("input[name='userslistIds']:checked"), function(){	favorite.push($(this).val());	});		if(favorite == '')		{			alert("please select one or more records");			return false;		}	if (confirm("Are you sure want to delete record?")) {				mygetproductStatus(val,txt);	}}function gethitlistStatus(val,txt){	var favorite = [];	$.each($("input[name='userslistIds']:checked"), function(){	favorite.push($(this).val());	});		if(favorite == '')		{			alert("please select one or more records");			return false;		}	if (confirm("Are you sure want to delete record?")) {				mygethitlistStatus(val,txt);	}}
+
+$(document).ready(function() {
+    $('.report_table').DataTable({
+		dom: 'Bfrtip',
+		buttons: [
+			'pdf'
+		],
+		buttons: [
+		   { 
+			 extend: 'pdf',
+			 text: 'Export ',
+			 title: 'Export Data'
+			  
+		   }
+		],
+	});
+});
+
+
+
+
+function get_reportdata(id)
+{
+	 var data = id;
+	 var year = $("#select_year").val();
+	 //$("#transData").serialize();
+	  $.ajax({
+           type:'POST',
+           url: APP_URL+"/admin/library/get_reportdata",
+           data:{data:data,year:year},
+           success:function(data){
+			//alert(data);
+			//console.log(data.data);
+			$('.report_table').dataTable().fnDestroy()
+				data.draw = 1;
+				console.log(data);	
+				
+			$('.report_table').DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					'pdf'
+				],
+				buttons: [
+				   { 
+					 extend: 'pdf',
+					 text: 'Export ',
+					 title: 'Export Data'
+					  
+				   }
+				],
+				data: data.data,
+				columns: [
+				{data: 'type', name: 'type'},
+				{data: 'month_1', name: 'month_1'},
+				{data: 'month_2', name: 'month_2'},
+				{data: 'month_3', name: 'month_3'},
+			    {data: 'month_4', name: 'month_4'},
+				{data: 'month_5', name: 'month_5'},
+				{data: 'month_6', name: 'month_6'},
+				{data: 'month_7', name: 'month_7'},
+				{data: 'month_8', name: 'month_8'},
+			    {data: 'month_9', name: 'month_9'},
+				{data: 'month_10', name: 'month_10'},
+				{data: 'month_11', name: 'month_11'},
+			    {data: 'month_12', name: 'month_12'},
+				{data: 'total', name: 'total'},
+						
+				]
+				
+				});
+           }
+
+			});
 }

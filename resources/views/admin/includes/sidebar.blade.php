@@ -1,9 +1,9 @@
 <div class="sidebar">
     <nav class="sidebar-nav">
         <ul class="nav">
-            <li class="nav-title">
+            <!--<li class="nav-title">
                 <b>GENERAL</b>
-            </li>
+            </li> -->
             <li class="nav-item">
 
                <!--  <a class="nav-link" href="{!! url('/admin'); !!}">
@@ -18,23 +18,25 @@
 			
 			 <li class="nav-item nav-dropdown">
                     <a class="nav-link nav-dropdown-toggle" href="#">
-                    <i class="nav-icon fas fa-user"></i>User
+                    <i class="nav-icon fas fa-user"></i>User Management
                 </a>
                 <ul class="nav-dropdown-items">
-						<li class="nav-item">
-                            <a class="nav-link " href="{!! url('/admin/roles'); !!}">User Roles</a>
-                        </li>
+						
 						
                         <li class="nav-item">
                             <a class="nav-link " href="{!! url('/admin/users'); !!}">
-								User
+								User Search
                             </a>
                         </li>
 						
 						<li class="nav-item">
                             <a class="nav-link " href="{!! url('/admin/listalluser'); !!}">
-								List All user
+								List Users By Roles
                             </a>
+                        </li>
+						
+						<li class="nav-item">
+                            <a class="nav-link " href="{!! url('/admin/roles'); !!}">User Roles Management</a>
                         </li>
                     </ul>
 					

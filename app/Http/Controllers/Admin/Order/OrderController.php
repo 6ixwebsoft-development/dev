@@ -60,9 +60,9 @@ class OrderController extends Controller
                     })
                     ->escapeColumns([])
                     ->addColumn('action', function($row){
-                        
+                        							$txt = "'Are you sure to delete this?'";
                            $btn = '<a href="'.url('admin').'/order/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a href="'.url('admin').'/order/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+                            <a onclick="return confirm('.$txt.')"  href="'.url('admin').'/order/delete/'.$row->id.'" class="delete btn btn-danger btn-sm">Delete</a>';
      
                             return $btn;
                     })
@@ -394,9 +394,9 @@ class OrderController extends Controller
                     })
                     ->escapeColumns([])
                     ->addColumn('action', function($row){
-                        
+                        						$txt = "'Are you sure to delete this?'";
                            $btn = '<a href="'.url('admin').'/order/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a href="'.url('admin').'/order/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+                        <a onclick="return confirm('.$txt.')"  href="'.url('admin').'/order/delete/'.$row->id.'" class="delete btn btn-danger btn-sm">Delete</a>';
      
                             return $btn;
                     })

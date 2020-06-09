@@ -53,7 +53,7 @@
 		<button class="btn btn-success" onClick="getLibGrpStatus(1);">Activate</button>
 		   <button class="btn btn-warning" onClick="getLibGrpStatus(0);">Inactive</button>
 		<!--  <button class="btn btn-warning" onClick="getalllistcheckboxval(2);">Ban</button> -->
-		  <button class="btn btn-danger" onClick="getLibGrpStatus(3);">Delete</button>
+		  <button class="btn btn-danger" onClick="deleteLibGrpStatus(3);">Delete</button>
       </div>
     </div>
   </div>

@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col-sm-5">
                     <h4 class="card-title mb-0">
-                        Language Management <small class="text-muted">Language Add</small>
+                        User Management <small class="text-muted">User Add</small>
                    
                     </h4>
                 </div><!--col-->
@@ -53,14 +53,14 @@
 				</div>
 			@endif
 		  
-		  {!! Form::open(array('route' => array('admin.individual.update', $user->id))) !!}
+		  {!! Form::open(array('route' => array('admin.user.update', $user->id))) !!}
 		
         <div class="form-group row">
             <div class="col-lg-2">
               {!! Form::label('name', __( 'Name' ) . ':*') !!}
             </div>
             <div class="col-lg-10">
-                {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                {!! Form::text('name', $user->name, array('placeholder' => 'Name','class' => 'form-control')) !!}
             </div>
         </div>
         <div class="form-group row">
@@ -68,7 +68,7 @@
               {!! Form::label('email', __( 'Email' ) . ':*') !!}
             </div>
             <div class="col-lg-10">
-            {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+            {!! Form::text('email', $user->email, array('placeholder' => 'Email','class' => 'form-control')) !!}
             </div>
         </div>
      <div class="form-group row">
@@ -91,8 +91,8 @@
             <div class="col-lg-2">
               {!! Form::label('role', __( 'Roles' )) !!}
             </div>
-            <div class="col-lg-10">
-            {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control')) !!}
+            <div class="col-lg-10">						<select class="form-control" name="roles">			@foreach($roles as $Role)				<option value="{{$Role->id}}"@if($userRole == $Role->id) selected @endif>{{$Role->name}}</option>			@endforeach						</select>
+           
         </div>
     </div>
    <div class="card-footer clearfix">

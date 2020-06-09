@@ -117,7 +117,7 @@ class FoundationSearchController extends Controller
         $foundation_ids = $request->favourite_fund_ids;
 		
 		// echo "<pre>";
-        // // print_r($cityIds);
+       
         // // print_r($foundation_ids);
         // $d = Foundation::find(7)->age;
         // foreach ($d as $row) {
@@ -232,6 +232,8 @@ class FoundationSearchController extends Controller
 
         } elseif(!empty(Session::get('remote_name'))){
 			 $all_foundations = $foundation->get()->unique();  
+		}elseif(!empty(Session::get('checkip'))){			 
+			$all_foundations = $foundation->get()->unique();  		
 		}else {
 
             if($limit > 0) {
@@ -249,6 +251,12 @@ class FoundationSearchController extends Controller
             }
         }
 		
+		if(empty($cityIds)) {
+			if(empty($foundation_ids))
+				{
+					 $all_foundations = array();
+				}
+            } 
 		
         //return response()->json(array("foundations" => $all_foundations, "foundations_contacts" => $foundation_contacts));
 		

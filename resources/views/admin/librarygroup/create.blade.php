@@ -58,13 +58,6 @@
 @endif -->
 @section('content')  
 
-@if (count($errors) > 0)
-<ul id="login-validation-errors" class="validation-errors">
-    @foreach ($errors->all() as $error)
-    <li class="validation-error-item">{{ $error }}</li>
-    @endforeach
-</ul>
-@endif
 <form action="{{url('admin/librarygroup/store')}}" method="post">
 	@csrf
   <div class="row">
@@ -99,7 +92,7 @@
 				
             </div><!--row-->
 
-        <hr>
+        <hr>			@if (count($errors) > 0)			<div class="alert alert-danger alert-dismissible fade show" role="alert">				<ul id="login-validation-errors" class="validation-errors">					@foreach ($errors->all() as $error)						<li class="validation-error-item">{{ $error }}</li>					@endforeach				</ul>				<button type="button" class="close" data-dismiss="alert" aria-label="Close">					<span aria-hidden="true">&times;</span>				</button>			</div><hr>		@endif
 
 			<div class="row">
 			  <div class="col-2">
@@ -136,7 +129,7 @@
 								
 								{!! Form::label('Availability', __( 'Availability' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">
-								  {!! Form::select('bavailability[]', (['1' => 'GlobalGrant Sweden']),[], ['class' => 'form-control','multiple' ]  ); !!}
+								  {!! Form::select('availability', (['1' => 'GlobalGrant Sweden']),[], ['class' => 'form-control','' ]  ); !!}
 								</div>
 							  </div>
 							   <div class="form-group row">

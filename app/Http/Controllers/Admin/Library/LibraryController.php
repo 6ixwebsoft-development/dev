@@ -9,7 +9,7 @@ use App\Models\Language;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Usertyperole;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\LibraryContact;
 use App\Models\Library;
 use App\Models\Librarylogin;
@@ -25,6 +25,10 @@ use App\Models\Documents;
 use DataTables;
 use DB;
 use Hash;
+use Carbon\Carbon;
+
+
+use App\Models\Visit;
 
 class LibraryController extends Controller
 {
@@ -46,7 +50,7 @@ class LibraryController extends Controller
    
                            $txt = "'Are you sure to delete this?'";
                            $btn = '<a href="'.url('admin').'/library/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a onclick="return confirm('.$txt.')" href="'.url('admin').'/library/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+                            <a onclick="return confirm('.$txt.')" href="'.url('admin').'/library/delete/'.$row->id.'" class="delete btn btn-danger btn-sm">Delete</a>';
      
                             return $btn;
                     })
@@ -59,6 +63,25 @@ class LibraryController extends Controller
                             return $btn;
                     })
                     ->rawColumns(['checkbox']) 
+					->escapeColumns([])
+                    ->addColumn('name', function($row){
+							$btn ='';
+							
+								$controller = 'library';
+								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->name.'</a>';
+						
+                            return $btn;
+                    })
+                    ->rawColumns(['name'])
+					->addColumn('email', function($row){
+							$btn ='';
+							
+								$controller = 'library';
+								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->email.'</a>';
+						
+                            return $btn;
+                    })
+                    ->rawColumns(['email'])
                     ->make(true);
         }
         return view('admin.library.index');
@@ -185,18 +208,35 @@ class LibraryController extends Controller
 				if(!empty($result['remotedigit']))
 				{
 					$i =0;
-					foreach($result['remotedigit'] as $digit){
-					$remoteid = $result['remoteid'];
-					$ips = array(
-					"libraryid"  => $LibraryId,
-					"remotedigit"  => $digit,
-					"remoteid"  => $remoteid[$i],
-					"created_at"  => now(),
-					);
-					Libraryremoteip::insert($ips);
-					$i++; }
+					foreach($request->post('remotedigit') as $digit){
+					$remoteid = $request->post('remoteid');
+					$remotedigit = $remoteid[$i];
+					if($digit != strlen($remotedigit)){
+						$output	= ['class' => 'alert-danger',
+							'msg' => __("Digit not qual to Library card ")
+							];
+					}else{
+						
+						$ips = array(
+						"libraryid"  => $LibraryId,
+						"remotedigit"  => $digit,
+						"remoteid"  => $remoteid[$i],
+						"created_at"  => now(),
+						);
+						
+						$query = Libraryremoteip::insert($ips);
+						$i++; 
+						}
+					}
+					
+					
 				}
-		
+				
+				$visit1 = Visit::savevisit($LibraryId,1,0);
+				$visit2 = Visit::savevisit($LibraryId,2,0);
+				$visit3 = Visit::savevisit($LibraryId,3,0);
+				
+				
 				$output	= ['class' => 'alert-position-success',
                             'msg' => __("Library added successfully")
                             ];
@@ -208,8 +248,8 @@ class LibraryController extends Controller
                             'msg' => __("Library Not create".$e)
                             ];
 			DB::rollBack();
-			echo $e;
-			//return redirect('admin/library/create')->with('message', $output);
+			//echo $e;
+			return redirect('admin/library/create')->with('message', $output);
         }
 
      //  return redirect('admin/library')->with('status', $output);
@@ -238,11 +278,24 @@ class LibraryController extends Controller
 		$dataids = $roleid['role_ids'];
 		$roles = Role::select('name','id')->whereIn('id', ["8","9"])->get(); 
 		
-        return view('admin.library.edit',compact('roles','userroles','language','country','purpose','group','basic','contact','details','ips','remoteips','logo','user'));
+		$today = Carbon::now();
+		$month = $today->month;
+		$year = $today->year;
+		
+		$visit = Visit::WhereIn('type',[1,2,3])->where('library_id',$id)->where('year',$year)->get();
+		
+		if($basic->status == 3)
+		{
+			$ips = array();
+		}
+		//print_r($ips);exit;
+        return view('admin.library.edit',compact('roles','userroles','language','country','purpose','group','basic','contact','details','ips','remoteips','logo','user','visit'));
 	}
 	
 	public function update(Request $request,$uid) 
 	{
+		//print_r($request->all());exit;
+		$basic = Library::where('userid',$uid)->first();
 		$this->validate($request, [
 					'library' => 'required',
 					'email' => 'required|email|',
@@ -251,14 +304,14 @@ class LibraryController extends Controller
 					'group' => 'required',
 					'useremail' => 'required|email|unique:users,email,'.$uid,
 					
-				]);
+				]);			DB::beginTransaction();
 		try {
-			$basic = Library::where('userid',$uid)->first();
+			
 			$id = $basic->id;
 			$result = $request->all();
 				
 				 $userLog = array(
-				"email"  => $result['uemail'],
+				"email"  => $result['useremail'],
 				"name"  => $result['library'],
 				"updated_at"  => Now(),
 				);
@@ -300,12 +353,12 @@ class LibraryController extends Controller
 					"about_eng"  => $result['engabout'],					
 					"updated_at"  =>now(),
 			);
-			DB::table('library_contact')->where('libraryid', $id)->update($contact);
-				if(!empty($result['activeipstaus'])){
+			DB::table('library_contact')->where('libraryid', $id)->update($contact);			
+			if(!empty($result['remotename'])){								if(!empty($result['activeipstaus'])){$ips = $result['activeipstaus']; }else{$ips = 3;}				if(!empty($result['activeremoteip'])){$rips = $result['remotename']; }else{$rips = 3;}				
 				$details = array(
-                    "activeip"  =>  $result['activeipstaus'],
+                    "activeip"  =>$ips,
 					"remotename"  => $result['remotename'],
-					"remoteactiveip"  => $result['activeremoteip'],
+					"remoteactiveip"  => $rips,
                     "updated_at"  =>now(),
 				);
 				DB::table('librarylogin')->where('libraryid', $id)->update($details);
@@ -338,20 +391,34 @@ class LibraryController extends Controller
 					$i++; }
 				} 
 				
-				Libraryremoteip::where('libraryid', $id)->delete();
+				
 				if(!empty($result['remotedigit']))
 				{
+					Libraryremoteip::where('libraryid', $id)->delete();
 					$i =0;
-					foreach($result['remotedigit'] as $digit){
-					$remoteid = $result['remoteid'];
-					$ips = array(
-					"libraryid"  => $id,
-					"remotedigit"  => $digit,
-					"remoteid"  => $remoteid[$i],
-					"created_at"  => now(),
-					);
-					Libraryremoteip::insert($ips);
-					$i++; }
+					foreach($request->post('remotedigit') as $digit){
+					$remoteid = $request->post('remoteid');
+					$remotedigit = $remoteid[$i];
+					if($digit != strlen($remotedigit)){
+						$output	= ['class' => 'alert-danger',
+							'msg' => __("Digit not qual to Library card ")
+							];
+					//return redirect('library/manage/remote-access')->with('message', $output);
+					}else{
+						
+						$ips = array(
+						"libraryid"  => $id,
+						"remotedigit"  => $digit,
+						"remoteid"  => $remoteid[$i],
+						"created_at"  => now(),
+						);
+						
+						$query = Libraryremoteip::insert($ips);
+						$i++; 
+						}
+					}
+					
+					
 				}
 				
 			 if(!empty($request->file('logoImg')))
@@ -367,20 +434,18 @@ class LibraryController extends Controller
 					);
 					Documents::insert($datalogo);
 				} 
-
-
 		$output = ['success' => true,
 					'msg' => __("Library updated")
-					];
+					];		DB::commit();		return redirect('admin/library')->with('status', $output);
 		} catch (\Exception $e) {
 		
 			$output = ['success' => false,
 						'msg' => __("messages.something_went_wrong")
-					];
-		//echo $e;
+					];		DB::rollBack();
+		//echo $e;				return redirect('admin/library')->with('status', $output);
 		}
 
-		return redirect('admin/library')->with('status', $output);
+		
 	}
 	
 	public function delete($uid)
@@ -388,13 +453,23 @@ class LibraryController extends Controller
 		try {
 			$basic = Library::where('userid',$uid)->first();
 			$id = $basic->id;
-			//print_r($id);exit;
-			User::where('id', $uid)->delete();
+			/* User::where('id', $uid)->delete();
 			Library::where('id', $id)->delete();
 			LibraryContact::where('libraryid', $id)->delete();
 			Libraryremoteip::where('libraryid', $id)->delete();
 			Libraryips::where('libraryid', $id)->delete();
-			Libraryips::where('libraryid', $id)->delete();
+			Libraryips::where('libraryid', $id)->delete(); */
+			$data = array(
+				'name'=> 'DELETE_'.$uid.'@globalgarnt.com',
+				'status'=>3,
+				'email'=>'DELETE_'.$uid.'@globalgarnt.com'
+				);
+				DB::table('users')->where('id', $uid)->update($data);
+				Library::delete_data($uid);
+				LibraryContact::delete_data($uid);
+				Libraryips::delete_data($basic->id);
+				Librarylogin::delete_data($basic->id);
+				Libraryremoteip::delete_data($basic->id);
 			
 			$output = ['success' => true,
 						'msg' => __("Module Field Deleted")
@@ -406,6 +481,37 @@ class LibraryController extends Controller
 					];
 		}
 		return redirect('admin/library')->with('status', $output);
+	}
+	
+	public function get_reportdata(Request $request)
+	{
+		$result = $request->all();
+		$today = Carbon::now();
+		$month = $today->month;
+		//$year = $today->year;
+		
+		 $id =$result['data'];
+		 $year=$result['year'];
+		$data = Visit::WhereIn('type',[1,2,3])->where('library_id',$id)->where('year',$year)->get();
+		
+		//print_r($data);exit;
+		 if ($request->ajax()) {
+            
+			
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('type', function($row){
+							
+							if($row->type == 1){$btn = 'Visit IP-User';}
+							if($row->type == 2){$btn = 'Visit Remote-Access';}
+							if($row->type == 3){$btn = 'Visit Page-View';}
+							
+                            return $btn;
+                    })
+                     ->rawColumns(['action'])
+                    ->make(true);
+        }
+		
 	}
 	
 	

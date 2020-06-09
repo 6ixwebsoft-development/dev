@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\Language;
 use DataTables;
 use DB;
+use App\Models\IndividualContact;
+use App\Models\LibraryContact;
+
 use Illuminate\Support\Facades\Hash;
 
 
@@ -32,8 +35,8 @@ class UserController extends Controller
 
         if ($request->ajax()) {
          
-            $data = User::where('user_type','!=',null)->get();
-
+            $data = User::orderBy('id', 'DESC')->where('status','1')->where('user_type','!=','ADMIN')->get();
+			
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->editColumn('roles', function($row) {
@@ -57,12 +60,18 @@ class UserController extends Controller
 							if($row->user_type == 'IND'){$controller = 'individual';}
 							if($controller = 'organization' || $controller = 'individual')
 							{
-								if($row->user_type != 'LIB')
+								if($row->user_type == 'LIB' || $row->user_type == 'IND' ||$row->user_type == 'ORG')
 								{
 									$btn = '<a href="'.url('admin').'/order/create/'.$row->id.'/'.$row->user_type.'" class="edit btn btn-warning btn-sm">Order</a>
 									<a href="'.url('admin').'/subscription/create/'.$row->id.'/'.$row->user_type.'" class="edit btn btn-info btn-sm">Subscribe</a>';
 								}
-								$btn .= '<button href="" class="edit btn btn-danger btn-sm" onClick="getalllistcheckboxval(0,'.$row->id.');">Inactive</button>';
+								if($row->status == '1')
+								{
+									$btn .= '<button href="" class="edit btn btn-danger btn-sm" onClick="getalllistcheckboxval(0,'.$row->id.');">Inactivate</button>';
+								}else{
+									$btn .='<a href="" onClick="getalllistcheckboxval(1,'.$row->id.');" class="edit btn btn-success btn-sm">Activate</a>';
+								}
+								
 							}
 							
 							}
@@ -74,9 +83,15 @@ class UserController extends Controller
 							if(!empty($row->libraryid))
 							{
 								$controller = 'librarygroup';
-								$btn = '<a href="'.url('admin').'/order/subscription/'.$row->id.'/LIB" class="edit btn btn-info btn-sm">Subscribe</a>
-								<a href="" onClick="getLibGrpStatus(0,'.$row->id.');" class="edit btn btn-danger btn-sm">Inactive</a>
-								';
+								$btn = '<a href="'.url('admin').'/order/subscription/'.$row->id.'/LIB" class="edit btn btn-info btn-sm">Subscribe</a>';
+								if($row->status == '1')
+								{
+									$btn .='<a href="" onClick="getLibGrpStatus(0,'.$row->id.');" class="edit btn btn-danger btn-sm">Inactivate</a>';
+								}else{
+									$btn .='<a href="" onClick="getLibGrpStatus(1,'.$row->id.');" class="edit btn btn-success btn-sm">Activate</a>';
+								}
+								
+								
 							}
 						
                            
@@ -108,10 +123,94 @@ class UserController extends Controller
                             return $btn;
                     })
                     ->rawColumns(['name'])
+					 ->escapeColumns([])
+					 ->addColumn('email', function($row){
+							$btn ='';
+							if(!empty($row->user_type)){
+							$controller = '';
+							if($row->user_type == 'LIB'){$controller = 'library';}
+							if($row->user_type == 'ORG'){$controller = 'organization';}
+							if($row->user_type == 'IND'){$controller = 'individual';}
+							$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->email.'</a>';
+							}
+							if(!empty($row->foundation_id))
+							{
+								$controller = 'foundation';
+								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->email.'</a>';
+							}
+							if(!empty($row->libraryid))
+							{
+								$controller = 'librarygroup';
+								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->email.'</a>';
+							}
+						
+                            return $btn;
+                    })
+                    ->rawColumns(['email'])
+					->escapeColumns([])
+					->addColumn('created_at', function($row){
+							
+							if(!empty($row->created_at))
+							{
+								 $datefor = date('F d Y, h:i A', strtotime($row->created_at))
+;
+								$btn = '<span class="">'.$datefor.'</span>';
+							}else{
+								$btn = '----';
+							}
+                            return $btn;
+                    })
+                    ->rawColumns(['created_at']) 
+					->escapeColumns([])
+					->addColumn('updated_at', function($row){
+							
+							if(!empty($row->updated_at))
+							{
+								 $datefor = date('F d Y, h:i A', strtotime($row->updated_at))
+;
+								$btn = '<span class="">'.$datefor.'</span>';
+							}else{
+								$btn = '----';
+							}
+                            return $btn;
+                    })
+                    ->rawColumns(['updated_at']) 
+					->escapeColumns([])
+					->addColumn('user_type', function($row){
+							
+							if($row->user_type == 'IND')
+							{
+								$type = "Individual";
+							}else if($row->user_type == 'LIB'){
+								$type = "Library";
+							}else if($row->user_type == 'ORG'){
+								$type = "Organization";
+							}else{
+								$type = "";
+							}
+                            return $btn = '<span class="">'.$type.'</span>';
+                    })
+                    ->rawColumns(['user_type']) 
+					->escapeColumns([])
+					->addColumn('mobile', function($row){
+							
+							if($row->user_type == 'IND')
+							{
+								$mobile = IndividualContact::get_mobile($row->id);
+							}else if($row->user_type == 'LIB'){
+								$mobile = LibraryContact::get_mobile($row->id);
+							}else if($row->user_type == 'ORG'){
+								$mobile = LibraryContact::get_mobile($row->id);
+							}else{
+								$mobile = "";
+							}
+                            return $btn = '<span class="">'.$mobile.'</span>';
+                    })
+                    ->rawColumns(['mobile']) 
                     ->make(true);
         }
 		
-       $roles = Role::all();
+       $roles = Role::where('deleted','!=','1')->get();
 	   $totaluser = User::count();
 	   $activeuser = User::where('status',1)->count();
 	   $inactiveuser = User::where('status',0)->count();
@@ -125,7 +224,7 @@ class UserController extends Controller
      */
     public function create()
     {
-		$roles = Role::pluck('name','name')->all();
+		$roles = Role::whereIn('id',[1,16,17])->get();
 		$userroles = Role::all();
         return view('admin.users.create',compact('roles','userroles'));
     }
@@ -146,47 +245,43 @@ class UserController extends Controller
             'password' => 'required|same:confirm-password',
             'roles' => 'required'
         ]); 
-		//print_r($request->all());exit; 
-		/* echo $login->password;exit; */
-			/* $userinfo = $request->input('user');
-			$login = $request->input('login');
-			
-			
-			$this->validate($request, [
-				'login.name' => 'required',
-				'login.email' => 'required|email|unique:users,email',
-				'user.roles' => 'required'
-			]); */
-			
-				/* if($errors->has()){
-				foreach ($errors->all() as $error){
-					echo $error;
-				}
-				} */
+
 
          $input = $request->all(); 
 		 //print_r($input);exit;
          $input['password'] = Hash::make($input['password']);
 		//$userinfo['fname'] = $login['name'];
+		 $input['user_type'] = 'STAFF';
+		// print_r($input);exit;
 		 
-		$user= User::Create($input);
+		 $datasave = array(
+			'name'=>$input['name'],
+			'email'=>$input['email'],
+			'password'=>$input['password'],
+			'user_type'=>'STAFF'
+			
+		 );
+		 
+		 $user_id = User::insertGetId($datasave);
+				DB::table('model_has_roles')->insert(
+					['role_id' => $input['roles'], 'model_type' => 'App\User','model_id' => $user_id]
+				);
+		/* $user= User::Create($datasave);
 		if(!empty($input['roles'])){
 			$role = $input['roles'];
 		}else{
 			$role = 'User10 - Registered Free User';
-		}
-		$user->assignRole($role);
-		$userId = $user->id;
+		} */
 		
-		 $userdata = array(
+		/*  $userdata = array(
                     "userid" => $userId,
                     "fname"  => $input['name'],  
             );
-		$userinfo = Userinfo::insert($userdata); 
+		$userinfo = Userinfo::insert($userdata);  */
 		
 		
 		return Redirect::to('admin/listalluser')->with('success','User created successfully');
-       // return redirect()->route('admin.users.index')->with('success','User created successfully');
+       //return redirect()->route('admin.users.index')->with('success','User created successfully');
     }
 
 
@@ -213,12 +308,13 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
+		//print_r($user);exit;
+        $roles = Role::whereIn('id',[1,16,17])->get();
 
 		$info = Userinfo::where('userid', $id)->first();
 		
-        $userRole = $user->roles->pluck('name','name')->all();
-		
+        $userRole = $user->roles->pluck('id','name')->all();
+		//print_r($userRole);exit;
 		 $userroles = Role::all();
 		 /* return view('admin.users.edit',compact('user','userroles','info')); */
          return view('admin.users.edit',compact('user','roles','userRole')); 
@@ -238,70 +334,35 @@ class UserController extends Controller
 		$this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'required|same:confirm-password',
             'roles' => 'required'
         ]); 
 		
 		
-			/* $userinfo = $request->input('user');
-			$login = $request->input('login');
-			
-			
-			$this->validate($request, [
-				'login.name' => 'required',
-				'login.email' => 'required|email|unique:users,email,'.$id,
-				'user.roles' => 'required'
-			]);
-			 */
-			
-			/* $userdata = array(
-                    "userid" => $id,
-                    "fname"  => $login['name'],
-                    "mname"  => $userinfo['middlename'],
-                    "lname"  => $userinfo['lastname'],
-					"age"   =>  $userinfo['age'],
-                    "dateofbirth"  => $userinfo['birthdate'],
-                    "language"  => $userinfo['language'],
-					"availability" => $userinfo['availability'],
-                    "streetaddress"  => $userinfo['streetaddress'],
-                    "zipcode"  => $userinfo['zipcode'],
-                    "country"  => $userinfo['country'],
-                    "personal"  => $userinfo['personal'],
-                    "mobile"  => $userinfo['mobile'],
-					"phone" => $userinfo['phone'],
-                    "librarycity"  => $userinfo['librarycity'],
-					"librarycard"  => $userinfo['librarycard'],
-                    "librarynumber"  => $userinfo['language'],
-					"comment" =>  $userinfo['comment'],
-                    "purpose"  => $userinfo['purpose'],
-                    "studymajor"  => $userinfo['studymajor'],
-                    "degree"  => $userinfo['degree'],
-					"school" => $userinfo['school'],
-                    "location"  => $userinfo['location'],
-                    "startdate"  => $userinfo['startdate'],
-                    "enddate"  => $userinfo['enddate'],
-                    "govtsupport"  => $userinfo['govtsupport']  
-            ); */
 			
        $input = $request->all();
         if(!empty($input['password'])){ 
             $input['password'] = Hash::make($input['password']);
+			$datasave = array(
+			'name'=>$input['name'],
+			'email'=>$input['email'],
+			'password'=>$input['password']
+		 );
         }else{
-            $input = array_except($input,array('password'));    
+           $datasave = array(
+				'name'=>$input['name'],
+				'email'=>$input['email'],
+			 ); 
         }
 		
+		 
+		DB::table('users')->where('id', $id)->update($datasave); 
+				//DB::enableQueryLog();
+		DB::table('model_has_roles')->where('model_id', $id)->update(
+					['role_id' => $input['roles']]
+				);
 
-        $user = User::find($id);
-        //$user->update($login);
-        DB::table('model_has_roles')->where('model_id',$id)->delete();
 
-        $user->assignRole($input['roles']);
-		
-		//DB::table('userinfo')->where('userid', $id)->update($userdata);
-
-			return Redirect::to('admin/listalluser')->with('success','User updated successfully');
-			// return redirect()->route('admin.users.index')
-           //return view('admin.users.index')->with('success','User updated successfully');
+		return Redirect::to('admin/listalluser')->with('success','User updated successfully');
     }
 
 
@@ -416,8 +477,9 @@ class UserController extends Controller
 	
 	public function passwordhash()
 	{
-		$password = "11223344";
-		echo $pass = Hash::make($password);
+		$password = "LzHN!a@Tod#K";
+		//echo $pass = Hash::make($password);
+		die();
 	}
 	
 }

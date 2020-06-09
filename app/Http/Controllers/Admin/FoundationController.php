@@ -45,11 +45,11 @@ class FoundationController extends Controller
     public function index(Request $request) {
 		/*  $data = Foundation::select('id', 'name', 'sort')->get();  */
 		/*  $data = Foundation::alldata(5730);
-		echo "<pre>"; print_r($data);exit; */
-
+		echo "<pre>"; print_r($data);exit; */		ini_set('memory_limit', '-1');
+		/* $data = Foundation::where('deleted','0')->orderBy('id','DESC')->get();			print_r($data);exit; */
         if ($request->ajax()) {
 
-            $data = Foundation::where('deleted','0')->orderBy('id','DESC')->get();
+            $data = Foundation::where('deleted','0')->orderBy('id','DESC')->get();			/* print_r($data);exit; */
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
@@ -142,7 +142,7 @@ class FoundationController extends Controller
         //country block
         $blocks = CountryBlock::select('id', 'name')->get();
         $blocks_arr = array();
-        $blocks_arr[0] = 'Select';
+        $blocks_arr[0] = '';
         foreach ($blocks as $block) {
             $blocks_arr[$block->id] = $block->name;
         }
@@ -150,7 +150,7 @@ class FoundationController extends Controller
         //countries
         $countries = Country::select('id', 'country_name')->get();
         $country_arr = array();
-        $country_arr[0] = 'Select';
+        $country_arr[0] = '';
         foreach ($countries as $country) {
             $country_arr[$country->id] = $country->country_name;
         }
@@ -158,7 +158,7 @@ class FoundationController extends Controller
         //region
         $regions = Region::select('id', 'region_name')->get();
         $region_arr = array();
-        $region_arr[0] = 'Select';
+        $region_arr[0] = '';
         foreach ($regions as $region) {
             //$region_arr[$region->id] = $region->region_name;
         }
@@ -167,7 +167,7 @@ class FoundationController extends Controller
         $cities = City::select('id', 'city_name')->get();
 
         $city_arr = array();
-        $city_arr[0] = 'Select';
+        $city_arr[0] = '';
         foreach ($cities as $city) {
             //$city_arr[$city->id] = $city->city_name;
         }
@@ -206,7 +206,8 @@ class FoundationController extends Controller
                     "type"  => $result['type'],
                     "org_no"  => $result['org_no'],
 					"deleted"  => 0,
-                    "remarks"  => $result['remarks']
+                    "remarks"  => $result['remarks'],
+					"created_at"  => NOW()
             );
 
             $foundation_id = Foundation::insertGetId($foundation);
@@ -495,7 +496,8 @@ class FoundationController extends Controller
                         "language"  => $result['language_id'],
                         "type"  => $result['type'],
                         "org_no"  => $result['org_no'],
-                        "remarks"  => $result['remarks']
+                        "remarks"  => $result['remarks'],
+						"updated_at"  => NOW()
                 );
                 DB::table('gg_foundation')->where('id', $id)->update($foundation);
                 /*$update_foundation = Foundation::where('id', $id)
@@ -771,6 +773,7 @@ class FoundationController extends Controller
 			$apply_start_day   = $request->get('apply_start_day');
 			$apply_end_month   = $request->get('apply_end_month');
 			$apply_end_day   = $request->get('apply_end_day');
+			$search_field   = $request->get('search_field');
 		
             $foundation = Foundation::leftjoin('gg_foundation_advertise as fa', 'gg_foundation.id', 'fa.foundation_id')
                         ->leftjoin('gg_foundation_location as fl', 'gg_foundation.id', 'fl.foundation_id')

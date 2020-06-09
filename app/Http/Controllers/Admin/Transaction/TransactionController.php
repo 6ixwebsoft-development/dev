@@ -187,10 +187,13 @@ class TransactionController extends Controller
 		{
 			$query = $query->where('paymentstatus',$data['status']);
 		}
-		 if(!empty($data['startdate']) || !empty($data['expiry_date']))
+		if(!empty($data['startdate']))
 			{
 				$query = $query->where('gg_subscription.start_date','>=',date("Y-m-d 00:00:00", strtotime($data['startdate'])));
-				$query = $query->where('gg_subscription.start_date','<=',date("Y-m-d 00:00:00", strtotime($data['expiry_date'])));
+			}
+		if(!empty($data['expiry_date']))
+			{
+				$query = $query->where('gg_subscription.end_date','<=',date("Y-m-d 00:00:00", strtotime($data['expiry_date'])));			
 			}
 		if(!empty($data['paid_date_from']) || !empty($data['paid_date_to']))
 		{

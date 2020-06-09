@@ -46,9 +46,9 @@ class PagesController extends Controller
                     })
                    ->escapeColumns([])
                     ->addColumn('action', function($row){
-   
-                          $btn  = '<a href="'.url('/').'/admin/pages/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a href="'.url('/').'/admin/pages/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+   							$txt = "'Are you sure to delete this?'";
+                          $btn  = '<a href="'.url('/').'/admin/pages/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>			
+                          <a onclick="return confirm('.$txt.')"  href="'.url('/').'/admin/pages/delete/'.$row->id.'" class="delete btn btn-danger btn-sm">Delete</a>';
      
                             return $btn;
                     })

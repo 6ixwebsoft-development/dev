@@ -81,10 +81,10 @@ class MailController extends Controller
 				if(!empty($user)){
 					$current_user_role = $user->getRoleNames(); 
 					
-					$check_display = UserSearchSave::where('user_id',$user->id)->where('foundation_id',$foundation->id)->first();
-					if($check_display->display == 0)
-					{
-						 $contact_details[$key] = $html = '<p><b>foundation Id#: </b>'.$foundation->id.'</p>';
+					$check_display = UserSearchSave::where('user_id',$user->id)->where('foundation_id',$foundation->id)->first();															
+					if(!empty($check_display->display))
+					{						if($check_display->display == 0){
+						 $contact_details[$key] = $html = '<p><b>foundation Id#: </b>'.$foundation->id.'</p>';						}
 					}else{
 						$html = '<p><b>Purpose: </b>'.$foundation->purpose.'</p>
 							<p><b>Who Can Apply: </b>'.$foundation->who_can_apply.'</p>
@@ -116,8 +116,8 @@ class MailController extends Controller
         $result = $request->all();
         $email   = $request->email;
         $message = json_decode($request->message);
-        
-        Mail::to($email)->send(new sendEmail('GlobalGrant Fund', $message));
+       // print_r($request->all());exit;
+       $mail=  Mail::to($email)->send(new sendEmail('GlobalGrant Fund', $message));		//print_r($mail);exit;
         return view('mail/thankyou-message');
     }
 }

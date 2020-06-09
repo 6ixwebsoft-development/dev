@@ -23,7 +23,7 @@
 				<div class="row">
 					<div class="col-sm-5">
 						<h4 class="card-title mb-0">
-                    	Create Foundation<small class="text-muted">Foundation Management</small>
+                    	Create Foundation<small class="text-muted"></small>
                 		</h4>
 					</div>
 					<!--col-->
@@ -434,7 +434,7 @@
 																</div><!--col-->
 																<div class="col-md-2">
 																	{!! Form::label('country', __( 'Country' ) . '') !!}
-																	{!! Form::select('country[]', $country_arr, '', ['class' => 'form-control', 'id' => 'countries','onchange' => 'getRegion();']); !!}
+																	{!! Form::select('country[]', $country_arr, '187', ['class' => 'form-control', 'id' => 'countryid','onchange' => 'getRegion();']); !!}
 																</div><!--col-->
 																<div class="col-md-2">
 																	{!! Form::label('region', __( 'Region' ) . '') !!}

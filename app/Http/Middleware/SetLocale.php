@@ -34,7 +34,6 @@ class SetLocale
     }
 	public function setLoc($val)
     {
-		
         Session::put('language',$val);
 		\App::setlocale(\Session::put('locale',$val));
     }

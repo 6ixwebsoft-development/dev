@@ -12,6 +12,8 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Redirect;
 use App\User;
 
+use App\Models\Subscription;
+use App\Models\Order;
 use App\Models\CountryBlock;
 use App\Models\Country;
 use App\Models\Region;
@@ -37,9 +39,9 @@ class LibraryGroupController extends Controller
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-   
+   						   $txt = "'Are you sure to delete this?'";
                            $btn = '<a href="'.url('admin').'/librarygroup/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a href="'.url('admin').'/librarygroup/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+                            <a onclick="return confirm('.$txt.')" href="'.url('admin').'/librarygroup/delete/'.$row->id.'" class="delete btn btn-danger btn-sm">Delete</a>';
      
                             return $btn;
                     })
@@ -69,6 +71,25 @@ class LibraryGroupController extends Controller
                             return $btn;
                     })
                     ->rawColumns(['checkbox']) 
+					->escapeColumns([])
+                    ->addColumn('name', function($row){
+							$btn ='';
+							
+								$controller = 'librarygroup';
+								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->name.'</a>';
+						
+                            return $btn;
+                    })
+                    ->rawColumns(['name'])
+					->addColumn('email', function($row){
+							$btn ='';
+							
+								$controller = 'librarygroup';
+								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->email.'</a>';
+						
+                            return $btn;
+                    })
+                    ->rawColumns(['email'])
                     ->make(true);
         }
         return view('admin.librarygroup.index');
@@ -89,6 +110,12 @@ class LibraryGroupController extends Controller
 	
 	 public function store(Request $request)
     {   
+		$this->validate($request, [
+					'library' => 'required',
+					'email' => 'required|email',
+					'availability' => 'required',
+					
+				]);
 		DB::beginTransaction();
         try {
             $result = $request->all();
@@ -156,16 +183,27 @@ class LibraryGroupController extends Controller
 	public function edit($id)
 	{
 		$basic = Library::where('id',$id)->first();
+		
+		$orderList = array();//Order::where('userid', $id)->get();
+		$subsList  = Subscription::where('userid', $id)->where('user_type','LIBGRP')->get();
+		$group_member = Library::where('groupid',$id)->get();
+		
 		$contact = LibraryContact::where('libraryid',$id)->first();
 		$roles = Role::pluck('name','id')->all();
 		$country = Country::pluck('country_name','id')->all();
 		$purpose = Purpose::pluck('purpose','id')->all();
 		$language = Language::where('status','1')->pluck('language', 'id')->all();
-		return view('admin.librarygroup.edit',compact('roles','language','country','purpose','basic','contact'));
+		return view('admin.librarygroup.edit',compact('roles','language','country','purpose','basic','contact','group_member','orderList','subsList'));
 	}
 	
 	public function update(Request $request, $id) 
 	{
+		$this->validate($request, [
+			'library' => 'required',
+			'email' => 'required|email',
+			'availability' => 'required',
+			
+		]);
 		DB::beginTransaction();
 		try {
 			$result = $request->all();
@@ -177,7 +215,7 @@ class LibraryGroupController extends Controller
                     "languageid"  => $result['language'],
                     "logintype"  => null,
                     "usernumber"  =>null,
-                    "availability"  => 1,
+                    "availability"  => $result['availability'],
                     "remark"  => $result['lremarks'],
                     "updated_at"  =>now(),
 				);

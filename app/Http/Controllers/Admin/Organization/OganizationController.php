@@ -64,7 +64,7 @@ class OganizationController extends Controller
                                    
                             return $btn;
                     })
-                    ->rawColumns(['checkbox']) 
+                    ->rawColumns(['checkbox']) 					->escapeColumns([])                    ->addColumn('name', function($row){							$btn ='';															$controller = 'organization';								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->name.'</a>';						                            return $btn;                    })                    ->rawColumns(['name'])					 ->addColumn('email', function($row){							$btn ='';															$controller = 'organization';								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->email.'</a>';						                            return $btn;                    })                    ->rawColumns(['email'])
                     ->make(true);
         }
         return view('admin.organization.index');
@@ -125,6 +125,7 @@ class OganizationController extends Controller
 				"name"  => $result['orgname'],
 				"password"  => $result['orgname'],
 				"user_type" =>"ORG",
+				"status" =>1,
 				"created_at"  => Now(),
 				);
 		
@@ -207,19 +208,31 @@ class OganizationController extends Controller
 					$i++; }
 				} 
 
-				if(!empty($result['remotedigit']) || !empty($result['remoteid']))
+				if(!empty($result['remotedigit']))
 				{
 					$i =0;
-					foreach($result['remotedigit'] as $digit){
-					$remoteid = $result['remoteid'];
-					$ips = array(
-					"libraryid"  => $LibraryId,
-					"remotedigit"  => $digit,
-					"remoteid"  => $remoteid[$i],
-					"created_at"  => now(),
-					);
-					Libraryremoteip::insert($ips);
-					$i++; }
+					foreach($request->post('remotedigit') as $digit){
+					$remoteid = $request->post('remoteid');
+					$remotedigit = $remoteid[$i];
+					if($digit != strlen($remotedigit)){
+						$output	= ['class' => 'alert-danger',
+							'msg' => __("Digit not qual to Library card ")
+							];
+					}else{
+						
+						$ips = array(
+						"libraryid"  => $LibraryId,
+						"remotedigit"  => $digit,
+						"remoteid"  => $remoteid[$i],
+						"created_at"  => now(),
+						);
+						
+						$query = Libraryremoteip::insert($ips);
+						$i++; 
+						}
+					}
+					
+					
 				}
 				
 				if(!empty($result['purposelist']))
@@ -335,7 +348,7 @@ class OganizationController extends Controller
 				);
 				DB::table('users')->where('id', $uid)->update($userLog);
 				
-				DB::table('model_has_roles')->where('model_id', $id)->update(
+				DB::table('model_has_roles')->where('model_id', $uid)->update(
 					['role_id' => $result['userrole']]
 				);
 				
@@ -372,15 +385,18 @@ class OganizationController extends Controller
 			);
 			DB::table('library_contact')->where('libraryid', $id)->update($contact);
 			
-			if(!empty($result['activeipstaus'])){
+			
+			if(!empty($result['remotename'])){								if(!empty($result['activeipstaus'])){$ips = $result['activeipstaus']; }else{$ips = 3;}				if(!empty($result['activeremoteip'])){$rips = $result['remotename']; }else{$rips = 3;}				
 				$details = array(
-                    "activeip"  =>  $result['activeipstaus'],
+                    "activeip"  =>$ips,
 					"remotename"  => $result['remotename'],
-					"remoteactiveip"  => $result['activeremoteip'],
+					"remoteactiveip"  => $rips,
                     "updated_at"  =>now(),
 				);
-			DB::table('librarylogin')->where('libraryid', $id)->update($details);
-			}
+				DB::table('librarylogin')->where('libraryid', $id)->update($details);
+				}
+			
+			
 			
 				
 				if(!empty($result['from1']))
@@ -413,16 +429,29 @@ class OganizationController extends Controller
 				{
 					Libraryremoteip::where('libraryid', $id)->delete();
 					$i =0;
-					foreach($result['remotedigit'] as $digit){
-					$remoteid = $result['remoteid'];
-					$ips = array(
-					"libraryid"  => $id,
-					"remotedigit"  => $digit,
-					"remoteid"  => $remoteid[$i],
-					"created_at"  => now(),
-					);
-					Libraryremoteip::insert($ips);
-					$i++; }
+					foreach($request->post('remotedigit') as $digit){
+					$remoteid = $request->post('remoteid');
+					$remotedigit = $remoteid[$i];
+					if($digit != strlen($remotedigit)){
+						$output	= ['class' => 'alert-danger',
+							'msg' => __("Digit not qual to Library card ")
+							];
+					//return redirect('library/manage/remote-access')->with('message', $output);
+					}else{
+						
+						$ips = array(
+						"libraryid"  => $id,
+						"remotedigit"  => $digit,
+						"remoteid"  => $remoteid[$i],
+						"created_at"  => now(),
+						);
+						
+						$query = Libraryremoteip::insert($ips);
+						$i++; 
+						}
+					}
+					
+					
 				}
 			
 				if(!empty($result['purposelist']))
@@ -514,13 +543,23 @@ class OganizationController extends Controller
 		try {	
 			$basic = Library::where('userid',$uid)->first();
 			$id = $basic->id;
-			User::where('id', $uid)->delete();
+			/* User::where('id', $uid)->delete();
 			Library::where('id', $id)->delete();
 			LibraryContact::where('libraryid', $id)->delete();
 			Libraryremoteip::where('libraryid', $id)->delete();
 			Libraryips::where('libraryid', $id)->delete();
-			Libraryips::where('libraryid', $id)->delete();
-			orgpurpose::where('orgid', $id)->delete();
+			Libraryips::where('libraryid', $id)->delete(); */
+			$data = array(
+				'name'=> 'DELETE_'.$uid.'@globalgarnt.com',
+				'status'=>3,
+				'email'=>'DELETE_'.$uid.'@globalgarnt.com'
+				);
+				DB::table('users')->where('id', $uid)->update($data);
+				Library::delete_data($uid);
+				LibraryContact::delete_data($uid);
+				Libraryips::delete_data($basic->id);
+				Librarylogin::delete_data($basic->id);
+				Libraryremoteip::delete_data($basic->id);
 			
 			$output	= ['class' => 'alert-position-danger',
                             'msg' => __("Organization deleted")
@@ -537,9 +576,15 @@ class OganizationController extends Controller
 	public function deleteDataImg(Request $request)
 	{
 		$doc = Documents::where('id', $request->id)->where('type', $request->txt)->first();
+		//print_r($doc);exit;
 		$destinationPath = 'uploads/images/'. $doc->name;
 		unlink($destinationPath);
-		Documents::where('id', $request->id)->where('type', $request->txt)->delete();
+		$data =Documents::where('id', $request->id)->where('type', $request->txt)->delete();
+		if($data){
+			return 1;
+		}else{
+			return 2;
+		}
 	}
 	
 }

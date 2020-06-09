@@ -423,7 +423,7 @@ z
 								<tr>
 									<td><input type="checkbox" class='select-checkbox my__select' name="checkbox"  id="userslistIds_{{$i}}" data-id="{{$i}}" onchange="myselectdata({{$i}});"></td>	
 									<td>
-									@if(!empty($checkip))
+									@if(!Session::get('checkip') || !Session::get('libarary_id') )
 									<a onclick="getFoundationDetailajax('{{$mydata['id']}}',0)">{{$mydata['id']}}</a>
 									@else
 									{{$mydata['id']}}
@@ -431,7 +431,7 @@ z
 									</td>
 									<td>{{$mydata['totalsaved']}}</td>
 									<td>
-									@if(!empty($checkip))
+									@if(!Session::get('checkip') || !Session::get('libarary_id') )
 									{{$mydata['name']}}
 									@else
 									

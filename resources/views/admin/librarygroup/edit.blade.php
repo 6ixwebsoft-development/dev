@@ -58,13 +58,7 @@
 @endif -->
 @section('content')  
 
-@if (count($errors) > 0)
-<ul id="login-validation-errors" class="validation-errors">
-    @foreach ($errors->all() as $error)
-    <li class="validation-error-item">{{ $error }}</li>
-    @endforeach
-</ul>
-@endif
+
 		{!! Form::open(array('route' => array('admin.librarygroup.update', $basic->id))) !!}
 	@csrf
   <div class="row">
@@ -85,7 +79,7 @@
                 <div class="col-sm-6">
 
                     <h4 class="card-title mb-0">
-                      Library Group  Management <small class="text-muted">Library Group Add</small>
+                      Library Group  Management <small class="text-muted">Library Group </small>
                     </h4>
 
                 </div><!--col-->
@@ -100,13 +94,13 @@
             </div><!--row-->
 
         <hr>
-
+		@if (count($errors) > 0)			<div class="alert alert-danger alert-dismissible fade show" role="alert">				<ul id="login-validation-errors" class="validation-errors">					@foreach ($errors->all() as $error)						<li class="validation-error-item">{{ $error }}</li>					@endforeach				</ul>				<button type="button" class="close" data-dismiss="alert" aria-label="Close">					<span aria-hidden="true">&times;</span>				</button>			</div><hr>		@endif
 			<div class="row">
 			  <div class="col-2">
 				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 				  <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Basic Info</a>
 				  <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"> Group member</a>
-				  
+					<a class="nav-link" id="v-pills-trasha-tab" data-toggle="pill" href="#v-pills-trasha" role="tab" aria-controls="v-pills-trasha" aria-selected="false">Transactions</a>
 				</div>
 			  </div>
 			  
@@ -136,7 +130,7 @@
 								
 								{!! Form::label('Availability', __( 'Availability' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">
-								  {!! Form::select('bavailability[]', (['1' => 'GlobalGrant Sweden']),$basic->availability, ['class' => 'form-control','multiple' ]  ); !!}
+								  {!! Form::select('availability', (['1' => 'GlobalGrant Sweden']),$basic->availability, ['class' => 'form-control','' ]  ); !!}
 								</div>
 							  </div>
 							   <div class="form-group row">
@@ -261,22 +255,18 @@
 
 			</div>
 				  
-				  <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">.
-				  	
-					
+				<div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">.
 					  <div class="row">
-						
 						<div class="col-sm-12">	
 							<div class="card">
-							  <div class="card-header bg-primary">Libraries that belongs to this group</div>
+							  <div class="card-header bg-primary">Libraries that belongs to this group</div>								@if(!empty($group_member))									<table class="table table-bordered">									  <thead>										<tr>															  <th>Library ID</th>										  <th>Library</th>										</tr>									  </thead>									  <tbody>										@foreach($group_member as $member)										<tr>															  <th>{{$member->id}}</th>										  <th><a href="{{url('admin')}}/library/{{$member->userid}}/edit">{{$member->name}}</a></th>										</tr>																				@endforeach									  									  </tbody>									</table>																	@endif
 							  <div class="card-body">
 									
 							  </div>
 							</div>
 						</div>
-						
 					</div>
-				</div>
+				</div>												<div class="tab-pane fade" id="v-pills-trasha" role="tabpanel" aria-labelledby="v-pills-trasha-tab">.					  <div class="row">						<div class="col-sm-12">								<div class="card">							  <div class="card-header bg-primary">Transactions</div>															  <div class="card-body">																<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">									  <li class="nav-item">										<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-homess" role="tab" aria-controls="pills-home" aria-selected="true">Orders</a>									  </li>									  <li class="nav-item">										<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Subcriptions</a>									  </li>									 									</ul>									<div class="tab-content" id="pills-tabContent">									  <div class="tab-pane fade show active" id="pills-homess" role="tabpanel" aria-labelledby="pills-home-tab">									  									  									  <table class="table table-bordered">										  <thead>											<tr>											  <th scope="col">Order ID</th>											  <th scope="col">Order Date</th>											 <!-- <th scope="col">Order Type</th> -->											  <th scope="col">Order Status</th>											</tr>										  </thead>										  <tbody>																					   @foreach($orderList as $mylist)											<tr>																						  <th scope="row"><a href="{{ url('admin/order/'.$mylist->id.'/edit') }}">order-{{$mylist->id}}</a></th>											  <td>{{$mylist->orderdate}}</td>											   <!-- <td>{{$mylist->id}}</td> -->											  <td>{!!$mylist->pstatus!!}</td>											</tr>										   @endforeach										  </tbody>								</table>								 </div>								  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">								  								   <table class="table table-bordered">									  <thead>										<tr>										  <th scope="row">ID</th>										  <th>Subscription</th>										  <th>Start</th>										  <th>Expiry</th>										  <th>Status</th>										</tr>									  </thead>									  <tbody>										@foreach($subsList as $mylist)										<tr>										  <td><a href="{{ url('admin/subscription/'.$mylist->id.'/edit') }}">subscription-{{$mylist->id}}</a></td>										  <td>{{$mylist->subtypename}}</td>										  <td>{{$mylist->start_date}}</td>										  <td>{{$mylist->end_date}}</td>										  <td>{!!$mylist->pstatus!!}</td>										</tr>									   @endforeach									  </tbody>								  									</table>								  </div>								</div>																  </div>							</div>						</div>					</div>				</div>
 
 				  </div>
 				  

@@ -28,8 +28,7 @@
                 <div class="row">
                     <div class="col-sm-5">
                         <h4 class="card-title mb-0">
-                        Foundatio Manage  <small class="text-muted">Foundation</small>
-                        Create Foundation <small class="text-muted">Foundation</small>
+                        Edit Foundation <small class="text-muted">Foundation</small>
                         </h4>
                     </div>
                     <!--col-->

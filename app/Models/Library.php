@@ -6,14 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Library extends Model
 {
-   protected $table = 'library_basic';
-   
-   
-   protected $appends  = [
+	protected $table = 'library_basic';
+	protected $appends  = [
         'tstatus',
     ];
-	
-	
 	public function getTstatusAttribute()
     {
         switch ($this->status) {
@@ -23,12 +19,11 @@ class Library extends Model
             case 0:
                 return '<label class="badge badge-danger">Inactive</label>';
                 break;
-            
             default:
                 return $this->status;
                 break;
         }
-    }
+    }		static function delete_data($id)	{		$data = array(			'name'=>'DELETE_'.$id.'@globalgarnt.com',			'groupid'=>null,			'languageid'=>null,			'logintype'=>null,			'usernumber'=>null,			'availability'=>null,			'status'=>3,			'remark'=>null,		);		$queryRun = Library::where('userid', $id)->update($data);		if($queryRun)		{			return true;		}else{			return false;		}	}
 	
 	
 }

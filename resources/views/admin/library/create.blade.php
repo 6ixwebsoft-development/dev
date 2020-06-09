@@ -58,13 +58,6 @@
 @endif -->
 @section('content')  
 
-@if (count($errors) > 0)
-<ul id="login-validation-errors" class="validation-errors">
-    @foreach ($errors->all() as $error)
-    <li class="validation-error-item">{{ $error }}</li>
-    @endforeach
-</ul>
-@endif
 <form action="{{url('admin/library/store')}}" method="post">
 	@csrf
   <div class="row">
@@ -99,7 +92,7 @@
 				
             </div><!--row-->
 
-        <hr>
+        <hr>			@if (count($errors) > 0)			<div class="alert alert-danger alert-dismissible fade show" role="alert">				<ul id="login-validation-errors" class="validation-errors">					@foreach ($errors->all() as $error)						<li class="validation-error-item">{{ $error }}</li>					@endforeach				</ul>				<button type="button" class="close" data-dismiss="alert" aria-label="Close">					<span aria-hidden="true">&times;</span>				</button>			</div><hr>		@endif
 
 			<div class="row">
 			  <div class="col-2">
@@ -126,7 +119,7 @@
 							  </div>
 
 							   <div class="form-group row">
-								{!! Form::label('Group', __( 'Group' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
+								{!! Form::label('Group', __( 'Group' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">								 
 								  {!! Form::select('group', (['' => 'Select a group'] + $group),[], ['class' => 'form-control','' ]  ); !!}
 								</div>
@@ -435,18 +428,17 @@
 											<div class="form-group row">
 												{!! Form::label('Digits in Remote ID', __( 'Digits in Remote ID' ) . ':', [ 'class' => 'col-sm-3 col-form-label']) !!}
 												<div class="col-sm-1">								 
-												  {!! Form::select('remotedigit[]', (['1' => '1','2' => '2','3' => '3','4' => '4','5' => '5','6' => '6','7' => '7','8' => '8','9' => '9','10' => '10','11' => '11','12' => '12','13' => '13','14' => '14','15' => '15',]),[], ['class' => 'form-control','onChange'=>'maxLengthFunction();','id'=>'remotedigit' ]  ); !!}
+												  {!! Form::select('remotedigit[]', (['1' => '1','2' => '2','3' => '3','4' => '4','5' => '5','6' => '6','7' => '7','8' => '8','9' => '9','10' => '10','11' => '11','12' => '12','13' => '13','14' => '14','15' => '15',]),[], ['class' => 'form-control','onChange'=>'maxLengthFunction(112);','id'=>'remotedigit_112' ]  ); !!}
 												</div>
 											
 												{!! Form::label('Remote ID', __( 'Remote ID' ) . ':', [ 'class' => 'col-sm-3 col-form-label']) !!}
 												<div class="col-sm-3">								 
-												  {!! Form::text('remoteid[]', null, ['class' => 'form-control','id'=>"remoteid",'readonly' ,'placeholder' => __( '' ) ]); !!}
+												  {!! Form::text('remoteid[]', null, ['class' => 'form-control','id'=>"remoteid_112",'readonly' ,'placeholder' => __( '****' ) ]); !!}
 												</div>
 												<div class="col-sm-2">
 													<a class="btn btn-success add_buttonremote">Add</a>
 												</div>
-											</div>
-											
+											</div>										
 											<div class="field_wrapperremote"></div>
 										</div>
 									</div>

@@ -70,6 +70,6 @@ class Individual extends Model
 		$tablegetdata = ['care','childern','contact','purpose','personal','project','research','study','video','walfare'];
 		return Individual::find($id)->with($tablegetdata)->get();
 	}
-	
+	static function delete_data($id)	{		$data = array(			'firstname'=>'DELETE_'.$id.'@globalgarnt.com',			'lastname'=>'DELETE_'.$id.'@globalgarnt.com',			'middlename'=>null,			'age'=>null,			'dob'=>null,			'language'=>null,			'availability'=>0,		);		$queryRun = Individual::where('userid', $id)->update($data);		if($queryRun)		{			return true;		}else{			return false;		}	}
 	
 }

@@ -35,9 +35,9 @@ class CountryController extends Controller
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-   
+   						$txt = "'Are you sure to delete this?'";
                            $btn = '<a href="'.url('admin').'/location/country/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a href="'.url('admin').'/location/country/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+                            <a onclick="return confirm('.$txt.')"  href="'.url('admin').'/location/country/delete/'.$row->id.'" class="delete btn btn-danger btn-sm">Delete</a>';
      
                             return $btn;
                     })

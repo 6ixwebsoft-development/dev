@@ -6,12 +6,33 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Models\Foundation;
+
 use App\Models\Library;
+use App\Models\LibraryContact;
+use App\Models\Libraryips;
+use App\Models\Librarylogin;
+use App\Models\Libraryremoteip;
+
+
+use App\Models\Individual;
+use App\Models\IndividualContact;
+use App\Models\IndividualPersonal;
+use App\Models\IndividualPerpose;
+use App\Models\IndividualStudy;
+use App\Models\IndividualCare;
+use App\Models\IndividualWalfare;
+use App\Models\IndividualResearch;
+use App\Models\IndividualProject;
+use App\Models\IndividualChildern;
+use App\Models\IndividualVideo;
+use App\Models\IndividualLibrary;
+
 use App\Models\FoundationContact;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Redirect;
 use DataTables;
 use DB;
+
 use Hash;
 
 class UserseachController extends Controller
@@ -27,7 +48,7 @@ class UserseachController extends Controller
 		$input = $request->all();
 		$userTypes = $input['usertytype'];
 		
-
+		//print_r($input);exit;
 		foreach($userTypes as $usertyp)
 		{
 			if($usertyp == 'DON')
@@ -35,6 +56,7 @@ class UserseachController extends Controller
 				$mydatadon = $this->userdonorseachdata($usertyp,$input);
 				$json = json_encode($mydatadon);
 				$donor = json_decode($mydatadon);
+				
 			}
 			if($usertyp == 'IND' || $usertyp == 'LIB' || $usertyp == 'ORG' )
 			{
@@ -59,7 +81,7 @@ class UserseachController extends Controller
 			}
 			if(empty($data))
 			{
-				$data = '';
+				$data = array();
 			}
 			//dd(DB::getQueryLog());
 			//echo '<pre>';print_r($data);exit; 
@@ -87,12 +109,19 @@ class UserseachController extends Controller
 							if($row->user_type == 'IND'){$controller = 'individual';}
 							if($controller = 'organization' || $controller = 'individual')
 							{
-								if($row->user_type != 'LIB')
+								if($row->user_type == 'LIB' || $row->user_type == 'IND' ||$row->user_type == 'ORG')
 								{
 									$btn = '<a href="'.url('admin').'/order/create/'.$row->id.'/'.$row->user_type.'" class="edit btn btn-warning btn-sm">Order</a>
 									<a href="'.url('admin').'/subscription/create/'.$row->id.'/'.$row->user_type.'" class="edit btn btn-info btn-sm">Subscribe</a>';
 								}
-								$btn .= '<button href="" class="edit btn btn-danger btn-sm" onClick="getalllistcheckboxval(0,'.$row->id.');">Inactive</button>';
+								
+								if($row->status == '1')
+								{
+									$btn .='<a href="" onClick="getalllistcheckboxval(0,'.$row->id.');" class="edit btn btn-danger btn-sm">Inactivate</a>';
+								}else{
+									$btn .='<a href="" onClick="getalllistcheckboxval(1,'.$row->id.');" class="edit btn btn-success btn-sm">Activate</a>';
+								}
+								
 							}
 							
 							}
@@ -104,13 +133,18 @@ class UserseachController extends Controller
 							if(!empty($row->libraryid))
 							{
 								$controller = 'librarygroup';
-								$btn = '<a href="'.url('admin').'/order/subscription/'.$row->id.'/LIB" class="edit btn btn-info btn-sm">Subscribe</a>
-								<a href="" onClick="getLibGrpStatus(0,'.$row->id.');" class="edit btn btn-danger btn-sm">Inactive</a>
-								';
+								$btn = '<a href="'.url('admin').'/subscription/create/'.$row->id.'/LIBGRP" class="edit btn btn-info btn-sm">Subscribe</a>';
+								
+								if($row->status == '1')
+								{
+									$btn .='<a href="" onClick="getLibGrpStatus(0,'.$row->id.');" class="edit btn btn-danger btn-sm">Inactivate</a>';
+								}else{
+									$btn .='<a href="" onClick="getLibGrpStatus(1,'.$row->id.');" class="edit btn btn-success btn-sm">Activate</a>';
+								}
+								
+								
 							}
-						
-                           
-     
+						                          
                             return $btn;
                     })
                     ->rawColumns(['action'])
@@ -138,6 +172,98 @@ class UserseachController extends Controller
                             return $btn;
                     })
                     ->rawColumns(['name'])
+					->escapeColumns([])
+					->addColumn('created_at', function($row){
+							
+							if(!empty($row->created_at))
+							{
+								 $datefor = date('F d Y,', strtotime($row->created_at))
+;
+								$btn = '<span class="">'.$datefor.'</span>';
+							}else{
+								$btn = '----';
+							}
+                            return $btn;
+                    })
+                    ->rawColumns(['created_at']) 
+					->escapeColumns([])
+					->addColumn('updated_at', function($row){
+							
+							if(!empty($row->updated_at))
+							{
+								 $datefor = date('F d Y,', strtotime($row->updated_at))
+;
+								$btn = '<span class="">'.$datefor.'</span>';
+							}else{
+								$btn = '----';
+							}
+                            return $btn;
+                    })
+                    ->rawColumns(['updated_at']) 
+					->escapeColumns([])
+					->addColumn('user_type', function($row){
+							
+							if($row->user_type == 'IND')
+							{
+								$type = "Individual";
+							}else if($row->user_type == 'LIB'){
+								$type = "Library";
+							}else if($row->user_type == 'ORG'){
+								$type = "Organization";
+							}else if($row->user_type == 'FND'){
+								$type = "Foundation";
+							}else if($row->user_type == 'LIBGRP'){
+								$type = "Library Group";
+							}else{
+								$type = "";
+							}
+                            return $btn = '<span class="">'.$type.'</span>';
+                    })
+                    ->rawColumns(['user_type']) 
+					->escapeColumns([])
+					->addColumn('mobile', function($row){
+							
+							if($row->user_type == 'IND')
+							{
+								$mobile = IndividualContact::get_mobile($row->id);
+							}else if($row->user_type == 'LIB'){
+								$mobile = LibraryContact::get_mobile($row->id);
+							}else if($row->user_type == 'ORG'){
+								$mobile = LibraryContact::get_mobile($row->id);
+							}else if($row->user_type == 'FND'){
+								$mobile = FoundationContact::get_mobile($row->id);
+							}else if($row->user_type == 'LIBGRP'){
+								$mobile = LibraryContact::get_mobile($row->id);
+							}else{
+								$mobile = "";
+							}
+                            return $btn = '<span class="">'.$mobile.'</span>';
+                    })
+                    ->rawColumns(['mobile']) 
+					 ->escapeColumns([])
+					 ->addColumn('email', function($row){
+							$btn ='';
+							if(!empty($row->user_type)){
+							$controller = '';
+							if($row->user_type == 'LIB'){$controller = 'library';}
+							if($row->user_type == 'ORG'){$controller = 'organization';}
+							if($row->user_type == 'IND'){$controller = 'individual';}
+							$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->email.'</a>';
+							}
+							if(!empty($row->foundation_id))
+							{
+								$controller = 'foundation';
+								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->email.'</a>';
+							}
+							if(!empty($row->libraryid))
+							{
+								$controller = 'librarygroup';
+								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->email.'</a>';
+							}
+						
+                            return $btn;
+                    })
+                    ->rawColumns(['email'])
                     ->make(true);
         }
        $roles = Role::all();
@@ -151,6 +277,7 @@ class UserseachController extends Controller
 	{
 		$query = User::orderBy('id', 'DESC');
 		//print_r($data);exit;
+		
 			if(!empty($data['userRole']))
 			{		   
 				$query = User::role($data['userRole']);
@@ -164,13 +291,10 @@ class UserseachController extends Controller
 				}
 				else
 				{
-					$query = $query->where('name','LIKE','%'.$data['searchtext'].'%');
+					$query = $query->where('name','LIKE','%'.$data['searchtext'].'%')->orwhere('id',$data['searchtext'])->orwhere('email',$data['searchtext']);
 				}
 				
-				if(!empty($data['statususer']))
-				{
-					$query = $query->where('status',$data['statususer']);
-				}	
+					
 			}
 				
 			if(!empty($data['createdFrom']) || !empty($data['createdTo']))
@@ -187,6 +311,11 @@ class UserseachController extends Controller
 				{
 					$query = $query->whereIn('user_type',$data['usertytype']);
 				}
+				
+			if($data['statususer'] == '1' ||$data['statususer'] == '0')
+				{
+					$query = $query->where('status',$data['statususer']);
+				}
 
 		//DB::enableQueryLog(); 
 		 
@@ -195,8 +324,10 @@ class UserseachController extends Controller
                         'name',
 						'email',
                         'status',
-						'user_type'
-                    )->get();
+						'user_type',
+						'created_at',
+						'updated_at'
+                    )->where('status','!=','3')->get();
 		//dd(DB::getQueryLog());
 		
 		//print_r($datas);exit;	
@@ -206,13 +337,14 @@ class UserseachController extends Controller
 	{
 		$query = Foundation::orderBy('id', 'DESC');
 		$query = Foundation::leftjoin('gg_foundation_contact as gfc', 'gg_foundation.id', '=', 'gfc.foundation_id')
-                    //->where('gg_module_fields.module_id', $id)
-                   /*  ->where('gg_module_fields.field_name', 'Gender') */
                     ->select(
 						'gg_foundation.id',                   
                         'gg_foundation.name',
+						'gg_foundation.user_type',
 						'gfc.email',
 						'gfc.foundation_id',
+						'gg_foundation.created_at',  
+						'gg_foundation.updated_at',  
                         'gg_foundation.status'
                     );
 					
@@ -224,14 +356,10 @@ class UserseachController extends Controller
 				}
 				else
 				{
-					$query = $query->where('name','LIKE','%'.$data['searchtext'].'%');
+					$query = $query->where('gg_foundation.name','LIKE','%'.$data['searchtext'].'%')->orwhere('gfc.foundation_id',$data['searchtext'])->orwhere('gfc.email',$data['searchtext']);
 				}
-			}
-			
-			if(!empty($data['statususer']))
-				{
-					$query = $query->where('status',$data['statususer']);
-				}	
+			}			
+				
 			/*  if(!empty($data['createdFrom']) || !empty($data['createdTo']))
 				{
 					$query = $query->whereBetween('created_at', array(date("Y-m-d", strtotime($data['createdFrom'])), date("Y-m-d", strtotime($data['createdTo']))));
@@ -246,9 +374,25 @@ class UserseachController extends Controller
 				{
 					$query = $query->where('language',$data['languageid']);
 				} 
-
-		return $query->where('deleted','0')->get();
-		
+			
+			if($data['statususer'] == '1' ||$data['statususer'] == '0')
+				{
+					if($data['statususer'] == 1)
+					{
+						$status = "Active";
+					}
+					if($data['statususer'] == 0)
+					{
+						$status = "Expired";
+					}
+					$query = $query->where('status',$status);
+				}
+			
+		//	DB::enableQueryLog();
+		$found_data = $query->where('deleted','0')->get();
+		//dd(DB::getQueryLog());
+		//print_r($found_data);exit;
+		return $found_data;
 	}
 	
 	public function userlibrarygroupdata($type,$data)
@@ -260,7 +404,10 @@ class UserseachController extends Controller
                     //->where('gg_module_fields.module_id', $id)
                    /*  ->where('gg_module_fields.field_name', 'Gender') */
                     ->select(
-						'library_basic.id',                   
+						'library_basic.id',
+						'library_basic.user_type',
+						'library_basic.created_at',						
+						'library_basic.updated_at',
                         'library_basic.name',
 						'gfc.email',
 						'gfc.libraryid',
@@ -284,7 +431,8 @@ class UserseachController extends Controller
 					}
 					else
 					{
-						$query = $query->where('name','LIKE','%'.$data['searchtext'].'%');
+						
+						$query = $query->where('library_basic.name','LIKE','%'.$data['searchtext'].'%')->orwhere('library_basic.id',$data['searchtext'])->orwhere('gfc.email',$data['searchtext']);
 					}	
 				}
 				if(!empty($data['languageid']))
@@ -292,28 +440,15 @@ class UserseachController extends Controller
 					$query = $query->where('languageid',$data['languageid']);
 				} 
 				
-				/* if(!empty($data['statususer']))
+			 if(!empty($data['statususer']))
 				{
 					$query = $query->where('status',$data['statususer']);
-				} */
+				} 
+				
+				
 
 		return $query->where('status','!=','3')->get();
 		
-		/* foreach($query as $libg)
-		{	
-			$tstatus ='Inactive';
-			if($libg->status == '1')
-			{
-			$tstatus ='Active';
-			}
-			$data=array(
-			'id'=> $libg['id'],
-			'name'=> $libg['library'],
-			'email'=> $libg['email'],
-			'tstatus'=> $tstatus,
-			);
-		}
-		return $data; */
 		
 	}
 	
@@ -357,30 +492,12 @@ class UserseachController extends Controller
                     })
                     ->rawColumns(['checkbox']) 
 					->escapeColumns([])
-					
-					 ->addColumn('name', function($row){
-							
-							if($row->status == 3)
-							{
-								$btn = 'DELETE_'.$row->id.'@globalgrant.com';
-							}else{
-								$btn = $row->name;
-							}   
-                            return $btn;
-                    })
+					 ->addColumn('name', function($row){							$btn ='';							if(!empty($row->user_type)){							$controller = '';							if($row->user_type == 'LIB'){$controller = 'library';}							if($row->user_type == 'ORG'){$controller = 'organization';}							if($row->user_type == 'IND'){$controller = 'individual';}
+					if($row->user_type == 'STAFF'){$controller = 'users';}
+					 if($row->status == 3)							{								$dlt_usr = 'DELETE_'.$row->id.'@globalgrant.com';								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$dlt_usr.'</a>';															}else{								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->name.'</a>';							} 							}							if(!empty($row->foundation_id))							{								$controller = 'foundation';								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->name.'</a>';							}							if(!empty($row->libraryid))							{								$controller = 'librarygroup';								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->name.'</a>';							}						                            return $btn;                    })                    ->rawColumns(['name'])                    
                     ->rawColumns(['name']) 
 					
-					->addColumn('email', function($row){
-							
-							if($row->status == 3)
-							{
-								$btn = 'DELETE_'.$row->id.'@globalgrant.com';
-							}else{
-								$btn = $row->name;
-							}   
-                            return $btn;
-                    })
-                    ->rawColumns(['email'])
+					
 					
                     ->addColumn('status', function($row){
 							
@@ -391,7 +508,7 @@ class UserseachController extends Controller
 								$btn = '<span class="badge badge-danger">Inactive</span>';
 							}
 							else if($row->status == 2){
-								$btn = '<span class="badge badge-warning">Banned</span>';
+								$btn = '<span class="">Banned</span>';
 							}else{
 								$btn = '<span class="badge badge-danger">Delete</span>';
 							}   
@@ -404,14 +521,64 @@ class UserseachController extends Controller
 							{
 								 $datefor = date('F d Y, h:i A', strtotime($row->last_login_at))
 ;
-								$btn = '<span class="badge badge-primary">'.$datefor.'</span>';
+								$btn = '<span class="">'.$datefor.'</span>';
 							}else{
 								$btn = '----';
 							}
                             return $btn;
                     })
                     ->rawColumns(['last_login_at']) 
-					
+					->escapeColumns([])
+					 ->addColumn('email', function($row){
+							$btn ='';
+							if(!empty($row->user_type)){
+							$controller = '';
+							if($row->user_type == 'LIB'){$controller = 'library';}
+							if($row->user_type == 'ORG'){$controller = 'organization';}
+							if($row->user_type == 'IND'){$controller = 'individual';}
+							if($row->user_type == 'STAFF'){$controller = 'users';}
+							if($row->status == 3)
+							{
+								$mail=  'DELETE_'.$row->id.'@globalgrant.com';
+								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$mail.'</a>';
+								
+							}else{
+								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->email.'</a>';
+							}   
+							
+							}
+							if(!empty($row->foundation_id))
+							{
+								
+								$controller = 'foundation';
+								if($row->status == 3)
+								{
+								$mail=  'DELETE_'.$row->id.'@globalgrant.com';
+								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$mail.'</a>';
+								
+								}else{
+									$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->email.'</a>';
+								}
+								
+							}
+							if(!empty($row->libraryid))
+							{
+								
+								$controller = 'librarygroup';
+								if($row->status == 3)
+								{
+								$mail=  'DELETE_'.$row->id.'@globalgrant.com';
+								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$mail.'</a>';
+								
+								}else{
+									$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->email.'</a>';
+								}
+								
+							}
+						
+                            return $btn;
+                    })
+                    ->rawColumns(['email'])
                     ->make(true);
         }
 
@@ -423,6 +590,8 @@ class UserseachController extends Controller
 	public function getuserlistdatabyfilter($filter,$role,$firstletter)
 	{
 		$query = User::orderBy('id', 'DESC');
+		
+		
 		if(!empty($filter))
 		{
 			if($filter == 'role')
@@ -430,7 +599,7 @@ class UserseachController extends Controller
 				$query = User::role($role);
 			}
 			if($filter == 'inactive')
-			{
+			{				
 				$query = User::where('status','0');
 			}
 			
@@ -455,14 +624,11 @@ class UserseachController extends Controller
 				$query = $query->where('name', 'LIKE', $firstletter.'%');
 			}
 		}
-		
-		//DB::enableQueryLog();
-		if($filter != 'deleted')
-		{
+		if(empty($filter) && empty($firstletter)){
 			$query = User::where('status','!=','3');
 		}
-		
-		 return $query->get();
+		//DB::enableQueryLog();
+		 return $query->where('user_type','!=','ADMIN')->get();
 		//dd(DB::getQueryLog());
 	}
 	
@@ -473,9 +639,20 @@ class UserseachController extends Controller
 		);
 		if($request->id != '')
 		{
-			$queryRun = DB::table('users')->where('id', $request->id)->update($data);
+			if($request->val == '3')
+			{
+				$queryRun = $this->check_user($id);
+			}else{
+				$queryRun = DB::table('users')->where('id', $request->id)->update($data);
+			}
+			
 		}else{
-			$queryRun = DB::table('users')->whereIn('id', $request->favorite)->update($data);
+			if($request->val == '3')
+			{
+				$queryRun = $this->check_user($request->favorite);
+			}else{
+				$queryRun = DB::table('users')->whereIn('id', $request->favorite)->update($data);
+			}			
 		}
 		
 		if($queryRun)
@@ -483,6 +660,87 @@ class UserseachController extends Controller
 			return 'yes';
 		}else{
 			return 'no';
+		}
+	}
+	
+	
+	public function check_user($id='')
+	{
+		$chech_user_type = DB::table('users')->where('id', $id)->first();
+		
+		if($chech_user_type->user_type == 'LIB'  || $chech_user_type->user_type == 'ORG')
+		{
+			foreach($id as $uid)
+			{
+				$basic = Library::where('userid',$uid)->first();
+				$data = array(
+				'name'=> 'DELETE_'.$uid.'@globalgarnt.com',
+				'status'=>3,
+				'email'=>'DELETE_'.$uid.'@globalgarnt.com'
+				);
+				
+				Library::delete_data($uid);
+				LibraryContact::delete_data($uid);
+				Libraryips::delete_data($basic->id);
+				Librarylogin::delete_data($basic->id);				
+				Libraryremoteip::delete_data($basic->id);
+				$queryRun =DB::table('users')->where('id', $uid)->update($data);
+				
+			}
+			if($queryRun)
+			{
+				return true;
+			}else{
+				return false;
+			}
+		}
+		if($chech_user_type->user_type == 'IND')
+		{
+			foreach($id as $uid)
+			{
+				$data = array(
+				'name'=> 'DELETE_'.$uid.'@globalgarnt.com',
+				'status'=>3,
+				'email'=>'DELETE_'.$uid.'@globalgarnt.com'
+				);
+				DB::table('users')->where('id', $uid)->update($data);
+				$queryRun = Individual::delete_data($uid);
+				IndividualContact::delete_data($uid);
+				IndividualPersonal::delete_data($uid);
+				IndividualPerpose::delete_data($uid);
+				IndividualStudy::delete_data($uid);
+				IndividualCare::delete_data($uid);
+				IndividualWalfare::delete_data($uid);
+				IndividualResearch::delete_data($uid);
+				IndividualProject::delete_data($uid);
+				IndividualChildern::delete_data($uid);
+				IndividualVideo::delete_data($uid);
+				IndividualLibrary::delete_data($uid);
+			}
+			if($queryRun)
+			{
+				return true;
+			}else{
+				return false;
+			}
+		}
+		if($chech_user_type->user_type == 'STAFF')
+		{
+			foreach($id as $uid)
+			{
+				$data = array(
+				'name'=> 'DELETE_'.$uid.'@globalgarnt.com',
+				'status'=>3,
+				'email'=>'DELETE_'.$uid.'@globalgarnt.com'
+				);
+				$queryRun = DB::table('users')->where('id', $uid)->update($data);
+			}
+			if($queryRun)
+			{
+				return true;
+			}else{
+				return false;
+			}
 		}
 	}
 	

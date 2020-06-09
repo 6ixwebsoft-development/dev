@@ -11,7 +11,7 @@ use DB;
 use Carbon\Carbon;
 use App\Models\Library;
 use Session;
-
+use App\Models\Visit;
 class remote_arenaController extends Controller
 {
     public function index(Request $request)
@@ -33,7 +33,7 @@ class remote_arenaController extends Controller
 					$lastlogin = array('last_login_at' => Carbon::now()->toDateTimeString());
 					$query = DB::table('users')->where('id', $ldata->userid)->update($lastlogin);
 					Session::put('remote_id', $ldata->id);
-					Session::put('remote_name', $ldata->name);
+					Session::put('remote_name', $ldata->name);					$datavisit = Visit::savevisit($ldata->id,2,1);//1=for ip login,2=remote,3=pageview						
 					return redirect('/search-foundation');
 				}
 			}else{

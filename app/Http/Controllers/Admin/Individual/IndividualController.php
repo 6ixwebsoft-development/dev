@@ -10,12 +10,10 @@ use App\Models\ModuleField;
 use App\Models\ModuleFieldValue;
 use App\Models\Usertyperole;
 //Individual models
-use App\Models\IndividualLibrary;
+
 use App\Models\FoundationPurpose;
 use App\Models\Foundation;
-use App\Models\UserSearchSave;
-use App\Models\Subscription;
-use App\Models\Order;
+
 use App\Models\Individual;
 use App\Models\IndividualContact;
 use App\Models\IndividualPersonal;
@@ -27,8 +25,12 @@ use App\Models\IndividualResearch;
 use App\Models\IndividualProject;
 use App\Models\IndividualChildern;
 use App\Models\IndividualVideo;
-use App\Models\Documents;
+use App\Models\IndividualLibrary;
 
+use App\Models\Documents;
+use App\Models\UserSearchSave;
+use App\Models\Subscription;
+use App\Models\Order;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Redirect;
 use App\User;
@@ -92,7 +94,7 @@ class IndividualController extends Controller
                                    
                             return $btn;
                     })
-                    ->rawColumns(['status']) 
+                    ->rawColumns(['status']) 					->escapeColumns([])                    ->addColumn('name', function($row){							$btn ='';															$controller = 'individual';								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->name.'</a>';						                            return $btn;                    })                    ->rawColumns(['name'])					->addColumn('email', function($row){							$btn ='';															$controller = 'individual';								$btn = '<a href="'.url('admin').'/'.$controller.'/'.$row->id.'/edit" class="">'.$row->email.'</a>';						                            return $btn;                    })                    ->rawColumns(['email'])
                     ->make(true);
         }
 
@@ -186,6 +188,7 @@ class IndividualController extends Controller
 				"name"  => $result['firstname'].' '.$result['lastname'],
 				"password"  => $result['email'],
 				"user_type" =>"IND",
+				"status" =>1,
 				"created_at"  => Now(),
 				);
 		
@@ -503,7 +506,7 @@ class IndividualController extends Controller
 		
 		
 		$orderList = Order::where('userid', $id)->get();
-		$subsList  = Subscription::where('userid', $id)->get();
+		$subsList  = Subscription::where('userid', $id)->where('user_type','IND')->get();
 		$foundationList = UserSearchSave::where('user_id',$id)->get(); 
 		$library = Library::select('name','id')->where('type','1')->get();
 		$IndividualLibrary = IndividualLibrary::where('userid',$user->id)->first();
@@ -805,10 +808,10 @@ public function update(Request $request, $id)
 		}
 }
 
-	public function delete($id)
+	public function delete($uid)
 	{
 		try {			
-			Individual::where('userid', $id)->delete();
+			/* Individual::where('userid', $id)->delete();
 			IndividualContact::where('userid', $id)->delete();
 			IndividualPersonal::where('userid', $id)->delete();
 			IndividualPerpose::where('userid', $id)->delete();
@@ -819,7 +822,25 @@ public function update(Request $request, $id)
 			IndividualProject::where('userid', $id)->delete();
 			IndividualChildern::where('userid', $id)->delete();
 			IndividualVideo::where('userid', $id)->delete();
-			User::where('id', $id)->delete();
+			User::where('id', $id)->delete(); */
+			$data = array(
+				'name'=> 'DELETE_'.$uid.'@globalgarnt.com',
+				'status'=>3,
+				'email'=>'DELETE_'.$uid.'@globalgarnt.com'
+				);
+				DB::table('users')->where('id', $uid)->update($data);
+				$queryRun = Individual::delete_data($uid);
+				IndividualContact::delete_data($uid);
+				IndividualPersonal::delete_data($uid);
+				IndividualPerpose::delete_data($uid);
+				IndividualStudy::delete_data($uid);
+				IndividualCare::delete_data($uid);
+				IndividualWalfare::delete_data($uid);
+				IndividualResearch::delete_data($uid);
+				IndividualProject::delete_data($uid);
+				IndividualChildern::delete_data($uid);
+				IndividualVideo::delete_data($uid);
+				IndividualLibrary::delete_data($uid);
 			
 			$output = ['success' => true,
 						'msg' => __("Module Field Deleted")

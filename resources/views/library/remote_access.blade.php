@@ -30,7 +30,7 @@
 			<button class="pull-right btn btn-primary formBox" onClick="hideFromBox();" style="display:none; margin-top: 10px;">{{ __('word.cancel') }}</button>
 			<button class="pull-right btn btn-primary datashow" onClick="showFromBox();" style="margin-top: 10px;">{{ __('word.edit') }}</button>
 		</div>
-		<br>
+		<br><br>
 		<hr style="width: 100%; border-bottom: 2px dotted #108cca;">
 		
 			<p>{{ __('word.show') }} {{ __('word.list') }} {{ __('word.of') }} {{ __('word.remote') }} {{ __('word.access') }} {{ __('word.for') }} {{ __('word.users') }} {{ __('word.to') }} {{ __('word.login') }}.<br>
@@ -64,7 +64,7 @@
 								{!! Form::select('remotedigit[]', (['1' => '1','2' => '2','3' => '3','4' => '4','5' => '5','6' => '6','7' => '7','8' => '8','9' => '9','10' => '10','11' => '11','12' => '12','13' => '13','14' => '14','15' => '15',]),$Remoteips->remotedigit, ['class' => 'form-control','onChange'=>'maxLengthFunction();','id'=>'remotedigit' ]  ); !!}
 							</div>
 							<div class="col-sm-6"> 
-								<input type="text" class="form-control formBox" id="remoteid" placeholder="******" name="remoteid[]" value="{{$Remoteips->remoteid}}" maxlength="">
+								<input type="text" class="form-control formBox" id="remoteid" placeholder="******" name="remoteid" value="{{$Remoteips->remoteid}}" maxlength="">
 							</div>
 							<a href="#" class="remove_field"><span class="glyphicon glyphicon-trash"></span></a>
 						</div>

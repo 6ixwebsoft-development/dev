@@ -3,6 +3,10 @@
 
 
 @section('breadcrumb')
+<style>
+.report_section #DataTables_Table_0_wrapper {overflow-x: scroll;}
+
+</style>
 
   <!-- Breadcrumb-->
 
@@ -108,6 +112,8 @@
 				  <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"> IP & Remote Login</a>
 				  
 				   <a class="nav-link" id="v-pills-photos-tab" data-toggle="pill" href="#v-pills-photos" role="tab" aria-controls="v-pills-photos" aria-selected="false">Upload Logo</a>
+				   
+				   <!--<a class="nav-link" id="v-pills-report-tab" data-toggle="pill" href="#v-pills-report" role="tab" aria-controls="v-pills-report" aria-selected="false">Report</a>-->
 				  
 				</div>
 			  </div>
@@ -197,7 +203,7 @@
 							
 								{!! Form::label('E-mail', __( 'E-mail' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">								 
-								    {!! Form::email('uemail', $user->email, ['class' => 'form-control','','placeholder' => __( 'Enter email' ) ]); !!}
+								    {!! Form::email('useremail', $user->email, ['class' => 'form-control','','placeholder' => __( 'Enter email' ) ]); !!}
 								</div>
 								<P>Password will be generated automatically by the system for security purposes and can be changed by the user on their member page.</p>
 							  </div>
@@ -538,7 +544,7 @@
 				<div class="tab-pane fade" id="v-pills-photos" role="tabpanel" aria-labelledby="v-pills-photos-tab">
 						
 						<h5>My Logo</h5><br>
-						<input type="file" name="logoImg" id="logoImg" accept="image/x-png,image/gif,image/jpeg" >
+						<input type="file" name="logoImg" id="logoImg" accept="image/x-png,image/gif,image/jpeg" >					
 						<br><br>
 						@if(!empty($logo))
 							<div class="row">
@@ -554,7 +560,7 @@
 						@endif
 						<hr>
 					</div>
-
+								<div class="tab-pane fade" id="v-pills-report" role="tabpanel" aria-labelledby="v-pills-report-tab">						<h5>My Report</h5><br>						<div class="col-sm-12 form-group">									<div class="form-group row">																			{!! Form::label('Library ID', __( 'Library ID' ) . ':', [ 'class' => 'col-sm-2 col-form-label']) !!}										<div class="col-sm-2">																		  {!! Form::text('libraryid', $basic->userid, ['class' => 'form-control','readonly', 'placeholder' => __( '' ) ]); !!}										</div>																			{!! Form::label('Monthly Breakdown of', __( 'Monthly Breakdown of' ) . ':', [ 'class' => 'col-sm-3 col-form-label']) !!}										<div class="col-sm-3">										  										   <select name="select_year" id="select_year" class="form-control">											<?php 												$tilldate = date('Y')-10;												for($i = $tilldate; $i <= date('Y'); $i++){												echo "<option value=".$i.">$i</option>";												}												?>											</select>										</div>																				<div class="col-sm-2">										  <a href="#" class="btn btn-success" onClick="get_reportdata({{$basic->id}});">Generate</a>										</div>									</div>								</div>					<div class="col-sm-12 report_section">						 <table class="table table-bordered report_table" style="width:100%;">						  <thead>							<tr>							  <th style="width:7%;">(2020)</th>							  <th style="width:7%;">Jan</th>							  <th style="width:7%;">Feb</th>							  <th style="width:7%;">Mar</th>							  <th style="width:7%;">Apr</th>							  <th style="width:7%;">May</th>							  <th style="width:7%;">Jun</th>							  <th style="width:7%;">Jul</th>							  <th style="width:7%;">Aug</th>							  <th style="width:7%;">Sep</th>							  <th style="width:7%;">Oct</th>							  <th style="width:7%;">Nov</th>							  <th style="width:7%;">Dec</th>							  <th style="width:7%;">Total</th>							</tr>						  </thead>						  <tbody>						  @if(!empty($visit))							@foreach($visit as $count)							<tr>								<th scope="row">									<?php 									if($count->type == 1){echo 'Visit IP-User';}									if($count->type == 2){echo 'Visit Remote-Access';}									if($count->type == 3){echo 'Visit Page-View';}									?>								</th>									<td>{{$count->month_1}}</td>								<td>{{$count->month_2}}</td>								<td>{{$count->month_3}}</td>								<td>{{$count->month_4}}</td>								<td>{{$count->month_5}}</td>								<td>{{$count->month_6}}</td>								<td>{{$count->month_7}}</td>								<td>{{$count->month_8}}</td>								<td>{{$count->month_9}}</td>								<td>{{$count->month_10}}</td>								<td>{{$count->month_11}}</td> 								<td>{{$count->month_12}}</td>								<td>{{$count->total}}</td>							</tr>							@endforeach						 @endif						  </tbody>						</table>					</div>				</div>												
 				  </div>
 				  
 				  

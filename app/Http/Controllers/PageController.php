@@ -44,7 +44,7 @@ class PageController extends Controller
 			if($urldata[3] == 'en'){
 				return redirect()->back();
 			}else{
-				$url = str_replace($urldata[2], $urldata[2].'/en', $backurl);
+				$url = str_replace($urldata[3], $urldata[3].'/en', $backurl);
 				return redirect($url);
 			}
 		}
@@ -132,7 +132,7 @@ class PageController extends Controller
 	
 	public function remote_login()
 	{
-		$library = $LibraryId = Library::where('type','1')->get();
+		$library = $LibraryId = Library::where('type','1')->where('type','!=','3')->get();
 		return view('remote_login')->with(compact('library'));
 	}
 }

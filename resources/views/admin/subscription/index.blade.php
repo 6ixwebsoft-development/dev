@@ -66,7 +66,7 @@
             </tbody>
           </table>
 		 <div class="row container">
-			  <button class="btn btn-danger" onClick="getsubsStatus(3,'sts');">Delete</button>
+			  <button class="btn btn-danger" onClick="deletesubsStatus(3,'sts');">Delete</button>
 			  <div id="pendig_ind" style="display:none;">
 			  <button class="btn btn-success" onClick="getsubsStatus(16,'psts');">Paid</button>
 			  <button class="btn btn-dark" onClick="getsubsStatus(17,'psts');">Expired/Deactive</button>

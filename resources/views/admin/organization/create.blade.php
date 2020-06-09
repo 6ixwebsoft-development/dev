@@ -435,12 +435,12 @@
 											<div class="form-group row">
 												{!! Form::label('Digits in Remote ID', __( 'Digits in Remote ID' ) . ':', [ 'class' => 'col-sm-3 col-form-label']) !!}
 												<div class="col-sm-1">								 
-												  {!! Form::select('remotedigit[]', (['1' => '1','2' => '2','3' => '3','4' => '4','5' => '5','6' => '6','7' => '7','8' => '8','9' => '9','10' => '10','11' => '11','12' => '12','13' => '13','14' => '14','15' => '15',]),[], ['class' => 'form-control','onChange'=>'maxLengthFunction();','id'=>'remotedigit' ]  ); !!}
+												  {!! Form::select('remotedigit[]', (['1' => '1','2' => '2','3' => '3','4' => '4','5' => '5','6' => '6','7' => '7','8' => '8','9' => '9','10' => '10','11' => '11','12' => '12','13' => '13','14' => '14','15' => '15',]),[], ['class' => 'form-control','onChange'=>'maxLengthFunction(112);','id'=>'remotedigit_112' ]  ); !!}
 												</div>
 											
 												{!! Form::label('Remote ID', __( 'Remote ID' ) . ':', [ 'class' => 'col-sm-3 col-form-label']) !!}
 												<div class="col-sm-3">								 
-												  {!! Form::text('remoteid[]', null, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);','id'=>"remoteid",'readonly' ,'placeholder' => __( '' ) ]); !!}
+												  {!! Form::text('remoteid[]', null, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);','id'=>"remoteid_112",'readonly' ,'placeholder' => __( '' ) ]); !!}
 												</div>
 												<div class="col-sm-2">
 													<a class="btn btn-success add_buttonremote">Add</a>

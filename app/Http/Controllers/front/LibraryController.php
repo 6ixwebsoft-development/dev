@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Language;
 use DB;
 use Hash;
-use session;
+use session;use App\Models\Visit;use Carbon\Carbon;
 class LibraryController extends Controller
 {
     /**
@@ -81,10 +81,10 @@ class LibraryController extends Controller
     }
 	
 	public function static_report()
-    {
-		$user = Auth::user();
-		$basic = Library::where('userid',$user->id)->first();
-		return view('library.static_report',compact('basic')); 
+    {				$today = Carbon::now();		$month = $today->month;		$year = $today->year;
+		$user = Auth::user();		
+		$basic = Library::where('userid',$user->id)->first();				$visit = Visit::WhereIn('type',[1,2,3])->where('library_id',$basic->id)->where('year',$year)->get();		
+		return view('library.static_report',compact('basic','visit')); 
     }
 	
 	public function account_history()
@@ -230,7 +230,8 @@ class LibraryController extends Controller
 					$i =0;
 					foreach($request->post('remotedigit') as $digit){
 					$remoteid = $request->post('remoteid');
-					if($digit != count($remoteid)){
+					$remotedigit = $remoteid[$i];
+					if($digit != strlen($remotedigit)){
 						$output	= ['class' => 'alert-danger',
 							'msg' => __("Digit not qual to Library card ")
 							];
