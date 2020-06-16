@@ -225,7 +225,7 @@
 		  <div  class="fund-detail loaderarea" id="loaderareafront" style="display:none">
 			<img src="{{url('frontend/images/loader.gif ')}}" />
 		</div>
-          <table class="table table-bordered table-responsive user-table-export" id="user-table-export" style="width: 100%;">
+          <table class="table table-bordered table-responsive user-table-export action-last" id="user-table-export" style="width: 100%;">
             <thead>
                 <tr>
                     <th>No</th>

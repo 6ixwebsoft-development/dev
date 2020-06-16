@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="col-lg-10">
-                    {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                    {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control','required' => 'required')) !!}
                 </div>
             </div>
 			
@@ -70,7 +70,7 @@
                 </div>
 
                 <div class="col-lg-10">
-                    {!! Form::radio('usertype', 1,false, array('placeholder' => 'Name')) !!} Admin/staff
+                    {!! Form::radio('usertype', 1,false, array('placeholder' => 'Name','required' => 'required')) !!} Admin/staff
 					{!! Form::radio('usertype', 0,false, array('placeholder' => 'Name')) !!} User
                 </div>
             </div>

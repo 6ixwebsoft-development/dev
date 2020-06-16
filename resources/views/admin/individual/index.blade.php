@@ -42,6 +42,7 @@
              <tr>
 					<th><input type="checkbox" id="selectAll"></th>
                     <th>No</th>
+                    <th>User ID</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Status</th>

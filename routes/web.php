@@ -23,9 +23,15 @@ Auth::routes();
     return view('welcome');
 }); */
 
-/* Route::get('profile', function () {
-    return view('profile');
-}); */
+Route::get('profiless', function () {
+    //dd(Auth::user()->allPermissions());
+    dd(routeName('admin/foundation'));
+    // if(can(routeName($url))){
+    //     echo "yes";
+    // }else{
+    //     echo "no";
+    // }
+}); 
 
 Route::get('register-organization', function () {
     return view('register-organization');
@@ -86,7 +92,7 @@ Route::middleware(['auth', 'CheckLogin'])->group(function () {
 
         });
 	
-    Route::group(array('namespace' => 'Admin', 'prefix' => 'admin','middleware'=>'Access'), function() {
+        Route::group(array('namespace' => 'Admin', 'prefix' => 'admin','middleware'=>'Access'), function() {
 			Route::get('/', 'AdminController@index');
 			//Route::resource('/', 'AdminController');
 		
@@ -650,6 +656,16 @@ Route::get('contact-us','PageController@contactus');
 Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'));
 });
 
+
+/*
+* Ajax
+*/
+Route::group(['namespace' => 'Admin\Location', 'prefix' => 'admin/location'], function () {
+    Route::post('getCountries', 'CountryController@getCountries');
+    Route::post('getRegions', 'RegionController@getRegions');
+    Route::post('getCities', 'CityController@getCities');
+    
+});
 
 /*
  Route::get('/{request}/{slug}', function () {

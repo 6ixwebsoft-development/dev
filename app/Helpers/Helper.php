@@ -171,6 +171,24 @@ function get_city_name($id)
 	{return false;}
 }
 
+function get_region_name($id)
+{
+	$result = DB::table('gg_region')->where('id',$id)->first(); 
+	if(!empty($result->region_name))
+	{return $result->region_name;}
+	else
+	{return false;}
+}
+
+function get_countryBlock_name($id)
+{
+	$result = DB::table('gg_country_block')->where('id',$id)->first(); 
+	if(!empty($result->name))
+	{return $result->name;}
+	else
+	{return false;}
+}
+
 function get_Library_name($id)
 {
 	$result = DB::table('library_basic')->where('id',$id)->first(); 
@@ -180,4 +198,37 @@ function get_Library_name($id)
 	{return false;}
 }
 
+function routeName($url)
+{	
+    $routes = app('router')->getRoutes()->match(app('request')->create($url));	
+	$route = $routes->action['controller'];
+	$route = explode("\\",$route);
+	$route = end($route);
+	$controller_action = explode('@', $route);
+	if($controller_action[1] == 'store'){
+			$controller_action[1] = 'create';
+			$controller_action = implode('-', $controller_action);
+	}else if($controller_action[1] == 'update'){
+			$controller_action[1] = 'edit';
+			$controller_action = implode('-', $controller_action);
+	}else{
+			$controller_action = implode('-', $controller_action);
+	}
 
+	return $controller_action;
+    
+    //return $routes->action['as'];
+}
+function getlocation($val,$txt)
+{
+	if($txt == 'countryBlock'){
+		$d = get_countryBlock_name($val);
+	}elseif($txt == 'country'){
+		$d = get_country_name($val);
+	}elseif($txt == 'region'){
+		$d = get_region_name($val);
+	}elseif($txt == 'city'){
+		$d = get_city_name($val);
+	}
+	return $d;
+}

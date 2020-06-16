@@ -311,5 +311,4 @@ class customerController extends Controller
 		
 		echo $data;
 	}
-	
 }

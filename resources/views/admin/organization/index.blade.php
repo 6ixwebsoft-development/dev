@@ -42,6 +42,7 @@
           <tr>
 			<th><input type="checkbox" id="selectAll"></th>
               <th>No</th>
+              <th>Lib. Id</th>
               <th>Library</th>
 			  <th>Remote Name</th>
 			 <!--<th>Login Type</th>-->

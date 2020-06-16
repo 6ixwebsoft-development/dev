@@ -241,7 +241,7 @@ class LibraryController extends Controller
                             'msg' => __("Library added successfully")
                             ];
 			 DB::commit();
-			 return redirect('admin/library')->with('message', $output);
+			 return redirect('admin/library/'.$user_id.'/edit')->with('message', $output);
 			 
         } catch (\Exception $e) {
             $output	= ['class' => 'alert-position-danger',
@@ -436,13 +436,13 @@ class LibraryController extends Controller
 				} 
 		$output = ['success' => true,
 					'msg' => __("Library updated")
-					];		DB::commit();		return redirect('admin/library')->with('status', $output);
+					];		DB::commit();		return redirect('admin/library/'.$uid."/edit")->with('status', $output);
 		} catch (\Exception $e) {
 		
 			$output = ['success' => false,
 						'msg' => __("messages.something_went_wrong")
 					];		DB::rollBack();
-		//echo $e;				return redirect('admin/library')->with('status', $output);
+			return redirect('admin/library'.$uid."/edit")->with('status', $output);
 		}
 
 		

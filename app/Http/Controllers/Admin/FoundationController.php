@@ -54,14 +54,14 @@ class FoundationController extends Controller
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
 							$txt = "'Are you sure to delete this?'";
-                           $btn = '<a href="'.url('admin').'/foundation/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
-                                   <a onclick="return confirm('.$txt.')" href="'.url('admin').'/foundation/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+                            $btn = '<a href="'.url('admin').'/foundation/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
+                                   <a onclick="return confirm('.$txt.')" href="'.url('admin').'/foundation/delete/'.$row->id.'" class="delete btn btn-danger btn-sm">Delete</a>';
      
                             return $btn;
                     })
                     ->rawColumns(['action'])
-                     ->escapeColumns([])
-                     ->addColumn('checkbox', function($row){
+                    ->escapeColumns([])
+                    ->addColumn('checkbox', function($row){
    
                           $btn = '<input type="checkbox" name="userslistIds"  id="userslistIds" value="'.$row->id.'">';
                                    
@@ -76,7 +76,7 @@ class FoundationController extends Controller
 
     public function create(Request $request) {
 
-     $purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+        $purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Purpose')
                     ->select(
@@ -181,6 +181,10 @@ class FoundationController extends Controller
 
     public function store(Request $request)
     { 
+
+        // print_r($request->get('locationArray'));
+        // die();
+
 		$this->validate($request, [
 					'sort_name' => 'required',
 					'name' => 'required',
@@ -231,25 +235,44 @@ class FoundationController extends Controller
             FoundationContact::insert($contact);
 
             //Foundation Location 
-			if(!empty($result['country_block'])){
-				$i =0;
-				foreach($result['country_block'] as $countryblock){
-					 $country = $result['country_block'];
-					 $region = $result['region'];
-					 $city = $result['city'];
-					 $parish = $result['parish'];
+            
+			if(!empty($result['locationArray'])){
+				// $i =0;
+				// foreach($result['country_block'] as $countryblock){
+				// 	 $country = $result['country_block'];
+				// 	 $region = $result['region'];
+				// 	 $city = $result['city'];
+				// 	 $parish = $result['parish'];
 					 
-					$location = array(
-							"foundation_id" => $foundation_id,
-							"nation_id"  => $countryblock[$i],
-							"country_id"  =>  $country[$i],
-							"region_id"  => $region[$i],
-							"city_id"  => $city[$i],
-							"parish"  => $parish[$i]
-					);
-					FoundationLocation::insert($location);
-				} 
-				$i++;
+				// 	$location = array(
+				// 			"foundation_id" => $foundation_id,
+				// 			"nation_id"  => $countryblock[$i],
+				// 			"country_id"  =>  $country[$i],
+				// 			"region_id"  => $region[$i],
+				// 			"city_id"  => $city[$i],
+				// 			"parish"  => $parish[$i]
+				// 	);
+				// 	FoundationLocation::insert($location);
+				// } 
+				// $i++;
+                foreach($result['locationArray'] as $locationB){
+                  // $countryB = $locationB['country_block'];
+                  // $country = $locationB['country'];
+                  // $region = $locationB['region'];
+                  // $city = $locationB['city'];
+                  // $parish = $locationB['parish'];
+                     
+                 $location = array(
+                         "foundation_id" => $foundation_id,
+                         "nation_id"  => $locationB['country_block'],
+                         "country_id"  =>  $locationB['country'],
+                         "region_id"  => $locationB['region'],
+                         "city_id"  => $locationB['city'],
+                         "parish"  => $locationB['parish']
+                 );
+
+                 FoundationLocation::insert($location);
+                }
 			}
             //Foundation Purpose
 			if(!empty($result['purpose_ids'])){
@@ -331,7 +354,7 @@ class FoundationController extends Controller
                             ];
 		DB::rollBack();
 		//echo $e;
-		return redirect('admin/foundation')->with('message', $output);
+		return redirect('admin/foundation/'.$foundation_id."/edit")->with('message', $output);
         }
 
         
@@ -472,6 +495,13 @@ class FoundationController extends Controller
 
     public function update(Request $request, $id) 
     {	
+
+        // print_r($request->all());
+        // echo "<pre>";
+        // print_r($request->get('locationArray'));
+        // echo "</pre>";
+        // die();
+
 			$this->validate($request, [
 					'sort_name' => 'required',
 					'name' => 'required',
@@ -548,26 +578,44 @@ class FoundationController extends Controller
 				}                   
                
             
-				if(!empty($result['country_block'])){
-				$i =0;
+				if(!empty($result['locationArray'])){
+				//$i =0;
 				FoundationLocation::where('foundation_id', $id)->delete();
-				foreach($result['country_block'] as $countryblock){
-					 $country = $result['country_block'];
-					 $region = $result['region'];
-					 $city = $result['city'];
-					 $parish = $result['parish'];
+				// foreach($result['country_block'] as $countryblock){
+				// 	 $country = $result['country_block'];
+				// 	 $region = $result['region'];
+				// 	 $city = $result['city'];
+				// 	 $parish = $result['parish'];
 					 
-					$location = array(
-							"foundation_id" => $id,
-							"nation_id"  => $countryblock[$i],
-							"country_id"  =>  $country[$i],
-							"region_id"  => $region[$i],
-							"city_id"  => $city[$i],
-							"parish"  => $parish[$i]
-					);
-					FoundationLocation::insert($location);
-				} 
-				$i++;
+				// 	$location = array(
+				// 			"foundation_id" => $id,
+				// 			"nation_id"  => $countryblock[$i],
+				// 			"country_id"  =>  $country[$i],
+				// 			"region_id"  => $region[$i],
+				// 			"city_id"  => $city[$i],
+				// 			"parish"  => $parish[$i]
+				// 	);
+				// 	FoundationLocation::insert($location);
+				// }
+                foreach($result['locationArray'] as $locationB){
+                  // $countryB = $locationB['country_block'];
+                  // $country = $locationB['country'];
+                  // $region = $locationB['region'];
+                  // $city = $locationB['city'];
+                  // $parish = $locationB['parish'];
+                     
+                 $location = array(
+                         "foundation_id" => $id,
+                         "nation_id"  => $locationB['country_block'],
+                         "country_id"  =>  $locationB['country'],
+                         "region_id"  => $locationB['region'],
+                         "city_id"  => $locationB['city'],
+                         "parish"  => $locationB['parish']
+                 );
+
+                 FoundationLocation::insert($location);
+                } 
+				//$i++;
 			}
 			
                 $dates = array(
@@ -619,7 +667,7 @@ class FoundationController extends Controller
                             'msg' => __("Foundation updated")
                             ];
 				DB::commit();
-				return redirect('admin/foundation')->with('message', $output);
+				return redirect('admin/foundation/'.$id."/edit")->with('message', $output);
             } catch (\Exception $e) {
 				
 				$output = ['class' => 'alert-position-danger',

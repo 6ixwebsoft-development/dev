@@ -51,8 +51,9 @@
           <table class="table table-bordered subscription-table">
             <thead>
                 <tr>
-					<th><input type="checkbox" id="selectAll"></th>
+					          <th><input type="checkbox" id="selectAll"></th>
                     <th>No</th>
+                    <th>Sub ID</th>
                     <th>Name</th>
                     <th>Start Date</th>
                     <th>End Date</th>

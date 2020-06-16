@@ -406,7 +406,8 @@ class IndividualController extends Controller
                             'msg' => __("Individual created")
                             ];
 			DB::commit();
-			return redirect('admin/individual')->with('message', $output);
+			//return redirect('admin/individual')->with('message', $output);
+			return redirect('admin/individual/'.$user_id.'/edit')->with('message', $output);
 		}
 		catch (\Exception $e) {
             $output	= ['class' => 'alert-position-danger',
@@ -797,7 +798,7 @@ public function update(Request $request, $id)
 						'msg' => __("Individual updated")
 						];
 			DB::commit();
-		return redirect('admin/individual')->with('message', $output);
+		return redirect('admin/individual/'.$id."/edit")->with('message', $output);
 		} catch (\Exception $e) {
             $output	= ['class' => 'alert-position-danger',
                             'msg' => __("Individual Not updated")

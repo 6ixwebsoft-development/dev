@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Models\Userinfo;
 use Spatie\Permission\Models\Role;
 use App\Models\Individual;use App\Models\IndividualContact;use App\Models\IndividualPersonal;use App\Models\IndividualPerpose;use App\Models\IndividualStudy;use App\Models\IndividualCare;use App\Models\IndividualWalfare;use App\Models\IndividualResearch;use App\Models\IndividualProject;
-
+use App\Rules\StrongPassword;
 class RegisterController extends Controller
 {
     /*
@@ -54,7 +54,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8', 'confirmed',new StrongPassword],
         ]);
     }
 

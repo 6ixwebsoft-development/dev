@@ -72,7 +72,8 @@ class SubscriptionController extends Controller
 
 						return $btn;
 						})
-					->rawColumns(['checkbox']) 
+					->rawColumns(['checkbox'])
+					//->rawColumns(['id']) 
 					->make(true);
         }
 		$subscriptionstatusr = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')

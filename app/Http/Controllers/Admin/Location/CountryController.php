@@ -141,8 +141,8 @@ class CountryController extends Controller
     public function getCountries(Request $request)
     {
         $countryBlockId = $request->input( 'country_block_id' );
-        //echo $countryBlockId;
         $countries = Country::where('nation_id', $countryBlockId)->get();
+        //$countries[] = ['id' => 0, 'country_name' => 'select'];
         return response()->json($countries);
     }
 }

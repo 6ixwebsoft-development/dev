@@ -40,6 +40,7 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <span style="text-transform:capitalize;">logged in as - {{Auth::user()->name}}</span>
             <img class="img-avatar" src="{{URL::asset('images/admin-male.png')}}" alt="GlobalGrant">
           </a>
           <div class="dropdown-menu dropdown-menu-right">
@@ -97,16 +98,31 @@
       </ul>
       <!-- <button class="navbar-toggler aside-menu-toggler d-md-down-none" type="button" data-toggle="aside-menu-lg-show">
         <span class="navbar-toggler-icon"></span>
-      </button>
-      <button class="navbar-toggler aside-menu-toggler d-lg-none" type="button" data-toggle="aside-menu-show">
+      </button> -->
+      <!-- <button class="navbar-toggler aside-menu-toggler d-lg-none" type="button" data-toggle="aside-menu-show">
         <span class="navbar-toggler-icon"></span>
       </button> -->
+      <style type="text/css">
+        .alert
+        {
+            position: absolute;
+            right:10px;
+        }
+      </style>
       @if ($message = Session::get('message'))
       <div class="alert {{$message['class']}}" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <strong>{{$message['msg']}}</strong>
       </div>
       @endif
+      @if ($message = Session::get('status'))      
+      <div class="alert alert-primary" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>{{$message['msg']}}</strong>
+      </div>
+      @endif
+      
+
     </header>
     
      

@@ -36,7 +36,7 @@ class Access
 	   }
 	   
        
-		//print_r($controller_action);exit;
+		  //print_r($controller_action);exit;
        $allowed = false;
 	  
        try {

@@ -72,7 +72,7 @@
 								@if($city->status == 1)
 	                            	{!! Form::checkbox('status', '1', true); !!}
 	                            @else
-		                            {!! Form::checkbox('status', false) !!}
+		                            {!! Form::checkbox('status', '1', false) !!}
 		                        @endif
 	                            <span class="switch-slider" data-checked="yes" data-unchecked="no"></span>
 	                        </label>

@@ -90,5 +90,11 @@ class User extends Authenticatable
       return $this->getRoleNames();
     }
 	
+    public function allPermissions()
+    {
+        return $this->roles()->with('permissions')->get()->map(function ($item) {
+            return $item->permissions->pluck('name');
+        })->flatten()->merge($this->permissions->pluck('name'));
+    }
 
 }

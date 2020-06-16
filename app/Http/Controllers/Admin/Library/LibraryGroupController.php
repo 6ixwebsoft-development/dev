@@ -164,7 +164,7 @@ class LibraryGroupController extends Controller
 		$output = ['success' => true,
                             'msg' => __("Module Field value added successfully")
                         ];
-		  return redirect('admin/librarygroup')->with('status', $output);
+		  return redirect('admin/librarygroup/'.$LibraryId."/edit")->with('status', $output);
 		  
         } catch (\Exception $e) {
 			
@@ -242,11 +242,12 @@ class LibraryGroupController extends Controller
 			);
 			DB::table('library_contact')->where('libraryid', $id)->update($contact);
 			
-		DB::commit();
-		$output = ['success' => true,
-					'msg' => __("Individual updated")
-					];
-		return redirect('admin/librarygroup')->with('status', $output);
+			DB::commit();
+			$output = 	[
+							'success' => true,
+							'msg' => __("Individual updated")
+						];
+			return redirect('admin/librarygroup/'.$id."/edit")->with('status', $output);
 		} catch (\Exception $e) {
 		
 			$output = ['success' => false,

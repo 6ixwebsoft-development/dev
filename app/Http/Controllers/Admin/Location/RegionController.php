@@ -60,7 +60,20 @@ class RegionController extends Controller
     {
         try {
             
-            $input = $request->only(['country_id', 'region_name', 'status']);
+            $input = $request->only(['country_id', 'region_name']);
+
+            $input['slug'] = str_slug($input['region_name']);
+            if(empty($request->All()['status'])){
+                $input['status'] = 0;
+            }else{
+                $input['status'] = $request->All()['status'];
+            }
+            if(Region::whereSlug($input['slug'])->exists()){
+                $output = ['success' => false,
+                            'msg' => "Region Already Exists"
+                        ];
+                return redirect('admin/location/region/create')->with('status', $output);
+            }
 
             $region = Region::create($input);
 
@@ -94,12 +107,26 @@ class RegionController extends Controller
     {
         try {
 
-            $input = $request->only(['country_id', 'region_name', 'status']);    
+            $input = $request->only(['country_id', 'region_name']);    
             $region = Region::findOrFail($id);
-            
+
+            $input['slug'] = str_slug($input['region_name']);
+            if(empty($request->All()['status'])){
+                $input['status'] = 0;
+            }else{
+                $input['status'] = $request->All()['status'];
+            }
+            if(Region::whereNotIn('id',[$id])->whereSlug($input['slug'])->exists()){
+                $output = ['success' => false,
+                            'msg' => "Region Already Exists"
+                        ];
+                return redirect('admin/location/region/'.$id.'/edit')->with('status', $output);
+            }
+
             $region->country_id  = $input['country_id'];
             $region->region_name = $input['region_name'];
             $region->status      = $input['status'];
+            $region->slug        = $input['slug'];
             $region->save();
 
             $output = ['success' => true,
@@ -138,7 +165,8 @@ class RegionController extends Controller
     public function getRegions(Request $request)
     {
         $countryId = $request->input( 'country_id' );
-        //echo $countryBlockId;
+        // echo $countryId;
+        // die();
         $regions = Region::where('country_id', $countryId)->get();
         return response()->json($regions);
     }

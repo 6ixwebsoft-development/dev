@@ -405,33 +405,64 @@
                                         <div class="card">
 											  <div class="card-header bg-info">Location
 											  <div class="float-right">
-												<a class="btn btn-primary add_buttonlocation form-control" value="add">Add</a>
+												
 											  </div>
 											  </div>
-											  <div class="card-body">
-											 
-											  <div class="">
+											    <div class="card-body">
+                                                    <div class="row col-md-12">                             
+                                                        <div class="col-md-2">
+
+                                                            @php $blocks_arr[0] = "select"; ksort($blocks_arr); @endphp
+                                                            {!! Form::label('country-block', __( 'Country Block' ) . '') !!}
+                                                            {!! Form::select('',$blocks_arr,[], ['class' => 'form-control', 'id' => 'A_countryBlock']); !!}
+                                                        </div><!--col-->
+                                                        <div class="col-md-2">
+                                                            {!! Form::label('country', __( 'Country' ) . '') !!}
+                                                            {!! Form::select('',[0 => 'select'],[], ['class' => 'form-control', 'id' => 'A_countries']); !!}
+                                                        </div><!--col-->
+                                                        <div class="col-md-2">
+                                                            {!! Form::label('region', __( 'Region' ) . '') !!}
+                                                            {!! Form::select('',[],[], ['class' => 'form-control','id' => 'A_regionid']); !!}
+                                                        </div><!--col-->
+                                                        <div class="col-md-2">
+                                                            {!! Form::label('city', __( 'City' ) . '') !!}
+                                                            {!! Form::select('', [],[], ['class' => 'form-control citydata', 'id' => 'A_cities']); !!}
+                                                        </div><!--col-->
+                                                        <div class="col-md-2">
+                                                            {!! Form::label('parish', __( 'Parish' ) . '') !!}
+                                                            
+                                                            {!! Form::text('', '', ['class' => 'form-control ', 'id' => "A_parish", 'placeholder' => __( 'Parish' ) ]); !!}
+                                                        </div><!--col-->
+                                                        <div class="col-md-2" style="margin-top: 2%;">
+                                                            <a class="btn btn-primary form-control" value="add" onclick="Added();">Add</a>
+                                                        </div><!--col-->
+                                                    </div> 
+                                                    <div class="col-md-12" id="loc_add">                                                        
+                                                    </div>   
 													<div class="">
 													@if(!empty($location))
+                                                    @php $i = 1 @endphp
 													@foreach($location as $Location)
-														<div class="f_gender">
-															
+                                                        @php $time = md5(microtime()) @endphp
+														<div class="f_gender current_add" id="{{$time}}">
+                                                            <?php /* ?>
+
 															<div class="row">
 																<div class="col-md-2">
 																	{!! Form::label('country-block', __( 'Country Block' ) . '') !!}
-																	{!! Form::select('country_block[]', $blocks_arr, '$Location->nation_id', ['class' => 'form-control', 'id' => 'countryBlock']); !!}
+																	{!! Form::text('country_block[]', $blocks_arr, '$Location->nation_id', ['class' => 'form-control', 'id' => 'countryBlocks']); !!}
 																</div><!--col-->
 																<div class="col-md-2">
 																	{!! Form::label('country', __( 'Country' ) . '') !!}
-																	{!! Form::select('country[]', $country_arr, '$Location->country_id', ['class' => 'form-control', 'id' => 'countries','onchange' => 'getRegion();']); !!}
+																	{!! Form::select('country[]', $country_arr, '$Location->country_id', ['class' => 'form-control', 'id' => 'countriess','onchange' => 'getRegion();']); !!}
 																</div><!--col-->
 																<div class="col-md-2">
 																	{!! Form::label('region', __( 'Region' ) . '') !!}
-																	{!! Form::select('region[]', $region_arr, '$Location->region_id', ['class' => 'form-control regiondata','id' => 'regionid','onchange' => 'getCity();']); !!}
+																	{!! Form::select('region[]', $region_arr, '$Location->region_ids', ['class' => 'form-control regiondata','id' => 'regionid','onchange' => 'getCity();']); !!}
 																</div><!--col-->
 																<div class="col-md-2">
 																	{!! Form::label('city', __( 'City' ) . '') !!}
-																	{!! Form::select('city[]', $city_arr, '$Location->city_id', ['class' => 'form-control citydata', 'id' => 'cityid']); !!}
+																	{!! Form::select('city[]', $city_arr, '$Location->city_ids', ['class' => 'form-control citydata', 'id' => 'cityid']); !!}
 																</div><!--col-->
 																<div class="col-md-2">
 																	{!! Form::label('parish[]', __( 'Parish' ) . '') !!}
@@ -441,9 +472,34 @@
 																<div class="col-md-2" style="margin-top: 2%;">
 																	<input type="hidden" name="location_id" value="{{$Location->id}}">
 																</div><!--col-->
-															</div><!--row-->
+															</div><!--row--><?php */ ?>
+                                                            <div class="row col-md-12">
+                                                                <div class="col-md-2">
+                                                                    <label for="country-block">country block</label> 
+                                                                    <input class="form-control" type="text" value="{{getlocation($Location->nation_id,'countryBlock')}}" readonly="true" />
+                                                                    <input class="form-control" name="locationArray[{{$i}}][country_block]" type="hidden" value="{{$Location->nation_id}}" readonly="true" />
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <label for="country">country</label> 
+                                                                    <input class="form-control" type="text" value="{{getlocation($Location->country_id,'country')}}" readonly="true" />
+                                                                    <input class="form-control" name="locationArray[{{$i}}][country]" type="hidden" value="{{$Location->country_id}}" readonly="true" />
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <label for="region">region</label> 
+                                                                    <input class="form-control" type="text" value="{{getlocation($Location->region_id,'region')}}" readonly="true" />
+                                                                    <input class="form-control" name="locationArray[{{$i}}][region]" type="hidden" value="{{$Location->region_ids}}" readonly="true" />
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <label for="city">city</label> 
+                                                                    <input class="form-control" type="text" value="{{getlocation($Location->city_id,'city')}}" readonly="true" /> <input class="form-control" name="locationArray[{{$i}}][city]" type="hidden" value="{{$Location->city_ids}}" readonly="true" />
+                                                                </div>
+                                                                <div class="col-md-2"><label for="parish">parish</label> 
+                                                                    <input name="locationArray[{{$i}}][parish]" class="form-control" type="text" value="{{$Location->parish}}" readonly="true" /></div>
+                                                                <div class="col-md-2" style="margin-top: 2%;"><a class="btn btn-primary add_buttonlocation form-control" value="remove" onclick="rowDelete('{{$time}}');">X</a></div>
+                                                            </div>
 
 														</div>
+                                                        @php $i++; @endphp
 														@endforeach
 														@endif
 														</div>

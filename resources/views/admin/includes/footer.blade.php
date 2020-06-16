@@ -17,6 +17,33 @@
     </footer>
     <!-- CoreUI and necessary plugins-->
     
+<!-- Button trigger modal -->
+<button type="button" id="inactivity_model" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" style="display:none;">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">InActivity Detected</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Inactivity Detected, Stay Login?
+      </div>
+      <div class="modal-footer">        
+        <button type="button" class="btn btn-primary"  onclick="promptU(true)">Stay Login</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
     <!-- <script src="{{ asset('js/jquery.min.js') }}" defer></script> -->
     <script type="text/javascript">
         var APP_URL = {!! json_encode(url('/')) !!}
@@ -30,8 +57,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 	<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
-	<script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js
-"></script>
+	<script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
 
 	
     <script src="{{ asset('js/admin-view.js') }}" ></script>
@@ -41,9 +67,9 @@
     <script src="{{ asset('js/perfect-scrollbar.min.js') }}" ></script>
     <script src="{{ asset('js/coreui.min.js') }}" ></script>
     <script src="{{ asset('js/Chart.min.js') }}" ></script>
-    <script src="{{ asset('js/custom-tooltips.min.js') }}" ></script>
-    <script src="{{ asset('js/main.js') }}" ></script>
+    <script src="{{ asset('js/custom-tooltips.min.js') }}" ></script>    
     <script src="{{ asset('js/script.js') }}" ></script>
+    <script src="{{ asset('js/main.js') }}" ></script>
 	
     <script>
       
@@ -104,6 +130,78 @@
                 $(this).toggleClass('toggle-button-selected');            
             });
         });
+        $(document).ready(function() {            
+            $('ul.nav-dropdown-items').not(':has(li)').parent().remove();    
+            $('ul.nav').show();
+            
+            //var t = $.now();
+            sessionStorage.setItem("lastActivity",$.now());
+            sessionStorage.setItem("lastActivity_clicked",0);
+            setInterval(function() {                
+                checkInActivity();
+            }, 5000);
+        });
+        function checkInActivity(t){
+            
+            t = sessionStorage.getItem("lastActivity");
+            clicked = sessionStorage.getItem("lastActivity_clicked");
+            console.log("ran",t - $.now(),t);
+
+            if(t > 0 && $.now() - t > 7200000){
+
+                if(sessionStorage.getItem("lastActivity_clicked") == 0){
+                    sessionStorage.setItem("lastActivity_clicked",1);
+                    $("#inactivity_model").click();
+                }
+                if(t > 0 && $.now() - t > 7200000+120000){
+                    document.getElementById('logout-form').submit();    
+                }
+                //alert("InActivity Detected");
+                // var r = confirm("InActivity Detected, Stay Login?");
+                // if(r){
+                //     //alert("re_sync");
+                //     sessionStorage.setItem("lastActivity",$.now());
+                //     console.log('re-connect',sessionStorage.getItem("lastActivity"));
+                // }else{
+                //     //alert("logout");
+                //     //if($.now() - t > 25000){
+                //     sessionStorage.setItem("lastActivity",0);                        
+                //     document.getElementById('logout-form').submit();
+                //     //}
+            }
+        }
+        function promptU(ele){
+
+            if(!ele){
+
+                alert("re_sync");
+                sessionStorage.setItem("lastActivity",0);                
+                document.getElementById('logout-form').submit();
+
+            }else{
+                $("#inactivity_model").click();
+                sessionStorage.setItem("lastActivity_clicked",0);
+                sessionStorage.setItem("lastActivity",$.now());
+
+            }
+            // var r = confirm("InActivity Detected, Stay Login?");
+            // //var r = confirm("Press a button!");
+            // if (r == true) {
+            //   txt = "You pressed OK!";
+            // } else {
+            //   txt = "You pressed Cancel!";
+            // }
+        }
+            // $.ajax({
+            //     url:"<?//= site_url(); ?>/admin/ajax",
+            //     method:"GET",
+            //     dataType:"json",
+            //     success:function(r){
+            //         console.log(r);
+            //     }
+            // })
+
+        //}
     </script>
 
 		<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
@@ -112,7 +210,7 @@
 "></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.colVis.min.js
 "></script>
-
+@yield('load_ex_js')
 
   </body>
 </html>

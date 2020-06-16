@@ -40,7 +40,7 @@
 							{!! Form::label('country', __( 'Country ' ) . ':*') !!}
 						</div>
 						<div class="col-lg-10">
-							{!! Form::select('country_id', $country_arr, '', ['class' => 'form-control']); !!}
+							{!! Form::select('country_id', $country_arr, '', ['class' => 'form-control','id' => 'countryid','onChange' => 'getRegion()']); !!}
 						</div>
 					</div>
 					<div class="form-group row">
@@ -48,7 +48,7 @@
 							{!! Form::label('region', __( 'Region ' ) . ':*') !!}
 						</div>
 						<div class="col-lg-10">
-							{!! Form::select('region_id', $region_arr, '', ['class' => 'form-control']); !!}
+							{!! Form::select('region_id', $region_arr, '', ['class' => 'form-control regiondata','id' => 'regionid','onChange' => 'getCity()']); !!}
 						</div>
 					</div>
 					<div class="form-group row">
@@ -56,7 +56,7 @@
 							{!! Form::label('city-name', __( 'City Name' ) . ':*') !!}
 						</div>
 						<div class="col-lg-10">
-							{!! Form::text('city_name', null, ['class' => 'form-control', '', 'placeholder' => __( 'City Name' ) ]); !!}
+							{!! Form::text('city_name', null, ['class' => 'form-control citydata','id' => 'city_name', '', 'placeholder' => __( 'City Name' ) ]); !!}
 						</div>
 					</div>
 

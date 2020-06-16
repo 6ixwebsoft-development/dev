@@ -252,7 +252,7 @@ class OganizationController extends Controller
                             'msg' => __("Organization created")
                             ];
 			 DB::commit();
-			 return redirect('admin/organization')->with('message', $output);
+			 return redirect('admin/organization'.$user_id.'/edit')->with('message', $output);
 			 
 			} catch (\Exception $e) {
             $output	= ['class' => 'alert-position-danger',
@@ -332,8 +332,7 @@ class OganizationController extends Controller
 					'email' => 'required|email',
 					'userrole' => 'required',
 					'availability' => 'required',
-					 'useremail' => 'required|email|unique:users,email,'.$uid,
-					
+					'useremail' => 'required|email|unique:users,email,'.$uid,					
 				]);
 				DB::beginTransaction();
 		try {
@@ -524,7 +523,7 @@ class OganizationController extends Controller
                             'msg' => __("Organization updated")
                             ];
 			 DB::commit();
-			 return redirect('admin/organization')->with('message', $output);
+			 return redirect('admin/organization/'.$id."/edit")->with('message', $output);
 		} catch (\Exception $e) {
 		
 			$output	= ['class' => 'alert-position-danger',

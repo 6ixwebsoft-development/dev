@@ -36,7 +36,7 @@ class CityController extends Controller
                         ->addIndexColumn()
                         ->addColumn('action', function($row){
        							$txt = "'Are you sure to delete this?'";
-                               $btn = '<a href="'.url('admin').'/location/city/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
+                                $btn = '<a href="'.url('admin').'/location/city/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>
                                <a onclick="return confirm('.$txt.')" href="'.url('admin').'/location/city/delete/'.$row->id.'" class="delete btn btn-danger btn-sm">Delete</a>';
          
                                 return $btn;
@@ -69,8 +69,22 @@ class CityController extends Controller
     {
         try {
             
-            $input = $request->only(['country_id', 'region_id', 'city_name', 'status']);
+            $input = $request->only(['country_id', 'region_id', 'city_name']);
+            $input['slug'] = str_slug($input['city_name']);
 
+            if(empty($request->All()['status'])){
+                $input['status'] = 0;
+            }else{
+                $input['status'] = $request->All()['status'];
+            }
+
+            if(City::whereSlug($input['slug'])->exists()){
+                $output = ['success' => false,
+                            'msg' => "City Already Exists"
+                        ];
+                return redirect('admin/location/city/create')->with('status', $output);
+            }
+            dd($input);
             $city = City::create($input);
 
             $output = ['success' => true,
@@ -111,13 +125,29 @@ class CityController extends Controller
     {
         try {
                 
-            $input = $request->only(['country_id', 'region_id', 'city_name', 'status']);
+            $input = $request->only(['country_id', 'region_id', 'city_name']);
             $city = City::findOrFail($id);
+
+            $input['slug'] = str_slug($input['city_name']);
+
+            if(empty($request->All()['status'])){
+                $input['status'] = 0;
+            }else{
+                $input['status'] = $request->All()['status'];
+            }
+
+            if(City::whereNotIn('id',[$id])->whereSlug($input['slug'])->exists()){
+                $output = ['success' => false,
+                            'msg' => "City Already Exists"
+                        ];
+                return redirect('admin/location/city/'.$id.'/edit')->with('status', $output);
+            }
 
             $city->country_id  = $input['country_id'];
             $city->region_id = $input['region_id'];
             $city->city_name = $input['city_name'];
             $city->status      = $input['status'];
+            $city->slug      = $input['slug'];
             $city->save();
 
             $output = ['success' => true,
@@ -154,7 +184,7 @@ class CityController extends Controller
     public function getCities(Request $request)
     {
         $regionId = $request->input( 'region_id' );
-        //echo $countryBlockId;
+        //echo $regionId;
         $cities = City::where('region_id', $regionId)->get();
         return response()->json($cities);
     }

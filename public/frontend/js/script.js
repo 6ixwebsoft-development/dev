@@ -611,4 +611,3 @@ function maxLengthFunction(val)
 	//alert(mydata);
 	$('#remoteid_'+val+'').val(mydata);
 }
-

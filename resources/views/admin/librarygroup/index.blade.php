@@ -42,6 +42,7 @@
             <tr>
 			<th><input type="checkbox" id="selectAll"></th>
               <th>No</th>
+              <th>Lib Grp. Id</th>
               <th> Library Group</th>
 			  <th> Email</th>
 			  <th> Status</th>

@@ -45,7 +45,13 @@
   </ol>
 
 @endsection
-<!--
+<style type="text/css">
+.alert {
+    position: absolute;
+    top:0px;
+    z-index:99999;
+}
+</style>
 @if (count($errors) > 0)
   <div class="alert alert-danger">
     <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -55,7 +61,7 @@
        @endforeach
     </ul>
   </div>
-@endif -->
+@endif
 @section('content')  
 
   <div class="row">
@@ -84,7 +90,7 @@
             </div><!--row-->
 
         <hr>
-@if (count($errors) > 0)			<div class="alert alert-danger alert-dismissible fade show" role="alert">				<ul id="login-validation-errors" class="validation-errors">					@foreach ($errors->all() as $error)						<li class="validation-error-item">{{ $error }}</li>					@endforeach				</ul>				<button type="button" class="close" data-dismiss="alert" aria-label="Close">					<span aria-hidden="true">&times;</span>				</button>			</div><hr>		@endif
+<!-- @if (count($errors) > 0)			<div class="alert alert-danger alert-dismissible fade show" role="alert">				<ul id="login-validation-errors" class="validation-errors">					@foreach ($errors->all() as $error)						<li class="validation-error-item">{{ $error }}</li>					@endforeach				</ul>				<button type="button" class="close" data-dismiss="alert" aria-label="Close">					<span aria-hidden="true">&times;</span>				</button>			</div><hr>		@endif -->
 
         {!! Form::open(array('route' => 'users.store','method'=>'POST')) !!}
         <div class="form-group row">

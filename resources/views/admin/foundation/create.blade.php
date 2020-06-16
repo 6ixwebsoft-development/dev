@@ -427,6 +427,7 @@
 													<div class="">
 														<div class="f_gender">
 															<h4>Location</h4>
+                                                            <?php /* ?>
 															<div class="row">
 																<div class="col-md-2">
 																	{!! Form::label('country-block', __( 'Country Block' ) . '') !!}
@@ -453,7 +454,38 @@
 																	<a class="btn btn-primary add_buttonlocation form-control" value="add">Add</a>
 																</div><!--col-->
 															</div><!--row-->
+                                                            <?php */ ?>
+                                                            <div class="row col-md-12">                             
+                                                        <div class="col-md-2">
 
+                                                            @php $blocks_arr[0] = "select"; ksort($blocks_arr); @endphp
+                                                            {!! Form::label('country-block', __( 'Country Block' ) . '') !!}
+                                                            {!! Form::select('',$blocks_arr,[], ['class' => 'form-control', 'id' => 'A_countryBlock']); !!}
+                                                        </div><!--col-->
+                                                        <div class="col-md-2">
+                                                            {!! Form::label('country', __( 'Country' ) . '') !!}
+                                                            {!! Form::select('',[0 => 'select'],[], ['class' => 'form-control', 'id' => 'A_countries']); !!}
+                                                        </div><!--col-->
+                                                        <div class="col-md-2">
+                                                            {!! Form::label('region', __( 'Region' ) . '') !!}
+                                                            {!! Form::select('',[],[], ['class' => 'form-control','id' => 'A_regionid']); !!}
+                                                        </div><!--col-->
+                                                        <div class="col-md-2">
+                                                            {!! Form::label('city', __( 'City' ) . '') !!}
+                                                            {!! Form::select('', [],[], ['class' => 'form-control citydata', 'id' => 'A_cities']); !!}
+                                                        </div><!--col-->
+                                                        <div class="col-md-2">
+                                                            {!! Form::label('parish', __( 'Parish' ) . '') !!}
+                                                            
+                                                            {!! Form::text('', '', ['class' => 'form-control ', 'id' => "A_parish", 'placeholder' => __( 'Parish' ) ]); !!}
+                                                        </div><!--col-->
+                                                        <div class="col-md-2" style="margin-top: 2%;">
+                                                            <a class="btn btn-primary form-control" value="add" onclick="Added();">Add</a>
+                                                        </div><!--col-->
+                                                    </div> 
+                                                    <div class="col-md-12" id="loc_add">                                                        
+                                                    </div>
+                                                    <div class="current_add"></div>
 														</div>
 														</div>
 												

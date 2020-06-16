@@ -13,9 +13,8 @@ use DataTables;
 use DB;
 use App\Models\IndividualContact;
 use App\Models\LibraryContact;
-
 use Illuminate\Support\Facades\Hash;
-
+use App\Rules\StrongPassword;
 
 class UserController extends Controller
 {
@@ -43,7 +42,8 @@ class UserController extends Controller
                          $s_btn = '';
                         if(!empty($row->getRoleNames())){
                            foreach($row->getRoleNames() as $v) {
-                            $s_btn = '<label class="badge badge-success">'. $v .'</label>';
+                            	//$s_btn = '<label class="badge badge-success">'. $v .'</label>';
+                            	$s_btn = $v;
                             } 
                         }
                             
@@ -93,8 +93,6 @@ class UserController extends Controller
 								
 								
 							}
-						
-                           
      
                             return $btn;
                     })
@@ -243,9 +241,9 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
+            'password' => new StrongPassword,
             'roles' => 'required'
         ]); 
-
 
          $input = $request->all(); 
 		 //print_r($input);exit;
@@ -280,7 +278,7 @@ class UserController extends Controller
 		$userinfo = Userinfo::insert($userdata);  */
 		
 		
-		return Redirect::to('admin/listalluser')->with('success','User created successfully');
+		return Redirect::to('admin/users/'.$user_id.'/edit')->with('success','User created successfully');
        //return redirect()->route('admin.users.index')->with('success','User created successfully');
     }
 

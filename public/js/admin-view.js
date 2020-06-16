@@ -503,6 +503,7 @@ $(function () {
         columns: [
 			{data: 'checkbox', name: 'checkbox'},
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
             {data: 'start_date', name: 'start date'},
             {data: 'end_date', name: 'end date'},
@@ -921,7 +922,8 @@ $(function () {
         ajax: APP_URL+"/admin/individual",
         columns: [
 			{data: 'checkbox', name: 'checkbox'},
-            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},            
+            {data: 'id', name: 'User ID'},
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
             {data: 'status', name: 'status'},
@@ -1013,6 +1015,7 @@ $(function () {
         columns: [
           {data: 'checkbox', name: 'checkbox'},
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'id', name: 'Lib Grp. Id'},
             {data: 'name', name: 'name'},
 			{data: 'email', name: 'email'},
 			{data: 'status', name: 'status'},
@@ -1034,7 +1037,8 @@ $(function () {
         ajax: APP_URL+"/admin/library",
         columns: [
 			{data: 'checkbox', name: 'checkbox'},
-            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},            
+            {data: 'id', name: 'Lib Id'},
             {data: 'name', name: 'name'},
 			{data: 'remotename', name: 'remotename'},
 			{data: 'email', name: 'email'},
@@ -1059,6 +1063,7 @@ $(function () {
         columns: [
 			{data: 'checkbox', name: 'checkbox'},
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'id', name: 'Lib. Id'},
             {data: 'name', name: 'name'},
 			{data: 'remotename', name: 'remotename'},
 			{data: 'email', name: 'email'},
