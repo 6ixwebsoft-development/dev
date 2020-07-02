@@ -1,3 +1,8 @@
+<style type="text/css">
+.purpose-details .cke_contents {
+    height: 500px !important;
+}
+</style>
 @extends('admin.includes.adminlayout') @section('breadcrumb')
 <!-- Breadcrumb-->
 <ol class="breadcrumb">
@@ -61,7 +66,7 @@
 	                            <div class="tab-pane fade active show" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
 	                            <div class="row">
                                     <div class="col-md-6">
-
+                                          
                                         <div class="form-group row">
                                             <div class="col-lg-3">
 												{!! Form::label('name', __( 'Name' ) . ':*') !!}
@@ -546,7 +551,7 @@
                                             <h4>Purpose</h4>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    {!! Form::textarea('purpose_detail', null, ['class' => 'form-control core_quill', '' ]); !!}
+                                                    {!! Form::textarea('purpose_detail', null, ['class' => 'form-control core_quill', 'rows'=>'25' ]); !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -554,7 +559,7 @@
                                             <h4>Who Can Apply</h4>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    {!! Form::textarea('who_can_apply', null, ['class' => 'form-control', '' ]); !!}
+                                                    {!! Form::textarea('who_can_apply', null, ['class' => 'form-control', 'rows'=>'25' ]); !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -572,7 +577,7 @@
                                             <h4>Misc</h4>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    {!! Form::textarea('misc', null, ['class' => 'form-control', '' ]); !!}
+                                                    {!! Form::textarea('misc', null, ['class' => 'form-control', 'rows'=>'25' ]); !!}
                                                 </div>
                                             </div>
                                         </div>

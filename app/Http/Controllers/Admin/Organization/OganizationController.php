@@ -252,7 +252,7 @@ class OganizationController extends Controller
                             'msg' => __("Organization created")
                             ];
 			 DB::commit();
-			 return redirect('admin/organization'.$user_id.'/edit')->with('message', $output);
+			 return redirect('admin/organization/'.$user_id.'/edit')->with('message', $output);
 			 
 			} catch (\Exception $e) {
             $output	= ['class' => 'alert-position-danger',
@@ -523,7 +523,7 @@ class OganizationController extends Controller
                             'msg' => __("Organization updated")
                             ];
 			 DB::commit();
-			 return redirect('admin/organization/'.$id."/edit")->with('message', $output);
+			 return redirect('admin/organization/'.$uid."/edit")->with('message', $output);
 		} catch (\Exception $e) {
 		
 			$output	= ['class' => 'alert-position-danger',

@@ -31,3 +31,8 @@ ul.nav .nav-dropdown-items li.open a {
 ul.nav li.nav-item.nav-dropdown.open {
     background: #000;    
 }
+
+
+select[multiple] {
+    height: 230px !Important;
+}

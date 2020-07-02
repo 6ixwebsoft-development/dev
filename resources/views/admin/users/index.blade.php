@@ -169,13 +169,42 @@
 							<p class="text-success">Total hits : 1117</p>
 							
 					  </div>
-					  <div class="col-sm-5">												<div class="col-sm-12">
-							<a href="{!! url('/admin/individual/create'); !!}" type="button" class="btn btn-success col-sm-12">Create New Individual</a>						</div><br>												<div class="col-sm-12">
-							<a href="{!! url('/admin/organization/create'); !!}" type="button" class="btn btn-success col-sm-12">Create New Orgnization</a>						</div><br>												<div class="col-sm-12">
-							<a href="{!! url('/admin/library/create'); !!}" type="button" class="btn btn-success col-sm-12">Create New Library</a>						</div><br>												<div class="col-sm-12">
-							<a href="{!! url('/admin/librarygroup/create'); !!}" type="button" class="btn btn-success col-sm-12">Create New Library Group</a>						</div><br>						<div class="col-sm-12">
-							<a href="{!! url('/admin/foundation/create'); !!}" type="button" class="btn btn-success col-sm-12">Create New Foundation</a>						</div><br>						<div class="col-sm-12">
-							<a href="{!! url('/admin/subscription/create'); !!}" type="button" class="btn btn-success col-sm-12">Create New Subcription</a>						</div>
+					  <div class="col-sm-5">	
+					  	@can(routeName('/admin/individual'))											
+					  		<div class="col-sm-12">
+								<a href="{!! url('/admin/individual/create'); !!}" type="button" class="btn btn-success col-sm-12">Create New Individual</a>
+							</div>
+							<br>
+						@endcan						
+						@can(routeName('/admin/organization'))											
+						<div class="col-sm-12">
+							<a href="{!! url('/admin/organization/create'); !!}" type="button" class="btn btn-success col-sm-12">Create New Orgnization</a>
+						</div>
+						<br>
+						@endcan
+						@can(routeName('/admin/library'))											
+						<div class="col-sm-12">
+							<a href="{!! url('/admin/library/create'); !!}" type="button" class="btn btn-success col-sm-12">Create New Library</a>
+						</div>
+						<br>
+						@endcan
+						@can(routeName('/admin/librarygroup'))											
+						<div class="col-sm-12">
+							<a href="{!! url('/admin/librarygroup/create'); !!}" type="button" class="btn btn-success col-sm-12">Create New Library Group</a>
+						</div>
+						<br>
+						@endcan
+						@can(routeName('/admin/foundation'))
+						<div class="col-sm-12">
+							<a href="{!! url('/admin/foundation/create'); !!}" type="button" class="btn btn-success col-sm-12">Create New Foundation</a>						
+						</div>
+						<br>						
+						@endcan
+						@can(routeName('/admin/subscription'))
+						<div class="col-sm-12">
+							<a href="{!! url('/admin/subscription/create'); !!}" type="button" class="btn btn-success col-sm-12">Create New Subcription</a>						
+						</div>
+						@endcan						
 						<!--<a href="#" type="button" class="btn btn-info col-sm-12">One Month Subscriber List</a> -->
 					  </div>         
 					</div>         
@@ -252,5 +281,3 @@
   
   
 @endsection
-
-  

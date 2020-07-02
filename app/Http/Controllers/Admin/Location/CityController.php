@@ -84,7 +84,7 @@ class CityController extends Controller
                         ];
                 return redirect('admin/location/city/create')->with('status', $output);
             }
-            dd($input);
+            //dd($input);
             $city = City::create($input);
 
             $output = ['success' => true,

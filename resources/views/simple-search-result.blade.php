@@ -152,7 +152,7 @@
 											<div class="col-md-3"></div>
 											<div class="col-md-6 text-center">
 												<div class="moreFund">
-													<button id="btn-more" data-id="{{$fundation_id}}" class="acc-btn btn-block" > Load More Funds </button>
+													<button id="btn-more" data-id="{{-- {{$fundation_id}} --}}" class="acc-btn btn-block" > Load More Funds </button>
 												</div>
 											</div>
 											<div class="col-md-3"></div>

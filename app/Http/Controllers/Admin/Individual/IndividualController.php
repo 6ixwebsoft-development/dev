@@ -472,7 +472,7 @@ class IndividualController extends Controller
 		  $data = Individual::alldata(3);
 		echo "<pre>"; print_r($data);exit; */ 
 		//$roles = Role::pluck('name','id')->all();
-		$country = Country::pluck('country_name','id')->all();
+		
 		/* $formids = ["1","2"];
 		->whereIn('formid',1) */
 		
@@ -487,6 +487,19 @@ class IndividualController extends Controller
 		$contact = IndividualContact::where('userid',$id)->first();
 		$personal = IndividualPersonal::where('userid',$id)->first();
 		$purposes = IndividualPerpose::where('userid',$id)->first();
+
+
+		$country = Country::pluck('country_name','id')->all();
+		$region = Region::where('country_id',$contact->country)->pluck('region_name','id');
+		$city = City::where('region_id',$contact->region)->pluck('city_name','id');
+
+		$birthcity = City::where('region_id',$personal->birthregion)->pluck('city_name','id');
+		$residencecity = City::where('region_id',$personal->residenceregion)->pluck('city_name','id');
+
+
+		//print_r($region);
+		//$city = City::pluck('city_name','id')->where(['id' => $contact->region_id])->get();
+
 		if(!empty($purposes->purposeid)){$purposeId = json_decode($purposes->purposeid);}else{$purposeId = '';}
 			//print_r($purposeId);exit;		
 		/* $purposeId = json_decode($purposes->purposeid); */
@@ -525,7 +538,7 @@ class IndividualController extends Controller
 		
 		/* echo"<pre>";
 		print_r($subsList);exit; */
-        return view('admin.individual.edit',compact('roles','language','country','purpose','individual','user','contact','personal','purpose','purposeId','study','care','walfare','research','project','video','childern','civilstatus','gender','userroles','orderList','subsList','myfoundList','library','IndividualLibrary','logo','doc','photo'));
+        return view('admin.individual.edit',compact('roles','language','country','purpose','individual','user','contact','personal','purpose','purposeId','study','care','walfare','research','project','video','childern','civilstatus','gender','userroles','orderList','subsList','myfoundList','library','IndividualLibrary','logo','doc','photo','region','city','birthcity','residencecity'));
 	}
 
 public function update(Request $request, $id) 

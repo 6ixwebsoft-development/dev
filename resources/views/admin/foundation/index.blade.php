@@ -41,8 +41,8 @@
           <thead>
             <tr>
 				<th><input type="checkbox" id="selectAll"></th>
-              <th>ID#</th>
-			  <th>Sort Name</th>
+              {{-- <th>ID#</th> --}}
+			        <th>Sort Name</th>
               <th>Foundation Name</th>
               <th>Status</th>
               <th width="100px">Action</th>

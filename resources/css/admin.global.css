@@ -3,3 +3,11 @@
     grid-template-columns: 1fr 1fr;
     grid-gap:5px
 }
+/*.alert {
+    z-index: 999999 !important;
+}*/
+.alert.alert-dismissible{
+	z-index: 999999 !important;	
+	position: absolute;
+	top: 0;
+}

@@ -41,7 +41,7 @@
 							{!! Form::label('country', __( 'Country ' ) . ':*') !!}
 						</div>
 						<div class="col-lg-10">
-							{!! Form::select('country_id', $country_arr, '', ['class' => 'form-control']); !!}
+							{!! Form::select('country_id', $country_arr, $city->country_id, ['class' => 'form-control']); !!}
 						</div>
 					</div>
 					<div class="form-group row">
@@ -49,7 +49,7 @@
 							{!! Form::label('region', __( 'Region ' ) . ':*') !!}
 						</div>
 						<div class="col-lg-10">
-							{!! Form::select('region_id', $region_arr, '', ['class' => 'form-control']); !!}
+							{!! Form::select('region_id', $region_arr, $city->region_id, ['class' => 'form-control']); !!}
 						</div>
 					</div>
 
@@ -68,14 +68,22 @@
 							{!! Form::label('status', __( 'Status' ) ) !!}
 						</div>
 						<div class="col-lg-10">
-							<label class="switch switch-label switch-pill switch-primary">
+							<!-- <label class="switch switch-label switch-pill switch-primary">
 								@if($city->status == 1)
-	                            	{!! Form::checkbox('status', '1', true); !!}
+	                            	{!! Form::checkbox('status', '1', true,['class' => 'custom-control-input']); !!}
 	                            @else
 		                            {!! Form::checkbox('status', '1', false) !!}
 		                        @endif
 	                            <span class="switch-slider" data-checked="yes" data-unchecked="no"></span>
-	                        </label>
+	                        </label> -->
+	                        <div class="custom-control custom-switch">
+	                        	@if($city->status == 1)
+							  		<input type="checkbox" class="custom-control-input" id="customSwitch1" name='status' checked="true" value='1'>
+							  	@else
+							  		<input type="checkbox" class="custom-control-input" id="customSwitch1" name='status' value='1'>
+							  	@endif
+							  		<label class="custom-control-label" for="customSwitch1">Activate</label>
+							</div>
 						</div>
 					</div>
 

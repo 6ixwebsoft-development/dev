@@ -20,6 +20,9 @@
     form h4 {
         margin: 15px 0;
     }
+    .purpose-details .cke_contents {
+    height: 500px !important;
+}
 </style>
 <div class="row">
     <div class="col-lg-12">
@@ -67,7 +70,15 @@
                                 <div class="tab-pane fade active show" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                                     <div class="row">
                                     <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <div class="col-lg-3">
+                                                {!! Form::label('id', __( 'ID' ) . ':*') !!}
+                                            </div>
 
+                                            <div class="col-md-9">
+                                               {!! Form::text('id', $foundation->id, ['class' => 'form-control', '', 'placeholder' => __( 'id' ),'readonly' => true ]); !!}
+                                            </div><!--col-->
+                                        </div><!--form-group-->  
                                         <div class="form-group row">
                                             <div class="col-lg-3">
                                                 {!! Form::label('name', __( 'Name' ) . ':*') !!}
@@ -553,7 +564,7 @@
                                             <h4>Purpose</h4>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    {!! Form::textarea('purpose_detail', !empty($advertise->purpose) ? $advertise->purpose : '', ['class' => 'form-control', '' ]); !!}
+                                                    {!! Form::textarea('purpose_detail', !empty($advertise->purpose) ? $advertise->purpose : '', ['class' => 'form-control', 'rows' => '25' ]); !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -561,7 +572,7 @@
                                             <h4>Who Can Apply</h4>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    {!! Form::textarea('who_can_apply', !empty($advertise->who_can_apply) ? $advertise->who_can_apply : '', ['class' => 'form-control', '' ]); !!}
+                                                    {!! Form::textarea('who_can_apply', !empty($advertise->who_can_apply) ? $advertise->who_can_apply : '', ['class' => 'form-control', 'rows'=>'25' ]); !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -579,7 +590,7 @@
                                             <h4>Misc</h4>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    {!! Form::textarea('misc', !empty($advertise->misc) ? $advertise->misc : '', ['class' => 'form-control', '' ]); !!}
+                                                    {!! Form::textarea('misc', !empty($advertise->misc) ? $advertise->misc : '', ['class' => 'form-control', 'rows'=>'25' ]); !!}
                                                 </div>
                                             </div>
                                         </div>

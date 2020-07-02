@@ -25,12 +25,14 @@ Auth::routes();
 
 Route::get('profiless', function () {
     //dd(Auth::user()->allPermissions());
-    dd(routeName('admin/foundation'));
-    // if(can(routeName($url))){
+    //dd(routeName('admin/foundation'));
+    // if(can(routeName('/admin/getuserdata'))){
     //     echo "yes";
     // }else{
     //     echo "no";
     // }
+    $user = Auth::user();
+    $user->givePermissionTo('SubscriptionController-userlist');
 }); 
 
 Route::get('register-organization', function () {
@@ -116,7 +118,7 @@ Route::middleware(['auth', 'CheckLogin'])->group(function () {
 		Route::post('/foundation/multidelete', 'FoundationController@multidelete');
 		
 		// Search user data for admin
-		 Route::post('/getuserdata', 'UserseachController@searchuserdata');
+		 Route::post('/getuserdata', 'UserseachController@searchuserdata');         
 		 // Search user List data for admin
 		 Route::get('/listalluser', 'UserseachController@listalluser');
 		 Route::post('/updateaction', 'UserseachController@updateaction');

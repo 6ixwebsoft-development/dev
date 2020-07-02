@@ -16,7 +16,10 @@ $(function () {
             {data: 'locale', name: 'locale'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -38,7 +41,10 @@ $(function () {
             {data: 'title', name: 'title'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -60,7 +66,10 @@ $(function () {
             {data: 'locale', name: 'locale'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -122,7 +131,10 @@ $(function () {
                 return "<a href='/admin/"+ row.id +"/label/'>" + row.group + "</a>"
             }},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -143,7 +155,10 @@ $(function () {
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -165,7 +180,10 @@ $(function () {
             {data: 'name', name: 'name'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -184,12 +202,15 @@ $(function () {
         ajax: APP_URL+"/admin/foundation",
         columns: [
 			{data: 'checkbox', name: 'checkbox'},
-            {data: 'id', name: 'id'},
+            // {data: 'id', name: 'id'},
 			{data: 'sort', name: 'sort'},
             {data: 'name', name: 'name'},
             {data: 'tstatus', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -213,7 +234,10 @@ $(function () {
             {data: 'field_type', name: 'field_type'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -237,7 +261,10 @@ $(function () {
             {data: 'value', name: 'value'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -259,7 +286,10 @@ $(function () {
             {data: 'name', name: 'name'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -284,7 +314,10 @@ $(function () {
             {data: 'block_name', name: 'block_name'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -307,7 +340,10 @@ $(function () {
             {data: 'region_name', name: 'region_name'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -329,9 +365,12 @@ $(function () {
             {data: 'country_name', name: 'country_name'},
             {data: 'region_name', name: 'region_name'},
             {data: 'city_name', name: 'city_name'},
-            {data: 'status', name: 'status'},
+            {data: 'tstatus', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
 
 });
@@ -376,7 +415,10 @@ $(function () {
 			{data: 'created_at', name: 'created_at'},
             {data: 'updated_at', name: 'updated_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 }); 
@@ -483,7 +525,10 @@ $(function () {
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 
@@ -511,7 +556,10 @@ $(function () {
             {data: 'price', name: 'price'},
             {data: 'no_of_days', name: 'no of days'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -535,7 +583,10 @@ $(function () {
 			 {data: 'liveaccount', name: 'liveaccount'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -561,7 +612,10 @@ $(function () {
 			{data: 'phonenumber', name: 'phonenumber'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -607,7 +661,10 @@ $(function () {
 			{data: 'totalprice', name: 'totalprice'},
 			{data: 'tstatus', name: 'tstatus'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -739,7 +796,10 @@ $(function () {
 			{data: 'description', name: 'description'},
 			{data: 'tstatus', name: 'tstatus'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -763,7 +823,10 @@ $(function () {
 			{data: 'formid', name: 'formid'},
 			{data: 'hitlist', name: 'hitlist'}, 
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -929,7 +992,10 @@ $(function () {
             {data: 'status', name: 'status'},
             {data: 'roles', name: 'roles'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -1020,7 +1086,10 @@ $(function () {
 			{data: 'email', name: 'email'},
 			{data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -1044,7 +1113,10 @@ $(function () {
 			{data: 'email', name: 'email'},
 			{data: 'tstatus', name: 'tstatus'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -1069,7 +1141,10 @@ $(function () {
 			{data: 'email', name: 'email'},
 			{data: 'tstatus', name: 'tstatus'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -1097,7 +1172,10 @@ $(function () {
 			{data: 'totalprice', name: 'totalprice'},
 			{data: 'tstatus', name: 'tstatus'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -1232,7 +1310,10 @@ $(function () {
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 
@@ -1629,7 +1710,10 @@ $(function () {
             {data: 'status', name: 'status'},
 			 {data: 'ordernotes', name: 'ordernotes'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
     });
     
 });
@@ -1704,7 +1788,10 @@ function getorderbystatus()
             {data: 'status', name: 'status'},
 			 {data: 'ordernotes', name: 'ordernotes'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+        ],
+        "initComplete": function(settings, json) {
+            newWin();
+        }
 				} );
            }
 
@@ -2482,4 +2569,31 @@ function get_reportdata(id)
            }
 
 			});
+}
+
+$(function () {
+    $('.ex_regiondata').on('change',function(){
+        val = $(this).val();
+        ele = $(this);
+        console.log("asasaaasas");
+        console.log(val);
+        $.ajax({
+                type:'GET',
+                url: APP_URL+"/customer/edit/getcity",
+                data:{cid:val},
+                success:function(data){
+                    ele.closest('.card-body').find(".citydata").empty();
+                    ele.closest('.card-body').find(".citydata").append(data);
+                }
+
+            });
+    });
+        $('a').each(function(){
+           $(this).prop('target', '_blank');
+    });
+});
+function newWin(){    
+    $('a').each(function(){
+           $(this).prop('target', '_blank');
+    });
 }

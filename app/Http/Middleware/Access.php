@@ -52,7 +52,7 @@ class Access
 			 $output	= ['class' => 'alert-position-danger',
                             'msg' => __("Access no allowed...!")
                             ];
-			return redirect('/home')->with('message', $output);
+			   return redirect('/home')->with('message', $output);
        }
        return $next($request);
     }

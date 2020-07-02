@@ -5,8 +5,8 @@
                 <b>GENERAL</b>
                 </li> -->
             <li class="nav-item">
-                <!--  <a class="nav-link" href="{!! url('/admin'); !!}">
-                    <a class="nav-link " href="{!! url('/admin'); !!}"> -->
+                <!--  <a class="nav-link" href="{{-- {!! url('/admin'); !!} --}}">
+                    <a class="nav-link " href="{{-- {!! url('/admin'); !!} --}}"> -->
                 <a class="nav-link" href="{!! url('/admin'); !!}">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 Dashboard
@@ -129,26 +129,26 @@
                     @endcan
                 </ul>
             </li>
-            @can(routeName('/admin/organization'))
+            {{-- @can(routeName('/admin/organization'))
             <li class="nav-item">
                 <a class="nav-link " href="{!! url('/admin/organization'); !!}">
                 <i class="nav-icon fas fa-language"></i>Organization
                 </a>
             </li>
-            @endcan
+            @endcan --}}
             <!--<li class="nav-item">
-                <a class="nav-link " href="{!! url('/admin/foundation'); !!}">
+                <a class="nav-link " href="{{-- {!! url('/admin/foundation'); !!} --}}">
                     <i class="nav-icon fas fa-language"></i>Foundation
                 </a>
                 </li> -->
-            @can(routeName('/admin/individual'))
+            {{-- @can(routeName('/admin/individual'))
             <li class="nav-item">
                 <a class="nav-link " href="{!! url('/admin/individual'); !!}">
                 <i class="nav-icon fas fa-language"></i>Individual
                 </a>
             </li>
-            @endcan
-            <li class="nav-item nav-dropdown">
+            @endcan --}}
+            {{-- <li class="nav-item nav-dropdown">
                 <a class="nav-link nav-dropdown-toggle" href="#">
                 <i class="nav-icon fas fa-language"></i>Library
                 </a>
@@ -168,7 +168,14 @@
                     </li>
                     @endcan
                 </ul>
-            </li>
+            </li> --}}
+            @can(routeName('/admin/librarygroup'))
+                <li class="nav-item">
+                    <a class="nav-link " href="{!! url('/admin/librarygroup'); !!}">
+                        <i class="nav-icon fas fa-language"></i> Library Group
+                    </a>
+                </li>
+            @endcan
             @can(routeName('/admin/subscription'))
             <li class="nav-item">
                 <a class="nav-link " href="{!! url('/admin/subscription'); !!}">
