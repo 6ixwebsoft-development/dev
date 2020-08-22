@@ -137,7 +137,7 @@
 											</div>
 
                                             <div class="col-md-9">
-                                                {!! Form::select('language_id', $language, '[]', ['class' => 'form-control']); !!}
+                                                {!! Form::select('language_id', $language, [2], ['class' => 'form-control']); !!}
                                             </div><!--col-->
                                         </div><!--form-group-->
 

@@ -112,6 +112,7 @@ class LibraryController extends Controller
 					'userrole' => 'required',
 					'group' => 'required',
 					'availability' => 'required',
+					'username' => 'required',
 					'useremail' => 'required|email|unique:users,email',
 					
 				]);
@@ -302,6 +303,7 @@ class LibraryController extends Controller
 					'userrole' => 'required',
 					'availability' => 'required',
 					'group' => 'required',
+					'username' => 'required',
 					'useremail' => 'required|email|unique:users,email,'.$uid,
 					
 				]);			DB::beginTransaction();
@@ -490,14 +492,13 @@ class LibraryController extends Controller
 		$month = $today->month;
 		//$year = $today->year;
 		
-		 $id =$result['data'];
-		 $year=$result['year'];
+		$id =$result['data'];
+		$year=$result['year'];
 		$data = Visit::WhereIn('type',[1,2,3])->where('library_id',$id)->where('year',$year)->get();
 		
 		//print_r($data);exit;
-		 if ($request->ajax()) {
-            
-			
+		if ($request->ajax()) {
+					
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('type', function($row){
@@ -508,7 +509,7 @@ class LibraryController extends Controller
 							
                             return $btn;
                     })
-                     ->rawColumns(['action'])
+                    ->rawColumns(['action'])
                     ->make(true);
         }
 		

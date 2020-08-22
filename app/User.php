@@ -44,6 +44,10 @@ class User extends Authenticatable
         'tstatus','rolename',
     ];
 
+    const USER00 = 'User00';
+    const USER30 = 'User30';
+    //const MANAGER_TYPE = 'manager';
+
     // public function getStatusAttribute($value)
     // {
     //     switch ($value) {
@@ -96,5 +100,15 @@ class User extends Authenticatable
             return $item->permissions->pluck('name');
         })->flatten()->merge($this->permissions->pluck('name'));
     }
-
+    public function is($v)
+    {
+        //const USER = $v;
+        //dd($this->role);
+        //dd($this->roles->first()->name);
+        if(strpos($this->roles->first()->name, $v) !== false ){
+            return true;
+        }
+        return false;
+        
+    }
 }

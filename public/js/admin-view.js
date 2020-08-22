@@ -1005,7 +1005,8 @@ $(document).ready(function(){
     var maxField = 10; //Input fields increment limitation
     var addButton = $('.add_buttonip'); //Add button selector
     var wrapper = $('.field_wrapperip'); //Input field wrapper
-    var fieldHTML = '<div class="form-group row"><label for="type" class="col-sm-1 col-form-label">From</label><div class="col-sm-1"><input type="text" name="from1[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="from2[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="from3[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="from4[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><label for="type" class="col-sm-1 col-form-label">To</label><div class="col-sm-1"><input type="text" name="to1[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="to2[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" onkeypress = "return alphaOnly(event);"  name="to3[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="to4[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div><br>'; //New input field html 
+    //var fieldHTML = '<div class="form-group row"><label for="type" class="col-sm-1 col-form-label">From</label><div class="col-sm-1"><input type="text" name="from1[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="from2[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="from3[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="from4[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><label for="type" class="col-sm-1 col-form-label">To</label><div class="col-sm-1"><input type="text" name="to1[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="to2[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" onkeypress = "return alphaOnly(event);"  name="to3[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="to4[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div><br>'; //New input field html 
+    var fieldHTML = '<div class="form-group row add_roww"> <div class="col-sm-10 col-md-10"> <div class="row"> <div class="col-sm-12 col-md-12 col-lg-6"> <div class="row"><label for="type" class="col-sm-12 col-form-label">From</label></div><div class="row"> <div class="col-sm-3"><input type="text" name="from1[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"></div><div class="col-sm-3"><input type="text" name="from2[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"></div><div class="col-sm-3"><input type="text" name="from3[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"></div><div class="col-sm-3"><input type="text" name="from4[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"></div></div></div><div class="col-sm-12 col-md-12 col-lg-6"> <div class="row"><label for="type" class="col-sm-12 col-form-label">To</label></div><div class="row"> <div class="col-sm-3"> <input type="text" name="to1[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"> </div><div class="col-sm-3"> <input type="text" name="to2[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"> </div><div class="col-sm-3"> <input type="text" name="to3[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"> </div><div class="col-sm-3"> <input type="text" name="to4[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"> </div></div></div></div></div><div class="col-sm-2 col-md-2"><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div></div>';
     var x = 1; //Initial field counter is 1
      
     //Once add button is clicked
@@ -1014,13 +1015,19 @@ $(document).ready(function(){
         if(x < maxField){ 
             x++; //Increment field counter
             $(wrapper).append(fieldHTML); //Add field html
+            autoIp();
         }
     });
     
     //Once remove button is clicked
     $(wrapper).on('click', '.remove_button', function(e){
         e.preventDefault();
-        $(this).parent('div').remove(); //Remove field html
+        $(this).closest('.add_roww').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+        $(".saved__data").on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).closest('.add_roww').remove(); //Remove field html
         x--; //Decrement field counter
     });
 }); 
@@ -1040,16 +1047,22 @@ $(document).ready(function(){
         //Check maximum number of input fields
         if(x < maxField){ 
             x++; //Increment field counter
-            $(wrapper).append('<div class="form-group row"><label for="type" class="col-sm-3 col-form-label">Digits in Remote ID</label><div class="col-sm-1"><select name="remotedigit[]" id="remotedigit_'+x+'" onChange="maxLengthFunction('+x+');" class="form-control"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13<option value="14">14</option></option><option value="15">15</option></select></div><label for="type" class="col-sm-3 col-form-label">Remote ID</label><div class="col-sm-3"><input type="text" class="form-control formBox" id="remoteid_'+x+'" placeholder="******" name="remoteid[]"  readonly value="" maxlength=""></div><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div><br>'); //Add field html
+            //$(wrapper).append('<div class="form-group row"><label for="type" class="col-sm-3 col-form-label">Digits in Remote ID</label><div class="col-sm-1"><select name="remotedigit[]" id="remotedigit_'+x+'" onChange="maxLengthFunction('+x+');" class="form-control"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13<option value="14">14</option></option><option value="15">15</option></select></div><label for="type" class="col-sm-3 col-form-label">Remote ID</label><div class="col-sm-3"><input type="text" class="form-control formBox" id="remoteid_'+x+'" placeholder="******" name="remoteid[]"  readonly value="" maxlength=""></div><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div><br>'); //Add field html
+            $(wrapper).append('<div class="form-group row row_remotedigit"><div class="col-sm-12 col-md-12 col-lg-6"><div class="row"><div class="col-sm-4"><label for="type" class="col-sm-12 col-form-label">Digits in Remote ID</label></div><div class="col-sm-8"> <select name="remotedigit[]" id="remotedigit_'+x+'" onChange="maxLengthFunction('+x+');" class="form-control"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13<option value="14">14</option></option><option value="15">15</option></select></div></div></div><div class="col-sm-12 col-md-12 col-lg-6"><div class="row"><div class="col-sm-3"><label for="type" class="col-sm-12 col-form-label">Remote ID</label></div><div class="col-sm-6"> <input type="text" class="form-control formBox" id="remoteid_'+x+'" placeholder="******" name="remoteid[]" readonly value="" maxlength=""></div><div class="col-md-3"><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div></div></div></div>');
         }
     });
     
     //Once remove button is clicked
     $(wrapper).on('click', '.remove_button', function(e){
         e.preventDefault();
-        $(this).parent('div').remove(); //Remove field html
+        $(this).closest('.row_remotedigit').remove(); //Remove field html
         x--; //Decrement field counter
     });
+    $('.main_remotedigit').on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).closest('.row_remotedigit').remove(); //Remove field html
+        x--; //Decrement field counter
+    });    
 });
 
 function maxLengthFunction(val)
@@ -1609,6 +1622,7 @@ function searchtransdata()
 				data: data.data,
 				columns: [
 				{data: 'id', name: 'id'},
+                {data: 'type', name: 'type'},
 				{data: 'sname', name: 'sname'},
 				{data: 'name', name: 'name'},
 				{data: 'email', name: 'email'},
@@ -2588,12 +2602,27 @@ $(function () {
 
             });
     });
-        $('a').each(function(){
-           $(this).prop('target', '_blank');
-    });
+       newWin();    
+
 });
 function newWin(){    
     $('a').each(function(){
-           $(this).prop('target', '_blank');
+            if($(this).prop('href') != 'javascript:void(0);' && $(this).prop('href') != '#'){            
+                   $(this).prop('target', '_blank');
+            }
     });
+}
+function autoIp() {
+    $('input[name="from1[]"]').on('change',function(){ 
+        $(this).closest('.form-group.row').find('input[name="to1[]"]').val($(this).val());
+    });
+    $('input[name="from2[]"]').on('change',function(){ 
+        $(this).closest('.form-group.row').find('input[name="to2[]"]').val($(this).val());
+    });
+    $('input[name="from3[]"]').on('change',function(){ 
+        $(this).closest('.form-group.row').find('input[name="to3[]"]').val($(this).val());
+    });
+    // $('input[name="from4[]"]').on('change',function(){ 
+    //     $(this).closest('.form-group.row').find('input[name="to4[]"]').val($(this).val());
+    // });
 }

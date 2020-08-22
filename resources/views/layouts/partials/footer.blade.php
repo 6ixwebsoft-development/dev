@@ -31,7 +31,7 @@
 									$result = getName('footer');
 									//echo "<pre>";
 									//print_r($result);exit;
-									//@endphp
+									@endphp
 									@foreach($result as $links)
 									<li>
 									@if(!empty($links['link']))

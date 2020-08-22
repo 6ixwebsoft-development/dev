@@ -5,7 +5,10 @@
 @section('breadcrumb')
 <style>
 .report_section #DataTables_Table_0_wrapper {overflow-x: scroll;}
-
+a.remove_button.btn.btn-danger {
+    bottom: 0px;
+    position: absolute;
+}
 </style>
 
   <!-- Breadcrumb-->
@@ -156,7 +159,7 @@
 							  </div>
 							 
 							 <div class="form-group row">
-								  {!! Form::label('User Number', __( 'User Number' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
+								  {!! Form::label('User Number', __( 'User Number' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">
 								   {!! Form::text('usertype', $basic->usernumber, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);', 'maxlength'=>'5', 'placeholder' => __( '' ) ]); !!}
 								</div>
@@ -409,14 +412,65 @@
 							  <div class="col-sm-2 float-right">
 											<a class="btn btn-success add_buttonip">Add</a>
 										</div></div>
-							  <div class="card-body">
+							  <div class="card-body saved__data">
 									@if (!empty($ips))	
 									@foreach($ips as $data)
 									@php
 									$ipdata = explode('.', $data->from);
 									$ipto = explode('.', $data->to);
 									@endphp
-									<div class="form-group row">
+									{{-- /***************/ --}}	
+<div class="form-group row add_roww">   
+   <div class="col-sm-10 col-md-10">
+	   	<div class="row">   
+		   	<div class="col-sm-12 col-md-12 col-lg-6">
+			   <div class="row">
+			   		{!! Form::label('From', 'From :', [ 'class' => 'col-sm-12 col-form-label']) !!}
+			   </div>
+			   <div class="row">   
+			   <div class="col-sm-3">
+			   		{!! Form::text('from1[]', $ipdata[0], ['class' => 'form-control','maxlength'=>'3', 'onkeypress' => 'return alphaOnly(event);' ,'placeholder' => __( '' ) ]); !!}
+			   </div>
+			   <div class="col-sm-3">
+			   		{!! Form::text('from2[]', $ipdata[1], ['class' => 'form-control','maxlength'=>'3', 'onkeypress' => 'return alphaOnly(event);' ,'placeholder' => __( '' ) ]); !!}
+			   </div>
+			   <div class="col-sm-3">
+			   		{!! Form::text('from3[]', $ipdata[2], ['class' => 'form-control','maxlength'=>'3', 'onkeypress' => 'return alphaOnly(event);', 'placeholder' => __( '' ) ]); !!}
+			   </div>
+			   <div class="col-sm-3">
+			   		{!! Form::text('from4[]',$ipdata[3], ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);','maxlength'=>'3', 'placeholder' => __( '' ) ]); !!}
+			   </div>
+			   </div>
+		    </div>   
+		    <div class="col-sm-12 col-md-12  col-lg-6">   
+		   		<div class="row"><label for="type" class="col-sm-12 col-form-label">To</label></div>
+			   	<div class="row">
+			   		<div class="col-sm-3">
+			   			{!! Form::text('to1[]', $ipto[0], ['class' => 'form-control','maxlength'=>'3', 'onkeypress' => 'return alphaOnly(event);', 'placeholder' => __( '' ) ]); !!}
+			   		</div>
+			   		<div class="col-sm-3">
+			   			{!! Form::text('to2[]', $ipto[1], ['class' => 'form-control','maxlength'=>'3', 'onkeypress' => 'return alphaOnly(event);' ,'placeholder' => __( '' ) ]); !!}
+			   		</div>
+			   		<div class="col-sm-3">
+			   			{!! Form::text('to3[]', $ipto[2], ['class' => 'form-control','maxlength'=>'3', 'onkeypress' => 'return alphaOnly(event);', 'placeholder' => __( '' ) ]); !!}
+			   		</div>
+			   		<div class="col-sm-3">
+			   			{!! Form::text('to4[]', $ipto[3], ['class' => 'form-control','maxlength'=>'3', 'onkeypress' => 'return alphaOnly(event);' ,'placeholder' => __( '' ) ]); !!}
+			   		</div>   
+			   </div>
+		    </div>
+		</div>
+    </div>
+     <div class="col-sm-2 col-md-2">
+		<a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a>
+	</div>	
+</div>
+
+									{{-- /******************/ --}}	
+
+
+
+									{{-- <div class="form-group row">
 										{!! Form::label('From', __( 'From' ) . ':', [ 'class' => 'col-sm-1 col-form-label']) !!}
 										
 										<div class="col-sm-1">
@@ -447,11 +501,11 @@
 										   {!! Form::text('to4[]', $ipto[3], ['class' => 'form-control','maxlength'=>'3', 'onkeypress' => 'return alphaOnly(event);' ,'placeholder' => __( '' ) ]); !!}
 										</div>
 										
-									</div>
+									</div> --}}
 										
 									@endforeach
 									@else
-										<div class="form-group row">
+										{{-- <div class="form-group row">
 										{!! Form::label('From', __( 'From' ) . ':', [ 'class' => 'col-sm-1 col-form-label']) !!}
 										
 										<div class="col-sm-1">
@@ -482,7 +536,49 @@
 										   {!! Form::text('to4[]', null, ['class' => 'form-control','maxlength'=>'3', 'onkeypress' => 'return alphaOnly(event);' ,'placeholder' => __( '' ) ]); !!}
 										</div>
 										
-									</div>
+									</div> --}}
+									<div class="form-group row add_roww">   
+   <div class="col-sm-10 col-md-10">
+	   	<div class="row">   
+		   	<div class="col-sm-12 col-md-12 col-lg-6">
+			   <div class="row">
+			   		{!! Form::label('From', 'From :', [ 'class' => 'col-sm-12 col-form-label']) !!}
+			   </div>
+			   <div class="row">   
+			   <div class="col-sm-3">
+			   		{!! Form::text('from1[]', null, ['class' => 'form-control','maxlength'=>'3', 'onkeypress' => 'return alphaOnly(event);' ,'placeholder' => __( '' ) ]); !!}
+			   </div>
+			   <div class="col-sm-3">
+			   		{!! Form::text('from2[]', null, ['class' => 'form-control','maxlength'=>'3', 'onkeypress' => 'return alphaOnly(event);' ,'placeholder' => __( '' ) ]); !!}
+			   </div>
+			   <div class="col-sm-3">
+			   		{!! Form::text('from3[]', null, ['class' => 'form-control','maxlength'=>'3', 'onkeypress' => 'return alphaOnly(event);', 'placeholder' => __( '' ) ]); !!}
+			   </div>
+			   <div class="col-sm-3">
+			   		{!! Form::text('from4[]',null, ['class' => 'form-control','onkeypress' => 'return alphaOnly(event);','maxlength'=>'3', 'placeholder' => __( '' ) ]); !!}
+			   </div>
+			   </div>
+		    </div>   
+		    <div class="col-sm-12 col-md-12  col-lg-6">   
+		   		<div class="row"><label for="type" class="col-sm-12 col-form-label">To</label></div>
+			   	<div class="row">
+			   		<div class="col-sm-3">
+			   			{!! Form::text('to1[]', null, ['class' => 'form-control','maxlength'=>'3', 'onkeypress' => 'return alphaOnly(event);', 'placeholder' => __( '' ) ]); !!}
+			   		</div>
+			   		<div class="col-sm-3">
+			   			{!! Form::text('to2[]', null, ['class' => 'form-control','maxlength'=>'3', 'onkeypress' => 'return alphaOnly(event);' ,'placeholder' => __( '' ) ]); !!}
+			   		</div>
+			   		<div class="col-sm-3">
+			   			{!! Form::text('to3[]', null, ['class' => 'form-control','maxlength'=>'3', 'onkeypress' => 'return alphaOnly(event);', 'placeholder' => __( '' ) ]); !!}
+			   		</div>
+			   		<div class="col-sm-3">
+			   			{!! Form::text('to4[]', null, ['class' => 'form-control','maxlength'=>'3', 'onkeypress' => 'return alphaOnly(event);' ,'placeholder' => __( '' ) ]); !!}
+			   		</div>   
+			   </div>
+		    </div>
+		</div>
+    </div>
+</div>
 									
 									
 									@endif
@@ -511,31 +607,49 @@
 										</div>
 									</div>
 								</div>
-								<div class="card">
-									<div class="card-header bg-primary">Remote ID Validation 
-									<div class="col-sm-2 float-right">
-										<a class="btn btn-success add_buttonremote">Add</a>
-												</div></div>
-										<div class="card-body">
-										@if (!empty($remoteips))	
-											@foreach($remoteips as $data)
-											<div class="form-group row">
-												{!! Form::label('Digits in Remote ID', __( 'Digits in Remote ID' ) . ':', [ 'class' => 'col-sm-3 col-form-label']) !!}
-												<div class="col-sm-1">								 
-												  {!! Form::select('remotedigit[]', (['1' => '1','2' => '2','3' => '3','4' => '4','5' => '5','6' => '6','7' => '7','8' => '8','9' => '9','10' => '10','11' => '11','12' => '12','13' => '13','14' => '14','15' => '15',]),$data->remotedigit, ['class' => 'form-control','onChange'=>'maxLengthFunction();','id'=>'remotedigit' ]  ); !!}
+																<div class="card">
+									<div class="row">
+										<div class="col-sm-12 col-md-12 col-lg-12">
+											<div class="card-header bg-primary">Remote ID Validation 
+												<div class="col-sm-2 float-right">
+													<a class="btn btn-success add_buttonremote">Add</a>
 												</div>
-											
-												{!! Form::label('Remote ID', __( 'Remote ID' ) . ':', [ 'class' => 'col-sm-3 col-form-label']) !!}
-												<div class="col-sm-3">								 
-												  {!! Form::text('remoteid[]', $data->remoteid, ['class' => 'form-control','id'=>"remoteid",'readonly' ,'placeholder' => __( '' ) ]); !!}
+											</div>																	
+											<div class="card-body main_remotedigit">												
+												@if (!empty($remoteips))	
+													@foreach($remoteips as $data)
+													<div class="form-group row row_remotedigit">
+														<div class="col-sm-12 col-md-12 col-lg-6">
+														<div class="row">
+														<div class="col-sm-4">
+														{!! Form::label('Digits in Remote ID', __( 'Digits in Remote ID' ) . ':', [ 'class' => 'col-sm-12 col-form-label']) !!}
+														</div>
+														<div class="col-sm-8">								 
+														  {!! Form::select('remotedigit[]', (['1' => '1','2' => '2','3' => '3','4' => '4','5' => '5','6' => '6','7' => '7','8' => '8','9' => '9','10' => '10','11' => '11','12' => '12','13' => '13','14' => '14','15' => '15',]),$data->remotedigit, ['class' => 'form-control','onChange'=>'maxLengthFunction();','id'=>'remotedigit' ]  ); !!}
+														</div>
+														</div>
+													</div>
+														<div class="col-sm-12 col-md-12 col-lg-6">
+														<div class="row">
+														<div class="col-sm-3">
+														{!! Form::label('Remote ID', __( 'Remote ID' ) . ':', [ 'class' => 'col-sm-12 col-form-label']) !!}
+														</div>
+														<div class="col-sm-7">								 
+														  {!! Form::text('remoteid[]', $data->remoteid, ['class' => 'form-control','id'=>"remoteid",'readonly' ,'placeholder' => __( '' ) ]); !!}
+														</div>
+														<div class="col-md-2">
+															<a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a>
+														</div>
+													</div>
 												</div>
 											</div>
-											
-											@endforeach
-										@endif
-											<div class="field_wrapperremote"></div>
+													@endforeach
+												@endif
+												<div class="field_wrapperremote"></div>
+											</div>
 										</div>
 									</div>
+								</div>		
 						</div>
 					</div>
 				</div>

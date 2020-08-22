@@ -232,3 +232,33 @@ function getlocation($val,$txt)
 	}
 	return $d;
 }
+function Ican(){
+
+	$user = Auth::user();
+
+    if($user) {
+
+        $roles = $user->roles->pluck('id')->toArray(); 
+        //$permissions = $user->getPermissionsViaRoles();
+
+    } else {
+
+        //User00 - Anonymous user
+        $roles[] = 4;
+        //print_r($roles);
+        //$permissions = $role->getAllPermissions();
+
+    }
+
+    if(in_array(4, $roles) || !in_array(5, $roles)){
+        return false;
+    }else{
+        return true;
+    }
+
+}
+
+function rip_some_html($val)
+{
+	return preg_replace('/\s+/', ' ',str_replace('&nbsp;',' ',preg_replace('#(<br */?>\s*)+#i', '<br />', strip_tags($val,'<br>'))));
+}

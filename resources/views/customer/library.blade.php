@@ -58,10 +58,14 @@
 					----
 				@endif
 			  </span>
+			  @php
+			  	dd(is_has_role(77,9));
+			  @endphp
 				  <select class="form-control formBox" name="librarycity" style="display:none;">
 						<option value="">select libarary</option>
 						@foreach($library as $Library)
-							<option value="{{$Library->id}}" <?php if($Library->id == $userinfo->librarycity){echo 'selected';}?>>{{$Library->name}}</option>
+
+							<option value="{{$Library->id}}" <?php if(!empty($userinfo->librarycity) && $Library->id == $userinfo->librarycity){echo 'selected';}?>>{{$Library->name}}</option>
 						@endforeach
 					  </select>
 				</div>

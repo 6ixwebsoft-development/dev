@@ -137,7 +137,7 @@
 							   <div class="form-group row">
 								{!! Form::label('Language', __( 'Language' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">								 
-								  {!! Form::select('language', (['0' => 'Select a language'] + $language),[], ['class' => 'form-control','' ]  ); !!}
+								  {!! Form::select('language', (['0' => 'Select a language'] + $language),[2], ['class' => 'form-control','' ]  ); !!}
 								</div>
 							  </div>
 							  

@@ -21,6 +21,8 @@ class remote_arenaController extends Controller
 		{
 			$url = parse_url($_SERVER['HTTP_REFERER']);
 			$data = LibraryContact::where('remotearena',$url['host'])->first();
+			// print_r($data);
+			// die();
 			if(!empty($data))
 			{
 				$user = User::where('id',$data->userid)->first();

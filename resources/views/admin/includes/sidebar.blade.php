@@ -207,19 +207,20 @@
                 </ul>
             </li>
             @endcan
+
             <li class="nav-item nav-dropdown">
                 <a class="nav-link nav-dropdown-toggle" href="#">
                 <i class="nav-icon fas fa-language"></i>Menu
                 </a>
                 <ul class="nav-dropdown-items">
-                    @can(routeName('/admin/create'))
+                    @can(routeName('/admin/menu/create'))
                     <li class="nav-item">
                         <a class="nav-link " href="{!! url('/admin/menu/create'); !!}">
                         Header Menu
                         </a>
                     </li>
                     @endcan
-                    @can(routeName('/admin/createfooter'))
+                    @can(routeName('/admin/menu/createfooter'))
                     <li class="nav-item">
                         <a class="nav-link " href="{!! url('/admin/menu/createfooter'); !!}">
                         Footer Menu
@@ -228,6 +229,7 @@
                     @endcan
                 </ul>
             </li>
+
             @can(routeName('/admin/settings'))
             <li class="nav-item">
                 <a class="nav-link " href="{!! url('/admin/settings'); !!}"><i class="nav-icon fas fa-language"></i>Default Settings</a>

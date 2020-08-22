@@ -516,13 +516,21 @@ class IndividualController extends Controller
 		$roleid = json_decode($rolesIds,TRUE);
 
 		$dataids = $roleid['role_ids'];
-		$roles = Role::select('name','id')->whereIn('id', ["5","6","7"])->get(); 
+
+		$roles = Role::select('name','id')->whereIn('id', ["5","6","7"])->get(); 		
 		
 		
 		$orderList = Order::where('userid', $id)->get();
 		$subsList  = Subscription::where('userid', $id)->where('user_type','IND')->get();
 		$foundationList = UserSearchSave::where('user_id',$id)->get(); 
-		$library = Library::select('name','id')->where('type','1')->get();
+		
+		$library = Library::where(['type' => '1'])->get()->where('roles', 9);
+		// foreach ($library as $row) {
+		// 	dd($row);
+		// }
+		//dd($library);
+		//die();
+
 		$IndividualLibrary = IndividualLibrary::where('userid',$user->id)->first();
 		$foundsids = array();
 		foreach($foundationList as $foundids)

@@ -145,9 +145,13 @@ div#loaderarea {
 .dataTables_info{
     display: none;
 }
-
+.main-content select,.main-content .q_box{
+	height: 300px;
+}
+.city_checkbox.q_city select{
+	height: 400px;
+}
 </style>
-z
  <main class="main-content">
 				<div class="breadcrumbs">
 					<div class="container">
@@ -186,7 +190,7 @@ z
 
 				  <div class="tab-content">
 				  
-					<div id="Search" class="tab-pane fade in {{$tab1class}}">
+					<div id="Search" class="col-md-12 tab-pane fade in {{$tab1class}}" style="background: #e9e9e9;">
 					@if(Session::get('language') == 'en')
 						@php
 							$lan_url = Session::get('language').'/';
@@ -197,10 +201,10 @@ z
 						@endphp
 					@endif
 					  {!! Form::open(array('method' => 'get','url' => $lan_url.'advanceSearchdata')) !!}
-						
-						 <div class="col-md-12">
+						<div class="row">
+							<div class="col-md-6 col-sm-12 ">
 						        <h3 class="title">{{__('word.'.strtolower('purpose'))}}</h3>
-						        <div class="checkbox-container"> 
+						        <div class="checkbox-container q_box"> 
 							        @foreach($purpose as $key => $value) 
 							         <!-- {!! Form::checkbox('purpose_ids[]', $key, ['class' => 'form-control', 'id' => 'purpose_ids', 'checked' => '' ]); !!} -->
 							        <div class="checkboxes">
@@ -210,20 +214,7 @@ z
 							        @endforeach
 						    	</div>
 						    </div>
-							
-							<div class="col-md-12">
-						        <h3 class="title">{{__('word.'.strtolower('gender'))}}</h3>
-						        <div class="checkbox-container"> 
-							        @foreach($gender as $key => $value)	
-							        <div class="checkboxes">
-							        	<input type="checkbox" id="gender_ids" name="gender_ids[]" value="{{$key}}" <?php if(!empty($postdata['gender_ids'])){ if(in_array($key, $postdata['gender_ids'])){echo "checked";} }?>>
-							        	<label>{{$value}}</label>
-							    	</div>
-							        @endforeach
-						    	</div>
-						    </div>
-							
-							<div class="col-md-12">
+							<div class="col-md-6 col-sm-12 ">
 						        <h3 class="title">{{__('word.'.strtolower('subject'))}} [{{__('word.'.strtolower('ex: anthropology, education'))}}]</h3>
 								
 									@if(!empty($postdata['subject_ids']))
@@ -242,7 +233,12 @@ z
 									</div>
 								</div>
 						    </div>
-							<hr>
+							
+						</div>
+						<div class="row">	
+							
+
+							{{-- <hr> --}}
 							@if(!empty($postdata['location']))
 								@php
 								$locationid =$postdata['location'];
@@ -252,33 +248,63 @@ z
 								$locationid ='';
 								@endphp
 							@endif
-							<div class="col-md-12">
+							<div class="col-md-6 col-sm-12 ">
 						        <h3 class="title">{{__('word.'.strtolower('location'))}}  [{{__('word.'.strtolower('ex: stockholm, linköping'))}}]</h3>
 						        <div class="city_select">
-									<div class="city_checkbox">
+									<div class="city_checkbox q_city">
 									{!! Form::select('location[]',$city,$locationid, ['class' => 'form-control','multiple','id'=>'location']) !!}
 									</div>
 								</div>
 						    </div>
-							@if(!empty($postdata['keywords']))
+						    <div class="col-md-6 col-sm-12 ">
+						    	@if(!empty($postdata['keywords']))
 								@php
 								$keywordt =$postdata['keywords'];
 								@endphp
-							@else
-								@php
-								$keywordt ='';
-								@endphp
-							@endif
-							<div class="col-md-12">
-						        <h3 class="title">{{__('word.'.strtolower('keyword'))}}  
-								[{{__('word.'.strtolower('ex: chalmers, kanada'))}}] [{{__('word.'.strtolower('only * show all foundation id'))}}]</h3>
-						        <div class="city_select">
-									<div class="city_checkbox">
-									{!! Form::text('keywords', $keywordt, ['class' => 'form-control', '','id'=>'keywords' ]); !!}
+								@else
+									@php
+									$keywordt ='';
+									@endphp
+								@endif
+								<div class="col-md-12">
+							        <h3 class="title">{{__('word.'.strtolower('keyword'))}}  
+									[{{__('word.'.strtolower('ex: chalmers, kanada'))}}] [{{__('word.'.strtolower('only * show all foundation id'))}}]</h3>
+							        <div class="city_select">
+										<div class="city_checkbox">
+										{!! Form::text('keywords', $keywordt, ['class' => 'form-control', '','id'=>'keywords' ]); !!}
+										</div>
 									</div>
-								</div>
+							    </div>
+						        <h3 class="title">{{__('word.'.strtolower('gender'))}}</h3>
+						        <div class="checkbox-container q_box"> 
+							        @foreach($gender as $key => $value)	
+							        <div class="checkboxes">
+							        	<input type="checkbox" id="gender_ids" name="gender_ids[]" value="{{$key}}" <?php if(!empty($postdata['gender_ids'])){ if(in_array($key, $postdata['gender_ids'])){echo "checked";} }?>>
+							        	<label>{{$value}}</label>
+							    	</div>
+							        @endforeach
+						    	</div>
 						    </div>
-						
+						</div>
+							<div class="col-md-12">
+								<div class="checkbox">
+									<label>
+
+									@php
+										$only_lang ='';
+									@endphp
+
+									@if(!empty($postdata['only_lang']))
+										@php
+											$only_lang ='checked';
+										@endphp
+									@endif
+
+									<input type="checkbox" id="only_active" name="only_active" {{$only_lang}} value="1"> 
+									
+									{{__('word.'.strtolower('hide funds in non-english language'))}}  &nbsp;&nbsp;</label>
+								</div>  
+							</div>
 							<div class="col-md-12">
 								<div class="checkbox">
 									<label>
@@ -293,7 +319,7 @@ z
 										$oactive ='';
 										@endphp
 									@endif
-									<input type="checkbox" id="only_active" name="only_active" {{$oactive}} value="1"> 
+									<input type="checkbox" id="only_lang" name="only_lang" {{$oactive}} value="1"> 
 									
 									{{__('word.'.strtolower('show only active funds'))}}  &nbsp;&nbsp;</label>
 								</div>  
@@ -366,7 +392,7 @@ z
 
 						            <div class="modal-body" style="position: relative;">
 									
-										 <div class="modal-body" style="position: absolute;">
+										 <div class="modal-body">
 										<div  class="fund-detail" id="loaderarea" style="display:none">
 											<div class="loadingio-spinner-interwind-eojkjrig0rg"><div class="ldio-rbmo6o78s1m">
 										<div><div><div><div></div></div></div><div><div><div></div></div></div></div>
@@ -394,22 +420,24 @@ z
 						        </div>
 						    </div>
 						</div>
-						
-						<div class="table-responsive">
+						<div class="table-responsive">							
 						<table class="table table-bordered  display" border="1" width="" id="mypaggination">
 							<thead>
 								<tr>
-								
+									
 									<th><input type="checkbox" id="selectAllsheck" ></th>
 									<th>{{__('word.'.strtolower('id'))}}</th>
 									
-									 <th>Total Saved</th> 
+									{{-- <th>Total Saved</th> --}}{{-- //changes according to jira 215 --}}
+
+									@if(Ican() || (Session::get('checkip') || Session::get('libarary_id')))
 									<th>{{__('word.'.strtolower('name'))}}</th>
+									@endif
 									<!--{{__('word.'.strtolower('sort'))}}</th>
 									
 									<th>{{__('word.'.strtolower('name'))}}</th>-->
-									 <th>Saved by User</th>
-									<th>Saved by Staff</th>
+									 <th>Views</th>
+									{{-- <th>Saved by Staff</th> --}}{{-- //changes according to jira 215 --}}
 									
 								</tr>
 							</thead>
@@ -419,27 +447,53 @@ z
 									$i = 0;
 								@endphp
 								@foreach($all_data['data'] as $mydata)
-								
-								<tr>
-									<td><input type="checkbox" class='select-checkbox my__select' name="checkbox"  id="userslistIds_{{$i}}" data-id="{{$i}}" onchange="myselectdata({{$i}});"></td>	
+								@php
+									$h = 0;
+									if(!Ican()){	
+										if(Session::get('checkip') || Session::get('libarary_id')){
+											if($i >= 15){
+												$mydata['name'] = 'Klicka här för att logga in så du ser fondens namn och kontaktdetaljer,';
+												$h = 1;	
+											}
+										};
+									}
+								@endphp
+								<tr class="td__{{ $mydata['id'] }}">
+									<td><input type="checkbox" class='select-checkbox my__select' name="checkbox"  id="userslistIds_{{$i}}" data-id="{{$i}}" onchange="myselectdata({{$i}});"><input type="hidden" value="{{ $mydata['id'] }}" class="sf__id" ></td>	
 									<td>
 									@if(!Session::get('checkip') || !Session::get('libarary_id') )
-									<a onclick="getFoundationDetailajax('{{$mydata['id']}}',0)">{{$mydata['id']}}</a>
+									<a onclick="getFoundationDetailajax('{{$mydata['id']}}',0,{{ $h }})">{{$mydata['id']}}</a>
 									@else
 									{{$mydata['id']}}
 									@endif
 									</td>
-									<td>{{$mydata['totalsaved']}}</td>
+									{{-- <td>{{$mydata['totalsaved']}}</td> --}}
+									
+									@if(Ican() || (Session::get('checkip') || Session::get('libarary_id')))
 									<td>
-									@if(!Session::get('checkip') || !Session::get('libarary_id') )
-									{{$mydata['name']}}
-									@else
-									
-									@endif
-									
+										{{-- @if() --}}
+										<a onclick="getFoundationDetailajax('{{$mydata['id']}}',0,{{ $h }})" style="text-transform:capitalize;" id="popup__{{$mydata['id']}}">{{$mydata['name']}}</a>
+										<br>
+										@if(strlen($mydata['remarks']) > 125)
+
+											{!!substr($mydata['remarks'],0,125)!!}
+
+											@if(!empty($mydata['remarks']))
+											...
+											@endif
+										@else
+											{!! $mydata['remarks'] !!}
+										@endif											
+										{{-- @endif --}}
+
 									</td>
-									<td>{{$mydata['savedbyuser']}}</td>
-									<td>{{$mydata['savedbystaff']}}</td>
+									@endif								
+									
+									{{-- <td>{{$mydata['savedbyuser']}}</td>
+									<td>{{$mydata['savedbystaff']}}</td> --}} {{-- //changes according to jira 215 --}}
+
+									<td>{{ $mydata['views'] }}</td>
+
 								</tr>
 								@php
 									$i++;
@@ -460,3 +514,26 @@ z
 </div>
 @endsection
 
+
+@section('lara_footer')
+<script type="text/javascript">
+	
+
+	    function prev_pop(){	    	
+	    	prev = $(".popup").closest('tr').prev('tr').find('.sf__id').val();
+	    	$("#popup__"+prev).click();
+	    	$("#popup__"+prev).click();
+	    	
+	    }
+
+	    function next_pop(){
+	    	next = $(".popup").closest('tr').next('tr').find('.sf__id').val();
+	    	$("#popup__"+next).click();
+	    	$("#popup__"+next).click();
+
+	    	
+	    }
+
+
+</script>
+@endsection

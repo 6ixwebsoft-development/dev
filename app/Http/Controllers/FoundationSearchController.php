@@ -26,6 +26,7 @@ use App\Models\CountryBlock;
 use App\Models\Country;
 use App\Models\Region;
 use App\Models\City;
+use App\Models\Visit;
 use DB;
 use App\Http\Requests;
 use Illuminate\Http\Request;
@@ -113,7 +114,7 @@ class FoundationSearchController extends Controller
     public function simpleSearchResult(Request $request)
     {
         $cityIds = $request->city_ids;
-
+        
         $foundation_ids = $request->favourite_fund_ids;
 		
 		// echo "<pre>";
@@ -251,12 +252,12 @@ class FoundationSearchController extends Controller
             }
         }
 		
-		if(empty($cityIds)) {
-			if(empty($foundation_ids))
-				{
-					 $all_foundations = array();
-				}
-            } 
+		// if(empty($cityIds)) {
+		// 	if(empty($foundation_ids))
+		// 		{
+		// 			 $all_foundations = array();
+		// 		}
+  //           } 
 		
         //return response()->json(array("foundations" => $all_foundations, "foundations_contacts" => $foundation_contacts));
 		
@@ -441,7 +442,8 @@ class FoundationSearchController extends Controller
 		$ajax = array(
 			'ajax' => true,
 		);
-        return view('foundation-detailajax')->with(compact('foundation_details','ajax','nextid','previd'));
+        $hide_name = $request->hide_name;
+        return view('foundation-detailajax')->with(compact('foundation_details','ajax','nextid','previd','hide_name'));
     }
 
 
@@ -743,8 +745,18 @@ class FoundationSearchController extends Controller
 		$checkip = Session::get('checkip'); 
 		/* echo "<pre>";
 		print_r($all_data['postdata']);exit;  */
-		
-		return view('advance-search')->with(compact('purpose', 'gender', 'subject','city','all_data','checkip'));
+		//$user = Auth::user();
+        // if($user) {
+        //         $roles = $user->roles->pluck('id')->toArray(); 
+        //         //$permissions = $user->getPermissionsViaRoles();
+        // } else {
+        //     //User00 - Anonymous user
+        //     $roles[] = Role::findByName('User00 - Anonymous user')->id;
+        //     //print_r($role);
+        //     //$permissions = $role->getAllPermissions();
+        // }
+        
+		return view('advance-search')->with(compact('purpose', 'gender', 'subject','city','all_data','checkip','roles'));
     }
 
     public function advanceSearchdata(Request $request)
@@ -752,11 +764,12 @@ class FoundationSearchController extends Controller
 		//print_r($request->all());exit;
 		$post_data = $request->all();
 		//parse_str($request->post('data'), $data);
-					//print_r($data['keywords']);exit;
+		//print_r($post_data);exit;
 		$purposeIds = $request->purpose_ids;
 		$genderIds  = $request->gender_ids;
 		$foundids   = $request->foundids; 
 		$keywords   = $request->keywords;
+
 		if(!empty($request->subject_ids)){
 			$subjectIds = $request->subject_ids;//$request->get('subject_ids');
 		}
@@ -765,36 +778,38 @@ class FoundationSearchController extends Controller
 
 		if(!empty($data['only_active'])){
 			$only_active   = $request->only_active;
-			}
+		}
+        
 			
-			  $foundation = Foundation::leftjoin('gg_foundation_advertise as fa', 'gg_foundation.id', 'fa.foundation_id')
+			$foundation = Foundation::leftjoin('gg_foundation_advertise as fa', 'gg_foundation.id', 'fa.foundation_id')
 				->select(
 					"gg_foundation.id",
 					"name",
-					"sort"               
+					"sort",
+                    "remarks"               
 				);     
 				
 			if(empty($foundids))
 			{
-				if(!empty($keywords)) {
-					$seachtext = explode(",",$keywords);
-					foreach($seachtext as $searchTerm){
-					$foundation->orwhere(function($q) use ($searchTerm){
-						$q->where('gg_foundation.name', 'like', '%'.$searchTerm.'%')
-						->orWhere('gg_foundation.sort', 'like', '%'.$searchTerm.'%')
-						->orWhere('fa.who_can_apply', 'like', '%'.$searchTerm.'%')
-						->orWhere('fa.purpose', 'like', '%'.$searchTerm.'%')
-						->orWhere('fa.details', 'like', '%'.$searchTerm.'%');
-						});
-					}
-				} elseif(!empty($cityName)) {
-						if (!empty($cityName)) {
-							$foundation->leftjoin('gg_foundation_location as fl', 'gg_foundation.id', 'fl.foundation_id')
-							 ->leftjoin('gg_city as ct', 'fl.city_id', 'ct.id');
-							$foundation->WhereIn('ct.id', $cityName);
-						}
+				// if(!empty($keywords)) {
+				// 	$seachtext = explode(",",$keywords);
+				// 	foreach($seachtext as $searchTerm){
+				// 	$foundation->orwhere(function($q) use ($searchTerm){
+				// 		$q->where('gg_foundation.name', 'like', '%'.$searchTerm.'%')
+				// 		->orWhere('gg_foundation.sort', 'like', '%'.$searchTerm.'%')
+				// 		->orWhere('fa.who_can_apply', 'like', '%'.$searchTerm.'%')
+				// 		->orWhere('fa.purpose', 'like', '%'.$searchTerm.'%')
+				// 		->orWhere('fa.details', 'like', '%'.$searchTerm.'%');
+				// 		});
+				// 	}
+				// }elseif(!empty($cityName)) {
+				// 		if (!empty($cityName)) {
+				// 			$foundation->leftjoin('gg_foundation_location as fl', 'gg_foundation.id', 'fl.foundation_id')
+				// 			 ->leftjoin('gg_city as ct', 'fl.city_id', 'ct.id');
+				// 			$foundation->WhereIn('ct.id', $cityName);
+				// 		}
 				
-				}else {
+				// }else {
 						if (!empty($purposeIds)) {
 							$foundation->leftjoin('gg_foundation_purpose as fp', 'gg_foundation.id', 'fp.foundation_id');
 							$foundation->whereIn('fp.param_id', $purposeIds);
@@ -814,7 +829,7 @@ class FoundationSearchController extends Controller
 							 ->leftjoin('gg_city as ct', 'fl.city_id', 'ct.id');
 							$foundation->WhereIn('ct.id', $cityName);
 						}
-				}
+				//}
 			}else{
 				$foundations = explode(",",$foundids);
 				$foundation->WhereIn('gg_foundation.id', $foundations);
@@ -825,9 +840,17 @@ class FoundationSearchController extends Controller
 					 $foundation->where('gg_foundation.status', 'Active');
 				}
 			}
-			
+
+			if(!empty($request->only_lang)){
+                $foundation->where('gg_foundation.language', $request->only_lang);
+            }
+
+
+
 			$foundation->where('gg_foundation.deleted','0')->orderBy('id','desc');
+            //$foundation->groupBy('gg_foundation.id');
 			$countdata = $foundation->count();
+
 			//DB::enableQueryLog();
             $data = $foundation->paginate(50);
 
@@ -835,13 +858,20 @@ class FoundationSearchController extends Controller
 			
 			$data->appends(request()->except('page'))->render();
 			$founddata = array();
+            $hide = false;
+            if(Auth::check() && (auth()->user()->is('User30') || auth()->user()->is('User10'))){
+                $hide = true;
+            }
 			foreach($data as $fdata){
+                $fname = (!$hide)? $fdata->name:"<hidden>";
 				$founddata[] = array(
 					'id' => $fdata->id,
-					'name' => $fdata->name,
-					'totalsaved' => UserSearchSave::getFoundationCount($fdata->id),
-					'savedbyuser' => UserSearchSave::countFoundationSavedByUser($fdata->id),
-					'savedbystaff' => UserSearchSave::countFoundationSavedByStaff($fdata->id),
+					'name' => $fname,
+					// 'totalsaved' => UserSearchSave::getFoundationCount($fdata->id),
+					// 'savedbyuser' => UserSearchSave::countFoundationSavedByUser($fdata->id),
+					// 'savedbystaff' => UserSearchSave::countFoundationSavedByStaff($fdata->id),
+                    'views' => Visit::getVisits($fdata->id,'total'),
+                    'remarks' => $fdata->remarks
 				);
 			}
 

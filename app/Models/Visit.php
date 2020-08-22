@@ -89,5 +89,16 @@ class Visit extends Model
 			return $Visit_id;
 	}
 	
-	
+	public static function getVisits($id,$col='')
+	{
+		$d =  Visit::where(["library_id" => $id])->first();
+		if(empty($d)){
+			return 0;
+		}else{
+			if(!empty($col)){
+				return $d['total'];
+			}
+			return $d;
+		}
+	}
 }

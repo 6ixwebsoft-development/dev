@@ -443,7 +443,7 @@ class SubscriptionController extends Controller
 	
 		 if ($request->ajax()) {
 			
-           $data = User::whereIn('user_type',['IND','LIB','ORG'])->get();
+           $data = User::where('status',"!=",3)->whereIn('user_type',['IND','LIB','ORG'])->get();
 			
             return Datatables::of($data)
                     ->addIndexColumn()

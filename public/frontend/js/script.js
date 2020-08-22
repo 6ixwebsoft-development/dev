@@ -205,7 +205,7 @@ function getAdvanceFoundations() {
 							columns: ':visible'
 						}
 					},
-					'colvis'
+					//'colvis'
 				],
 				columnDefs: [ {
 					//targets: -2,
@@ -281,7 +281,7 @@ $('.searchFOUND-table tbody').on( 'click', 'tr', function () {
       
     } );
 } );  */
-function getFoundationDetailajax(id,val) {
+function getFoundationDetailajax(id,val,hide_name=false) {
 	//alert(val);
 	$('#loaderarea').show();
 	var showbtn = '';
@@ -292,6 +292,8 @@ function getFoundationDetailajax(id,val) {
 		$('.modal').toggleClass('is-visible');
 	}
 	
+  $('tr').removeClass('popup');
+  $('.td__'+id).addClass('popup');
 	//$('.fund-details').empty();
 	
 	var idArray = [];
@@ -345,7 +347,7 @@ function getFoundationDetailajax(id,val) {
     var token = $("input[name=_token]").val();
     $.ajax({
         url: "getFoundationDetailAjax",
-        data: { _token : token, foundationId : id,nextid : nextid,previd:previd},
+        data: { _token : token, foundationId : id,nextid : nextid,previd:previd, hide_name:hide_name},
 		dataType:"html",
         success: function (data) {
            //console.log(data);
@@ -353,7 +355,8 @@ function getFoundationDetailajax(id,val) {
 			  $('#loaderarea').hide();
               $('.fund-details').show();
               $('.fund-details').empty();
-              $('.fund-details').append(data);           
+              $('.fund-details').append(data);      
+              btn_check();     
             } else {
               $('.fund-details').hide();
               $('.fund-details').empty();
@@ -546,13 +549,13 @@ $(document).ready(function() {
 				  buttons: [
 					{
 						extend: 'pdf',
-					 text: 'Export Foundtaion',
-					 title: 'Export Foundtaion Data',
+					  text: 'Export Foundtaion',
+					  title: 'Export Foundtaion Data',
 						exportOptions: {
 							columns: ':visible'
 						}
 					},
-					'colvis'
+					//'colvis'
 				],
 				columnDefs: [ {
 					//targets: -2,
@@ -610,4 +613,19 @@ function maxLengthFunction(val)
 	}
 	//alert(mydata);
 	$('#remoteid_'+val+'').val(mydata);
+}
+
+function btn_check(){
+  next1 = $(".popup").closest('tr').next('tr').find('.sf__id').val();
+    if(next1 == undefined){
+      $('.model__button_top .next').hide();
+    }else{
+      $('.model__button_top .next').show();
+    }
+    prev1 = $(".popup").closest('tr').prev('tr').find('.sf__id').val();
+    if(prev1 == undefined){
+      $('.model__button_top .prev').hide();
+    }else{
+      $('.model__button_top .prev').show();
+    }
 }

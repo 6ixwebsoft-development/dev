@@ -1,10 +1,15 @@
+<style type="text/css">
+.dd_head {
+    font-weight: 600;
+}
+</style>
 <div class="model__button_top">
-		@if(!empty($previd))
-		<a class="btn btn-info" onClick="getFoundationDetailajax({{$previd}},-1);"><< Previous</a> 
-		@endif
-		@if(!empty($nextid))
-		<a class="btn btn-info" onClick="getFoundationDetailajax({{$nextid}},1);">Next >></a>
-		@endif
+		{{-- @if(!empty($previd)) --}}
+		<a class="btn btn-info prev" onClick="prev_pop()"><</a> 
+	{{-- 	@endif
+		@if(!empty($nextid)) --}}
+		<a class="btn btn-info next" onClick="next_pop()">></a>
+		{{-- @endif --}}
 	<br>
 	</div>
 <main class="main-content">
@@ -18,29 +23,29 @@
 					
 					<div style="">
 					<div class="fundTitle">
-						<strong>{{$foundation_detail->id}} - {{$foundation_detail->name}}</strong>
+						@if(auth()->user()->is('User10')){
+							@php $hide_name = true; @endphp							
+						@endif
+						<strong>ID: {{$foundation_detail->id}} @if(Ican() && !$hide_name ) - {{$foundation_detail->name}} @else {{ '- '.__('word.click here to log in to see the fund\'s name and contact details') }} @endif</strong>
 					</div>
 					<div class="fundPurpose">
-						<p>
-						PURPOSE : {{strip_tags($foundation_detail->purpose)}}</p>
+						<span class="dd_head">PURPOSE :</span>
+						<p> {!! rip_some_html($foundation_detail->purpose) !!}</p>
 					</div>
 					<div class="fundWhoCanApply">
-						<p>
-					
-					WHO CAN SEARCH : 	{{strip_tags($foundation_detail->who_can_apply)}}</p>
+						<span class="dd_head">WHO CAN SEARCH :</span>
+						<p>{!!rip_some_html($foundation_detail->who_can_apply)!!}</p>
 					</div>
 					<div class="fundRemarks">
-						<p>
-						APPLICATION :
-						{{strip_tags($foundation_detail->remarks)}}</p>
+						<span class="dd_head">APPLICATION :</span>
+						<p>{{strip_tags($foundation_detail->remarks)}}</p>
 					</div>
 					<div class="fundDetails">
-						<p> 
-						{{strip_tags($foundation_detail->details)}}</p>
+						<p>{{strip_tags($foundation_detail->details)}}</p>
 					</div>
 					<div class="fundContacts">
-						<p> 
-						ADRESS :{{$foundation_detail->address1}} {{$foundation_detail->address2}}, {{$foundation_detail->address3}},Tel : {{$foundation_detail->phone_no}}<br>
+						<span class="dd_head">ADRESS :</span>
+						<p>{{$foundation_detail->address1}} {{$foundation_detail->address2}}, {{$foundation_detail->address3}},<span class="dd_head">Tel : </span>{{$foundation_detail->phone_no}}<br>
 						{{$foundation_detail->email}},<a href="{{$foundation_detail->website}}">{{$foundation_detail->website}}</a>
 						</p>
 					
@@ -60,8 +65,8 @@
 			</div>
 		</div>
 	</div> <!-- .page -->
-	<div class="model__button_bottom">
+{{-- 	<div class="model__button_bottom">
 		<a href="#" onclick="window.history.go(-1); return false;" class="btn btn-info back-to-hitist">BACK TO HITLIST</a>
-	</div>
+	</div> --}}
 </main>
 

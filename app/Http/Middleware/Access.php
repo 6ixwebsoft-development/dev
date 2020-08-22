@@ -17,9 +17,15 @@ class Access
      * @param  \Closure  $next
      * @return mixed
      */
+    
     public function handle($request, Closure $next)
     {
-        $user = Auth::user();
+                  
+      $relation['SubscriptionController-userlist'] = "SubscriptiontypeController-create";
+      //$relation["TransactionController-searchtransactiondata"] = "TransactionController-index";
+                  
+      $user = Auth::user();
+
     
        $route_path = $request->route()->getActionName();
        $route = explode("\\", $route_path);
@@ -36,7 +42,11 @@ class Access
 	   }
 	   
        
-		  //print_r($controller_action);exit;
+		  //print_r($controller_action);
+      if(!empty($relation[$controller_action])){
+        $controller_action = $relation[$controller_action];
+      }
+      //print_r($controller_action);exit;
        $allowed = false;
 	  
        try {

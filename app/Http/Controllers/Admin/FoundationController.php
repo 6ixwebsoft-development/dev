@@ -577,10 +577,10 @@ class FoundationController extends Controller
 					}
 				}                   
                
-            
+                FoundationLocation::where('foundation_id', $id)->delete(); //delete all exisiting when not get data
 				if(!empty($result['locationArray'])){
 				//$i =0;
-				FoundationLocation::where('foundation_id', $id)->delete();
+				
 				// foreach($result['country_block'] as $countryblock){
 				// 	 $country = $result['country_block'];
 				// 	 $region = $result['region'];
@@ -597,6 +597,7 @@ class FoundationController extends Controller
 				// 	);
 				// 	FoundationLocation::insert($location);
 				// }
+                //dd($result['locationArray']);
                 foreach($result['locationArray'] as $locationB){
                   // $countryB = $locationB['country_block'];
                   // $country = $locationB['country'];
@@ -612,7 +613,7 @@ class FoundationController extends Controller
                          "city_id"  => $locationB['city'],
                          "parish"  => $locationB['parish']
                  );
-
+                 $location = array_filter($location);
                  FoundationLocation::insert($location);
                 } 
 				//$i++;

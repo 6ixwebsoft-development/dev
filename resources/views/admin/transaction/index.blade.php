@@ -217,7 +217,8 @@
           <table class="table table-bordered tranaction-table" id="tranaction-table">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Subscription/Order ID</th>
+                    <th>Type</th>
                     <th>Product</th>
                     <th>Name</th>
                     <th>Email</th>

@@ -70,6 +70,7 @@
             <tbody>
             </tbody>
           </table>
+          @can('OrderController-changestatus');
 		  <div class="row container">
 			  <div id="pending" style="display:none;">
 				<button class="btn btn-success" onClick="getorderStatus(11,'psts');">Active</button>
@@ -104,6 +105,7 @@
 			  </div>
 
 		  </div>
+      @endcan;
         </div>
       </div>
     </div>

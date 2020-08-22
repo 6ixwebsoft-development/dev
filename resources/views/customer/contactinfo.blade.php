@@ -48,15 +48,15 @@
 			  </div>
 			  
 			  <div class="form-group">
-				<label class="col-sm-3" for="email">{{ __('word.zipcode') }}*:</label>
+				<label class="col-sm-3" for="email">{{ __('word.zipcode') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$userinfo->zipcode}}</span>
-				  <input type="text" class="form-control formBox" id="zipcode" placeholder="Enter email" name="zipcode" style="display:none;" value="{{$userinfo->zipcode}}">
+				  <input type="text" class="form-control formBox" id="zipcode" placeholder="{{ __('word.zipcode') }}" name="zipcode" style="display:none;" value="{{$userinfo->zipcode}}">
 				</div>
 			  </div>
 			  
 			  <div class="form-group">
-				<label class="col-sm-3" for="email">{{ __('word.country') }}*:</label>
+				<label class="col-sm-3" for="email">{{ __('word.country') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{get_country_name($userinfo->country)}}</span>
 				 
@@ -83,18 +83,18 @@
 			  </div>
 			  
 			  <div class="form-group">
-				<label class="col-sm-3" for="email">{{ __('word.phone') }}*:</label>
+				<label class="col-sm-3" for="email">{{ __('word.phone') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$userinfo->phone}}</span>
-				  <input type="text" class="form-control formBox" id="phone" placeholder="Enter email" name="phone" style="display:none;" value="{{$userinfo->phone}}">
+				  <input type="text" class="form-control formBox" id="phone" placeholder="{{ __('word.phone') }}" name="phone" style="display:none;" value="{{$userinfo->phone}}">
 				</div>
 			  </div>
 			  
 			  <div class="form-group">
-				<label class="col-sm-3" for="email">{{ __('word.mobile') }}*:</label>
+				<label class="col-sm-3" for="email">{{ __('word.mobile') }}:</label>
 				<div class="col-sm-9">
 				  <span class="datashow">{{$userinfo->mobile}}</span>
-				  <input type="text" class="form-control formBox" id="mobile" placeholder="Enter email" name="mobile" style="display:none;" value="{{$userinfo->mobile}}">
+				  <input type="text" class="form-control formBox" id="mobile" placeholder="{{ __('word.mobile') }}" name="mobile" style="display:none;" value="{{$userinfo->mobile}}">
 				</div>
 			  </div>
 			  

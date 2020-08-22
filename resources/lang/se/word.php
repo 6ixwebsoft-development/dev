@@ -37,8 +37,8 @@ return [
 	'buy a subscription for only' => 'Köp en prenumeration för endast',
 	'search by foundation ids' => 'Sök efter Foundation-id: er',
 	'purpose'                 => 'Ändamål',
-	'gender'                  => 'Gender',
-	'subject'                 => 'Kön',
+	'gender'                  => 'Kön',
+	'subject'                 => 'Ämne',
 	'ex: anthropology, education' => 'Ex: Antropologi, utbildning',
 	'ex: stockholm, linköping'  => 'Ex: stockholm, linköping',
 	'keyword'                  => 'Nyckelord',
@@ -138,5 +138,6 @@ Ditt lösenord måste vara minst 8 tecken, minst en stor bokstav och en siffra',
 	'payment'			=> 'Betalning',
 	'transactions' 		=> 'transaktioner',
 	'no'				=> 'Nej',
-
+	'Hide funds in non-English language' => 'Dölj pengar på icke-engelska',
+	'click here to log in to see the fund\'s name and contact details' => 'Klicka Här För Att Logga In Så Du Ser Fondens Namn Och Kontaktdetaljer'
 ];

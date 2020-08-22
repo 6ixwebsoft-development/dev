@@ -86,14 +86,57 @@ function Added(){
     city = $("#A_cities option:selected");
     parish = $("#A_parish");
 
-    if(countryBL.val() > 0 && country.val() > 0 && region.val() > 0 && city.val() > 0 && parish.val() != ''){
-        t = '<div class="row col-md-12" id="temp__'+ii+'"> <div class="col-md-2"> <label for="country-block">country block</label> <input class="form-control" type="text" value="'+countryBL.text()+'" readonly="true"/> <input class="form-control" name="locationArray['+ii+'][country_block]" type="hidden" value="'+countryBL.val()+'" readonly="true"/> </div><div class="col-md-2"> <label for="country">country</label> <input class="form-control" type="text" value="'+country.text()+'" readonly="true"/> <input class="form-control" name="locationArray['+ii+'][country]" type="hidden" value="'+country.val()+'" readonly="true"/> </div><div class="col-md-2"> <label for="region">region</label> <input class="form-control" type="text" value="'+region.text()+'" readonly="true"/> <input class="form-control" name="locationArray['+ii+'][region]" type="hidden" value="'+region.val()+'" readonly="true"/> </div><div class="col-md-2"> <label for="city">city</label> <input class="form-control" type="text" value="'+city.text()+'" readonly="true"/> <input class="form-control" name="locationArray['+ii+'][city]" type="hidden" value="'+city.val()+'" readonly="true"/> </div><div class="col-md-2"> <label for="parish">parish</label> <input name="locationArray['+ii+'][parish]" class="form-control" type="text" value="'+parish.val()+'" readonly="true"/> </div><div class="col-md-2" style="margin-top: 2%;"><a class="btn btn-danger add_buttonlocation form-control" value="remove" onclick="rowDelete(\'temp__'+ii+'\')">X</a></div></div>';
+    countryBL_v = countryBL.val();
+    country_v = country.val();
+    region_v = region.val();
+    city_v = city.val();
+    parish_v = parish.val();
+
+    countryBL_t = countryBL.text();
+    country_t = country.text();
+    region_t = region.text();
+    city_t = city.text();
+    parish_t = parish.text();
+
+    if(countryBL.text() == '' || countryBL.text() == 'Select' || countryBL.text() == 'select'){
+        countryBL_t = "";
+    }
+    if(country.text() == '' || country.text() == 'Select' || country.text() == 'select'){
+        country_t ="";
+    }
+    if(region.text() == '' || region.text() == 'Select' || region.text() == 'select'){
+        region_t = "";
+    }
+    if(city.text() == '' || city.text() == 'Select' || city.text() == 'select'){
+        city_t = "";
+    }
+    if(parish.text() == '' || parish.text() == 'Select' || parish.text() == 'select'){
+        parish_t = "";
+    }
+
+    if(countryBL.val() == undefined){
+        countryBL_v = 0;
+    }
+    if(country.val() == undefined){
+        country_v = 0;
+    }
+    if(region.val() == undefined){
+        region_v = 0;
+    }
+    if(city.val() == undefined){
+        city_v = 0;
+    }
+    if(parish.val() == undefined){
+        parish_v = "";
+    }
+    //if(countryBL.val() > 0 && country.val() > 0 && region.val() > 0 && city.val() > 0 && parish.val() != ''){
+        t = '<div class="row col-md-12" id="temp__'+ii+'"><div class="col-md-2"> <label for="country-block">country block</label> <input class="form-control" type="text" value="'+countryBL_t+'" readonly="true"/> <input class="form-control" name="locationArray['+ii+'][country_block]" type="hidden" value="'+countryBL_v+'" readonly="true"/> </div><div class="col-md-2"> <label for="country">country</label> <input class="form-control" type="text" value="'+country_t+'" readonly="true"/> <input class="form-control" name="locationArray['+ii+'][country]" type="hidden" value="'+country_v+'" readonly="true"/> </div><div class="col-md-2"> <label for="region">region</label> <input class="form-control" type="text" value="'+region_t+'" readonly="true"/> <input class="form-control" name="locationArray['+ii+'][region]" type="hidden" value="'+region_v+'" readonly="true"/> </div><div class="col-md-2"> <label for="city">city</label> <input class="form-control" type="text" value="'+city_t+'" readonly="true"/> <input class="form-control" name="locationArray['+ii+'][city]" type="hidden" value="'+city_v+'" readonly="true"/> </div><div class="col-md-2"> <label for="parish">parish</label> <input name="locationArray['+ii+'][parish]" class="form-control" type="text" value="'+parish_v+'" readonly="true"/> </div><div class="col-md-2" style="margin-top: 2%;"><a class="btn btn-danger add_buttonlocation form-control" value="remove" onclick="rowDelete(\'temp__'+ii+'\')">X</a></div></div>';
         $("#loc_add").append(t);
         deselectRow();
         ii++;
-    }else{
-        alert("all fields are mendetory");
-    }
+    // }else{
+    //     alert("all fields are mendetory");
+    // }
 }
 function deselectRow(){
     $("#A_countryBlock").val([]);
@@ -105,7 +148,7 @@ function deselectRow(){
 $(document).ready(function() {
 
     console.log( "check data" );
-    ii = $('.current_add').length;
+    ii = $('.current_add').length+1;
 });
 
 /* Foundation Eddit/add location section */

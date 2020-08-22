@@ -138,5 +138,6 @@ return [
 	'payment'			=> 'Payment',
 	'transactions' 		=> 'Transactions',
 	'no'				=> 'No',
-
+	'hide funds in non-english language' => 'Hide funds in non-English language',
+	'click here to log in to see the fund\'s name and contact details' => 'Click Here To Log In To See The Fund\'s Name And Contact Details'
 ];

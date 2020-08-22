@@ -1,13 +1,14 @@
 <?php
 
 namespace App\models;
-
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Library extends Model {
 	protected $table = 'library_basic';
 	protected $appends = [
 		'tstatus',
+		'roles'
 	];
 	public function getTstatusAttribute() {
 		switch ($this->status) {
@@ -34,6 +35,12 @@ class Library extends Model {
 			'remark' => null,
 		);
 		$queryRun = Library::where('userid', $id)->update($data);if ($queryRun) {return true;} else {return false;}
+	}
+
+	function getRolesAttribute() 
+	{		
+		$user =  User::where(['id' => $this->userid])->first();
+		return $user->roles()->first()->id;
 	}
 
 }

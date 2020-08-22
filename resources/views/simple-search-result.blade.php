@@ -60,6 +60,14 @@
 									@php
 										$i=0
 									@endphp      
+									@php
+										$cou_C = false;
+									@endphp
+									@if((Auth::check() && auth()->user()->is('User10')) || !Auth::check())
+										@php
+											$cou_C = true;
+										@endphp
+									@endif										
 									@foreach($all_foundations as $key => $foundation)
 									<tr class="fund-row {{($i==0)?' selected':''}}"  data-id="{{$foundation->id}}">
 										<td></td>
@@ -76,7 +84,12 @@
 										@endif
 										<td><a href="foundation-detail/{{$foundation->id}}" class="f_id" id="foundation_id" data-id="{{$foundation->id}}">{{$foundation->id}}</a></td>
 										<td class="f-purpose">
-											<a href="foundation-detail/{{$foundation->id}}" class="f_id" data-id="{{$foundation->id}}">{{$foundation->name}}</a>
+											<a href="foundation-detail/{{$foundation->id}}" class="f_id" data-id="{{$foundation->id}}">
+												@if($cou_C && $i >= 14)
+													{{ '- '.__('word.click here to log in to see the fund\'s name and contact details') }}
+												@else
+													{{$foundation->name}} 
+												@endif</a>
 											<p>{{strlen($foundation->purpose) > 200 ? html_entity_decode(substr(strip_tags($foundation->purpose),0,200))."..." : html_entity_decode(strip_tags($foundation->purpose))}}</p>
 										</td>
 										<td>{{$foundation->sort}}</td>

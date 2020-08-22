@@ -74,9 +74,17 @@ class customerController extends Controller
 	public function get_cardnumber()
 	{
 		$user = Auth::user();
+
 		//$userinfo = Userinfo::where('userid',$user->id)->first();
 		$userinfo = IndividualLibrary::where('userid',$user->id)->first();
-		$library = Library::where('type','1')->get();						if(!empty($userinfo))		{			return view('customer.library',compact('user','userinfo','library')); 		}else{			return redirect('/customer');		}
+		$library = Library::where('type','1')->get();						
+		// print_r($library); //changes as per GG40-234
+		// die();
+		//if(!empty($userinfo)){
+			return view('customer.library',compact('user','userinfo','library'));
+		// }else{
+		// 	return redirect('/customer');
+		// }
 		
 	}
 	

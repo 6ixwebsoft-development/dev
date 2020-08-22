@@ -17,8 +17,9 @@ use DataTables;
 class TransactionController extends Controller
 {
 	public function index(Request $request) {
+		
 		$feilds = array('Order Status','Subscription Status');
-		 $paymentstatus = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+		$paymentstatus = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->whereIn('gg_module_fields.field_name', $feilds)
                     ->select(
@@ -33,6 +34,7 @@ class TransactionController extends Controller
             $paymenttype[$purposeVal->id] = $purposeVal->value;
         } 
 		return view('admin.transaction.index',compact('paymenttype'));
+
 	}
 	
 	public function searchtransactiondata(Request $request)
@@ -154,7 +156,7 @@ class TransactionController extends Controller
                     ->escapeColumns([])
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-							 if(!empty($row->eng_name))
+							 	if(!empty($row->eng_name))
 								{
 									  $btn = '<a href="'.url('admin').'/subscription/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>';
 										/* <a href="'.url('admin').'/subscription/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>'; */
@@ -162,6 +164,21 @@ class TransactionController extends Controller
 								if(!empty($row->productname))
 								{
 									 $btn = '<a href="'.url('admin').'/order/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>';
+											/* <a href="'.url('admin').'/order/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>'; */
+								}
+                          
+     
+                            return $btn;
+                    })
+                    ->addColumn('type', function($row){
+							 	if(!empty($row->eng_name))
+								{
+									  $btn = 'Subscription';
+										/* <a href="'.url('admin').'/subscription/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>'; */
+								}
+								if(!empty($row->productname))
+								{
+									 $btn = 'Order';
 											/* <a href="'.url('admin').'/order/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>'; */
 								}
                           

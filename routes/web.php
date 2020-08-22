@@ -24,15 +24,15 @@ Auth::routes();
 }); */
 
 Route::get('profiless', function () {
-    //dd(Auth::user()->allPermissions());
+    dd(Auth::user()->allPermissions());
     //dd(routeName('admin/foundation'));
     // if(can(routeName('/admin/getuserdata'))){
     //     echo "yes";
     // }else{
     //     echo "no";
     // }
-    $user = Auth::user();
-    $user->givePermissionTo('SubscriptionController-userlist');
+    //$user = Auth::user();
+    //$user->givePermissionTo('SubscriptionController-userlist');
 }); 
 
 Route::get('register-organization', function () {
