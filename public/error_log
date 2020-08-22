@@ -56,3 +56,8 @@
 [20-May-2020 14:12:38 UTC] PHP Fatal error:  Method Illuminate\View\View::__toString() must not throw an exception, caught ErrorException: Undefined variable: x (View: /home/ggp6ixwebsoft/public_html/resources/views/customer/get_found_location.blade.php) in /home/ggp6ixwebsoft/public_html/app/Http/Controllers/front/customerController.php on line 0
 [21-May-2020 14:57:19 UTC] PHP Fatal error:  Cannot use App\Models\IndividualContact as IndividualContact because the name is already in use in /home/ggp6ixwebsoft/public_html/app/Http/Controllers/Admin/UserseachController.php on line 35
 [21-May-2020 14:57:24 UTC] PHP Fatal error:  Cannot use App\Models\IndividualContact as IndividualContact because the name is already in use in /home/ggp6ixwebsoft/public_html/app/Http/Controllers/Admin/UserseachController.php on line 35
+[11-Jun-2020 17:37:44 UTC] PHP Fatal error:  Only variables can be passed by reference in /home/ggp6ixwebsoft/public_html/storage/framework/views/8731ae239a3e5eff58a11a8cc8a77889bf5c430f.php on line 472
+[11-Jun-2020 17:41:04 UTC] PHP Fatal error:  Only variables can be passed by reference in /home/ggp6ixwebsoft/public_html/storage/framework/views/8731ae239a3e5eff58a11a8cc8a77889bf5c430f.php on line 473
+[20-Jun-2020 09:15:07 UTC] PHP Fatal error:  Cannot use empty array elements in arrays in /home/ggp6ixwebsoft/public_html/storage/framework/views/8731ae239a3e5eff58a11a8cc8a77889bf5c430f.php on line 639
+[01-Jul-2020 12:43:54 UTC] PHP Warning:  Unterminated comment starting line 822 in /home/ggp6ixwebsoft/public_html/app/Http/Controllers/Admin/Individual/IndividualController.php on line 822
+[24-Jul-2020 13:16:09 UTC] PHP Fatal error:  Cannot use $this as parameter in /home/ggp6ixwebsoft/public_html/app/Models/Library.php on line 40
