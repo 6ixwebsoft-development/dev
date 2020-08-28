@@ -55,7 +55,7 @@
 				</div><hr>
 				@endif
 				
-                {!! Form::open(array('route' => array('admin.foundation.update', $foundation->id))) !!}
+                {!! Form::open(array('id' => 'foundation_update','route' => array('admin.foundation.update', $foundation->id))) !!}
                     
                     <div class="row">
                         <div class="col-12">
@@ -608,14 +608,44 @@
                                 <a class="btn btn-danger btn-sm" href="{!! url('/admin/foundation'); !!}">Cancel</a>
                             </div>
                             <div class="col text-right">
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <a class="btn btn-primary" onclick="save_me();">Save</a>
                             </div>
                         </div>
                     </div>
-
+                    @csrf
                 {!! Form::close() !!}
         </div>
     </div>
 </div>
 
 @endsection
+
+@section("load_ex_js")
+<script type="text/javascript">
+    function save_me() {
+        show_loader(1);
+        var form = $('form#foundation_update');
+        form_data = form.serialize();
+        console.log(form);
+        $.ajax({
+            url:form.attr('action'),
+            method:"POST",
+            dataType:"json",
+            data:form_data,
+            success:function(r) {
+                show_loader(0);
+                noty_s(r.msg,r.status);
+
+            },
+            error: function (data) {
+                var errors = $.parseJSON(data.responseText);
+                show_loader(0);
+                $.each(errors.errors, function (key, value) {
+                    //$('#' + key).parent().addClass('error');                    
+                    $.notify(value, "error");
+                });
+            }
+        })
+    }
+</script>
+@endsection;

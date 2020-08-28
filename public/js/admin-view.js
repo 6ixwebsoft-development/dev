@@ -879,6 +879,8 @@ function getRegion()
 			success:function(data){
 				$(".regiondata").empty();
 				$(".regiondata").append(data);
+                $(".ex_regiondata").empty();
+                $(".ex_regiondata").append(data);
 			}
 
 		});
@@ -2145,7 +2147,7 @@ function getalllistcheckboxval(val,id=''){
 			//alert(data);
 				if(data == 'yes')
 				{
-					location.reload();
+					//location.reload();
 				}else{
 					alert('There is some problem');
 				}
@@ -2625,4 +2627,34 @@ function autoIp() {
     // $('input[name="from4[]"]').on('change',function(){ 
     //     $(this).closest('.form-group.row').find('input[name="to4[]"]').val($(this).val());
     // });
+}
+
+
+function noty_s(msg,status=1) {
+
+    title = "Success!";
+    icon = 'success';
+
+    if(status == 0){
+        title = "Error!";
+        icon = 'error';        
+    }
+
+    Swal.fire({
+      title: title,
+      text: msg,
+      icon: icon,
+      confirmButtonText: 'Cool'
+    });
+}
+
+function show_loader(v = 2) {
+    if(v == 1){
+        $(".ajax__loader_main").show();
+    }else if(v == 0){
+        $(".ajax__loader_main").hide();
+    }else{
+        $(".ajax__loader_main").toggel();
+    }
+    
 }

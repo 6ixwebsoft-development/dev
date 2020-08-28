@@ -83,14 +83,10 @@
                       Individual Users Management <small class="text-muted">User Add</small>
                     </h4>
 
-                </div><!--col-->
-				 <div class="col-sm-6">
-					<div class="float-right">
-						<button type="submit" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Save</button>
-						<a class="btn btn-warning" href="{{url('admin/users')}}	"><i class="fa fa-th-list" aria-hidden="true"></i> Back To List</a>
-						<!--<button type="button" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button> -->
-					</div>
-                </div><!--col-->
+                </div>
+                <!--col-->
+				 @include('admin.common.section.save_action');
+                <!--col-->
 				
             </div><!--row-->
 

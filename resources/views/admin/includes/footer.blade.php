@@ -210,7 +210,57 @@
 "></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.colVis.min.js
 "></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js" integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ==" crossorigin="anonymous"></script>
 @yield('load_ex_js')
+
+<div class="ajax__loader_main" style="display:none;"><div class="ajax__loader_body">
+<div></div>
+</div></div>
+<style type="text/css">
+@keyframes  ajax__loader_body {
+  0% { transform: rotate(0deg) }
+  50% { transform: rotate(180deg) }
+  100% { transform: rotate(360deg) }
+}
+.ajax__loader_body div {
+  position: absolute;
+  animation: ajax__loader_body 1s linear infinite;
+  width: 160px;
+  height: 160px;
+  top: 20px;
+  left: 20px;
+  border-radius: 50%;
+  box-shadow: 0 4px 0 0 #20a8d8;
+  transform-origin: 80px 82px;
+}
+.ajax__loader_main {
+  width: 100vw;
+  height: 100vh;
+  display: inline-block;
+  overflow: hidden;
+  background: #00000096;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.ajax__loader_body {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  transform-origin: 0 0; /* see note above */
+  justify-content: center;
+  align-items: center;
+  top: 20%;
+  left: 45%;
+}
+.ajax__loader_body div { box-sizing: content-box; }
+
+</style>
 
   </body>
 </html>

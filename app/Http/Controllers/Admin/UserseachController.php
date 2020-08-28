@@ -26,7 +26,7 @@ use App\Models\IndividualProject;
 use App\Models\IndividualChildern;
 use App\Models\IndividualVideo;
 use App\Models\IndividualLibrary;
-
+use App\Models\Documents;
 use App\Models\FoundationContact;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Redirect;
@@ -635,6 +635,8 @@ class UserseachController extends Controller
 	
 	public function updateaction(Request $request)
 	{
+
+
 		$data = array(
 		'status'=>$request->val
 		);
@@ -645,12 +647,15 @@ class UserseachController extends Controller
 				$queryRun = $this->check_user($id);
 			}else{
 				$queryRun = DB::table('users')->where('id', $request->id)->update($data);
+
 			}
 			
 		}else{
 			if($request->val == '3')
 			{
-				$queryRun = $this->check_user($request->favorite);
+				// print_r($request->favorite);
+				// die();
+				$queryRun = $this->check_user($request->favorite);				
 			}else{
 				$queryRun = DB::table('users')->whereIn('id', $request->favorite)->update($data);
 			}			
@@ -667,6 +672,7 @@ class UserseachController extends Controller
 	
 	public function check_user($id='')
 	{
+
 		$chech_user_type = DB::table('users')->where('id', $id)->first();
 		
 		if($chech_user_type->user_type == 'LIB'  || $chech_user_type->user_type == 'ORG')
@@ -678,8 +684,8 @@ class UserseachController extends Controller
 				'name'=> 'DELETE_'.$uid.'@globalgarnt.com',
 				'status'=>3,
 				'email'=>'DELETE_'.$uid.'@globalgarnt.com'
-				);
-				
+				);				
+				Documents::delete_data($uid);
 				Library::delete_data($uid);
 				LibraryContact::delete_data($uid);
 				Libraryips::delete_data($basic->id);
@@ -704,6 +710,7 @@ class UserseachController extends Controller
 				'status'=>3,
 				'email'=>'DELETE_'.$uid.'@globalgarnt.com'
 				);
+				Documents::delete_data($uid);
 				DB::table('users')->where('id', $uid)->update($data);
 				$queryRun = Individual::delete_data($uid);
 				IndividualContact::delete_data($uid);

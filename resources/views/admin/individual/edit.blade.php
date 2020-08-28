@@ -1,15 +1,35 @@
 @extends('admin.includes.adminlayout')@section('breadcrumb')  <!-- Breadcrumb-->  
+<style type="text/css">
+	@if($user->status == 3)
+		input[type=file],.btn {
+		    display: none;
+		}
+	@endif
+	.show_btn{
+		display: block !important;
+	}
+</style>
 <ol class="breadcrumb">
 	<li class="breadcrumb-item">Home</li>
 	<li class="breadcrumb-item">      <a href="#">Admin</a>    </li>
 	<li class="breadcrumb-item active">Dashboard</li>
 	<!-- Breadcrumb Menu-->    
 	<li class="breadcrumb-menu d-md-down-none">
-		<div class="btn-group" role="group" aria-label="Button group">        <a class="btn" href="#">        <i class="icon-speech"></i>        </a>        <a class="btn" href="./">        <i class="icon-graph"></i>  Dashboard</a>        <a class="btn" href="#">        <i class="icon-settings"></i>  Settings</a>      </div>
+		<div class="btn-group" role="group" aria-label="Button group">
+			<a class="btn" href="#">
+				<i class="icon-speech"></i>
+			</a>
+			<a class="btn" href="./">
+				<i class="icon-graph"></i>Dashboard</a>
+				<a class="btn" href="#">
+					<i class="icon-settings"></i>  Settings</a>
+				</div>
 	</li>
 </ol>
+
 @endsection<!--@if (count($errors) > 0)  <div class="alert alert-danger">    <strong>Whoops!</strong> There were some problems with your input.<br><br>    <ul>       @foreach ($errors->all() as $error)         <li>{{ $error }}</li>       @endforeach    </ul>  </div>@endif -->
 @section('content')    {!! Form::open(array('route' => array('admin.individual.update', $user->id),'files' => true)) !!}  
+
 <div class="row">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" href="/resources/demos/style.css">
@@ -21,12 +41,8 @@
 					<div class="col-sm-6">
 						<h4 class="card-title mb-0">                      Individual Users Management <small class="text-muted">User Add</small>                    </h4>
 					</div>
-					<!--col-->				 
-					<div class="col-sm-6">
-						<div class="float-right">
-							<button type="submit" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Save</button>						<a class="btn btn-warning" href="{{url('admin/users')}}	"><i class="fa fa-th-list" aria-hidden="true"></i> Back To List</a>						<!--<button type="button" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button> -->					
-						</div>
-					</div>
+					<!--col-->					
+					@include('admin.common.section.save_action',['user' => $user]);
 					<!--col-->				            
 				</div>
 				<!--row-->        
@@ -139,11 +155,20 @@
 													<div class="col-sm-8">								 								   <input type="text" class="form-control" id="password" placeholder="" name="login[password]" >								</div>
 												</div>
 												<div class="form-group row ">
+													@if($user->status < 2)
 													<div class="col-sm-12 offset-md-4">								 										<a onClick="generate();" class="btn btn-info "><i class="fa fa-repeat" aria-hidden="true"></i> Genrate</a> 									</div>
 												</div>
 												<div class="form-group row">
-													<div class="col-sm-12 ">								 								    <a onClick="saveactivepassword({{$user->id}});" class="btn btn-secondary float-right"><i class="fa fa-check-square-o" aria-hidden="true"></i> Save & Active</a>									<br>																	</div>
-													<p class="col-sm-12 offset-md-4">Save & Activate: Change passwords immediately.<br>Do not send any E-mail</p>
+													
+													<div class="col-sm-12 ">
+														<a onClick="saveactivepassword({{$user->id}});" class="btn btn-secondary float-right"><i class="fa fa-check-square-o" aria-hidden="true"></i> Save & Active</a>									<br>
+													</div>
+														<p class="col-sm-12 offset-md-4">Save & Activate: Change passwords immediately.<br>Do not send any E-mail</p>
+													@else
+														<div class="col-sm-12 offset-md-4">								 								
+															<p style="color:red">Deleted User</p>
+														</div>
+													@endif
 												</div>
 												<!--							<div class="form-group row">																<div class="col-sm-12 ">								 								    <button type="button" class="btn btn-secondary float-right"><i class="fa fa-check-square-o" aria-hidden="true"></i> Save Active & Mail </button>									<br>																	</div>								<p class="col-sm-12 offset-md-4">Save Activate & Mail: Change passwords <br>immediately and send the email to User with <br>new password</p>							</div>							-->																										
 											</div>
@@ -238,7 +263,10 @@
 											<div class="card-body">
 												<div class="form-group row">
 													{!! Form::label('Region', __( 'Region' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}								
-													<div class="col-sm-9">									 {!! Form::select('rregion', $region,$personal->residenceregion, ['class' => 'form-control ex_regiondata','id' => 'regionid','onchange' => 'getCity(this);', ]) !!}															</div>
+													<div class="col-sm-9">									 {!! Form::select('rregion', $region,$personal->residenceregion, ['class' => 'form-control regiondata','id' => 'regionid','onchange' => 'getCity(this);', ]) !!}
+														<small>*Please select country in "Contact Info"</small>
+													</div>
+
 												</div>
 												<div class="form-group row">
 													{!! Form::label('City', __( 'City' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}								
@@ -257,7 +285,9 @@
 											<div class="card-body">
 												<div class="form-group row">
 													{!! Form::label('Region', __( 'Region' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}								
-													<div class="col-sm-9">								 									 {!! Form::select('bregion', $region,$personal->birthregion, ['class' => 'form-control regiondata ex_regiondata','id' => 'regionid','onchange' => '', ]) !!}								</div>
+													<div class="col-sm-9">								 									 {!! Form::select('bregion', $region,$personal->birthregion, ['class' => 'form-control regiondata ex_regiondata','id' => 'regionid','onchange' => '', ]) !!}
+														<small>*Please select country in "Contact Info"</small>
+													</div>
 												</div>
 												<div class="form-group row">
 													{!! Form::label('City', __( 'City' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}								

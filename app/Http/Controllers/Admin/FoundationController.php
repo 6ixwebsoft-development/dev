@@ -665,21 +665,24 @@ class FoundationController extends Controller
 				}
 
                $output = ['class' => 'alert-position-success',
-                            'msg' => __("Foundation updated")
+                            'msg' => __("Foundation updated"),
+                            'status' => 1
                             ];
 				DB::commit();
-				return redirect('admin/foundation/'.$id."/edit")->with('message', $output);
+				//return redirect('admin/foundation/'.$id."/edit")->with('message', $output);
+                return $output;
             } catch (\Exception $e) {
 				
 				$output = ['class' => 'alert-position-danger',
-                            'msg' => __("something_went_wrong")
+                            'msg' => __("something_went_wrong"),
+                            'status' => 0
                             ];
                
 				DB::rollBack();
-				echo $e;
+				//echo $e;
 				//return redirect('admin/foundation')->with('message', $output);
             }
-
+            return $output;
            
     }
 
