@@ -115,8 +115,11 @@ class FoundationSearchController extends Controller
     {
         $cityIds = $request->city_ids;
         
-        $foundation_ids = $request->favourite_fund_ids;
-		
+        $foundation_idss = $request->favourite_fund_ids;
+        $is_fav = false;
+		if(!empty($foundation_idss)){
+            $is_fav = true;
+        }
 		// echo "<pre>";
        
         // // print_r($foundation_ids);
@@ -173,17 +176,18 @@ class FoundationSearchController extends Controller
                         /* ->whereIn('fp.param_id', array(2, 4)) */
                        /*  ->where('cn.id', 1); */ 
 
-            /*if (!empty($purposeIds)) {
-                $foundation->leftjoin('gg_foundation_purpose as fp', 'gg_foundation.id', 'fp.foundation_id');
-                $foundation->whereIn('param_id', $purposeIds);
-            }*/
+            //as stated in GG40-66
+            //if (!empty($purposeIds)) {
+                $foundation->leftjoin('gg_foundation_purpose as fpur', 'gg_foundation.id', 'fpur.foundation_id');
+                $foundation->whereIn('fpur.param_id', [52,125]);
+            //}
             if (!empty($cityIds)) {
                 $foundation->whereIn('fl.city_id', $cityIds);
             }
 
-             if (!empty($foundation_ids)) {
-                $foundation->whereIn('gg_foundation.id', $foundation_ids);
-            } 
+            // if (!empty($foundation_ids)) {
+            //     $foundation->whereIn('gg_foundation.id', $foundation_ids);
+            // } 
 
             //$data = $foundation->distinct()->get();
 
@@ -231,7 +235,7 @@ class FoundationSearchController extends Controller
 
             $all_foundations = $foundation->get()->unique();       
 
-        } elseif(!empty(Session::get('remote_name'))){
+        }elseif(!empty(Session::get('remote_name'))){
 			 $all_foundations = $foundation->get()->unique();  
 		}elseif(!empty(Session::get('checkip'))){			 
 			$all_foundations = $foundation->get()->unique();  		
@@ -262,7 +266,7 @@ class FoundationSearchController extends Controller
         //return response()->json(array("foundations" => $all_foundations, "foundations_contacts" => $foundation_contacts));
 		
 		//print_r($all_foundations);exit;
-        return view('simple-search-result')->with(compact('all_foundations', 'fund_count', 'save_count'));
+        return view('simple-search-result')->with(compact('is_fav','all_foundations', 'fund_count', 'save_count'));
     }
 
     /* public function loadMore(Request $request) {

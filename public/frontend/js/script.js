@@ -123,10 +123,11 @@ $(document).ready(function() {
 
 
     $('#fundsTable').on('click', '#saveSearchFoundation', function(event) {
+      show_loader(1);
       event.preventDefault();
       var id   = $(this).data('id');
       saveSearchData(id);
-      if(!$(this).hasClass('heart-pink')) {
+      if(!$(this).hasClass('heart-pink')){
         $(this).addClass('heart-pink');
         $(this).children(".fa").removeClass('fa-heart-o');
         $(this).children(".fa").addClass('fa-heart');
@@ -135,6 +136,7 @@ $(document).ready(function() {
         $(this).children(".fa").addClass('fa-heart-o');
         $(this).children(".fa").removeClass('fa-heart');
       }
+      favoriteFoundations();      
     });
 
     /*$("#selected-favorite").on('click', function(e) {
@@ -440,6 +442,7 @@ function saveSearchData(id) {
   });*/
   foundationIds.push(id);
   //console.log(foundationIds);
+
   $.ajax({
     url: "saveSearch",
     data: { _token : token, foundation_ids : foundationIds},
@@ -449,8 +452,9 @@ function saveSearchData(id) {
           //http://test.globalgrant.com/newcode/public/          
           location.href = APP_URL+"/login";
         } else {
-          $.confirm(data.message); 
-		  location.reload();
+          //$.confirm(data.message); 
+		        //location.reload();
+            show_loader(0);
         }
     }
   });
@@ -628,4 +632,15 @@ function btn_check(){
     }else{
       $('.model__button_top .prev').show();
     }
+}
+
+function show_loader(v = 2) {
+    if(v == 1){
+        $(".ajax__loader_main").show();
+    }else if(v == 0){
+        $(".ajax__loader_main").hide();
+    }else{
+        $(".ajax__loader_main").toggel();
+    }
+    
 }

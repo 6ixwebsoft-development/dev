@@ -15238,3 +15238,10 @@ li.breadcrumb-menu.d-md-down-none {
   position: absolute;
   top: 0;
 }
+
+label.col-form-label {
+    text-transform: capitalize !important;
+}
+input::placeholder {
+    text-transform: capitalize;
+}

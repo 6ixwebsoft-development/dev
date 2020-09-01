@@ -476,7 +476,7 @@ class UserController extends Controller
 	public function passwordhash()
 	{
 		$password = "LzHN!a@Tod#K";
-		//echo $pass = Hash::make($password);
+		echo $pass = Hash::make($password);
 		die();
 	}
 	

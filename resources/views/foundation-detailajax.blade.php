@@ -22,11 +22,15 @@
 				@foreach($foundation_details as $foundation_detail)
 					
 					<div style="">
-					<div class="fundTitle">
-						@if(auth()->user()->is('User10')){
+					<div class="fundTitle">		
+						@if(is_lib_user())
+						@php echo "asaasa"; @endphp
+						@endif				
+						@php $hide_name = false; @endphp
+						@if(auth()->user() && auth()->user()->is('User10')){
 							@php $hide_name = true; @endphp							
 						@endif
-						<strong>ID: {{$foundation_detail->id}} @if(Ican() && !$hide_name ) - {{$foundation_detail->name}} @else {{ '- '.__('word.click here to log in to see the fund\'s name and contact details') }} @endif</strong>
+						<strong>ID: {{$foundation_detail->id}} @if(Ican() && !$hide_name) - {{$foundation_detail->name}} @else {{ '- '.__('word.click here to log in to see the fund\'s name and contact details') }} @endif</strong>
 					</div>
 					<div class="fundPurpose">
 						<span class="dd_head">PURPOSE :</span>

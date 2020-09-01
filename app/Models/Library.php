@@ -40,6 +40,9 @@ class Library extends Model {
 	function getRolesAttribute() 
 	{		
 		$user =  User::where(['id' => $this->userid])->first();
+		if(empty($user)){
+			return '';
+		}
 		return $user->roles()->first()->id;
 	}
 

@@ -6,10 +6,14 @@
 						<a href="/">{{__('word.'.strtolower('home'))}}</a>
 						<span>{{__('word.'.strtolower('foundation'))}} {{__('word.'.strtolower('search'))}}</span>
 					</div>
-				</div>
-
-				<div class="page">
+				</div>				
+				<div class="page">					
 					<div class="container">
+						@if($is_fav)
+						<div>
+							<h1>My Favourite List</h1>
+						</div>
+						@endif;
 						<div class="fund-details">
 						</div>
 					</div>
@@ -69,6 +73,11 @@
 										@endphp
 									@endif										
 									@foreach($all_foundations as $key => $foundation)
+									@if($is_fav && !in_array($foundation->id, $save_count))
+										@php
+											continue;
+										@endphp
+									@endif
 									<tr class="fund-row {{($i==0)?' selected':''}}"  data-id="{{$foundation->id}}">
 										<td></td>
 										<td><input type="checkbox" name="foundatoin_check" id="checked_foundation" value="{{$foundation->id}}" class="{{($i==0)?'grey':''}}"></td>

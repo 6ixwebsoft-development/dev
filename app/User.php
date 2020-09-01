@@ -105,6 +105,7 @@ class User extends Authenticatable
         //const USER = $v;
         //dd($this->role);
         //dd($this->roles->first()->name);
+        echo $this->roles->first()->name;
         if(strpos($this->roles->first()->name, $v) !== false ){
             return true;
         }

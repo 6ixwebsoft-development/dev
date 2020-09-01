@@ -192,13 +192,14 @@ class TransactionController extends Controller
 	
 	public function subscriptionseach($data)
 	{
+
 		$query = Subscription::orderBy('id', 'DESC')
 		        ->leftjoin('users as usr', 'gg_subscription.userid', '=', 'usr.id')
 				->leftjoin('subscriptiontype as sty', 'gg_subscription.subscriptiontype_id', '=', 'sty.id')
 				->leftjoin('gg_module_fields_values as gmf', 'gg_subscription.paymentstatus', '=', 'gmf.id');
 		if(!empty($data['customertype']))
 		{
-			$query = $query->whereIn('user_type',$data['customertype']);
+			$query = $query->whereIn('usr.user_type',$data['customertype']);
 		}
 		if(!empty($data['status']))
 		{

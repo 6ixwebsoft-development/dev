@@ -22,6 +22,7 @@ class Access
     {
                   
       $relation['SubscriptionController-userlist'] = "SubscriptiontypeController-create";
+      $relation['SubscriptionController-getsubscriptiontype'] = "SubscriptiontypeController-create";
       //$relation["TransactionController-searchtransactiondata"] = "TransactionController-index";
                   
       $user = Auth::user();
