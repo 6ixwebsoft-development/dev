@@ -73,10 +73,12 @@
 							{!! Form::label('status', __( 'Status' ) ) !!}
 						</div>
 						<div class="col-lg-10">
-							<label class="switch switch-label switch-pill switch-primary">
-	                            {!! Form::checkbox('status', true) !!}
-	                            <span class="switch-slider" data-checked="yes" data-unchecked="no"></span>
-	                        </label>
+							<div class="custom-control custom-switch">
+	                        	
+							  		<input type="checkbox" class="custom-control-input" id="customSwitch1" name='status' value='1'>
+							  	
+							  		<label class="custom-control-label" for="customSwitch1">Activate</label>
+							</div>
 						</div>
 					</div>
 

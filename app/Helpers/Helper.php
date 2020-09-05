@@ -235,11 +235,27 @@ function getlocation($val,$txt)
 function Ican(){
 
 	$user = Auth::user();
-
+	//dd(session('checkip'));
     if($user) {
 
         $roles = $user->roles->pluck('id')->toArray(); 
         //$permissions = $user->getPermissionsViaRoles();
+
+    }elseif(is_lib_user()){
+    	//$user = is_lib_user_data();
+    	//dd(session('user_id'));
+    	$sub = DB::table('gg_subscription')->where('userid',session('user_id'))->first(); 
+    	// dd($sub);
+    	// die();
+		if(!empty($sub->end_date) && date('y-m-d') <= date('y-m-d',strtotime($sub->end_date))){
+			$roles[] = 9;
+		}else{
+			$roles[] = 4;	
+		}
+    	//dd($user);
+    	//die();
+    	//$roles[] = 4;
+
 
     } else {
 
@@ -250,7 +266,12 @@ function Ican(){
 
     }
 
-    if(in_array(4, $roles) || !in_array(5, $roles)){
+    //print_r($roles);
+    //die();
+    // if(in_array(9, $roles)){
+    // 	return true;
+    // }else 
+    if(in_array(4, $roles) || !isInArray([9,5], $roles)){
         return false;
     }else{
         return true;
@@ -261,4 +282,47 @@ function Ican(){
 function rip_some_html($val)
 {
 	return preg_replace('/\s+/', ' ',str_replace('&nbsp;',' ',preg_replace('#(<br */?>\s*)+#i', '<br />', strip_tags($val,'<br>'))));
+}
+
+function is_lib_user(){
+	if(!empty(session('libarary_id')) && !empty(session('user_id'))){
+		return true;
+	}
+	return false;
+}
+function isInArray($needle, $haystack) 
+{
+    foreach ($needle as $stack) {
+        if (in_array($stack, $haystack)) {
+        	return true;
+        }
+    }
+    return false;
+}
+function randomPass($v='')
+{
+	return substr(md5(microtime().$v),0,8);
+}
+
+function text_proper($str)
+{
+	// $cleanStr = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $str)));
+	// // $cleanStr = str_replace("&nbsp;","123",$cleanStr);
+	// $cleanStr = preg_replace("/(<br>|<br\s\/>)/", "", $cleanStr);
+	// return $cleanStr;
+	//$str=str_replace("/<[\S]+><\/[\S]+>/gim", );
+	$str = strip_tags($str,'<p><li><br>');
+	return $str;
+	// $doc = new DOMDocument;
+	// $doc->preserveWhiteSpace = false;
+	// $doc->loadHtml($str);
+
+	// $xpath = new DOMXPath($doc);
+
+	// foreach( $xpath->query('//*[not(node())]') as $node ) {
+	//     $node->parentNode->removeChild($node);
+	// }
+
+	// $doc->formatOutput = true;
+	// return $doc->savexml();
 }

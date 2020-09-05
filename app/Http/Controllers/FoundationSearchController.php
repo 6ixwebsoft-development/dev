@@ -850,7 +850,6 @@ class FoundationSearchController extends Controller
             }
 
 
-
 			$foundation->where('gg_foundation.deleted','0')->orderBy('id','desc');
             //$foundation->groupBy('gg_foundation.id');
 			$countdata = $foundation->count();
@@ -863,9 +862,13 @@ class FoundationSearchController extends Controller
 			$data->appends(request()->except('page'))->render();
 			$founddata = array();
             $hide = false;
+
             if(Auth::check() && (auth()->user()->is('User30') || auth()->user()->is('User10'))){
                 $hide = true;
             }
+
+            //print_r($request->all());exit;
+
 			foreach($data as $fdata){
                 $fname = (!$hide)? $fdata->name:"<hidden>";
 				$founddata[] = array(
@@ -883,8 +886,8 @@ class FoundationSearchController extends Controller
 			$all_data['links']=$data->appends(request()->except('page'))->render();;
 			$all_data['postdata']=$post_data;
 			$all_data['countdata']=$countdata;
-			/*  echo "<pre>";
-			print_r($all_data);exit;  */ 
+			//   echo "<pre>";
+			// print_r($all_data);exit;   
 			
 			return $this->advanceSearch($all_data);	
 	}

@@ -1115,7 +1115,7 @@ $(function () {
 		"bSort":false,
 		"bPaginate":true,
 		"sPaginationType":"full_numbers",
-		"iDisplayLength": 10,
+		"iDisplayLength": 100,
         processing: true,
         serverSide: true,
         ajax: APP_URL+"/admin/library",

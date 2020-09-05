@@ -40,14 +40,14 @@
         <table class="table table-bordered library-table">
           <thead>
             <tr>
-			<th><input type="checkbox" id="selectAll"></th>
+              <th><input type="checkbox" id="selectAll"></th>
               <th>No</th>
               <th>Lib Id</th>
               <th>Library</th>
-			  <th>Remote Name</th>
-			 <!--<th>Login Type</th>-->
-			  <th>Email</th>
-			  <th>Status</th>
+              <th>Remote Name</th>
+			         <!--<th>Login Type</th>-->
+              <th>Email</th>
+              <th>Status</th>
               <th width="100px">Action</th>
             </tr>
           </thead>

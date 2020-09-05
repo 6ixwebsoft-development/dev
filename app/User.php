@@ -2,10 +2,11 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
+use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -105,11 +106,29 @@ class User extends Authenticatable
         //const USER = $v;
         //dd($this->role);
         //dd($this->roles->first()->name);
-        echo $this->roles->first()->name;
-        if(strpos($this->roles->first()->name, $v) !== false ){
+        //print_r($this->roles->toArray());
+        
+        $data = $this->subscription();
+        //dd($data);        
+        if(strpos($data, $v) !== false ){
             return true;
         }
         return false;
         
+    }
+    
+    public function subscription()
+    {
+
+        $d = [
+                'userid' => $this->id,
+                "status" => 1
+                ];
+        $sub = DB::table('gg_subscription')->where($d)->orderBy('end_date',"desc")->first();
+
+        if(!empty($sub->end_date) && date('y-m-d') <= date('y-m-d',strtotime($sub->end_date))){
+            return DB::table('gg_module_fields_values')->where('id',$sub->id)->first()->value;
+        }
+        return $this->roles->first()->name;
     }
 }

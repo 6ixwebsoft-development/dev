@@ -44,10 +44,10 @@ class RoleController extends Controller
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-						$btn = '<a href="'.url('admin').'/roles/'.$row->id.'/edit" class="edit btn btn-primary btn-sm">Edit</a>';
+						$btn = '<a href="'.url('admin').'/roles/'.$row->id.'/edit" class="edit btn btn-primary btn-sm" onclick="return confirm("Are you sure?")">Edit</a>';
 						if($row->main_role != '1')
 						{
-                          $btn .= '<a href="'.url('admin').'/roles/delete/'.$row->id.'" class="delete btn btn-primary btn-sm">Delete</a>';
+                          $btn .= '<a href="'.url('admin').'/roles/delete/'.$row->id.'" class="delete btn btn-primary btn-sm" onclick="return confirm("Are you sure?")">Delete</a>';
 						}
                             return $btn;
                     })

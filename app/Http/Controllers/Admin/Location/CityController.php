@@ -88,7 +88,7 @@ class CityController extends Controller
             $city = City::create($input);
 
             $output = ['success' => true,
-                            'msg' => __("Module Field value added successfully")
+                            'msg' => __("City added successfully")
                         ];
         } catch (\Exception $e) {
             $output = ['success' => false,
@@ -151,30 +151,30 @@ class CityController extends Controller
             $city->save();
 
             $output = ['success' => true,
-                            'msg' => __("Module Field updated")
+                            'msg' => __("City Updated")
                             ];
         } catch (\Exception $e) {
             
                 $output = ['success' => false,
-                            'msg' => __("messages.something_went_wrong")
+                            'msg' => __("something went wrong")
                         ];
         }
 
         return redirect('admin/location/city')->with('status', $output);
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
         try {
             $city = City::findOrFail($id);
             $city->delete();
             $output = ['success' => true,
-                        'msg' => __("Module Field Deleted")
+                        'msg' => __("City Deleted")
                         ];
         } catch (\Exception $e) {
         
             $output = ['success' => false,
-                        'msg' => __("messages.something_went_wrong")
+                        'msg' => __("something went wrong")
                     ];
         }
 

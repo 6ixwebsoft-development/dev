@@ -16,10 +16,12 @@ use App\Models\Usertyperole;
 use App\Models\Visit;
 use App\User;
 use Carbon\Carbon;
-use DataTables;
 use DB;
+use DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
 class LibraryController extends Controller
@@ -102,16 +104,25 @@ class LibraryController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $rules = [
             'library'      => 'required',
             'email'        => 'required|email|',
             'userrole'     => 'required',
             'group'        => 'required',
             'availability' => 'required',
-            'username'     => 'required',
+            'usertype' => 'integer',
+            //'username'     => 'required',
             'useremail'    => 'required|email|unique:users,email',
 
-        ]);
+        ];
+        
+        $validator = Validator::make($request->all(), $rules);
+        $validator->setAttributeNames(
+                [
+                    'usertype' => 'User Number'                    
+                ]
+            );
+        $validator->validate();
         DB::beginTransaction();
 
         try {
@@ -120,7 +131,7 @@ class LibraryController extends Controller
             $userLog = array(
                 "email"      => $result['useremail'],
                 "name"       => $result['library'],
-                "password"   => $result['library'],
+                "password"   => Hash::make(randomPass()),
                 "user_type"  => "LIB",
                 "created_at" => now(),
             );
@@ -289,16 +300,27 @@ class LibraryController extends Controller
     {
         //print_r($request->all());exit;
         $basic = Library::where('userid', $uid)->first();
-        $this->validate($request, [
+
+        $rules = [
             'library'      => 'required',
             'email'        => 'required|email|',
             'userrole'     => 'required',
-            'availability' => 'required',
             'group'        => 'required',
-            'username'     => 'required',
+            'availability' => 'required',
+            'usertype' => 'integer',
+            //'username'     => 'required',
             'useremail'    => 'required|email|unique:users,email,' . $uid,
 
-        ]);
+        ];
+        
+        $validator = Validator::make($request->all(), $rules);
+        $validator->setAttributeNames(
+                [
+                    'usertype' => 'User Number'                    
+                ]
+            );
+        $validator->validate();
+        
         DB::beginTransaction();
         try {
 
@@ -424,7 +446,7 @@ class LibraryController extends Controller
                 Documents::insert($datalogo);
             }
             $output = ['success' => true,
-                'msg'                => __("Library updated"),
+                        'msg'    => __("Library updated"),
             ];
             DB::commit();return redirect('admin/library/' . $uid . "/edit")->with('status', $output);
         } catch (\Exception $e) {

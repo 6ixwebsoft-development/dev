@@ -7,8 +7,6 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\Documents;
 use App\Models\Foundation;
-//Individual models
-
 use App\Models\Individual;
 use App\Models\IndividualCare;
 use App\Models\IndividualChildern;
@@ -31,10 +29,11 @@ use App\Models\Subscription;
 use App\Models\UserSearchSave;
 use App\Models\Usertyperole;
 use App\User;
-use DataTables;
 use DB;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 use Spatie\Permission\Models\Role;
 
 class IndividualController extends Controller
@@ -167,8 +166,8 @@ class IndividualController extends Controller
             'availability' => 'required',
             'email'        => 'required|email|unique:users,email',
             'region'       => 'required',
-            'rregion'      => 'residenceregion|required',
-            'bregion'      => 'birthregion|required',
+            'rregion'      => 'required',
+            'bregion'      => 'required',
             'city'         => 'required'
         ]);
 
@@ -815,13 +814,13 @@ class IndividualController extends Controller
                        'msg'   => __("Individual updated"),
             		];
             DB::commit();
-            return redirect(URL::privious())->with('message', $output);
+            return redirect(URL::previous())->with('message', $output);
 
         }catch (\Exception $e) {
 
             $output  =  [
             				'class' => 'alert-position-danger',
-                			'msg'   => __("Individual Not updated"),
+                			'msg'   => __("Individual Not updated").$e,
             			];
             DB::rollBack();            
             return redirect('admin/individual')->with('message', $output);

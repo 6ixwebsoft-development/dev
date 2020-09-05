@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col-sm-5">
                     <h4 class="card-title mb-0">
-                        User Management <small class="text-muted">User Add</small>
+                        User Management <small class="text-muted">User Edit</small>
                    
                     </h4>
                 </div><!--col-->

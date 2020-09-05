@@ -45,7 +45,8 @@ class FoundationController extends Controller
     public function index(Request $request) {
 		/*  $data = Foundation::select('id', 'name', 'sort')->get();  */
 		/*  $data = Foundation::alldata(5730);
-		echo "<pre>"; print_r($data);exit; */		ini_set('memory_limit', '-1');
+		echo "<pre>"; print_r($data);exit; */		
+        ini_set('memory_limit', '-1');
 		/* $data = Foundation::where('deleted','0')->orderBy('id','DESC')->get();			print_r($data);exit; */
         if ($request->ajax()) {
 
@@ -104,11 +105,10 @@ class FoundationController extends Controller
         $gender = array();
         foreach ($genders as $genderVal) {
             $gender[$genderVal->id] = $genderVal->value;
-        } 
-		
+        }	
 		
 
-         $subjects = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+        $subjects = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Subject')
                     ->select(
@@ -137,7 +137,7 @@ class FoundationController extends Controller
                     "10" => "Oct",
                     "11" => "Nov",
                     "12" => "Dec"
-            );
+        );
 
         //country block
         $blocks = CountryBlock::select('id', 'name')->get();
@@ -168,6 +168,7 @@ class FoundationController extends Controller
 
         $city_arr = array();
         $city_arr[0] = '';
+
         foreach ($cities as $city) {
             //$city_arr[$city->id] = $city->city_name;
         }
@@ -256,22 +257,23 @@ class FoundationController extends Controller
 				// } 
 				// $i++;
                 foreach($result['locationArray'] as $locationB){
-                  // $countryB = $locationB['country_block'];
-                  // $country = $locationB['country'];
-                  // $region = $locationB['region'];
-                  // $city = $locationB['city'];
-                  // $parish = $locationB['parish'];
+
+                    // $countryB = $locationB['country_block'];
+                    // $country = $locationB['country'];
+                    // $region = $locationB['region'];
+                    // $city = $locationB['city'];
+                    // $parish = $locationB['parish'];
                      
-                 $location = array(
+                    $location = array(
                          "foundation_id" => $foundation_id,
                          "nation_id"  => $locationB['country_block'],
                          "country_id"  =>  $locationB['country'],
                          "region_id"  => $locationB['region'],
                          "city_id"  => $locationB['city'],
                          "parish"  => $locationB['parish']
-                 );
+                    );
+                    FoundationLocation::insert($location);
 
-                 FoundationLocation::insert($location);
                 }
 			}
             //Foundation Purpose

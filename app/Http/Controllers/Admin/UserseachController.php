@@ -629,7 +629,7 @@ class UserseachController extends Controller
 			$query = User::where('status','!=','3');
 		}
 		//DB::enableQueryLog();
-		 return $query->where('user_type','!=','ADMIN')->get();
+		 return $query->where('user_type','!=','ADMIN')->where('id', "!=", Auth()->user()->id)->get();
 		//dd(DB::getQueryLog());
 	}
 	

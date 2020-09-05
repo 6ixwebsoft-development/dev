@@ -166,7 +166,7 @@
 							<p class="text-secondary">Total Users : {{$totaluser}}</p>
 							<p class="text-primary">Total Active : {{$activeuser}}</p>
 							<p class="text-danger">Total inactivated : {{$inactiveuser}}</p>
-							<p class="text-success">Total hits : 1117</p>
+							{{-- <p class="text-success">Total hits : 1117</p> --}}
 							
 					  </div>
 					  <div class="col-sm-5">	

@@ -60,10 +60,11 @@ class Access
 		//echo $allowed;exit;
        if (!$allowed) {
          // return redirect()->guest('/access-denied');
-			 $output	= ['class' => 'alert-position-danger',
-                            'msg' => __("Access no allowed...!")
-                            ];
-			   return redirect('/home')->with('message', $output);
+			    $output	= [
+                      'class' => 'alert-position-danger',
+                      'msg' => __("Access no allowed...!")
+                    ];
+			    return redirect('/home')->with('message', $output);
        }
        return $next($request);
     }

@@ -78,7 +78,7 @@ class RegionController extends Controller
             $region = Region::create($input);
 
             $output = ['success' => true,
-                            'msg' => __("Module Field value added successfully")
+                            'msg' => __("Region added successfully")
                         ];
         } catch (\Exception $e) {
             $output = ['success' => false,
@@ -130,19 +130,19 @@ class RegionController extends Controller
             $region->save();
 
             $output = ['success' => true,
-                            'msg' => __("Module Field updated")
+                            'msg' => __("Region updated")
                             ];
         } catch (\Exception $e) {
             
                 $output = ['success' => false,
-                            'msg' => __("messages.something_went_wrong")
+                            'msg' => __("something went wrong")
                         ];
         }
 
         return redirect('admin/location/region')->with('status', $output);
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
         try {
             
@@ -150,12 +150,12 @@ class RegionController extends Controller
             $region->delete();
 
             $output = ['success' => true,
-                        'msg' => __("Module Field Deleted")
+                        'msg' => __("Region Deleted")
                         ];
         } catch (\Exception $e) {
         
             $output = ['success' => false,
-                        'msg' => __("messages.something_went_wrong")
+                        'msg' => __("something went wrong")
                     ];
         }
 

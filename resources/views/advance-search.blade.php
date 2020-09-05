@@ -74,7 +74,7 @@ div#loaderarea {
     position: absolute;
     background: #0000004f;
 	width:100%;
-	height: 400px;
+	height: 100%;
 }
 
 .text-primary {
@@ -430,7 +430,7 @@ div#loaderarea {
 									
 									{{-- <th>Total Saved</th> --}}{{-- //changes according to jira 215 --}}
 
-									@if(Ican() || (Session::get('checkip') || Session::get('libarary_id')))
+									@if( Ican() || (Session::get('checkip') || is_lib_user() ))
 									<th>{{__('word.'.strtolower('name'))}}</th>
 									@endif
 									<!--{{__('word.'.strtolower('sort'))}}</th>
@@ -450,7 +450,7 @@ div#loaderarea {
 								@php
 									$h = 0;
 									if(!Ican()){	
-										if(Session::get('checkip') || Session::get('libarary_id')){
+										if(Session::get('checkip')){
 											if($i >= 15){
 												$mydata['name'] = 'Klicka här för att logga in så du ser fondens namn och kontaktdetaljer,';
 												$h = 1;	
@@ -461,15 +461,17 @@ div#loaderarea {
 								<tr class="td__{{ $mydata['id'] }}">
 									<td><input type="checkbox" class='select-checkbox my__select' name="checkbox"  id="userslistIds_{{$i}}" data-id="{{$i}}" onchange="myselectdata({{$i}});"><input type="hidden" value="{{ $mydata['id'] }}" class="sf__id" ></td>	
 									<td>
-									@if(!Session::get('checkip') || !Session::get('libarary_id') )
-									<a onclick="getFoundationDetailajax('{{$mydata['id']}}',0,{{ $h }})">{{$mydata['id']}}</a>
+									@if(!Session::get('checkip') || !is_lib_user() )
+										<a onclick="getFoundationDetailajax('{{$mydata['id']}}',0,{{ $h }})">
+											{{$mydata['id']}}
+										</a>
 									@else
 									{{$mydata['id']}}
 									@endif
 									</td>
 									{{-- <td>{{$mydata['totalsaved']}}</td> --}}
 									
-									@if(Ican() || (Session::get('checkip') || Session::get('libarary_id')))
+									@if(Ican() || (Session::get('checkip') || is_lib_user() ))
 									<td>
 										{{-- @if() --}}
 										<a onclick="getFoundationDetailajax('{{$mydata['id']}}',0,{{ $h }})" style="text-transform:capitalize;" id="popup__{{$mydata['id']}}">{{$mydata['name']}}</a>

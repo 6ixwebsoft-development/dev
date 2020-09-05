@@ -17,7 +17,7 @@ Route::get('/clear-cache', function() {
     Artisan::call('cache:clear');
     return "Cache is cleared";
 });
-//Route::get('home/passwordhash','HomeController@passwordhash');
+Route::get('home/passwordhash','HomeController@passwordhash');
 Auth::routes();
 /* Route::get('/', function () {
     return view('welcome');
@@ -53,6 +53,7 @@ Route::middleware(['auth', 'CheckLogin'])->group(function () {
 		Route::post('admin/roles/store','Auth\RoleController@store');
 	}); 
 	Route::post('admin/user/passwordactive', 'Auth\UserController@passwordactive');
+    Route::get('admin/user/roles_check', 'Auth\UserController@roles_check');
 	Route::group(['middleware'=>'Access'], function () {
 		
 		

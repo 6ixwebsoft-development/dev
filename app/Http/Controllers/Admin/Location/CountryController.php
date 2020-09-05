@@ -61,12 +61,19 @@ class CountryController extends Controller
     public function store(Request $request)
     {
         try {
+            
+            if(empty($request->All()['status'])){
+                $input['status'] = 0;
+            }else{
+                $input['status'] = $request->All()['status'];
+            }
+
             $input = $request->only(['nation_id', 'country_code', 'country_name', 'calling_code', 'status']);
 
             $country = Country::create($input);
             
             $output = ['success' => true,
-                            'msg' => __("Module Field value added successfully")
+                            'msg' => __("Country added successfully")
                         ];
         } catch (\Exception $e) {
             $output = ['success' => false,
@@ -94,8 +101,15 @@ class CountryController extends Controller
     public function update(Request $request, $id) 
     {
         try {
-                
-            $input = $request->only(['nation_id', 'country_code', 'country_name', 'calling_code', 'status']);
+
+            $input = $request->only(['nation_id', 'country_code', 'country_name', 'calling_code']);
+
+            if(empty($request->All()['status'])){
+                $input['status'] = 0;
+            }else{
+                $input['status'] = $request->All()['status'];
+            }
+
             $country = country::findOrFail($id);
                 
             $country->nation_id = $input['nation_id'];
@@ -106,19 +120,19 @@ class CountryController extends Controller
             $country->save();
 
             $output = ['success' => true,
-                            'msg' => __("Module Field updated")
+                            'msg' => __("Country updated")
                             ];
         } catch (\Exception $e) {
             
                 $output = ['success' => false,
-                            'msg' => __("messages.something_went_wrong")
+                            'msg' => __("something went wrong")
                         ];
         }
 
         return redirect('admin/location/country')->with('status', $output);
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
         try {
             
@@ -126,12 +140,12 @@ class CountryController extends Controller
             $country->delete();
 
             $output = ['success' => true,
-                        'msg' => __("Module Field Deleted")
+                        'msg' => __("Country Deleted")
                         ];
         } catch (\Exception $e) {
         
             $output = ['success' => false,
-                        'msg' => __("messages.something_went_wrong")
+                        'msg' => __("something went wrong")
                     ];
         }
 

@@ -150,11 +150,17 @@
             if(t > 0 && $.now() - t > 7200000){
 
                 if(sessionStorage.getItem("lastActivity_clicked") == 0){
+
                     sessionStorage.setItem("lastActivity_clicked",1);
                     $("#inactivity_model").click();
+
                 }
+                
                 if(t > 0 && $.now() - t > 7200000+120000){
-                    document.getElementById('logout-form').submit();    
+
+                    $("#inactivity_model").click();
+                    document.getElementById('logout-form').submit();
+
                 }
                 //alert("InActivity Detected");
                 // var r = confirm("InActivity Detected, Stay Login?");

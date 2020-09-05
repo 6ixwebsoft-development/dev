@@ -74,14 +74,14 @@
 							{!! Form::label('status', __( 'Status' ) ) !!}
 						</div>
 						<div class="col-lg-10">
-							<label class="switch switch-label switch-pill switch-primary">
-								@if($country->status == 1)
-	                            	{!! Form::checkbox('status', '1', true); !!}
-	                            @else
-		                            {!! Form::checkbox('status', false) !!}
-		                        @endif
-	                            <span class="switch-slider" data-checked="yes" data-unchecked="no"></span>
-	                        </label>
+	                        <div class="custom-control custom-switch">
+	                        	@if($country->status == 1)
+							  		<input type="checkbox" class="custom-control-input" id="customSwitch1" name='status' checked="true" value='1'>
+							  	@else
+							  		<input type="checkbox" class="custom-control-input" id="customSwitch1" name='status' value='1'>
+							  	@endif
+							  		<label class="custom-control-label" for="customSwitch1">Activate</label>
+							</div>
 						</div>
 					</div>
 

@@ -21,7 +21,8 @@ class CheckIp
     public function handle($request, Closure $next)
     {
 		$user = Auth::user();
-		
+
+		//dd($user);
 		if(!empty($user))
 		{
 			$current_user_role = $user->getRoleNames();
@@ -31,37 +32,51 @@ class CheckIp
 			}else{
 				$value = true;
 			}
-			
+
 		}else{
+
 			$value = $this->check_ip();
-		}		
+		}
+
 		Session::put('checkip', $value);
+
         return $next($request);
     }
 	
 	public function check_ip()
 	{
-		$clientIP = $clientIP = request()->ip();//'192.168.0.103';/*$clientIP = request()->ip(); it is static ip change with dyanamic */
+
+		$clientIP = request()->ip();
+		//dd($clientIP);
+		//'192.168.0.103';
+		/* $clientIP = request()->ip(); it is static ip change with dyanamic */
 		
 		$sqlQuery = "SELECT * FROM `libraryips` WHERE '$clientIP' BETWEEN `from` AND `to`";
+		//dd($sqlQuery);
 		$result = DB::select(DB::raw($sqlQuery));
 
-		if(!empty($result))
+		if(!empty($result)){
+
+			foreach($result as $Res)
 			{
-				foreach($result as $Res)
-				{
-					$library_id = $Res->libraryid;
-				}
-				if(!Session::get('checkip') )
-				{
-					Session::put('libarary_id', $library_id);
-					$data = Visit::savevisit($library_id,1,1);
-				}
-				//1=for ip login,2=remote,3=pageview
-				//exit;
-				return $value = true;
-			}else{
-				return $value = false;
+				$library_id = $Res->libraryid;
 			}
+
+			if(!Session::get('checkip'))
+			{
+				Session::put('libarary_id', $library_id);
+				$data = Visit::savevisit($library_id,1,1);
+			}
+			//1=for ip login,2=remote,3=pageview
+
+			//exit;
+			return $value = true;
+
+		}else{
+
+			return $value = false;
+
+		}
+
 	}
 }

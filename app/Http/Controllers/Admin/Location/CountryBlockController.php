@@ -45,12 +45,19 @@ class CountryBlockController extends Controller
     public function store(Request $request)
     {
         try {
-            $input = $request->only(['name', 'status']);
+            
+            $input = $request->only(['name']);
+
+            if(empty($request->All()['status'])){
+                $input['status'] = 0;
+            }else{
+                $input['status'] = $request->All()['status'];
+            }
 
             $countryblock = CountryBlock::create($input);
             
             $output = ['success' => true,
-                            'msg' => __("Module Field value added successfully")
+                            'msg' => __("Country Block added successfully")
                         ];
         } catch (\Exception $e) {
             $output = ['success' => false,
@@ -71,8 +78,14 @@ class CountryBlockController extends Controller
     public function update(Request $request, $id) 
     {
         try {
-            
-            $input = $request->only(['name', 'status']);
+
+            $input = $request->only(['name']);
+
+            if(empty($request->All()['status'])){
+                $input['status'] = 0;
+            }else{
+                $input['status'] = $request->All()['status'];
+            }
             
             $countryBlock = CountryBlock::findOrFail($id);
             
@@ -81,31 +94,31 @@ class CountryBlockController extends Controller
             $countryBlock->save();
 
             $output = ['success' => true,
-                            'msg' => __("Module Field updated")
+                            'msg' => __("Country Block updated")
                             ];
         } catch (\Exception $e) {
             
                 $output = ['success' => false,
-                            'msg' => __("messages.something_went_wrong")
+                            'msg' => __("something went wrong")
                         ];
         }
 
         return redirect('admin/location/countryblock')->with('status', $output);
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
         try {
             $countryBlock = CountryBlock::findOrFail($id);
             $countryBlock->delete();
 
             $output = ['success' => true,
-                        'msg' => __("Module Field Deleted")
+                        'msg' => __("Country Block Deleted")
                         ];
         } catch (\Exception $e) {
         
             $output = ['success' => false,
-                        'msg' => __("messages.something_went_wrong")
+                        'msg' => __("something went wrong")
                     ];
         }
 
