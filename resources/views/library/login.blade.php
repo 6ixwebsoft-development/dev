@@ -17,12 +17,37 @@
   <div class="row">
    @include('library.sidebar')
     <div class="col-sm-9 col-md-6 col-lg-9">
-		@if ($message = Session::get('message'))
-			<div class="alert {{$message['class']}} alert-dismissible">
-			  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-			  {{$message['msg']}}
+    	@php
+			$error = false;
+		@endphp
+		@if($message = Session::get('error'))
+			<script type="text/javascript">				
+				$( document ).ready(function() {
+				    showFromBox();
+				});
+			</script>
+			@if(is_array($message))
+			<div class="alert alert-danger alert-dismissible">
+					  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				@foreach($message as $row)
+					
+					  {{$row}}<br>
+					
+				@endforeach
+				</div>
+			@else			
+				<div class="alert {{$message['class']}} alert-dismissible">
+				  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				  {{$message['msg']}}
+				</div>
+			@endif;
+		@endif
+		@if($message = Session::get('message'))
+		 	<div class="alert {{$message['class']}} alert-dismissible">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				{{$message['msg']}}
 			</div>
-		 @endif
+		@endif
 		<div class="col-sm-8">
 			<h3 class="text-primary">{{ __('word.your') }} {{ __('word.login') }} {{ __('word.details') }}</h3>
 		</div>
@@ -82,4 +107,3 @@
 	}
 </script>
 @endsection
-

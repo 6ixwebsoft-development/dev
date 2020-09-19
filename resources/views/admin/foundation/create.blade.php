@@ -193,7 +193,7 @@
 											</div>
 
                                             <div class="col-md-9">
-                                                {!! Form::email('email', null, ['class' => 'form-control', '', 'placeholder' => __( 'Email' ) ]); !!}
+                                                {!! Form::email('email', null, ['class' => 'unique_email form-control', '', 'placeholder' => __( 'Email' ) ]); !!}
                                             </div><!--col-->
                                         </div><!--form-group-->
 
@@ -283,7 +283,7 @@
 											</div>
 
                                             <div class="col-md-9">
-                                            	{!! Form::email('c_email', null, ['class' => 'form-control', '', 'placeholder' => __( 'Email' ) ]); !!}
+                                            	{!! Form::email('c_email', null, ['class' => 'unique_email form-control', '', 'placeholder' => __( 'Email' ) ]); !!}
                                             </div><!--col-->
                                         </div><!--form-group-->
 
@@ -502,48 +502,59 @@
 										</div>
 
                                     <!-- application dates -->
+                                    <!-- application dates -->
                                     <div class="col-md-12">
-										<div class="card">
-											  <div class="card-header bg-info">Application Dates</div>
-												<div class="card-body">
-													<div class="app_dates">                                         
-														<div class="row">
-															<div class="col-md-6">
-																<div class="row">
-																	<div class="col-md-4">
-																		{!! Form::label('app_start_day', __( 'Application Start' ) . '') !!}
-																	</div>
-																	<div class="col-md-3">
-																		{!! Form::select('apply_start_month',$months, '', ['class' => 'form-control']); !!}
-																	</div>
-																	<div class="col-md-3">
-																		{!! Form::text('apply_start_day', null, ['class' => 'form-control', '' ]); !!}
-																	</div>
+                                        <div class="card">
+                                            <div class="card-header bg-info">
+                                                Application Dates
+                                                <div class="float-right">
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row col-md-12">
+                                                    <div class="col-md-5">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                {!! Form::label('app_start_day', __( 'Application Start' ) . '') !!}
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                {!! Form::select('apply_start_month',$months, !empty($dates->start_month) ? $dates->start_month : '', ['class' => 'form-control','id' => 'id_apply_start_month']); !!}
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                {!! Form::text('apply_start_day', !empty($dates->start_day) ? $dates->start_day : '', ['class' => 'form-control','id' => 'id_apply_start_day' ]); !!}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--col-->
+                                                    <div class="col-md-5">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                {!! Form::label('app_end_day', __( 'Application End' ) . '') !!}
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                {!! Form::select('apply_end_month',$months, !empty($dates->end_month) ? $dates->end_month : '', ['class' => 'form-control','id' => 'id_apply_end_month']); !!}
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                {!! Form::text('apply_end_day', !empty($dates->end_day) ? $dates->end_day : '', ['class' => 'form-control','id' => 'id_apply_end_day' ]); !!}
+                                                            </div>
 
-																</div> 
-																
-															</div>
-															<div class="col-md-6">
-																<div class="row">
-																	<div class="col-md-4">
-																		{!! Form::label('app_end_day', __( 'Application End' ) . '') !!}
-																	</div>
-																	<div class="col-md-3">
-																		{!! Form::select('apply_end_month',$months, '', ['class' => 'form-control']); !!}
-																	</div>
-																	<div class="col-md-3">
-																		{!! Form::text('apply_end_day', null, ['class' => 'form-control', '' ]); !!}
-																	</div>
-
-																</div> 
-															</div>
-														</div>
-														
-														
-													</div>
-												</div>
-											</div>
-										</div>
+                                                        </div>
+                                                    </div>
+                                                    <!--col-->                                
+                                                    <div class="col-md-2" style="margin-top: 2%;">
+                                                        <a class="btn btn-primary form-control" onclick="added_dates();" value="add">Add</a>
+                                                    </div>
+                                                    <!--col-->
+                                                </div>
+                                                <div class="col-md-12" id="application_add">
+                                                </div>                                                
+                                            </div>
+                                            <br>
+                                                <div class="field_wrapperlocation ">
+                                                </div>
+                                            </br>
+                                        </div>
+                                    </div>
                                     </div>
 
                                     <div class="col-md-12">
@@ -606,3 +617,81 @@
 </div>
 
 @endsection
+
+@section("load_ex_js")
+<script type="text/javascript">
+    // function save_me() {
+    //     show_loader(1);
+    //     var form = $('form#foundation_update');
+    //     form_data = form.serialize();
+    //     console.log(form);
+    //     $.ajax({
+    //         url:form.attr('action'),
+    //         method:"POST",
+    //         dataType:"json",
+    //         data:form_data,
+    //         success:function(r) {
+    //             show_loader(0);
+    //             noty_s(r.msg,r.status);
+
+    //         },
+    //         error: function (data) {
+    //             var errors = $.parseJSON(data.responseText);
+    //             show_loader(0);
+    //             $.each(errors.errors, function (key, value) {
+    //                 //$('#' + key).parent().addClass('error');                    
+    //                 $.notify(value, "error");
+    //             });
+    //         }
+    //     })
+    // }
+     app_i = 0;
+    function added_dates(){
+        
+        var id_apply_start_month      = parseInt($("#id_apply_start_month").val());
+        var id_apply_start_month_text = $("#id_apply_start_month option:selected").text();
+
+        var id_apply_end_month        = parseInt($("#id_apply_end_month").val());
+        var id_apply_end_month_text   = $("#id_apply_end_month option:selected").text();
+
+        var id_apply_start_day        = parseInt($("#id_apply_start_day").val());        
+        var id_apply_end_day          = parseInt($("#id_apply_end_day").val());
+
+        if(!id_apply_start_day > 0 && !id_apply_end_day > 0){
+            alert("all fields are mandatory");            
+            return false;
+        }
+
+        if(id_apply_start_month > id_apply_end_month){
+
+            alert("start month cannot be smaller then end month");
+            return false;
+
+        }else if(id_apply_start_month == id_apply_end_month){
+
+            if(id_apply_start_day < id_apply_end_day){
+
+                alert("start day cannot be smaller then end day for same month");
+                return false;
+
+            }
+
+        }
+
+        app_i = app_i+1;
+
+        var append = '<div class="row col-md-12 application_add_'+app_i+'"> <div class="col-md-5"> <div class="row"> <div class="col-md-12">{!! Form::label('app_start_day', __( 'Application Start' ) . '') !!}</div><div class="col-md-6"> <input type="text" class="form-control" readonly="true" value="'+id_apply_start_month_text+'"><input type="hidden" class="form-control" name="dates['+app_i+'][apply_start_month]"  readonly="true" value="'+id_apply_start_month+'"></div><div class="col-md-6"> <input type="text" class="form-control" name="dates['+app_i+'][apply_start_day]" readonly="true"  value="'+id_apply_start_day+'"> </div></div></div><div class="col-md-5"> <div class="row"> <div class="col-md-12">{!! Form::label('app_end_day', __( 'Application End' ) . '') !!}</div><div class="col-md-6"> <input type="text" class="form-control" readonly="true" value="'+id_apply_end_month_text+'"><input type="hidden" class="form-control" name="dates['+app_i+'][apply_end_month]" readonly="true"  value="'+id_apply_end_month+'"> </div><div class="col-md-6"> <input type="text" class="form-control" name="dates['+app_i+'][apply_end_day]" readonly="true"  value="'+id_apply_end_day+'"> </div></div></div><div class="col-md-2" style="margin-top: 2%;"> <a class="btn btn-danger form-control" onclick="added_delete_dates(\'application_add_'+app_i+'\');" value="add"> X </a> </div></div>';
+
+        $('#application_add').append(append);
+        
+        $("#id_apply_start_month").val("");
+        $("#id_apply_end_month").val("");
+        $("#id_apply_start_day").val("");
+        $("#id_apply_end_day").val("");
+
+    }
+    function added_delete_dates(ele){
+        $("."+ele).empty();
+    }
+</script>
+@endsection;

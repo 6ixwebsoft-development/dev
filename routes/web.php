@@ -49,6 +49,7 @@ Route::middleware(['auth', 'CheckLogin'])->group(function () {
 
    Route::group(['middleware'=>'Access'], function () { 
 		Route::resource('admin/roles','Auth\RoleController');
+        Route::patch('admin/roles/update/{id}', 'Auth\RoleController@update')->name('roles.update');
 		Route::get('admin/roles/delete/{id}', 'Auth\RoleController@delete');
 		Route::post('admin/roles/store','Auth\RoleController@store');
 	}); 
@@ -666,8 +667,11 @@ Route::get('/{slug}', array('as' => 'page.show', 'uses' => 'PageController@show'
 Route::group(['namespace' => 'Admin\Location', 'prefix' => 'admin/location'], function () {
     Route::post('getCountries', 'CountryController@getCountries');
     Route::post('getRegions', 'RegionController@getRegions');
-    Route::post('getCities', 'CityController@getCities');
-    
+    Route::post('getCities', 'CityController@getCities');    
+});
+
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin/ajax'], function () {
+    Route::post('unique', 'AjaxController@unique');
 });
 
 /*

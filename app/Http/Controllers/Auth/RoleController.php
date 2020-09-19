@@ -153,7 +153,7 @@ class RoleController extends Controller
 
 
         return redirect('admin/roles')
-                        ->with('success','Role created successfully');
+                        ->with("noty",["status" => 1,"msg" => "Role created successfully !!"]);;
     }
     /**
      * Display the specified resource.
@@ -268,8 +268,7 @@ class RoleController extends Controller
         $role->syncPermissions($request->input('permission'));
 
 
-        return redirect('admin/roles')
-                        ->with('success','Role updated successfully');
+        return redirect('admin/roles/'.$id."/edit")->with("noty",["status" => 1,"msg" => "Role Updated successfully !!"]);
     }
     /**
      * Remove the specified resource from storage.
@@ -281,6 +280,6 @@ class RoleController extends Controller
     {
         DB::table("roles")->where('id',$id)->delete();
         return redirect('admin/roles')
-                        ->with('success','Role deleted successfully');
+                        ->with("noty",["status" => 1,"msg" => "Role deleted successfully !!"]);
     }
 }

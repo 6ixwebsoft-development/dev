@@ -68,7 +68,7 @@
               {!! Form::label('email', __( 'Email' ) . ':*') !!}
             </div>
             <div class="col-lg-10">
-            {!! Form::text('email', $user->email, array('placeholder' => 'Email','class' => 'form-control')) !!}
+            {!! Form::text('email', $user->email, array('placeholder' => 'Email','class' => 'unique_email form-control')) !!}
             </div>
         </div>
      <div class="form-group row">
@@ -84,7 +84,7 @@
               {!! Form::label('confirm-password', __( 'Confirm Password' ) . ':*') !!}
             </div>
             <div class="col-lg-10">
-                {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
+                {!! Form::password('password_confirmation', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
         </div>
     </div>
      <div class="form-group row">

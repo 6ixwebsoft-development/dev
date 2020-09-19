@@ -208,6 +208,15 @@
             // })
 
         //}
+        $(document).ready(function() {     
+        @if(!empty(session()->has('noty')))        
+          var data = @json(session('noty'));
+          console.log(data);
+          if(data.status == 1){
+            noty_s(data.msg,data.status);
+          }
+        @endif
+      });
     </script>
 
 		<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>

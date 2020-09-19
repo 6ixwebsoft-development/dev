@@ -234,7 +234,7 @@
 							  <div class="form-group row">
 								<label for="input" class="col-sm-4 col-form-label">E-mail*</label>
 								<div class="col-sm-8">								 
-								   <input type="email" class="form-control" id="email" placeholder="" name="login[email]" required value="{{$user->email}}">
+								   <input type="email" class="unique_email form-control" id="email" placeholder="" name="login[email]" required value="{{$user->email}}">
 								</div>
 								
 							  </div>

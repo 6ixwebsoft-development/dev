@@ -208,7 +208,7 @@ a.remove_button.btn.btn-danger {
 							
 								{!! Form::label('E-mail', __( 'E-mail' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">								 
-								    {!! Form::email('useremail', $user->email, ['class' => 'form-control','','placeholder' => __( 'Enter email' ) ]); !!}
+								    {!! Form::email('useremail', $user->email, ['class' => 'unique_email form-control','','placeholder' => __( 'Enter email' ) ]); !!}
 								</div>
 								<P>Password will be generated automatically by the system for security purposes and can be changed by the user on their member page.</p>
 							  </div>
@@ -256,7 +256,7 @@ a.remove_button.btn.btn-danger {
 								
 								{!! Form::label('Email', __( 'Email' ) . ':*', [ 'class' => 'col-sm-2 col-form-label']) !!}
 								<div class="col-sm-4">
-								   {!! Form::email('email', $contact->email, ['class' => 'form-control','','placeholder' => __( '' ) ]); !!}
+								   {!! Form::email('email', $contact->email, ['class' => 'unique_email form-control','','placeholder' => __( '' ) ]); !!}
 								</div>
 							  </div>
 							  

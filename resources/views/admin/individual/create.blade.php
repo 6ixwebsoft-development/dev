@@ -163,7 +163,8 @@
 							   <div class="form-group row">
 								{!! Form::label('Language', __( 'Language' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">								 
-								  {!! Form::select('language', (['0' => 'Select a language'] + $language),[2], ['class' => 'form-control','' ]  ); !!}
+								  {{-- {!! Form::select('language', (['0' => 'Select a language'] + $language),[2], ['class' => 'form-control','' ]  ); !!} --}}
+								  {!! Form::select('language', ($language),[2], ['class' => 'form-control','' ]  ); !!}
 								</div>
 							  </div>
 							 
@@ -264,7 +265,7 @@
 							
 								{!! Form::label('E-mail', __( 'E-mail' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}
 								<div class="col-sm-8">								 
-								    {!! Form::email('email', null, ['class' => 'form-control','','placeholder' => __( 'Enter email' ) ]); !!}
+								    {!! Form::email('email', null, ['class' => 'unique_email form-control','','placeholder' => __( 'Enter email' ) ]); !!}
 								</div>
 								<P>Password will be generated automatically by the system for security purposes and can be changed by the user on their member page.</p>
 							  </div>
@@ -346,7 +347,7 @@
 						{!! Form::label('Comment', __( 'Comment' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}
 						<div class="col-sm-8">								 
 						 
-						  {!! Form::textarea('', null, ['class' => 'form-control', '', 'placeholder' => __( 'Enter Library Card Number' ) ]); !!}
+						  {!! Form::textarea('library_comment', null, ['class' => 'form-control', '', 'placeholder' => __( 'Enter Library Card Number' ) ]); !!}
 						</div>
 					</div>
 				
@@ -795,7 +796,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="field_wrapperchild field_wrapperchild"></div>	
+							<div class="field_wrapperchild"></div>	
 						</div>
 					</div>
 				</div>	

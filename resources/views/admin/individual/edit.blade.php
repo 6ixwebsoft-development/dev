@@ -90,7 +90,8 @@
 										</div>
 										<div class="form-group row">
 											{!! Form::label('Language', __( 'Language' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}								
-											<div class="col-sm-8">								 								  {!! Form::select('language', (['0' => 'Select a language'] + $language),$individual->language, ['class' => 'form-control','' ]  ); !!}								</div>
+											<div class="col-sm-8">								 						{{-- 		  {!! Form::select('language', (['0' => 'Select a language'] + $language),$individual->language, ['class' => 'form-control','' ]  ); !!} --}}
+													  {!! Form::select('language', ($language),$individual->language, ['class' => 'form-control','' ]  ); !!}								</div>
 										</div>
 										<div class="form-group row">
 											{!! Form::label('Availability', __( 'Availability' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}								
@@ -112,7 +113,7 @@
 										</div>
 										<div class="form-group row">
 											{!! Form::label('Region', __( 'Region' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}								
-											<div class="col-sm-8">								 							  								   {!! Form::select('region', $region ,$contact->region, ['class' => 'form-control regiondata','id' => 'regionid','onchange' => 'getCity();', ]) !!}								</div>
+											<div class="col-sm-8">								 							  								   {!! Form::select('region', $region ,$contact->region, ['class' => 'form-control regiondata','id' => 'regionid','onchange' => 'getCity2(this);', ]) !!}								</div>
 										</div>
 										<div class="form-group row">
 											{!! Form::label('City', __( 'City' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}								
@@ -146,7 +147,7 @@
 												</div>
 												<div class="form-group row">
 													{!! Form::label('E-mail', __( 'E-mail' ) . ':*', [ 'class' => 'col-sm-4 col-form-label']) !!}								
-													<div class="col-sm-8">								 								    {!! Form::email('email', $user->email, ['class' => 'form-control','','placeholder' => __( 'Enter email' ) ]); !!}								</div>
+													<div class="col-sm-8">								 								    {!! Form::email('email', $user->email, ['class' => 'unique_email form-control','','placeholder' => __( 'Enter email' ) ]); !!}								</div>
 													<P>Password will be generated automatically by the system for security purposes and can be changed by the user on their member page.</p>
 												</div>
 												<!--  <div class="form-group row">								<label for="input" class="col-sm-4 col-form-label">Reset Password</label>								<div class="col-sm-8">								 								 <button type="button" class="form-control btn btn-secondary float-right"><i class="fa fa-repeat" aria-hidden="true"></i> Reset Password</button>								</div>							  </div>-->							  							  							  
@@ -170,7 +171,17 @@
 														</div>
 													@endif
 												</div>
-												<!--							<div class="form-group row">																<div class="col-sm-12 ">								 								    <button type="button" class="btn btn-secondary float-right"><i class="fa fa-check-square-o" aria-hidden="true"></i> Save Active & Mail </button>									<br>																	</div>								<p class="col-sm-12 offset-md-4">Save Activate & Mail: Change passwords <br>immediately and send the email to User with <br>new password</p>							</div>							-->																										
+												<div class="form-group row">														<div class="col-sm-12 ">
+														<button type="button" class="btn btn-secondary float-right">
+															<i class="fa fa-check-square-o" aria-hidden="true"></i> 
+																Save Active & Mail 
+														</button>
+														<br>
+													</div>
+													<p class="col-sm-12 offset-md-4">
+														Save Activate & Mail: Change passwords <br>immediately and send the email to User with <br>new password
+													</p>
+												</div>														
 											</div>
 										</div>
 										<div class="col-sm-12">
@@ -263,13 +274,14 @@
 											<div class="card-body">
 												<div class="form-group row">
 													{!! Form::label('Region', __( 'Region' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}								
-													<div class="col-sm-9">									 {!! Form::select('rregion', $region,$personal->residenceregion, ['class' => 'form-control regiondata','id' => 'regionid','onchange' => 'getCity(this);', ]) !!}
+													<div class="col-sm-9">									 {!! Form::select('rregion', $region,$personal->residenceregion, ['class' => 'form-control regiondata','id' => 'regionid','onchange' => 'getCity2(this);', ]) !!}
 														<small>*Please select country in "Contact Info"</small>
 													</div>
 
 												</div>
 												<div class="form-group row">
 													{!! Form::label('City', __( 'City' ) . ':', [ 'class' => 'col-sm-4 col-form-label']) !!}								
+													{{-- {{ dd($residencecity) }} --}}
 													<div class="col-sm-9">								 									 {!! Form::select('rcity', $residencecity,$personal->residencecity, ['class' => ' form-control citydata','id' => 'cityid',]) !!}								</div>
 												</div>
 												<div class="form-group row">
@@ -472,40 +484,45 @@
 												Children					  					  
 												<div class="col-sm-12">						<a class="btn btn-primary add_buttonchild float-right" value="add">Add</a>					</div>
 											</div>
-											<div class="card-body col-xl-12">
+											<div class="card-body col-xl-12 field_wrapperloop">
 												@if(!empty($childern))					  @foreach($childern as $Child)					  						
-												<div class="form-inline">
+												<div class="form-inline form-field_wrapperloop row">
 													<div class="col-xl-3 col-md-12 col-sm-12">
 														<div class="form-group row">
 															{!! Form::label('Birthdate', __( 'Birthdate' ) . ':', [ 'class' => 'col-sm-12 col-form-label']) !!}									
-															<div class="col-sm-12">								 										 {!! Form::text('cdob[]', $Child->childerndob, ['class' => 'form-control mycustomdate', 'id'=>'C_dob',  ]); !!}									</div>
+															<div class="col-sm-12">								 					{!! Form::text('cdob[]', $Child->childerndob, ['class' => 'form-control mycustomdate', "readonly" => "true",  ]); !!}									</div>
 														</div>
 													</div>
 													<div class="col-xl-2 col-md-12 col-sm-12">
 														<div class="form-group row">
 															{!! Form::label('Gender', __( 'Gender' ) . ':', [ 'class' => 'col-sm-12 col-form-label']) !!}									
-															<div class="col-sm-12">								 										 {!! Form::select('cgender[]', (['0' => 'Select Gender','1' => 'Male','2' => 'Female'] ),$Child->childerngender, ['class' => 'form-control']) !!}									</div>
+															<div class="col-sm-12">								 					{!! Form::select('cgender[]', (['0' => 'Select Gender','1' => 'Male','2' => 'Female'] ),$Child->childerngender, ['class' => 'form-control',"readonly" => "true"]) !!}									</div>
 														</div>
 													</div>
 													<div class="col-xl-3 col-md-12 col-sm-12">
 														<div class="form-group row">
-															{!! Form::label('School', __( 'School' ) . ':', [ 'class' => 'col-sm-12 col-form-label']) !!}									
-															<div class="col-sm-12">								 										 {!! Form::text('cschool[]', $Child->childernschool, ['class' => 'form-control', 'id'=>'C_dob',  ]); !!}									</div>
+																{!! Form::label('School', __( 'School' ) . ':', [ 'class' => 'col-sm-12 col-form-label']) !!}									
+															<div class="col-sm-12">								 					{!! Form::text('cschool[]', $Child->childernschool, ['class' => 'form-control', 'id'=>'C_dob',"readonly" => "true"  ]); !!}									</div>
 														</div>
 													</div>
 													<div class="col-xl-3 col-md-12 col-sm-12">
 														<div class="form-group row">
-															{!! Form::label('Location', __( 'Location' ) . ':', [ 'class' => 'col-sm-12 col-form-label']) !!}									
-															<div class="col-sm-12">								 										{!! Form::select('clocation[]', (['0' => 'Select Localtion','1'=>'delhi'] ),$Child->childernlocation, ['class' => 'form-control']) !!}									</div>
+																{!! Form::label('Location', __( 'Location' ) . ':', [ 'class' => 'col-sm-12 col-form-label']) !!}									
+															<div class="col-sm-12">								 					{!! Form::select('clocation[]', (['0' => 'Select Localtion','1'=>'delhi'] ),$Child->childernlocation, ['class' => 'form-control',"readonly" => "true"]) !!}									</div>
 														</div>
 													</div>
 													<div class="col-xl-1 col-md-12 col-sm-12">
 														<div class="form-group row">
-															<div class="col-sm-12">											<a class="btn btn-danger " value="add">Delete</a>										</div>
+															<div class="col-sm-12">
+																<a href="javascript:void(0);" class="remove_button btn btn-danger " value="add">
+																	Remove
+																</a>
+															</div>
 														</div>
 													</div>
 												</div>
-												<br>							@endforeach							@endif							
+												@endforeach
+												@endif							
 												<div class="field_wrapperchild field_wrapperchild"></div>
 											</div>
 										</div>

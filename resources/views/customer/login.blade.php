@@ -16,14 +16,31 @@
   
   <div class="row">
    @include('customer.sidebar')
-    <div class="col-sm-9 col-md-6 col-lg-9">
-		@if ($message = Session::get('message'))
+    <div class="col-sm-9 col-md-6 col-lg-9">		
+		@if($message = Session::get('error'))
+			<script type="text/javascript">				
+				$( document ).ready(function() {
+				    showFromBox();
+				});
+			</script>
+			@if(is_array($message))
+			<div class="alert alert-danger alert-dismissible">
+					  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				@foreach($message as $row)
+					
+					  {{$row}}<br>
+					
+				@endforeach
+				</div>
+			@endif;
+		@endif
+		@if($message = Session::get('message'))
 			<div class="alert {{$message['class']}} alert-dismissible">
-			  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-			  {{$message['msg']}}
+				  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				  {{$message['msg']}}
 			</div>
-		 @endif
-		 @if (count($errors) > 0)
+		@endif
+		@if (count($errors) > 0)
 			<div class="alert alert-danger alert-dismissible" role="alert">
 				<ul id="login-validation-errors" class="validation-errors">
 					@foreach ($errors->all() as $error)

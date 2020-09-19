@@ -23,11 +23,24 @@
 					
 					<div style="">
 					<div class="fundTitle">
-						@php $hide_name = false; @endphp
+						{{-- @php 
+							//$hide_name = false; 
+						@endphp
 						@if(auth()->user() && auth()->user()->is('User10')){
-							@php $hide_name = true; @endphp							
+							@php 
+								$hide_name = true; 
+							@endphp
+						@endif  --}}
+						@if( (Ican() || is_lib_user() ) || !$hide_name )
+							@php
+								$show = true;
+							@endphp
+						@else
+							@php
+								$show = false;
+							@endphp
 						@endif
-						<strong>ID: {{$foundation_detail->id}} @if( (Ican() || is_lib_user() ) && !$hide_name ) - {{$foundation_detail->name}} @else {{ '- '.__('word.click here to log in to see the fund\'s name and contact details') }} @endif</strong>
+						<strong>ID: {{$foundation_detail->id}} @if($show) - {{$foundation_detail->name}} @else {{ '- '.__('word.click here to log in to see the fund\'s name and contact details') }} @endif</strong>
 					</div>
 					<div class="fundPurpose">
 						<span class="dd_head">PURPOSE :</span>
@@ -46,10 +59,15 @@
 					</div>
 					<div class="fundContacts">
 						<span class="dd_head">ADRESS :</span>
+						@if($show)
 						<p>{{$foundation_detail->address1}} {{$foundation_detail->address2}}, {{$foundation_detail->address3}},<span class="dd_head">Tel : </span>{{$foundation_detail->phone_no}}<br>
 						{{$foundation_detail->email}},<a href="{{$foundation_detail->website}}">{{$foundation_detail->website}}</a>
 						</p>
-					
+						@else
+							@php
+								echo "<br>".__('word.click here to log in to see the fund\'s name and contact details');
+							@endphp	
+						@endif
 						<!--<h4>Contacts</h4>
 						<p>{{$foundation_detail->address1}}</p> -->
 						<!--<p>{{$foundation_detail->address2}}</p>

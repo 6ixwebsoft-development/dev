@@ -185,7 +185,7 @@ class FoundationController extends Controller
 
         // print_r($request->get('locationArray'));
         // die();
-
+        //dd($request['dates']);
 		$this->validate($request, [
 					'sort_name' => 'required',
 					'name' => 'required',
@@ -325,14 +325,22 @@ class FoundationController extends Controller
 				}
 			}
             //Foundation Start dates
-            $dates = array(
-                    "foundation_id" => $foundation_id,
-                    "start_month"  => $result['apply_start_month'],
-                    "start_day"  => $result['apply_start_day'],
-                    "end_month"  => $result['apply_end_month'],
-                    "end_day"  => $result['apply_end_day']
-            );
-            FoundationDates::insert($dates);
+            if(!empty($result['dates'])){
+                
+                foreach ($result['dates'] as $row) {
+
+                    $dates = array(
+                        "foundation_id" => $foundation_id,
+                        "start_month"  => $row['apply_start_month'],
+                        "start_day"  => $row['apply_start_day'],
+                        "end_month"  => $row['apply_end_month'],
+                        "end_day"  => $row['apply_end_day']
+                    );
+
+                    DB::table('gg_foundation_dates')->insert($dates);
+                }
+
+            }
 
             //Foundation Advertise
             $f_advertise = array(
@@ -348,19 +356,17 @@ class FoundationController extends Controller
                             'msg' => __("Foundation Created")
                             ];
 				DB::commit();
-				return redirect('admin/foundation')->with('message', $output);
+				
+                return redirect('admin/foundation/'.$foundation_id."/edit")->with('message', $output);
             } catch (\Exception $e) {
 				
 				$output = ['class' => 'alert-position-danger',
                             'msg' => __("something_went_wrong")
                             ];
-		DB::rollBack();
-		//echo $e;
-		return redirect('admin/foundation/'.$foundation_id."/edit")->with('message', $output);
-        }
-
-        
-
+		        DB::rollBack();
+		          //echo $e;
+		        return redirect('admin/foundation/create')->with('message', $output);
+            }
     }
 
     public function edit($id)
@@ -369,7 +375,7 @@ class FoundationController extends Controller
         $contact = FoundationContact::where('foundation_id', $id)->first();
         $advertise = FoundationAdvertise::where('foundation_id', $id)->first();
         
-       $purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
+        $purposes = ModuleField::leftjoin('gg_module_fields_values as mfv', 'gg_module_fields.id', '=', 'mfv.field_id')
                     //->where('gg_module_fields.module_id', $id)
                     ->where('gg_module_fields.field_name', 'Purpose')
                     ->select(
@@ -452,7 +458,7 @@ class FoundationController extends Controller
 
         //foundation locations
         $location = FoundationLocation::where('foundation_id', $id)->get();
-        $dates    = FoundationDates::where('foundation_id', $id)->first();
+        $dates    = FoundationDates::where('foundation_id', $id)->get()->toArray();
 
         //country block
         $blocks = CountryBlock::select('id', 'name')->get();
@@ -477,19 +483,27 @@ class FoundationController extends Controller
 
         //city 
         $cities = City::select('id', 'city_name')->get();
-		/* $userparam = FoundationPurpose::select('param_id')->where('foundation_id', $id)->get();
-		$i=0;
-		foreach ($userparam as $userparamid) {
-            $purposeId[$i] = $userparamid->param_id;
-			$i++;
-        } */
+		
+        /* 
+            $userparam = FoundationPurpose::select('param_id')->where('foundation_id', $id)->get();
+    		$i=0;
+    		foreach ($userparam as $userparamid) {
+                $purposeId[$i] = $userparamid->param_id;
+    			$i++;
+            } 
+        */
+
         $city_arr = array();
         foreach ($cities as $city) {
             $city_arr[$city->id] = $city->city_name;
         }
-       /*  $purpose = Purpose::pluck('purpose', 'id')->all();	
-		$gender = gender::pluck('name', 'id')->all();	
-		$subject = Subject::pluck('name', 'id')->all();	 */
+        
+        /* 
+            $purpose = Purpose::pluck('purpose', 'id')->all();	
+		    $gender = gender::pluck('name', 'id')->all();	
+		    $subject = Subject::pluck('name', 'id')->all();
+        */
+
 		$language = Language::where('status','1')->pluck('language', 'id')->all();
 		
         return view('admin.foundation.edit')->with(compact('foundation', 'contact', 'advertise', 'purpose', 'selectedPurpose', 'gender', 'selectedGender', 'subject', 'selectedSubject', 'age', 'location', 'dates', 'months', 'blocks_arr', 'country_arr', 'region_arr', 'city_arr','language'));
@@ -498,12 +512,12 @@ class FoundationController extends Controller
     public function update(Request $request, $id) 
     {	
 
-        // print_r($request->all());
+        //dd($request->all());
         // echo "<pre>";
         // print_r($request->get('locationArray'));
         // echo "</pre>";
         // die();
-
+//dd($request['dates']);
 			$this->validate($request, [
 					'sort_name' => 'required',
 					'name' => 'required',
@@ -620,15 +634,21 @@ class FoundationController extends Controller
                 } 
 				//$i++;
 			}
-			
-                $dates = array(
+			if(!empty($result['dates'])){
+                DB::table('gg_foundation_dates')->where('foundation_id', $id)->delete();
+                foreach ($result['dates'] as $row) {
+
+                    $dates = array(
                         "foundation_id" => $id,
-                        "start_month"  => $result['apply_start_month'],
-                        "start_day"  => $result['apply_start_day'],
-                        "end_month"  => $result['apply_end_month'],
-                        "end_day"  => $result['apply_end_day']
-                );
-                DB::table('gg_foundation_dates')->where('foundation_id', $id)->update($dates);
+                        "start_month"  => $row['apply_start_month'],
+                        "start_day"  => $row['apply_start_day'],
+                        "end_month"  => $row['apply_end_month'],
+                        "end_day"  => $row['apply_end_day']
+                    );
+
+                    DB::table('gg_foundation_dates')->insert($dates);
+                }
+            }    
 
 				if(!empty($result['purpose_ids'])){
 					FoundationPurpose::where('foundation_id', $id)->delete();
@@ -639,7 +659,7 @@ class FoundationController extends Controller
 						);
 						FoundationPurpose::insert($purpose);
 					}
-			}
+			    }
                 
                 //Foundation Gender
                 FoundationGender::where('foundation_id', $id)->delete();
@@ -676,7 +696,7 @@ class FoundationController extends Controller
             } catch (\Exception $e) {
 				
 				$output = ['class' => 'alert-position-danger',
-                            'msg' => __("something_went_wrong"),
+                            'msg' => __("something_went_wrong").$e,
                             'status' => 0
                             ];
                

@@ -9,11 +9,12 @@ use App\Models\LibraryContact;
 use App\Models\Userinfo;
 use App\Rules\StrongPassword;
 use App\User;
-use DataTables;
 use DB;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -96,41 +97,85 @@ class UserController extends Controller
                     $btn = '';
                     if (!empty($row->user_type)) {
                         $controller = '';
-                        if ($row->user_type == 'LIB') {$controller = 'library';}
-                        if ($row->user_type == 'ORG') {$controller = 'organization';}
-                        if ($row->user_type == 'IND') {$controller = 'individual';}
-                        $btn = '<a href="' . url('admin') . '/' . $controller . '/' . $row->id . '/edit" class="">' . $row->name . '</a>';
+
+                        // if ($row->user_type == 'LIB') {$controller = 'library';}
+                        // if ($row->user_type == 'ORG') {$controller = 'organization';}
+                        // if ($row->user_type == 'IND') {$controller = 'individual';}
+                        switch ($row->user_type) {
+                            case 'LIB':
+                                    $controller = 'library';
+                                break;
+
+                            case 'ORG':
+                                    $controller = 'organization';
+                                break;
+
+                            case 'IND':
+                                    $controller = 'individual';
+                                break;
+
+                            case 'STAFF':
+                                    $controller = 'users';
+                                break;                                    
+                            
+                            default:
+                                    $controller = 'users';
+                                break;
+                        }
                     }
                     if (!empty($row->foundation_id)) {
                         $controller = 'foundation';
-                        $btn        = '<a href="' . url('admin') . '/' . $controller . '/' . $row->id . '/edit" class="">' . $row->name . '</a>';
                     }
                     if (!empty($row->libraryid)) {
                         $controller = 'librarygroup';
-                        $btn        = '<a href="' . url('admin') . '/' . $controller . '/' . $row->id . '/edit" class="">' . $row->name . '</a>';
                     }
+
+
+                    $btn = '<a  href="' . url('admin') . '/' . $controller . '/' . $row->id . '/edit" class="">' . $row->name . '</a>';
 
                     return $btn;
                 })
                 ->rawColumns(['name'])
                 ->escapeColumns([])
                 ->addColumn('email', function ($row) {
-                    $btn = '';
+                   $btn = '';
                     if (!empty($row->user_type)) {
                         $controller = '';
-                        if ($row->user_type == 'LIB') {$controller = 'library';}
-                        if ($row->user_type == 'ORG') {$controller = 'organization';}
-                        if ($row->user_type == 'IND') {$controller = 'individual';}
-                        $btn = '<a href="' . url('admin') . '/' . $controller . '/' . $row->id . '/edit" class="">' . $row->email . '</a>';
+                        
+                        // if ($row->user_type == 'LIB') {$controller = 'library';}
+                        // if ($row->user_type == 'ORG') {$controller = 'organization';}
+                        // if ($row->user_type == 'IND') {$controller = 'individual';}
+                        switch ($row->user_type) {
+                            case 'LIB':
+                                    $controller = 'library';
+                                break;
+
+                            case 'ORG':
+                                    $controller = 'organization';
+                                break;
+
+                            case 'IND':
+                                    $controller = 'individual';
+                                break;
+
+                            case 'STAFF':
+                                    $controller = 'users';
+                                break;                                    
+                            
+                            default:
+                                    $controller = 'users';
+                                break;
+                        }
                     }
                     if (!empty($row->foundation_id)) {
                         $controller = 'foundation';
-                        $btn        = '<a href="' . url('admin') . '/' . $controller . '/' . $row->id . '/edit" class="">' . $row->email . '</a>';
                     }
                     if (!empty($row->libraryid)) {
                         $controller = 'librarygroup';
-                        $btn        = '<a href="' . url('admin') . '/' . $controller . '/' . $row->id . '/edit" class="">' . $row->email . '</a>';
                     }
+
+
+                    $btn = '<a  href="' . url('admin') . '/' . $controller . '/' . $row->id . '/edit" class="">' . $row->name . '</a>';
 
                     return $btn;
                 })
@@ -309,14 +354,21 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $this->validate($request, [
+        $input = $request->all();
+        //dd($input);
+        $rules = [
             'name'  => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
-            'roles' => 'required',
-        ]);
+            'roles' => 'required'
+        ];
 
-        $input = $request->all();
+        if(!empty($input['password'])){
+            $rules['password'] = ['required', 'string', 'min:8', 'confirmed', new StrongPassword];
+        }
+
+        $this->validate($request, $rules);
+
+        
         if (!empty($input['password'])) {
             $input['password'] = Hash::make($input['password']);
             $datasave          = array(
@@ -429,6 +481,24 @@ class UserController extends Controller
         $id       = $request->input('id');
         $password = $request->input('password');
 
+
+        // $user = User::find($id);
+
+        // $user->password = Hash::make($password);
+
+        // $query = $user->save();
+
+        $error = validator(['password' => $password], [            
+            'password' => ['required', 'string', 'min:8', new StrongPassword]
+        ])->errors()->getMessages();
+
+        if(!empty($error)){
+            return json_encode(['status' => 0,"errors" => $error]);    
+        }
+        
+
+        
+
         $pass     = Hash::make($password);
         $userdata = array(
             'status'   => 1,
@@ -436,7 +506,7 @@ class UserController extends Controller
         );
 
         $query = DB::table('users')->where('id', $id)->update($userdata);
-        return $query;exit;
+        return $query;
 
     }
 

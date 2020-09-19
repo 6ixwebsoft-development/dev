@@ -452,7 +452,7 @@ div#loaderarea {
 									if(!Ican()){	
 										if(Session::get('checkip')){
 											if($i >= 15){
-												$mydata['name'] = 'Klicka här för att logga in så du ser fondens namn och kontaktdetaljer,';
+												$mydata['name'] = __('word.click here to log in to see the fund\'s name and contact details');
 												$h = 1;	
 											}
 										};
@@ -462,11 +462,11 @@ div#loaderarea {
 									<td><input type="checkbox" class='select-checkbox my__select' name="checkbox"  id="userslistIds_{{$i}}" data-id="{{$i}}" onchange="myselectdata({{$i}});"><input type="hidden" value="{{ $mydata['id'] }}" class="sf__id" ></td>	
 									<td>
 									@if(!Session::get('checkip') || !is_lib_user() )
-										<a onclick="getFoundationDetailajax('{{$mydata['id']}}',0,{{ $h }})">
+										<a id="popup__{{$mydata['id']}}" onclick="getFoundationDetailajax('{{$mydata['id']}}',0,{{ $h }})">
 											{{$mydata['id']}}
 										</a>
 									@else
-									{{$mydata['id']}}
+									<a id="popup__{{$mydata['id']}}" >{{$mydata['id']}}</a>
 									@endif
 									</td>
 									{{-- <td>{{$mydata['totalsaved']}}</td> --}}
@@ -474,7 +474,7 @@ div#loaderarea {
 									@if(Ican() || (Session::get('checkip') || is_lib_user() ))
 									<td>
 										{{-- @if() --}}
-										<a onclick="getFoundationDetailajax('{{$mydata['id']}}',0,{{ $h }})" style="text-transform:capitalize;" id="popup__{{$mydata['id']}}">{{$mydata['name']}}</a>
+										<a onclick="getFoundationDetailajax('{{$mydata['id']}}',0,{{ $h }})" style="text-transform:capitalize;">{{$mydata['name']}}</a>
 										<br>
 										@if(strlen($mydata['remarks']) > 125)
 

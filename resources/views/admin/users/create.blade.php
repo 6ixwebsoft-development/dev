@@ -118,7 +118,7 @@
 
             <div class="col-lg-10">
 
-              {!! Form::text('email', null, ['class' => 'form-control', '', 'placeholder' => __( 'Email' ) ]); !!}
+              {!! Form::text('email', null, ['class' => 'unique_email form-control', '', 'placeholder' => __( 'Email' ) ]); !!}
 
             </div>
 
@@ -148,7 +148,7 @@
 
             <div class="col-lg-10">
 
-              {!! Form::password('confirm-password', ['class' => 'form-control', '', 'placeholder' => __( 'Confirm Password' ) ]); !!}
+              {!! Form::password('password_confirmation', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
 
             </div>
 

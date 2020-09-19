@@ -165,10 +165,10 @@ class IndividualController extends Controller
             'lastname'     => 'required',
             'availability' => 'required',
             'email'        => 'required|email|unique:users,email',
-            'region'       => 'required',
-            'rregion'      => 'required',
-            'bregion'      => 'required',
-            'city'         => 'required'
+            // 'region'       => 'required',
+            // 'rregion'      => 'required',
+            // 'bregion'      => 'required',
+            // 'city'         => 'required'
         ]);
 
         DB::beginTransaction();
@@ -214,13 +214,20 @@ class IndividualController extends Controller
                 "individualid" => $indId,
                 "zipcode"      => $result['zipcode'],
                 "country"      => $result['country'],
-                "region"       => $result['region'],
-                "city"         => $result['city'],
+                //"region"       => $result['region'],
+                //"city"         => $result['city'],
                 "personal"     => $result['personal'],
                 "mobile"       => $result['mobile'],
                 "phone"        => $result['phone'],
                 "created_at"   => Now(),
             );
+
+            if(!empty($result['region'])){
+                $contactinfo["region"] = $result['region'];
+            }
+            if(!empty($result['city'])){
+                $contactinfo["city"] = $result['city'];
+            }
 
             IndividualContact::insert($contactinfo);
 
@@ -231,16 +238,21 @@ class IndividualController extends Controller
                 "civilstatus"       => $result['civilstatus'],
                 "occupation"        => $result['occupation'],
                 "nationality"       => $result['nationality'],
-                "residenceregion"   => $result['rregion'],
+                //"residenceregion"   => $result['rregion'],
                 "residencecity"     => $result['rcity'],
                 "residenceparish"   => $result['rparish'],
-                "birthregion"       => $result['bregion'],
+                //"birthregion"       => $result['bregion'],
                 "birthcity"         => $result['bcity'],
                 "birthparish"       => $result['bparish'],
                 "applicationletter" => $result['appletter'],
                 "created_at"        => Now(),
             );
-
+            if(!empty($result['rregion'])){
+                $personalinfo["residenceregion"] = $result['rregion'];
+            }
+            if(!empty($result['bregion'])){
+                $personalinfo["birthregion"] = $result['bregion'];
+            }
             IndividualPersonal::insert($personalinfo);
             $purpose = '';
             if (!empty($result['purposelist'])) {
@@ -373,12 +385,13 @@ class IndividualController extends Controller
                         "created_at"       => Now(),
                     );
                     IndividualChildern::insert($childern);
-                    $j++;}
+                    $j++;
+                }
             }
 
             if (!empty($result['librarycard'])) {
                 $libraryinfo = array(
-                    "userid"            => $id,
+                    "userid"            => $user_id,
                     "librarycity"       => $result['librarycity'],
                     "librarycardnumber" => $result['librarycard'],
                     "librarycomment"    => $result['library_comment'],
@@ -538,15 +551,16 @@ class IndividualController extends Controller
 	            'lastname'     => 'required',
 	            'availability' => 'required',
 	            'email'        => 'required|email|unique:users,email,' . $id,
-	            'region'       => 'required',
-	            'rregion'      => 'required',
-	            'bregion'      => 'required',
-	            'city'         => 'required'
-	        ],
-	        [
-		    	'rregion.required'=> 'Residence Region is Required', // custom message		    
-		    	'bregion.required'=> 'Birth Region is Required' // custom message
-		   ]
+	            // 'region'       => 'required',
+	            // 'rregion'      => 'required',
+	            // 'bregion'      => 'required',
+	            // 'city'         => 'required'
+	        ]
+     //        ,
+	    //     [
+		   //  	'rregion.required'=> 'Residence Region is Required', // custom message		    
+		   //  	'bregion.required'=> 'Birth Region is Required' // custom message
+		   // ]
 		);
 
         DB::beginTransaction();
@@ -585,8 +599,8 @@ class IndividualController extends Controller
                 "streetadress" => $result['streetaddress'],
                 "zipcode"      => $result['zipcode'],
                 "country"      => $result['country'],
-                "region"  =>  $result['region'],
-                "city"         => $result['city'],
+                //"region"  =>  $result['region'],
+                //"city"         => $result['city'],
                 "personal"     => $result['personal'],
                 "mobile"       => $result['mobile'],
                 "phone"        => $result['phone'],
@@ -598,7 +612,9 @@ class IndividualController extends Controller
             if (!empty($result['region'])) {
                 $contactinfo["region"] = $result['region'];
             }
-
+            if(!empty($result['city'])){
+                $contactinfo["city"] = $result['city'];
+            }
             DB::table('individual_contact')->where('userid', $id)->update($contactinfo);
 
             $personalinfo = array(
@@ -607,21 +623,22 @@ class IndividualController extends Controller
                 "civilstatus"       => $result['civilstatus'],
                 "occupation"        => $result['occupation'],
                 "nationality"       => $result['nationality'],
-                "residenceregion"   => $result['rregion'],
+                //"residenceregion"   => $result['rregion'],
                 "residencecity"     => $result['rcity'],
                 "residenceparish"   => $result['rparish'],
-                "birthregion"       => $result['bregion'],
+                //"birthregion"       => $result['bregion'],
                 "birthcity"         => $result['bcity'],
                 "birthparish"       => $result['bparish'],
                 "applicationletter" => $result['appletter'],
                 "updated_at"        => Now(),
             );
-            // if (!empty($result['rregion'])) {
-            //     $contactinfo["residenceregion"] = $result['rregion'];
-            // }
-            // if (!empty($result['bregion'])) {
-            //     $contactinfo["birthregion"] = $result['bregion'];
-            // }
+
+            if(!empty($result['rregion'])){
+                $personalinfo["residenceregion"] = $result['rregion'];
+            }
+            if(!empty($result['bregion'])){
+                $personalinfo["birthregion"] = $result['bregion'];
+            }
             DB::table('individual_personal')->where('userid', $id)->update($personalinfo);
 
             $purpose = '';

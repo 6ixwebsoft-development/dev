@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\front;
 
-use App\Models\Country;
-use App\Models\City;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\LibraryContact;
-use App\Models\Library;
-use App\Models\Librarylogin;
-use App\Models\Libraryips;
-use App\Models\Libraryremoteip;
-use App\User;
-use Illuminate\Support\Facades\Auth;
+use App\Models\City;
+use App\Models\Country;
 use App\Models\Language;
+use App\Models\Library;
+use App\Models\LibraryContact;
+use App\Models\Libraryips;
+use App\Models\Librarylogin;
+use App\Models\Libraryremoteip;
+use App\Rules\StrongPassword;
+use App\User;
 use DB;
 use Hash;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use session;use App\Models\Visit;use Carbon\Carbon;
 class LibraryController extends Controller
 {
@@ -152,26 +154,36 @@ class LibraryController extends Controller
 	
 	public function library_login_edit(Request $request, $uid)
     {
-		$this->validate($request, [
-            'password' => 'required|same:confirm-password',
+		$validator = Validator::make($request->all(), [
+            'password' => ['required', 'string', 'min:8', 'same:confirm-password',new StrongPassword]
         ]); 
-		 $password = Hash::make($request->post('password'));
-		 $userLog = array(
+        
+		if($validator->fails()){
+			$outerror = $validator->errors()->getMessages();
+			return redirect('library/manage/login')->with('error', $outerror['password']);
+		}
+
+		$password = Hash::make($request->post('password'));
+
+		$userLog = array(
 				"password"  => $password,
 				"updated_at"  => Now(),
 				);
-		$query = DB::table('users')->where('id', $uid)->update($userLog);
-		if($query){
-				$output	= ['class' => 'alert-success',
-					'msg' => __("Password saved")
-					];
-			}else{
-				$output	= ['class' => 'alert-danger',
-					'msg' => __("Password Not saved")
-					];
 
-			}
-			return redirect('library/manage/login')->with('message', $output);
+		$query = DB::table('users')->where('id', $uid)->update($userLog);
+
+		if($query){
+			$output	= 	[
+							'class' => 'alert-success',
+							'msg' => "Password saved"
+						];
+		}else{
+			$output	= 	[
+							'class' => 'alert-danger',
+							'msg' => "Password Not saved"
+						];
+		}
+		return redirect('library/manage/login')->with('message', $output);
     }
 	
 	public function ip_setting_edit(Request $request, $uid)

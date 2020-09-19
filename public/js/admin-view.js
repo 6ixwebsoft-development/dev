@@ -842,7 +842,8 @@ $(document).ready(function () {
 		},
 		
 		changeMonth: true,
-		changeYear: true
+		changeYear: true,
+        yearRange: '-100:+0',
 	})
 })
 
@@ -852,17 +853,18 @@ function myDatepicker()
 $(document).ready(function () {
 	$('.mycustomdate').datepicker({
 		changeMonth: true,
-		changeYear: true
+		changeYear: true,
+        yearRange: '-100:+0',
 	})
 })
 }
-
-$(document).ready(function () {
-	$('.mycustomdate').datepicker({
-		changeMonth: true,
-		changeYear: true
-	})
-})
+myDatepicker();
+// $(document).ready(function () {
+// 	$('.mycustomdate').datepicker({
+// 		changeMonth: true,
+// 		changeYear: true
+// 	})
+// })
 
 
 
@@ -901,6 +903,24 @@ function getCity()
 
 		});
 }
+
+function getCity2(ele)
+{
+    var cid = $(ele).val();
+    //alert(cid);return false;
+    $.ajax({
+            type:'GET',
+            url: APP_URL+"/customer/edit/getcity",
+            data:{cid:cid},
+            success:function(data){
+                var elee = $(ele).closest('.row').next('.row').find("#cityid");
+                $(elee).empty();
+                $(elee).append(data);
+            }
+
+        });
+}
+
 
 function getCity_resi()
 {
@@ -951,14 +971,20 @@ $(document).ready(function(){
     var maxField = 15; //Input fields increment limitation
     var addButton = $('.add_buttonchild'); //Add button selector
     var wrapper = $('.field_wrapperchild'); //Input field wrapper
-    var fieldHTML = '<div class="form-inline"><div class="col-xl-3 col-md-12 col-sm-12"><div class="form-group row"><label for="type" class="col-sm-12 col-form-label bddaydate">Birthdate</label><div class="col-sm-12"><input type="text" class="form-control mycustomdate" name="cdob[]" id="C_dob" ></div></div></div><div class="col-xl-2 col-md-12 col-sm-12"><div class="form-group row"><label for="type" class="col-sm-12 col-form-label">Gender</label><div class="col-sm-12"><select name="cgender[]" class="form-control"><option value="1">Male</option><option value="2">Female</option></select></div></div></div><div class="col-xl-3 col-md-12 col-sm-12"><div class="form-group row"><label for="type" class="col-sm-12 col-form-label">School</label><div class="col-sm-12"><input type="text" class="form-control" name="cschool[]"></div></div></div><div class="col-xl-3 col-md-12 col-sm-12"><div class="form-group row"><label for="type" class="col-sm-12 col-form-label">Location</label><div class="col-sm-12"><select name="clocation[]" class="form-control"><option value="1">Delhi</option><option value="2">Mp</option></select></div></div></div><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div><br>'; //New input field html 
+    var city_data = $("#cityid").html();
+    var fieldHTML = '<div class="form-inline"><div class="col-xl-3 col-md-12 col-sm-12"><div class="form-group row"><label for="type" class="col-sm-12 col-form-label bddaydate">Birthdate</label><div class="col-sm-12"><input type="text" class="form-control mycustomdate" name="cdob[]"></div></div></div><div class="col-xl-2 col-md-12 col-sm-12"><div class="form-group row"><label for="type" class="col-sm-12 col-form-label">Gender</label><div class="col-sm-12"><select name="cgender[]" class="form-control"><option value="1">Male</option><option value="2">Female</option></select></div></div></div><div class="col-xl-3 col-md-12 col-sm-12"><div class="form-group row"><label for="type" class="col-sm-12 col-form-label">School</label><div class="col-sm-12"><input type="text" class="form-control" name="cschool[]"></div></div></div><div class="col-xl-3 col-md-12 col-sm-12"><div class="form-group row"><label for="type" class="col-sm-12 col-form-label">Location</label><div class="col-sm-12"><select name="clocation[]" class="form-control">'+city_data+'</select></div></div></div><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div>'; //New input field html 
     var x = 1; //Initial field counter is 1
+    if($(".form-field_wrapperloop").length != 0){
+        x = $(".form-field_wrapperloop").length;
+    }
+    console.log(x);
      
     //Once add button is clicked
     $(addButton).click(function(){
         //Check maximum number of input fields
         if(x < maxField){ 
             x++; //Increment field counter
+            console.log(x);
             $(wrapper).append(fieldHTML); //Add field html
 			myDatepicker();
         }
@@ -969,7 +995,16 @@ $(document).ready(function(){
         e.preventDefault();
         $(this).parent('div').remove(); //Remove field html
         x--; //Decrement field counter
+        console.log(x);
     });
+    //Once remove button is clicked
+    $('.field_wrapperloop').on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).parent('div.form-inline').remove(); //Remove field html
+        x--; //Decrement field counter
+        console.log(x);
+    });
+
 }); 
 
 
@@ -2433,13 +2468,27 @@ function getsubsStatus(val,txt){
 /* Password Genrate  */
 
 function randomPassword(length) {
-    var chars = "abcdefghijklmnopqrstuvwxyz!@#$%^&*()-+<>ABCDEFGHIJKLMNOP1234567890";
-    var pass = "";
-    for (var x = 0; x < length; x++) {
-        var i = Math.floor(Math.random() * chars.length);
-        pass += chars.charAt(i);
-    }
-    return pass;
+    // var chars = "abcdefghijklmnopqrstuvwxyz!@#$%^&*()-+<>ABCDEFGHIJKLMNOP1234567890";
+    // var pass = "";
+    // for (var x = 0; x < length; x++) {
+    //     var i = Math.floor(Math.random() * chars.length);
+    //     pass += chars.charAt(i);
+    // }
+    // return pass;
+
+
+    var pass = ''; 
+    var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +  
+            'abcdefghijklmnopqrstuvwxyz0123456789@'; 
+      
+    for (i = 1; i <= length; i++) { 
+        var char = Math.floor(Math.random() 
+                    * str.length + 1); 
+          
+        pass += str.charAt(char) 
+    } 
+      
+    return pass; 
 }
 
 function generate() {
@@ -2464,21 +2513,44 @@ function saveactivepassword(id)
     });
   $.ajax({
 		type:'POST',
+        dataType:"json",
 		url: APP_URL+"/admin/user/passwordactive",
 		data:{id:id,password:password},
 		success:function(data){
 			//alert(data);return false;
-			if(data == 1)
-			{
-				alert('Password has been activated successfully');
-			}
+            console.log(data.errors);
+            if(data.status == 0){
+                if(data.errors){
+                    noty_error(data.errors);
+                }
+                $('#password').val('');
+            }
 			else{
-				alert('There is some problem,Try again.');
-				
+				$.notify('Password has been activated successfully','success');
+                var copyText = document.getElementById("password");
+                copyText.select();
+                copyText.setSelectionRange(0, 99999);
+                document.execCommand("copy");
+                $.notify("Pasword Copied to Clipboard!!",'success');
+                $('#password').val('');
 			}
-		}
+		},
+        error:function(data){
+
+            console.log(data.responseText);
+            console.log(data);
+            console.log(data.responseJSON);
+            
+
+            // if(data.errors){
+            //     $.each(data.errors, function(index, value) {
+            //         console.log(value);
+            //     });
+            // }
+        }
 	});
-	$('#password').val('');
+    
+	
 }
 
 $('#selectAll').click(function(e){
@@ -2629,7 +2701,6 @@ function autoIp() {
     // });
 }
 
-
 function noty_s(msg,status=1) {
 
     title = "Success!";
@@ -2658,3 +2729,61 @@ function show_loader(v = 2) {
     }
     
 }
+
+function noty_error(data) {
+    $.each(data, function(index, value) {
+        $.each(value, function(index, val) {
+            //alert(val)            
+            $.notify(val);
+        });    
+    });
+}
+
+$(function () {
+    $(".unique_email").each(function() {  
+        var e = $(this).val();
+        $(this).attr('data-email',e);
+    });
+
+    $( ".unique_email" ).change(function() {
+        var email = $(this).val();
+        $(this).addClass("email__checked");
+        //alert(dd);
+        $.ajax({
+
+            type:'POST',
+            url: APP_URL+"/admin/ajax/unique",
+            data:{email:email},
+            success:function(data){
+                //console.log(data);
+                //alert(data.msg);
+                //$(this).find('div').next("<p>"+data.msg+"</p>");
+                var ee = $('.email__checked').data('email');
+                if(data.status == "false"){
+                    $('.email__checked').val("");
+                }
+                if(ee != ""){
+                    console.log("asasas");
+                    console.log(email);
+                    console.log(ee);
+                   if(email != ee){
+                       console.log("bbbbb");
+                        $(".email__msg").remove();
+                        $('.email__checked').parent("div").append(data.msg);                        
+                        $('.email__checked').removeClass("email__checked");
+                   }else{
+                        console.log("ddddddd");
+                        $(".email__msg").remove();   
+                   }
+                }else{
+                    console.log("cccccccc");
+                    $(".email__msg").remove();
+                    $('.email__checked').parent("div").append(data.msg);
+                    $('.email__checked').removeClass("email__checked");
+                }
+                
+            }
+
+        });
+    });
+});    

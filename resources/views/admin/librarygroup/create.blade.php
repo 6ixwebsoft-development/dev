@@ -156,7 +156,7 @@
 								
 								{!! Form::label('Email', __( 'Email' ) . ':*', [ 'class' => 'col-sm-2 col-form-label']) !!}
 								<div class="col-sm-4">
-								   {!! Form::text('email', null, ['class' => 'form-control','','placeholder' => __( '' ) ]); !!}
+								   {!! Form::text('email', null, ['class' => 'unique_email form-control','','placeholder' => __( '' ) ]); !!}
 								</div>
 							  </div>
 							  
