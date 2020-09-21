@@ -135,14 +135,14 @@
 					  <div class="col-sm-4">
 					  
 							<div class="checkbox">
-							  <label><input type="checkbox" value="1" id="filter_exact_match" name="filter_exact_match"> Exact Match</label>
+							  <label><input type="checkbox" value="1" id="filter_exact_match" name="filter_exact_match">Exact Match</label>
 							</div>                                    
 							                                   
 							<div class="checkbox">                    
-							  <label><input type="checkbox" value="1" name="filter_date_created"> Filtered Date Created</label>
+							  <label><input type="checkbox" value="1" name="filter_date_created">Filtered Date Created</label>
 							</div>                                    
 							<div class="checkbox">                    
-							  <label><input type="checkbox" value="1" name="filter_date_edited"> Filtered Date Last Edited</label>
+							  <label><input type="checkbox" value="1" name="filter_date_edited">Filtered Date Last Edited</label>
 							</div> 	
 							
 							<div class="radio">
@@ -156,12 +156,18 @@
 					  </div>
 
 					  <div class="col-sm-4">
-							<p class="text-secondary">Total Transactions : 4236</p>
+					  		@foreach($count as $row)
+					  			<div class="status__box">
+					  				<span class="text-primary" style="margin:0;">{{ $row['status'] }} : </span> 
+					  				<span>{{ $row['count'] }}</span>
+					  			</div>
+					  		@endforeach
+							{{-- <p class="text-secondary">Total Transactions : 4236</p>
 							<p class="text-primary">Total ORD Active: 821</p>
 							<p class="text-primary">Total SUB Active: 1171</p>
 							<p class="text-danger">Total ORD Void: 108</p>
 							<p class="text-danger">Total SUB Expired: 2136</p>
-							<p class="text-success">Total hits: 0</p>
+							<p class="text-success">Total hits: 0</p> --}}
 							
 					  </div>
 					  <div class="col-sm-4">

@@ -47,8 +47,9 @@ class Access
       if(!empty($relation[$controller_action])){
         $controller_action = $relation[$controller_action];
       }
+      
       //print_r($controller_action);exit;
-       $allowed = false;
+      $allowed = false;
 	  
        try {
           $allowed = $user->hasPermissionTo($controller_action);

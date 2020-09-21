@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\cuspasswordchange;
 use App\Models\IndividualContact;
 use App\Models\Language;
 use App\Models\LibraryContact;
@@ -13,6 +14,7 @@ use DB;
 use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
@@ -240,8 +242,8 @@ class UserController extends Controller
         }
 
         $roles        = Role::where('deleted', '!=', '1')->get();
-        $totaluser    = User::count();
-        $activeuser   = User::where('status', 1)->count();
+        $totaluser    = User::where('status', 3)->count();
+        $activeuser   = User::where('status', 1)->count()-1;
         $inactiveuser = User::where('status', 0)->count();
         $language     = Language::where('status', '1')->pluck('language', 'id')->all();
         return view('admin.users.index', compact('roles', 'activeuser', 'inactiveuser', 'totaluser', 'language'));
@@ -481,6 +483,14 @@ class UserController extends Controller
         $id       = $request->input('id');
         $password = $request->input('password');
 
+        if($request->input('mail')){
+
+            $subject       = 'Password Changed';
+            $receiverEmail = User::find($id)->email;
+            $receiverData  = $password;
+            Mail::to($receiverEmail)->send(new cuspasswordchange($subject, $receiverData));
+
+        }
 
         // $user = User::find($id);
 

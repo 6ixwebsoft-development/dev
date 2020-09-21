@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Admin\Transaction;
 
-use App\Models\Modules;
+use App\Http\Controllers\Controller;
+use App\Http\Requests;
 use App\Models\ModuleField;
 use App\Models\ModuleFieldValue;
-use App\Models\Subscription;
+use App\Models\Modules;
 use App\Models\Order;
-
+use App\Models\Subscription;
+use App\Models\Transaction;
 use DB;
-use App\Http\Requests;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use DataTables;
+use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
@@ -29,11 +29,22 @@ class TransactionController extends Controller
                         'mfv.value'
                     )
                     ->get();
+
         $paymenttype = array();
         foreach ($paymentstatus as $purposeVal) {
             $paymenttype[$purposeVal->id] = $purposeVal->value;
-        } 
-		return view('admin.transaction.index',compact('paymenttype'));
+        }
+
+        $count = Transaction::all_count();
+
+        //dd($count['totaltrans']);
+        //die();
+        // $count['ordactive']     = Transaction::where('status', 1)->count();
+        // $count['subactive']     = Transaction::where('status', 0)->count();
+        // $count['orddeactive']   = Transaction::where('status', 1)->count();
+        // $count['subdeactive']   = Transaction::where('status', 0)->count();
+
+		return view('admin.transaction.index',compact('paymenttype','count'));
 
 	}
 	

@@ -172,10 +172,10 @@
 													@endif
 												</div>
 												<div class="form-group row">														<div class="col-sm-12 ">
-														<button type="button" class="btn btn-secondary float-right">
+														<a onClick="saveactivepassword({{$user->id}},true);" class="btn btn-secondary float-right">
 															<i class="fa fa-check-square-o" aria-hidden="true"></i> 
 																Save Active & Mail 
-														</button>
+														</a>
 														<br>
 													</div>
 													<p class="col-sm-12 offset-md-4">

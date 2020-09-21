@@ -208,6 +208,18 @@
 								</div>
 								<p class="col-sm-12 offset-md-4">Save & Activate: Change passwords immediately.<br>Do not send any E-mail</p>
 							</div>
+							<div class="form-group row">
+								<div class="col-sm-12 ">
+									<a onClick="saveactivepassword({{$user->id}},true);" class="btn btn-secondary float-right">
+										<i class="fa fa-check-square-o" aria-hidden="true"></i> 
+											Save Active & Mail 
+									</a>
+									<br>
+								</div>
+								<p class="col-sm-12 offset-md-4">
+									Save Activate & Mail: Change passwords <br>immediately and send the email to User with <br>new password
+								</p>
+							</div>
 							  
 							  <div class="form-group row">
 							

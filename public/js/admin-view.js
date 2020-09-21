@@ -1043,7 +1043,7 @@ $(document).ready(function(){
     var addButton = $('.add_buttonip'); //Add button selector
     var wrapper = $('.field_wrapperip'); //Input field wrapper
     //var fieldHTML = '<div class="form-group row"><label for="type" class="col-sm-1 col-form-label">From</label><div class="col-sm-1"><input type="text" name="from1[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="from2[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="from3[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="from4[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><label for="type" class="col-sm-1 col-form-label">To</label><div class="col-sm-1"><input type="text" name="to1[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="to2[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" onkeypress = "return alphaOnly(event);"  name="to3[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><div class="col-sm-1"><input type="text" name="to4[]" class="form-control" onkeypress = "return alphaOnly(event);"  maxlength="3"></div><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div><br>'; //New input field html 
-    var fieldHTML = '<div class="form-group row add_roww"> <div class="col-sm-10 col-md-10"> <div class="row"> <div class="col-sm-12 col-md-12 col-lg-6"> <div class="row"><label for="type" class="col-sm-12 col-form-label">From</label></div><div class="row"> <div class="col-sm-3"><input type="text" name="from1[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"></div><div class="col-sm-3"><input type="text" name="from2[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"></div><div class="col-sm-3"><input type="text" name="from3[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"></div><div class="col-sm-3"><input type="text" name="from4[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"></div></div></div><div class="col-sm-12 col-md-12 col-lg-6"> <div class="row"><label for="type" class="col-sm-12 col-form-label">To</label></div><div class="row"> <div class="col-sm-3"> <input type="text" name="to1[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"> </div><div class="col-sm-3"> <input type="text" name="to2[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"> </div><div class="col-sm-3"> <input type="text" name="to3[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"> </div><div class="col-sm-3"> <input type="text" name="to4[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"> </div></div></div></div></div><div class="col-sm-2 col-md-2"><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div></div>';
+    var fieldHTML = '<div class="form-group row add_roww"> <div class="col-sm-10 col-md-10"> <div class="row ip__addrs_blk"> <div class="col-sm-12 col-md-12 col-lg-6"> <div class="row"><label for="type" class="col-sm-12 col-form-label">From</label></div><div class="row"> <div class="col-sm-3"><input type="text" name="from1[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"></div><div class="col-sm-3"><input type="text" name="from2[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"></div><div class="col-sm-3"><input type="text" name="from3[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"></div><div class="col-sm-3"><input type="text" name="from4[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"></div></div></div><div class="col-sm-12 col-md-12 col-lg-6"> <div class="row"><label for="type" class="col-sm-12 col-form-label">To</label></div><div class="row"> <div class="col-sm-3"> <input type="text" name="to1[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"> </div><div class="col-sm-3"> <input type="text" name="to2[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"> </div><div class="col-sm-3"> <input type="text" name="to3[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"> </div><div class="col-sm-3"> <input type="text" name="to4[]" class="form-control" onkeypress="return alphaOnly(event);" maxlength="3"> </div></div></div></div></div><div class="col-sm-2 col-md-2"><a href="javascript:void(0);" class="remove_button btn btn-danger">Remove</a></div></div>';
     var x = 1; //Initial field counter is 1
      
     //Once add button is clicked
@@ -1053,6 +1053,7 @@ $(document).ready(function(){
             x++; //Increment field counter
             $(wrapper).append(fieldHTML); //Add field html
             autoIp();
+            ip_helper();
         }
     });
     
@@ -1068,6 +1069,22 @@ $(document).ready(function(){
         x--; //Decrement field counter
     });
 }); 
+
+/*ip forword and back */
+function ip_helper(){
+    $(".ip__addrs_blk input").keyup(function (e) {
+        if (this.value.length == this.maxLength) {
+          //$(this).next('input').focus();
+          $(this).blur();
+          $(this).parent("div").next('.col-sm-3').children("input").focus();
+        }
+        if(this.value.length == 0 && e.keyCode == 8){
+            //$(this).prev('input').focus();
+            $(this).parent("div").prev('.col-sm-3').children("input").focus();
+        }
+    });
+};
+
 
 
 /* Add Dynamic fields for Library Remote */
@@ -2497,7 +2514,7 @@ function generate() {
    
 }
 
-function saveactivepassword(id)
+function saveactivepassword(id,mail=false)
 {
 	var password = $("#password").val();
 	//alert(password);return false;
@@ -2515,7 +2532,7 @@ function saveactivepassword(id)
 		type:'POST',
         dataType:"json",
 		url: APP_URL+"/admin/user/passwordactive",
-		data:{id:id,password:password},
+		data:{id:id,password:password,mail:mail},
 		success:function(data){
 			//alert(data);return false;
             console.log(data.errors);
@@ -2696,9 +2713,9 @@ function autoIp() {
     $('input[name="from3[]"]').on('change',function(){ 
         $(this).closest('.form-group.row').find('input[name="to3[]"]').val($(this).val());
     });
-    // $('input[name="from4[]"]').on('change',function(){ 
-    //     $(this).closest('.form-group.row').find('input[name="to4[]"]').val($(this).val());
-    // });
+    $('input[name="from4[]"]').on('change',function(){ 
+        $(this).closest('.form-group.row').find('input[name="to4[]"]').val($(this).val());
+    });
 }
 
 function noty_s(msg,status=1) {
