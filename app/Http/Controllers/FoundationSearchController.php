@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Modules;
-use App\Models\ModuleField;
-use App\Models\ModuleFieldValue;
-//foundation models
+use App\Http\Controllers\Controller;
+use App\Http\Requests;
+use App\Models\City;
+use App\Models\Country;
+use App\Models\CountryBlock;
 use App\Models\Foundation;
 use App\Models\FoundationAdvertise;
 use App\Models\FoundationAge;
@@ -18,26 +19,23 @@ use App\Models\FoundationLocation;
 use App\Models\FoundationPurpose;
 use App\Models\FoundationSaveCount;
 use App\Models\FoundationSubject;
-
-use App\Models\UserSearchSave;
-use App\Models\SearchCount;
-
-use App\Models\CountryBlock;
-use App\Models\Country;
+use App\Models\ModuleField;
+use App\Models\ModuleFieldValue;
+use App\Models\Modules;
 use App\Models\Region;
-use App\Models\City;
+use App\Models\SearchCount;
+use App\Models\UserSearchSave;
 use App\Models\Visit;
-use DB;
-use App\Http\Requests;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use DataTables;
-use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Traits\HasRoles;
 use App\User;
+use DB;
+use DataTables;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Session;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
 
 
 class FoundationSearchController extends Controller
@@ -747,8 +745,8 @@ class FoundationSearchController extends Controller
         }
 		//echo Session::get('checkip');exit;
 		$checkip = Session::get('checkip'); 
-		/* echo "<pre>";
-		print_r($all_data['postdata']);exit;  */
+		//  echo "<pre>";
+		// print_r($all_data['postdata']);exit;  
 		//$user = Auth::user();
         // if($user) {
         //         $roles = $user->roles->pluck('id')->toArray(); 
@@ -759,12 +757,30 @@ class FoundationSearchController extends Controller
         //     //print_r($role);
         //     //$permissions = $role->getAllPermissions();
         // }
+        //dd($all_data);
+        $show_l = 0;
+        if(!empty($all_data)){
+            $show_l = show_search_list($all_data['countdata']);
+        }
+        if(!empty($all_data['show'])){
+            $max_show = $all_data['show'];
+        }
+        //$max_page = 0;
+        //if(!empty($all_data['max_page'])){
+            $max_page = $all_data['max_page']+2;
+        //}
+        $max_limit = get_setting('SHOW_NUM_SEARCH_ADVANCE');
+        $perpage = get_setting('SHOW_PER_PAGE_SEARCH_ADVANCE');
         
-		return view('advance-search')->with(compact('purpose', 'gender', 'subject','city','all_data','checkip','roles'));
+
+		return view('advance-search')->with(compact('max_show','max_page','max_limit','purpose', 'gender', 'subject','city','all_data','checkip','roles','show_l'));
     }
 
     public function advanceSearchdata(Request $request)
     {
+        $max_limit = get_setting('SHOW_NUM_SEARCH_ADVANCE');
+        $perpage = get_setting('SHOW_PER_PAGE_SEARCH_ADVANCE');
+        mysql_strict(false);
 		//print_r($request->all());exit;
 		$post_data = $request->all();
 		//parse_str($request->post('data'), $data);
@@ -783,7 +799,7 @@ class FoundationSearchController extends Controller
 		if(!empty($data['only_active'])){
 			$only_active   = $request->only_active;
 		}
-        
+        DB::enableQueryLog();
 			
 			$foundation = Foundation::leftjoin('gg_foundation_advertise as fa', 'gg_foundation.id', 'fa.foundation_id')
 				->select(
@@ -791,7 +807,7 @@ class FoundationSearchController extends Controller
 					"name",
 					"sort",
                     "remarks"               
-				);     
+				);
 				
 			if(empty($foundids))
 			{
@@ -850,16 +866,86 @@ class FoundationSearchController extends Controller
             }
 
 
-			$foundation->where('gg_foundation.deleted','0')->orderBy('id','desc');
-            //$foundation->groupBy('gg_foundation.id');
-			$countdata = $foundation->count();
+			$foundation->where('gg_foundation.deleted','0');
 
-			//DB::enableQueryLog();
-            $data = $foundation->paginate(50);
+            
+            $countdata = $foundation->count();
+
+            $foundation->groupBy('gg_foundation.id')->get();
+
+            $foundation->orderBy('id','desc');
+
+
+            
+			
+            // $page = 50;
+            // $n_oage = 50/$countdata;
+            //$max_limit
+
+            
 
 			//dd(DB::getQueryLog());
-			
-			$data->appends(request()->except('page'))->render();
+            //$foundation->take(10);
+            //$of= 0;
+            
+            //$foundation->skip($of);
+            $data = $foundation->paginate($perpage);
+            
+            //dd(DB::getQueryLog());
+
+            mysql_strict(true);
+
+
+            $pagination = $data->appends(request()->except('page'))->render();
+            $max_page = 0;
+            $max_page = ceil($max_limit/$perpage);
+            $sh = fmod($max_limit,$perpage);
+            $show = $perpage;
+            if(!empty($request->get('page'))){
+                //die();
+                if($max_page < $request->get('page')){
+                    $data = [];
+                    $pagination = "";
+                }elseif($max_page == $request->get('page')){
+                    $show = $sh;
+                }
+
+                
+                
+            }
+
+            if($countdata > $max_limit){
+                //echo $max_limit;
+                $countdata = $max_limit;
+                //die();
+            }
+
+            //dd(count($data));
+            //
+            // $perPage = 20;
+
+            // $currentPage = 1;
+
+            // if ($currentPage == 1) {
+            //     $start = 0;
+            // }
+            // else {
+            //     $start = ($currentPage - 1) * $perPage;
+            // }
+
+            // $currentPageCollection = $collection->slice($start, $perPage)->all();
+
+            // $paginatedTop100 = new LengthAwarePaginator($currentPageCollection, count($collection), $perPage);
+
+            // $paginatedTop100->setPath(LengthAwarePaginator::resolveCurrentPath());
+
+            // dd($paginatedTop100);
+            //
+
+
+
+
+
 			$founddata = array();
             $hide = false;
 
@@ -883,12 +969,17 @@ class FoundationSearchController extends Controller
 			}
 
 			$all_data['data']=$founddata;
-			$all_data['links']=$data->appends(request()->except('page'))->render();;
+			$all_data['links']=$pagination;
 			$all_data['postdata']=$post_data;
 			$all_data['countdata']=$countdata;
-			//   echo "<pre>";
-			// print_r($all_data);exit;   
-			
+            $all_data['max_page']=$max_page;
+            $all_data['show']=$show;
+            
+            
+			// echo "<pre>";
+   //          echo "111";
+			// print_r($all_data);exit;
+			// echo "222";
 			return $this->advanceSearch($all_data);	
 	}
 

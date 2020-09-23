@@ -10,7 +10,6 @@ a.remove_button.btn.btn-danger {
     position: absolute;
 }
 </style>
-asasasasasaasasasasaaa
   <!-- Breadcrumb-->
 
   <ol class="breadcrumb">
@@ -103,7 +102,7 @@ asasasasasaasasasasaaa
 
                 </div>
                 <!--col-->					
-					@include('admin.common.section.save_action',['user' => $user]);
+					@include('admin.common.section.save_action',['user' => $user])
 				<!--col-->
 				
             </div><!--row-->
@@ -118,7 +117,7 @@ asasasasasaasasasasaaa
 				  
 				   <a class="nav-link" id="v-pills-photos-tab" data-toggle="pill" href="#v-pills-photos" role="tab" aria-controls="v-pills-photos" aria-selected="false">Upload Logo</a>
 				   
-				   <!--<a class="nav-link" id="v-pills-report-tab" data-toggle="pill" href="#v-pills-report" role="tab" aria-controls="v-pills-report" aria-selected="false">Report</a>-->
+				   {{-- <a class="nav-link" id="v-pills-report-tab" data-toggle="pill" href="#v-pills-report" role="tab" aria-controls="v-pills-report" aria-selected="false">Report</a> --}}
 				  
 				</div>
 			  </div>
@@ -210,7 +209,7 @@ asasasasasaasasasasaaa
 								<div class="col-sm-8">								 
 								    {!! Form::email('useremail', $user->email, ['class' => 'unique_email form-control','','placeholder' => __( 'Enter email' ) ]); !!}
 								</div>
-								<P>Password will be generated automatically by the system for security purposes and can be changed by the user on their member page.</p>
+								<p>Password will be generated automatically by the system for security purposes and can be changed by the user on their member page.</p>
 							  </div>
 							  
 							  <div class="form-group row">
@@ -667,7 +666,7 @@ asasasasasaasasasasaaa
 					</div>
 				</div>
 				
-				
+
 				<div class="tab-pane fade" id="v-pills-photos" role="tabpanel" aria-labelledby="v-pills-photos-tab">
 						
 						<h5>My Logo</h5><br>
@@ -686,33 +685,34 @@ asasasasasaasasasasaaa
 							</div>
 						@endif
 						<hr>
-					</div>
-								<div aria-labelledby="v-pills-report-tab" class="tab-pane fade" id="v-pills-report" role="tabpanel">
-    <h5>
-        My Report
-    </h5>
-    <br>
-        <div class="col-sm-12 form-group">
-            <div class="form-group row">
-                {!! Form::label('Library ID', __( 'Library ID' ) . ':', [ 'class'=> 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-2">
-                    {!! Form::text('libraryid', $basic->userid, ['class'=> 'form-control','readonly', 'placeholder'=> __( '' )]); !!}
-                </div>
-                {!! Form::label('Monthly Breakdown of', __( 'Monthly Breakdown of' ) . ':', [ 'class'=> 'col-sm-3 col-form-label']) !!}
-                <div class="col-sm-3">
-                    <select class="form-control" id="select_year" name="select_year">
-                        @php
-                        	$tilldate=date('Y')-10;
-                        	for($i=$tilldate; $i <=date('Y'); $i++){
-                        		echo "<option value=".$i.">".$i."</option>";
-                        	}
-                        @endphp                        	
-                    </select>
-                </div>
-            </div>
-        </div>
-    </br>
-</div>
+				</div>
+				{{-- <div aria-labelledby="v-pills-report-tab" class="tab-pane fade" id="v-pills-report" role="tabpanel"> --}}
+				<div class="tab-pane fade" id="v-pills-report" role="tabpanel" aria-labelledby="v-pills-report-tab">
+				    <h5>
+				        My Report
+				    </h5>
+				    <br>
+			        <div class="col-sm-12 form-group">
+			            <div class="form-group row">
+			                {!! Form::label('Library ID', __( 'Library ID' ) . ':', [ 'class'=> 'col-sm-2 col-form-label']) !!}
+			                <div class="col-sm-2">
+			                    {!! Form::text('libraryid', $basic->userid, ['class'=> 'form-control','readonly', 'placeholder'=> __( '' )]); !!}
+			                </div>
+			                {!! Form::label('Monthly Breakdown of', __( 'Monthly Breakdown of' ) . ':', [ 'class'=> 'col-sm-3 col-form-label']) !!}
+			                <div class="col-sm-3">
+			                    <select class="form-control" id="select_year" name="select_year">
+			                        @php
+			                        	$tilldate=date('Y')-10;
+			                        	for($i=$tilldate; $i <=date('Y'); $i++){
+			                        		echo "<option value=".$i.">".$i."</option>";
+			                        	}
+			                        @endphp                        	
+			                    </select>
+			                </div>
+			            </div>
+			        </div>
+			    	<br>
+				
 <div class="col-sm-2">
     <a class="btn btn-success" href="#" onclick="get_reportdata({{$basic->id}});">
         Generate
@@ -826,7 +826,8 @@ asasasasasaasasasasaaa
         @endif
         </tbody>
     </table>
-</div>								
+</div>		
+</div>						
 				  </div>
 				  
 				  

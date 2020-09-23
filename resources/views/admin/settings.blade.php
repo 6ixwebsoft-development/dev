@@ -29,21 +29,35 @@
         <div class="container-fluid">
           <h1>Admin Default Settings</h1>
 
-          {!! Form::open(array('url' => '#')) !!}
+          {!! Form::open(array('route' => array('admin.settings.update'))) !!}
             
             @foreach($settings as $setting)
-            <div class="form-group row">
-                <div class="col-lg-2">
-                  {!! Form::label('language', $setting->setting . ':*', [ 'class' => 'col-form-label']) !!}
-                </div>
-                <div class="col-lg-10">
-                    <a href="#" class="toggle-button" system_name="{{$setting->system_name}}" system_value="{{$setting->value}}">
-                        <span></span>
-                    </a>
-                </div>
-            </div>
-            @endforeach
 
+              <div class="form-group row"  @if($setting->type == 'checkbox') style="display: none;" @endif>
+                  <div class="col-lg-2">
+                    {!! Form::label('language', $setting->setting . ':*', [ 'class' => 'col-form-label']) !!}
+                  </div>
+
+                  <div class="col-lg-10">
+                    
+                    @if($setting->type == 'checkbox')
+                      {{-- <input type="{{$setting->type}}" name="{{$setting->system_name}}" value="{{$setting->value}}" > --}}
+                    <div class="custom-control custom-switch">
+                      @if($setting->value == 1)
+                        <input type="checkbox" class="custom-control-input" id="customSwitch1" name='data[{{$setting->id}}][{{$setting->system_name}}]' checked="true" value='1'>
+                      @else
+                        <input type="checkbox" class="custom-control-input" id="customSwitch1" name='data[{{$setting->id}}][{{$setting->system_name}}]' value='1'>
+                      @endif
+                        <label class="custom-control-label" for="customSwitch1">Activate</label>
+                    </div>
+                    @else
+                      <input type="{{$setting->type}}" name='data[{{$setting->id}}][{{$setting->system_name}}]' value="{{$setting->value}}">
+                    @endif  
+                  </div>
+              </div>
+
+            @endforeach
+            <input type="submit" value="Save">
         {!! Form::close() !!}
         </div>
       </main>

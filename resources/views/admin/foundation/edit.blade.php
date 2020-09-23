@@ -354,7 +354,7 @@ label {
                                     <div class="row">
                                     <div class="col-md-2">
                                         <div class="f_purpose">
-                                            <h4>Purpose</h4>
+                                            <h4>Purpose *</h4>
                                             {!! Form::select('purpose_ids[]', $purpose, $selectedPurpose, ['class' => 'form-control', 'multiple' => 'multiple']); !!}
                                         </div>
                                     </div>

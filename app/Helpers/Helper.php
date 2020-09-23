@@ -266,8 +266,9 @@ function Ican(){
 
     }
 
-    //print_r($roles);
-    //die();
+    if(in_array(1, $roles)){
+    	return true;
+    }
     // if(in_array(9, $roles)){
     // 	return true;
     // }else 
@@ -290,6 +291,15 @@ function is_lib_user(){
 	}
 	return false;
 }
+
+function is_admin()
+{
+	if(Auth::user()->isAdministrator()){
+		return true;
+	}
+	return false;
+}
+
 function isInArray($needle, $haystack) 
 {
     foreach ($needle as $stack) {
@@ -325,4 +335,28 @@ function text_proper($str)
 
 	// $doc->formatOutput = true;
 	// return $doc->savexml();
+}
+
+function show_search_list($count)
+{
+	$p30 = $count*30/100;
+
+	if($p30 > 14){
+		return ceil($p30);
+	}else{
+		return $p30;
+	}
+}
+
+
+function mysql_strict($status)
+{
+	config()->set('database.connections.mysql.strict', $status);
+	\DB::reconnect(); //important as the existing connection if any would be in strict mode
+	
+}
+
+function get_setting($val)
+{
+	return app('config')->get($val);
 }

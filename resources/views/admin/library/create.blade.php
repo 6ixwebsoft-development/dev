@@ -88,7 +88,7 @@
 
                 </div>
                 <!--col-->					
-					@include('admin.common.section.save_action',['user' => $user]);
+					@include('admin.common.section.save_action',['user' => $user])
 				<!--col-->
 				
             </div><!--row-->

@@ -2,11 +2,12 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Settings;
+use App\User;
 use Closure;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
-use App\User;
+use Spatie\Permission\Models\Role;
 
 class Access
 {
@@ -20,10 +21,17 @@ class Access
     
     public function handle($request, Closure $next)
     {
+
+      $settings = Settings::all();
+      foreach ($settings as $row){
+          //echo $row->value;
+          app('config')->set($row->system_name,$row->value);
+      }
                   
       $relation['SubscriptionController-userlist'] = "SubscriptiontypeController-create";
       $relation['SubscriptionController-getsubscriptiontype'] = "SubscriptiontypeController-create";
       //$relation["TransactionController-searchtransactiondata"] = "TransactionController-index";
+      $relation["FoundationSearchController-advanceSearchdata"] = "FoundationSearchController-advanceSearch";
                   
       $user = Auth::user();
 

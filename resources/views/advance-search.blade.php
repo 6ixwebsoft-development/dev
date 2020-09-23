@@ -151,6 +151,9 @@ div#loaderarea {
 .city_checkbox.q_city select{
 	height: 400px;
 }
+ul.pagination .page-item:nth-child(n+{{ $max_page }}):nth-child(n) {
+    display: none;
+}
 </style>
  <main class="main-content">
 				<div class="breadcrumbs">
@@ -208,13 +211,13 @@ div#loaderarea {
 							        @foreach($purpose as $key => $value) 
 							         <!-- {!! Form::checkbox('purpose_ids[]', $key, ['class' => 'form-control', 'id' => 'purpose_ids', 'checked' => '' ]); !!} -->
 							        <div class="checkboxes">
-							        	<input type="checkbox" id="purpose_ids" name="purpose_ids[]" value="{{$key}}" <?php if(!empty($postdata['purpose_ids'])){ if(in_array($key, $postdata['purpose_ids'])){echo "checked";} }?>>
+							        	<input type="checkbox" class="purpose__ids" id="purpose_ids" name="purpose_ids[]" value="{{$key}}" <?php if(!empty($postdata['purpose_ids'])){ if(in_array($key, $postdata['purpose_ids'])){echo "checked";} }?>>
 							        	<label>{{$value}}</label>
 							    	</div>
 							        @endforeach
 						    	</div>
 						    </div>
-							<div class="col-md-6 col-sm-12 ">
+							<div class="col-md-6 col-sm-12 subject__purpos">
 						        <h3 class="title">{{__('word.'.strtolower('subject'))}} [{{__('word.'.strtolower('ex: anthropology, education'))}}]</h3>
 								
 									@if(!empty($postdata['subject_ids']))
@@ -430,8 +433,8 @@ div#loaderarea {
 									
 									{{-- <th>Total Saved</th> --}}{{-- //changes according to jira 215 --}}
 
-									@if( Ican() || (Session::get('checkip') || is_lib_user() ))
-									<th>{{__('word.'.strtolower('name'))}}</th>
+									@if(Ican() || (Session::get('checkip') || is_lib_user() ))
+										<th>{{__('word.'.strtolower('name'))}}</th>
 									@endif
 									<!--{{__('word.'.strtolower('sort'))}}</th>
 									
@@ -448,14 +451,17 @@ div#loaderarea {
 								@endphp
 								@foreach($all_data['data'] as $mydata)
 								@php
+									if($i > $max_show-1){
+										continue;
+									}
 									$h = 0;
-									if(!Ican()){	
-										if(Session::get('checkip')){
-											if($i >= 15){
+									if(!Ican()){																				
+										//if(Session::get('checkip')){
+											if($i >= $show_l){
 												$mydata['name'] = __('word.click here to log in to see the fund\'s name and contact details');
 												$h = 1;	
 											}
-										};
+										//};
 									}
 								@endphp
 								<tr class="td__{{ $mydata['id'] }}">
@@ -536,6 +542,39 @@ div#loaderarea {
 	    	
 	    }
 
-
+	    
+	    $(document).ready(function() {
+	    	subject_dis();
+	    	$(".purpose__ids").change(function(){
+	    		var r = $(this).val();
+	    		console.log(r);	    			
+				subject_dis();
+	    		
+	    		//console.log(arr.indexOf(r));
+	    		// if(jQuery.inArray(r,arr)  !== -1 ){
+	    		// 	console.log("show");
+	    		// 	$(".subject__purpos").show();
+	    		// }else{
+	    		// 	console.log("hide");
+	    		// 	$(".subject__purpos").hide();
+	    		// }
+				
+			});
+		});
+		function subject_dis() {
+			var arr = ["33","38","43","36","49"];
+			$(".purpose__ids").each(function() {
+			    var ar = $(this).val();
+			    console.log(ar);
+			    if(jQuery.inArray(ar,arr)  !== -1 && $(this).prop("checked") == true){
+			    	$(".subject__purpos").show();
+			    	$(".subject__purpos select").prop('disabled',false);
+			    	return false;				    	
+			    }else{
+			    	$(".subject__purpos").hide();
+			    	$(".subject__purpos select").prop('disabled','true');
+			    }
+			});
+		}
 </script>
 @endsection
